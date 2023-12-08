@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://mods/RangerArena/Scripts/CustomRangerRandomTapeConfig.gd" type="Script" id=1]
+[ext_resource path="res://mods/RangerArena/Scripts/CustomRangerTapeConfig.gd" type="Script" id=2]
+[ext_resource path="res://nodes/encounter_config/CharacterConfig.gd" type="Script" id=3]
+[ext_resource path="res://data/character_sfx/female_npc_3_sfx.tres" type="Resource" id=4]
+
+[node name="FollowerConfig" type="Node"]
+script = ExtResource( 3 )
+level_scale_override_key = "monster_miniboss_smart"
+character_sfx = ExtResource( 4 )
+character_kind = 1
+human_colors = {
+"body_color_1": -1,
+"body_color_2": -1,
+"eye_color": -1,
+"face_accessory_color": -1,
+"favorite_color": -1,
+"hair_accessory_color": -1,
+"hair_color": -1,
+"legs_color": -1,
+"shoe_color": -1,
+"skin_color": -1
+}
+human_colors/body_color_1 = -1
+human_colors/body_color_2 = -1
+human_colors/eye_color = -1
+human_colors/face_accessory_color = -1
+human_colors/favorite_color = -1
+human_colors/hair_accessory_color = -1
+human_colors/hair_color = -1
+human_colors/legs_color = -1
+human_colors/shoe_color = -1
+human_colors/skin_color = -1
+
+[node name="SignatureTape" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="RandomTapeConfig" type="Node" parent="."]
+script = ExtResource( 1 )
+
+[node name="RandomTapeConfig2" type="Node" parent="."]
+script = ExtResource( 1 )

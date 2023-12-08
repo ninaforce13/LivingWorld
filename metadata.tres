@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://mods/LivingWorld/scripts/mod_load.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+id = "livingworldmod"
+name = "Living World"
+version_code = 0
+version_string = "1.0"
+author = "NCrafters"
+save_file_format_tag = ""
+save_file_format_tag_version = 0
+network_protocol_tag = ""
+modified_files = [ "res://nodes/warp_region/WarpRegion.gd", "res://nodes/warp_region/WarpTarget.gd", "res://world/core/LevelMap.gd", "res://nodes/encounter_config/EncounterConfig.gd", "res://battle/backgrounds/BattleBackground.gd" ]
+modified_dirs = [  ]
+translations = [  ]
