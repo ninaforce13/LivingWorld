@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://world/npc/EmotePlayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://world/npc/HumanNPC.gd" type="Script" id=2]
@@ -6,11 +6,10 @@
 [ext_resource path="res://addons/misc_utils/StateMachine.gd" type="Script" id=4]
 [ext_resource path="res://nodes/encounter_config/EncounterConfig.gd" type="Script" id=5]
 [ext_resource path="res://nodes/encounter_config/CharacterConfig.gd" type="Script" id=6]
-[ext_resource path="res://mods/RangerArena/Scripts/CustomRangerTapeConfig.gd" type="Script" id=7]
+[ext_resource path="res://mods/LivingWorld/scripts/CheckFollower.gd" type="Script" id=7]
 [ext_resource path="res://world/npc/Footsteps.tscn" type="PackedScene" id=8]
 [ext_resource path="res://world/core/Interaction.tscn" type="PackedScene" id=9]
-[ext_resource path="res://mods/RangerArena/Cutscenes/LoseBattleCustcene.tscn" type="PackedScene" id=10]
-[ext_resource path="res://mods/RangerArena/Scripts/DialogueHolder.gd" type="Script" id=11]
+[ext_resource path="res://mods/LivingWorld/scripts/RandomTapeConfig.gd" type="Script" id=11]
 [ext_resource path="res://data/character_sfx/female_npc_3_sfx.tres" type="Resource" id=12]
 [ext_resource path="res://nodes/sprite_container/SpriteContainer.gd" type="Script" id=13]
 [ext_resource path="res://world/npc/FloorRay.gd" type="Script" id=14]
@@ -23,26 +22,28 @@
 [ext_resource path="res://world/npc/IdleAnimationState.gd" type="Script" id=21]
 [ext_resource path="res://world/npc/PauseState.gd" type="Script" id=22]
 [ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=23]
-[ext_resource path="res://mods/RangerArena/Scripts/CustomRangerRandomTapeConfig.gd" type="Script" id=24]
+[ext_resource path="res://mods/LivingWorld/spawn_profiles/all_mobs2.tres" type="Resource" id=24]
 [ext_resource path="res://nodes/actions/values/GetPlayer.gd" type="Script" id=25]
 [ext_resource path="res://nodes/actions/FaceTowardsAction.gd" type="Script" id=26]
 [ext_resource path="res://nodes/actions/Cutscene.gd" type="Script" id=27]
 [ext_resource path="res://nodes/actions/MessageDialogAction.gd" type="Script" id=28]
 [ext_resource path="res://nodes/actions/MenuDialogAction.gd" type="Script" id=29]
 [ext_resource path="res://addons/misc_utils/actions/DecoratorAction.gd" type="Script" id=30]
-[ext_resource path="res://nodes/actions/RemoveNodeAction.gd" type="Script" id=31]
-[ext_resource path="res://mods/LivingWorld/scripts/disable_follower.gd" type="Script" id=32]
+[ext_resource path="res://mods/LivingWorld/scripts/add_follower.gd" type="Script" id=31]
+[ext_resource path="res://mods/LivingWorld/scripts/recruitdata_node.gd" type="Script" id=32]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.9
 height = 0.9
 
-[node name="CustomTrainee" type="KinematicBody"]
+[node name="CustomTrainee" type="KinematicBody" groups=["trainees"]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.10497, 2.05818, 13.7552 )
 collision_layer = 144
 collision_mask = 32785
 script = ExtResource( 2 )
 direction = Vector2( 0, 1 )
+infinite_stamina = false
+flight_height = 4.0
 sprite_colors = {
 "body_color_1": -1,
 "body_color_2": -1,
@@ -116,6 +117,7 @@ script = ExtResource( 14 )
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 4 )
+default_state = "Walking"
 
 [node name="Walking" type="Node" parent="StateMachine"]
 script = ExtResource( 20 )
@@ -177,7 +179,6 @@ script = ExtResource( 5 )
 can_flee = false
 enable_ai_fusion = true
 suppress_exp = true
-cutscenes = [ ExtResource( 10 ) ]
 transition = 4
 
 [node name="CharacterConfig" type="Node" parent="EncounterConfig"]
@@ -209,67 +210,60 @@ human_colors/legs_color = -1
 human_colors/shoe_color = -1
 human_colors/skin_color = -1
 
-[node name="SignatureTape" type="Node" parent="EncounterConfig/CharacterConfig"]
-script = ExtResource( 7 )
-
-[node name="RandomTapeConfig" type="Node" parent="EncounterConfig/CharacterConfig"]
-script = ExtResource( 24 )
-
-[node name="RandomTapeConfig2" type="Node" parent="EncounterConfig/CharacterConfig"]
-script = ExtResource( 24 )
-
-[node name="EntryDialogue" type="Node" parent="."]
+[node name="Node" type="Node" parent="EncounterConfig/CharacterConfig"]
 script = ExtResource( 11 )
+spawn_profile = ExtResource( 24 )
 
-[node name="ExitDialogue" type="Node" parent="."]
-script = ExtResource( 11 )
+[node name="RecruitData" type="Node" parent="."]
+script = ExtResource( 32 )
 
 [node name="InteractionBehavior" type="Node" parent="."]
 script = ExtResource( 27 )
 
-[node name="FaceTowardsAction" type="Node" parent="InteractionBehavior"]
+[node name="NotHasFollower" type="Node" parent="InteractionBehavior"]
+script = ExtResource( 7 )
+invert = true
+
+[node name="FaceTowardsAction" type="Node" parent="InteractionBehavior/NotHasFollower"]
 script = ExtResource( 26 )
 snap_to_cardinal = true
 
-[node name="GetPlayer" type="Node" parent="InteractionBehavior/FaceTowardsAction"]
+[node name="GetPlayer" type="Node" parent="InteractionBehavior/NotHasFollower/FaceTowardsAction"]
 script = ExtResource( 25 )
 
-[node name="GetPawn" type="Node" parent="InteractionBehavior/FaceTowardsAction"]
+[node name="GetPawn" type="Node" parent="InteractionBehavior/NotHasFollower/FaceTowardsAction"]
 script = ExtResource( 23 )
 
-[node name="MessageDialogAction" type="Node" parent="InteractionBehavior"]
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/NotHasFollower"]
 script = ExtResource( 28 )
 title = "{pawn}"
-messages = [ "Want me to leave?" ]
+messages = [ "Hey! Mind if I tag along?" ]
 wait_for_confirm = false
 close_after = false
 
-[node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
+[node name="MenuDialogAction" type="Node" parent="InteractionBehavior/NotHasFollower"]
 script = ExtResource( 29 )
 menu_options = [ "Yes", "No" ]
 default_option = 1
 
-[node name="Yes" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+[node name="Yes" type="Node" parent="InteractionBehavior/NotHasFollower/MenuDialogAction"]
 script = ExtResource( 30 )
 
-[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Yes"]
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/NotHasFollower/MenuDialogAction/Yes"]
 script = ExtResource( 28 )
 title = "{pawn}"
-messages = [ "Ok, bye!" ]
+messages = [ "Awesome!" ]
 
-[node name="DisableFollower" type="Node" parent="InteractionBehavior/MenuDialogAction/Yes"]
-script = ExtResource( 32 )
-
-[node name="RemoveNodeAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Yes"]
+[node name="JoinParty" type="Node" parent="InteractionBehavior/NotHasFollower/MenuDialogAction/Yes"]
 script = ExtResource( 31 )
 
-[node name="No" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+[node name="No" type="Node" parent="InteractionBehavior/NotHasFollower/MenuDialogAction"]
 script = ExtResource( 30 )
 
-[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/No"]
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/NotHasFollower/MenuDialogAction/No"]
 script = ExtResource( 28 )
 title = "{pawn}"
-messages = [ "I knew you'd change your mind!" ]
+messages = [ "Suit yourself!" ]
 
 [connection signal="screen_entered" from="VisibilityNotifier" to="." method="set_paused" binds= [ false ]]
 [connection signal="screen_exited" from="VisibilityNotifier" to="." method="set_paused" binds= [ true ]]

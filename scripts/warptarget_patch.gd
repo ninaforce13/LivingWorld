@@ -30,20 +30,12 @@ static func patch():
 	if err != OK:
 		push_error("Failed to patch %s." % script_path)
 		return
-	print("Patched %s successfully." % script_path)
 	
 static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
 	code_blocks["add_warp_target"] = """
-	var newtarget = load("res://mods/LivingWorld/nodes/warptarget.tscn")
-	if index > 1:
-		if !warp_target.has_node("FollowerTarget") and warp_target.has_node("PartnerTarget"):
-			var partner_target = warp_target.get_node("PartnerTarget")
-			var follower_target = newtarget.instance()
-			warp_target.add_child(follower_target)
-			follower_target.transform = partner_target.transform
-			follower_target.translation.x += 2
-		subtarget_name = "FollowerTarget"
+	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
+	subtarget_name = npc_manager.set_warp_target(warp_target, subtarget_name, index)
 	"""
 	return code_blocks[block]
 

@@ -230,3 +230,23 @@ static func set_npc_appearance(npc:NPC, ranger_data):
 	var parts:Dictionary = ranger_data.human_part_names if typeof(ranger_data.human_part_names) == TYPE_DICTIONARY else JSON.parse(ranger_data.human_part_names).result
 	npc.set_sprite_colors(colors) 
 	npc.set_sprite_part_names(parts)
+	
+static func get_empty_recruit()->Dictionary:
+	var recruit:Dictionary = {"appearance":{}, "tapes":{}, "stats":{}, "filepath":""}
+	var parts = {}
+	var colors = {}
+	HumanLayersHelper.randomize_sprite(null, parts, colors)
+	recruit = {"name":"Trainee", 
+				"human_part_names":to_json(parts), 
+				"human_colors":to_json(colors),
+				"pronouns":2,
+				"introdialog":"Hello!",
+				"defeatdialog":"Argh!",
+				"biotext":"Random Recruit",
+				"recruiter":SaveState.party.player.name,
+				"recruiter_id":SaveState.get_ranger_id(),
+				"tapes":{},
+				"stats":{},
+				"filepath":""}
+	
+	return recruit

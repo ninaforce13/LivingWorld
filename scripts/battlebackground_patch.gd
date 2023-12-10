@@ -26,23 +26,13 @@ static func patch():
 	if err != OK:
 		push_error("Failed to patch %s." % script_path)
 		return
-	print("Patched %s successfully." % script_path)
 	
 static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
 	code_blocks["add_battleslot"] = """
-	if SaveState.other_data.has("follower"):
-		if SaveState.other_data.follower.active:
-			var player1slot = get_node("BattleSlotPlayer1")
-			var enemy1slot = get_node("BattleSlotEnemy1")
-			var player2slot = get_node("BattleSlotPlayer2")
-			var enemy3slot = get_node("BattleSlotEnemy3")
-			var followerslot = preload("res://mods/RangerArena/BattleSlotFollower.tscn").instance()
-			var extra_enemy_slot = preload("res://mods/RangerArena/BattleSlotEnemy.tscn").instance()
-			add_child_below_node(player2slot, followerslot)
-			add_child_below_node(enemy3slot, extra_enemy_slot)
-			followerslot.translation = player1slot.translation + Vector3(-12, 0,0)
-			extra_enemy_slot.translation = enemy1slot.translation + Vector3(12, 0,0)
+	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
+	if npc_manager.has_active_follower():
+		npc_manager.add_battle_slots(self)
 	"""
 	return code_blocks[block]
 

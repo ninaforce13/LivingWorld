@@ -1,12 +1,12 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://mods/RangerArena/Scripts/CustomRangerRandomTapeConfig.gd" type="Script" id=1]
-[ext_resource path="res://mods/RangerArena/Scripts/CustomRangerTapeConfig.gd" type="Script" id=2]
-[ext_resource path="res://nodes/encounter_config/CharacterConfig.gd" type="Script" id=3]
+[ext_resource path="res://nodes/encounter_config/CharacterConfig.gd" type="Script" id=1]
+[ext_resource path="res://mods/LivingWorld/scripts/RandomTapeConfig.gd" type="Script" id=2]
+[ext_resource path="res://mods/LivingWorld/spawn_profiles/all_mobs2.tres" type="Resource" id=3]
 [ext_resource path="res://data/character_sfx/female_npc_3_sfx.tres" type="Resource" id=4]
 
 [node name="FollowerConfig" type="Node"]
-script = ExtResource( 3 )
+script = ExtResource( 1 )
 level_scale_override_key = "monster_miniboss_smart"
 character_sfx = ExtResource( 4 )
 character_kind = 1
@@ -33,11 +33,6 @@ human_colors/legs_color = -1
 human_colors/shoe_color = -1
 human_colors/skin_color = -1
 
-[node name="SignatureTape" type="Node" parent="."]
+[node name="Node" type="Node" parent="."]
 script = ExtResource( 2 )
-
-[node name="RandomTapeConfig" type="Node" parent="."]
-script = ExtResource( 1 )
-
-[node name="RandomTapeConfig2" type="Node" parent="."]
-script = ExtResource( 1 )
+spawn_profile = ExtResource( 3 )

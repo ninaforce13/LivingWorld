@@ -1,6 +1,6 @@
 static func patch():
-	var script_path = "res://nodes/encounter_config/EncounterConfig.gd"
-	var patched_script : GDScript = preload("res://nodes/encounter_config/EncounterConfig.gd")
+	var script_path = "res://world/objects/spawner/Spawner.gd"
+	var patched_script : GDScript = preload("res://world/objects/spawner/Spawner.gd")
 
 	if !patched_script.has_source_code():
 		var file : File = File.new()
@@ -11,20 +11,22 @@ static func patch():
 		patched_script.source_code = file.get_as_text()
 		file.close()
 	
-	var code_lines:Array = patched_script.source_code.split("\n")	
-	var class_name_index = code_lines.find("class_name EncounterConfig")
+	var code_lines:Array = patched_script.source_code.split("\n")		
+
+	var class_name_index = code_lines.find("class_name Spawner")
 	if class_name_index >= 0:
 		code_lines.remove(class_name_index)		
 	
-	var code_index = code_lines.find("func get_config():")
-	if code_index >= 0:
-		code_lines.insert(code_index+1,get_code("add_follower"))  
+	var code_index = code_lines.find("	current_spawns.push_back(node)")
+	if code_index > 0:
+		code_lines.insert(code_index-1,get_code("add_npc"))
 
+	
 	patched_script.source_code = ""
 	for line in code_lines:
 		patched_script.source_code += line + "\n"
-	EncounterConfig.source_code = patched_script.source_code
-	var err = EncounterConfig.reload()
+	Spawner.source_code = patched_script.source_code
+	var err = Spawner.reload()
 	if err != OK:
 		push_error("Failed to patch %s." % script_path)
 		return
@@ -32,10 +34,10 @@ static func patch():
 	
 static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
-	code_blocks["add_follower"] = """
+	code_blocks["add_npc"] = """
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
-	if npc_manager.has_active_follower() and !has_node("FollowerConfig"):
-		add_child(npc_manager.get_follower_config())
+	npc_manager.create_npc(self, node)
 	"""
+	
 	return code_blocks[block]
 

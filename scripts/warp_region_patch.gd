@@ -20,7 +20,11 @@ static func patch():
 	var code_index = code_lines.find("		if size.x >= 5.0 and count == 2:")
 	if code_index > 0:
 		code_lines[code_index] = get_code("add_warp_target")
-
+	
+	code_index = code_lines.find("func _ready():")
+	if code_index > 0:
+		code_lines.insert(code_index+1, get_code("add_groups"))
+	
 		
 	patched_script.source_code = ""
 	for line in code_lines:
@@ -30,12 +34,17 @@ static func patch():
 	if err != OK:
 		push_error("Failed to patch %s." % script_path)
 		return
-	print("Patched %s successfully." % script_path)
 	
 static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
 	code_blocks["add_warp_target"] = """
 		if size.x >= 5.0 and count > 1:
 	"""
+	code_blocks["add_groups"] = """
+	add_to_group("warp_regions")
+	if has_node("PartnerTarget"):
+		get_node("PartnerTarget").add_to_group("partner_pathfinding")	
+	"""
+	
 	return code_blocks[block]
 
