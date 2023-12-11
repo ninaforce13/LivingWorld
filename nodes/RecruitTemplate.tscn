@@ -9,6 +9,7 @@
 [ext_resource path="res://mods/LivingWorld/scripts/CheckFollower.gd" type="Script" id=7]
 [ext_resource path="res://world/npc/Footsteps.tscn" type="PackedScene" id=8]
 [ext_resource path="res://world/core/Interaction.tscn" type="PackedScene" id=9]
+[ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=10]
 [ext_resource path="res://mods/LivingWorld/scripts/RandomTapeConfig.gd" type="Script" id=11]
 [ext_resource path="res://data/character_sfx/female_npc_3_sfx.tres" type="Resource" id=12]
 [ext_resource path="res://nodes/sprite_container/SpriteContainer.gd" type="Script" id=13]
@@ -30,7 +31,6 @@
 [ext_resource path="res://nodes/actions/MenuDialogAction.gd" type="Script" id=29]
 [ext_resource path="res://addons/misc_utils/actions/DecoratorAction.gd" type="Script" id=30]
 [ext_resource path="res://mods/LivingWorld/scripts/add_follower.gd" type="Script" id=31]
-[ext_resource path="res://mods/LivingWorld/scripts/recruitdata_node.gd" type="Script" id=32]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.9
@@ -42,7 +42,6 @@ collision_layer = 144
 collision_mask = 32785
 script = ExtResource( 2 )
 direction = Vector2( 0, 1 )
-infinite_stamina = false
 flight_height = 4.0
 sprite_colors = {
 "body_color_1": -1,
@@ -214,8 +213,7 @@ human_colors/skin_color = -1
 script = ExtResource( 11 )
 spawn_profile = ExtResource( 24 )
 
-[node name="RecruitData" type="Node" parent="."]
-script = ExtResource( 32 )
+[node name="RecruitData" parent="." instance=ExtResource( 10 )]
 
 [node name="InteractionBehavior" type="Node" parent="."]
 script = ExtResource( 27 )

@@ -68,7 +68,7 @@ func _run():
 	
 	pawn.controls.speed_multiplier = 1.0
 	pawn.controls.strafe = false
-	if target:
+	if target and pawn :
 		set_direction(pawn, target)
 	if result and target is WarpTarget:
 		pawn.direction = WarpTarget.get_direction(target)
