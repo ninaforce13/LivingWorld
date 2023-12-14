@@ -7,8 +7,8 @@ static func has_active_follower()->bool:
 static func is_current_follower(recruit)->bool:
 	return SaveState.other_data.follower.recruit == recruit
 
-static func get_follower_config():				
-	var recruit = SaveState.other_data.follower.recruit
+static func get_follower_config(other_recruit = null):				
+	var recruit = SaveState.other_data.follower.recruit if other_recruit == null else other_recruit
 	var new_config = preload("res://mods/LivingWorld/nodes/empty_charconfig.tscn").instance()
 	new_config.character_name = recruit.name
 	new_config.team = 0
@@ -21,20 +21,41 @@ static func get_follower_config():
 	var parts:Dictionary = recruit.human_part_names if typeof(recruit.human_part_names) == TYPE_DICTIONARY else JSON.parse(recruit.human_part_names).result				
 	new_config.human_part_names = parts
 	new_config.human_colors = colors	
-	
 	return new_config
 	
 static func add_battle_slots(battlebackground):
-	var player1slot = battlebackground.get_node("BattleSlotPlayer1")
-	var enemy1slot = battlebackground.get_node("BattleSlotEnemy1")
-	var player2slot = battlebackground.get_node("BattleSlotPlayer2")
-	var enemy3slot = battlebackground.get_node("BattleSlotEnemy3")
-	var followerslot = preload("res://mods/LivingWorld/nodes/BattleSlotFollower.tscn").instance()
-	var extra_enemy_slot = preload("res://mods/LivingWorld/nodes/BattleSlotEnemy.tscn").instance()
-	battlebackground.add_child_below_node(player2slot, followerslot)
-	battlebackground.add_child_below_node(enemy3slot, extra_enemy_slot)
-	followerslot.translation = player1slot.translation + Vector3(-12, 0,0)
-	extra_enemy_slot.translation = enemy1slot.translation + Vector3(12, 0,0)	
+	if !SaveState.other_data.has("ExtraEncounterConfig"):
+		SaveState.other_data["ExtraEncounterConfig"] = {"extra_slots":0}
+	if SaveState.other_data.ExtraEncounterConfig.extra_slots <= 0:
+		return
+	if SaveState.other_data.ExtraEncounterConfig.extra_slots > 3:
+		SaveState.other_data.ExtraEncounterConfig.extra_slots = 3
+	var player1slot = battlebackground.get_node("BattleSlotPlayer1") if battlebackground.has_node("BattleSlotPlayer1") else null
+	var player2slot = battlebackground.get_node("BattleSlotPlayer2") if battlebackground.has_node("BattleSlotPlayer2") else null
+	var player3slot = battlebackground.get_node("BattleSlotPlayer3") if battlebackground.has_node("BattleSlotPlayer3") else null
+	var enemy1slot = battlebackground.get_node("BattleSlotEnemy1") if battlebackground.has_node("BattleSlotEnemy1") else null
+	var enemy2slot = battlebackground.get_node("BattleSlotEnemy2") if battlebackground.has_node("BattleSlotEnemy2") else null
+	var enemy3slot = battlebackground.get_node("BattleSlotEnemy3") if battlebackground.has_node("BattleSlotEnemy3") else null
+	if not player1slot:
+		return
+	var index:int
+	for i in range (0, SaveState.other_data.ExtraEncounterConfig.extra_slots):			
+		var followerslot = preload("res://mods/LivingWorld/nodes/BattleSlotFollower.tscn").instance()
+		var extra_enemy_slot = preload("res://mods/LivingWorld/nodes/BattleSlotEnemy.tscn").instance()
+			
+		var translation_slot = player1slot
+		var enemytranslation_slot = enemy1slot
+		if index == 1:
+			translation_slot = player2slot
+			enemytranslation_slot = enemy2slot
+		if index == 2:
+			translation_slot = player3slot	
+			enemytranslation_slot = enemy3slot
+		battlebackground.add_child_below_node(player2slot, followerslot)
+		battlebackground.add_child_below_node(enemy2slot, extra_enemy_slot)
+		followerslot.translation = translation_slot.translation + Vector3(-12 +(4*index), 0,0)
+		extra_enemy_slot.translation = enemytranslation_slot.translation + Vector3(12-(4*index), 0,0)	
+		index+=1
 
 static func spawn_recruit(levelmap, current_recruit = null):	
 	var recruitdata_node	
@@ -123,6 +144,29 @@ static func get_npc():
 		recruitdata_node.recruit = recruit
 	
 	return npc	
+
+static func engaged_recruits_nearby(encounter)->bool:
+	var parent = encounter.get_parent().get_parent()
+	if parent.has_node("RecruitData"):
+		return parent.get_node("RecruitData").occupants.size() > 0
+	return false
+
+static func add_extra_fighters(encounter):
+	var parent = encounter.get_parent().get_parent()
+	if parent.has_node("RecruitData"):
+		for recruit in parent.get_node("RecruitData").occupants:
+			var newconfig = get_follower_config(recruit)
+			encounter.add_child(newconfig)		
+			newconfig.add_to_group("trainee_allies")
+			if !SaveState.other_data.has("ExtraEncounterConfig"):
+				SaveState.other_data["ExtraEncounterConfig"] = {"extra_slots":0}
+			SaveState.other_data.ExtraEncounterConfig.extra_slots += 1
+
+static func remove_old_configs(encounter):
+	SaveState.other_data["ExtraEncounterConfig"] = {"extra_slots":0}
+	for child in encounter.get_children():
+		if child.is_in_group("trainee_allies"):
+			encounter.remove_child(child)
 
 static func set_warp_target(warp_target, subtarget_name, index):
 	var newtarget = load("res://mods/LivingWorld/nodes/warptarget.tscn")

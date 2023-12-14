@@ -1,0 +1,4 @@
+[gd_scene format=2]
+
+[node name="RecruitTarget" type="Position3D"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 2.5, 0, -2.5 )

@@ -202,7 +202,7 @@ func control_movement(delta):
 	var avoid_down = pawn.floor_ray.is_npc_avoid()
 	var forwards = disp_xz.normalized()
 
-	if disp_xz.length() < params.min_distance:
+	if disp_xz.length() < params.min_distance and !avoid_down:
 		pawn.direction = pawn.controls.direction
 		_pause_controls()
 		arrive(true)

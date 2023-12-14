@@ -1,76 +1,101 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=54 format=2]
 
-[ext_resource path="res://mods/LivingWorld/scripts/UnregisterOccupant.gd" type="Script" id=1]
+[ext_resource path="res://mods/LivingWorld/actions/RegisterOccupant.gd" type="Script" id=1]
 [ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=2]
 [ext_resource path="res://nodes/actions/values/GetPlayer.gd" type="Script" id=3]
 [ext_resource path="res://nodes/actions/FaceTowardsAction.gd" type="Script" id=4]
-[ext_resource path="res://mods/LivingWorld/scripts/GetRandomNonCardinalDirection.gd" type="Script" id=5]
+[ext_resource path="res://mods/LivingWorld/actions/GetRandomNonCardinalDirection.gd" type="Script" id=5]
 [ext_resource path="res://nodes/actions/WalkAction.gd" type="Script" id=6]
 [ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=7]
 [ext_resource path="res://nodes/actions/FollowAction.gd" type="Script" id=8]
-[ext_resource path="res://world/behaviors/monsters/BehaviorState.gd" type="Script" id=9]
-[ext_resource path="res://world/behaviors/monsters/MonsterBehavior.gd" type="Script" id=10]
+[ext_resource path="res://nodes/actions/IdleBehavior.gd" type="Script" id=9]
+[ext_resource path="res://mods/LivingWorld/actions/ActivateNearbyCampfire.gd" type="Script" id=10]
 [ext_resource path="res://addons/misc_utils/actions/DecoratorAction.gd" type="Script" id=11]
 [ext_resource path="res://addons/misc_utils/actions/composites/RandomBranch.gd" type="Script" id=12]
 [ext_resource path="res://nodes/actions/SpawnPointReturnAction.gd" type="Script" id=13]
 [ext_resource path="res://nodes/actions/SetNPCControlsAction.gd" type="Script" id=14]
 [ext_resource path="res://addons/misc_utils/actions/decorators/RepeatWhile.gd" type="Script" id=15]
 [ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=16]
-[ext_resource path="res://mods/LivingWorld/scripts/CustomFollowAction.gd" type="Script" id=17]
-[ext_resource path="res://mods/LivingWorld/scripts/GetGroupNodeCustom.gd" type="Script" id=18]
+[ext_resource path="res://mods/LivingWorld/actions/CustomFollowAction.gd" type="Script" id=17]
+[ext_resource path="res://mods/LivingWorld/actions/GetGroupNodeCustom.gd" type="Script" id=18]
 [ext_resource path="res://mods/LivingWorld/loot_tables/recruit_Table.tres" type="Resource" id=19]
 [ext_resource path="res://nodes/actions/RemoveNodeAction.gd" type="Script" id=20]
-[ext_resource path="res://nodes/actions/CheckConditionAction.gd" type="Script" id=21]
-[ext_resource path="res://mods/LivingWorld/scripts/DropItemAction.gd" type="Script" id=22]
-[ext_resource path="res://mods/LivingWorld/scripts/CheckDistanceFrom.gd" type="Script" id=23]
+[ext_resource path="res://mods/LivingWorld/actions/CheckForOtherCampers.gd" type="Script" id=21]
+[ext_resource path="res://mods/LivingWorld/actions/DropItemAction.gd" type="Script" id=22]
+[ext_resource path="res://mods/LivingWorld/actions/CheckDistanceFrom.gd" type="Script" id=23]
 [ext_resource path="res://nodes/actions/PlayEmoteAction.gd" type="Script" id=24]
+[ext_resource path="res://mods/LivingWorld/actions/IsNearby.gd" type="Script" id=25]
+[ext_resource path="res://mods/LivingWorld/actions/CheckNearbyRogueFusion.gd" type="Script" id=26]
+[ext_resource path="res://ui/icons/map_markers/campsite_icon.png" type="Texture" id=27]
+[ext_resource path="res://ui/icons/map_markers/miniboss.png" type="Texture" id=28]
+[ext_resource path="res://mods/LivingWorld/icons/Happy.png" type="Texture" id=29]
+[ext_resource path="res://mods/LivingWorld/nodes/PlayExpressions.tscn" type="PackedScene" id=30]
+[ext_resource path="res://ui/icons/status_effects/sleep.png" type="Texture" id=31]
+[ext_resource path="res://mods/LivingWorld/icons/questioning.png" type="Texture" id=32]
+[ext_resource path="res://mods/LivingWorld/icons/content.png" type="Texture" id=33]
+[ext_resource path="res://addons/misc_utils/actions/composites/Sequence.gd" type="Script" id=34]
+[ext_resource path="res://sprites/items/unknown.png" type="Texture" id=35]
+[ext_resource path="res://sprites/items/sticker.png" type="Texture" id=36]
+[ext_resource path="res://ui/party/favorite.png" type="Texture" id=37]
+[ext_resource path="res://sprites/items/tape_basic.png" type="Texture" id=38]
+[ext_resource path="res://sprites/items/ritual_candle.png" type="Texture" id=39]
+[ext_resource path="res://mods/LivingWorld/icons/angry.png" type="Texture" id=40]
+[ext_resource path="res://mods/LivingWorld/icons/annoyed.png" type="Texture" id=41]
+[ext_resource path="res://mods/LivingWorld/icons/shocked.png" type="Texture" id=42]
+[ext_resource path="res://mods/LivingWorld/icons/sad.png" type="Texture" id=43]
+[ext_resource path="res://mods/LivingWorld/icons/silly.png" type="Texture" id=44]
+[ext_resource path="res://mods/LivingWorld/icons/frustrated.png" type="Texture" id=45]
+[ext_resource path="res://nodes/actions/IsOnFloor.gd" type="Script" id=46]
+[ext_resource path="res://mods/LivingWorld/icons/teamup.png" type="Texture" id=47]
+[ext_resource path="res://mods/LivingWorld/actions/RegisterParty.gd" type="Script" id=48]
+[ext_resource path="res://mods/LivingWorld/actions/GetPartyFollowTarget.gd" type="Script" id=49]
+[ext_resource path="res://mods/LivingWorld/actions/SetTarget.gd" type="Script" id=50]
+[ext_resource path="res://mods/LivingWorld/actions/GetCurrentTarget.gd" type="Script" id=51]
+[ext_resource path="res://mods/LivingWorld/actions/GetSeat.gd" type="Script" id=52]
+[ext_resource path="res://mods/LivingWorld/actions/RecruitFaceTarget.gd" type="Script" id=53]
 
-[node name="RecruitBehavior" type="Node"]
-script = ExtResource( 10 )
-default_state = "Idle"
-pursue_state = "Pursue"
-pursuit_rate = 0.3
-
-[node name="Idle" type="Node" parent="."]
+[node name="Idle" type="Node"]
 script = ExtResource( 9 )
 
-[node name="SpawnPointReturnAction" type="Node" parent="Idle"]
+[node name="SpawnPointReturnAction" type="Node" parent="."]
 script = ExtResource( 13 )
 always_succeed = true
 can_fly = true
 can_jump = true
 can_fall = true
 can_glide = true
-max_wait = 2.5
+can_wait = true
+max_wait = 0.5
 strafe = true
 wander_limit = 64.0
 
-[node name="SetNPCControlsAction" type="Node" parent="Idle"]
+[node name="SetNPCControlsAction" type="Node" parent="."]
 script = ExtResource( 14 )
-set_values = 8
+set_values = 478
 
-[node name="WaitAction" type="Node" parent="Idle"]
+[node name="WaitAction" type="Node" parent="."]
 script = ExtResource( 7 )
 base_seconds = 0.25
 random_seconds = 0.5
 
-[node name="FaceTowardsAction" type="Node" parent="Idle"]
+[node name="FaceTowardsAction" type="Node" parent="."]
 script = ExtResource( 4 )
 __meta__ = {
 "action_tree": true
 }
 
-[node name="GetPawn" type="Node" parent="Idle/FaceTowardsAction"]
+[node name="GetPawn" type="Node" parent="FaceTowardsAction"]
 script = ExtResource( 2 )
 
-[node name="RandomDirectionValue" type="Node" parent="Idle/FaceTowardsAction"]
+[node name="RandomDirectionValue" type="Node" parent="FaceTowardsAction"]
 script = ExtResource( 5 )
+spawn_point_return_threshold = 45.0
 
-[node name="WaitAction2" type="Node" parent="Idle"]
+[node name="WaitAction2" type="Node" parent="."]
 script = ExtResource( 7 )
 random_seconds = 2.5
 
-[node name="WalkAction" type="Node" parent="Idle"]
+[node name="WalkAction" type="Node" parent="."]
 script = ExtResource( 6 )
 __meta__ = {
 "action_tree": true
@@ -82,101 +107,130 @@ can_fall = true
 can_wait = true
 strafe = true
 
-[node name="RandomBranch" type="Node" parent="Idle"]
+[node name="IsOnFloor" type="Node" parent="."]
+script = ExtResource( 46 )
+
+[node name="RandomBranch" type="Node" parent="IsOnFloor"]
 script = ExtResource( 12 )
 
-[node name="Dash" type="Node" parent="Idle/RandomBranch"]
+[node name="Dash" type="Node" parent="IsOnFloor/RandomBranch"]
 script = ExtResource( 11 )
 
-[node name="SetNPCControlsAction" type="Node" parent="Idle/RandomBranch/Dash"]
+[node name="RepeatWhile" type="Node" parent="IsOnFloor/RandomBranch/Dash"]
+script = ExtResource( 15 )
+
+[node name="SetNPCControlsAction" type="Node" parent="IsOnFloor/RandomBranch/Dash/RepeatWhile"]
 script = ExtResource( 14 )
 dash = true
 set_values = 8
 
-[node name="WalkAction" type="Node" parent="Idle/RandomBranch/Dash"]
+[node name="WalkAction" type="Node" parent="IsOnFloor/RandomBranch/Dash/RepeatWhile"]
 script = ExtResource( 6 )
 __meta__ = {
 "action_tree": true
 }
-can_fly = true
 can_jump = true
-can_glide = true
 can_fall = true
-strafe = true
 
-[node name="SetNPCControlsAction2" type="Node" parent="Idle/RandomBranch/Dash"]
+[node name="SetNPCControlsAction2" type="Node" parent="IsOnFloor/RandomBranch/Dash"]
 script = ExtResource( 14 )
 set_values = 8
 
-[node name="Sit" type="Node" parent="Idle/RandomBranch"]
+[node name="GroupUp" type="Node" parent="IsOnFloor/RandomBranch"]
 script = ExtResource( 11 )
 
-[node name="SetNPCControlsAction" type="Node" parent="Idle/RandomBranch/Sit"]
-script = ExtResource( 14 )
-set_values = 472
+[node name="IsNearby" type="Node" parent="IsOnFloor/RandomBranch/GroupUp"]
+script = ExtResource( 25 )
+distance = 15.0
 
-[node name="SetNPCStateAction" type="Node" parent="Idle/RandomBranch/Sit"]
-script = ExtResource( 16 )
-state = "Sitting"
-wait_for_state_change = true
-
-[node name="WaitAction" type="Node" parent="Idle/RandomBranch/Sit"]
-script = ExtResource( 7 )
-base_seconds = 3.0
-random_seconds = 10.0
-
-[node name="GroupUp" type="Node" parent="Idle/RandomBranch"]
-script = ExtResource( 11 )
-
-[node name="RepeatWhile" type="Node" parent="Idle/RandomBranch/GroupUp"]
-script = ExtResource( 15 )
-early_exit_on_failure = true
-
-[node name="FaceTowardsAction" type="Node" parent="Idle/RandomBranch/GroupUp/RepeatWhile"]
-script = ExtResource( 4 )
-
-[node name="GetGroupNode" type="Node" parent="Idle/RandomBranch/GroupUp/RepeatWhile/FaceTowardsAction"]
+[node name="GetGroupNode" type="Node" parent="IsOnFloor/RandomBranch/GroupUp/IsNearby"]
 script = ExtResource( 18 )
 group = "trainees"
 mode = 4
+max_occupancy = 1
 
-[node name="FollowAction" type="Node" parent="Idle/RandomBranch/GroupUp/RepeatWhile"]
+[node name="RegisterOccupant" type="Node" parent="IsOnFloor/RandomBranch/GroupUp"]
+script = ExtResource( 48 )
+register = true
+
+[node name="GetGroupNode" type="Node" parent="IsOnFloor/RandomBranch/GroupUp/RegisterOccupant"]
+script = ExtResource( 18 )
+group = "trainees"
+mode = 4
+max_occupancy = 1
+
+[node name="RepeatWhile" type="Node" parent="IsOnFloor/RandomBranch/GroupUp"]
+script = ExtResource( 15 )
+
+[node name="TeamUpFlag" parent="IsOnFloor/RandomBranch/GroupUp/RepeatWhile" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 47 )
+
+[node name="FaceTowardsAction" type="Node" parent="IsOnFloor/RandomBranch/GroupUp/RepeatWhile"]
+script = ExtResource( 53 )
+
+[node name="GetPartyMember" type="Node" parent="IsOnFloor/RandomBranch/GroupUp/RepeatWhile/FaceTowardsAction"]
+script = ExtResource( 49 )
+
+[node name="FollowAction" type="Node" parent="IsOnFloor/RandomBranch/GroupUp/RepeatWhile"]
 script = ExtResource( 17 )
 __meta__ = {
 "action_tree": true
 }
+always_succeed = true
 can_fly = true
 can_jump = true
 can_fall = true
 can_glide = true
-can_wait = true
-min_distance = 6.0
+can_warp = true
+min_distance = 3.0
 strafe = true
 
-[node name="GetPawn" type="Node" parent="Idle/RandomBranch/GroupUp/RepeatWhile/FollowAction"]
-script = ExtResource( 2 )
+[node name="GetPartyMember" type="Node" parent="IsOnFloor/RandomBranch/GroupUp/RepeatWhile/FollowAction"]
+script = ExtResource( 49 )
 
-[node name="GetGroupNode" type="Node" parent="Idle/RandomBranch/GroupUp/RepeatWhile/FollowAction"]
+[node name="WaitAction" type="Node" parent="IsOnFloor/RandomBranch/GroupUp/RepeatWhile"]
+script = ExtResource( 7 )
+base_seconds = 60.0
+random_seconds = 300.0
+
+[node name="UnregisterOccupant" type="Node" parent="IsOnFloor/RandomBranch/GroupUp"]
+script = ExtResource( 48 )
+
+[node name="GetGroupNode" type="Node" parent="IsOnFloor/RandomBranch/GroupUp/UnregisterOccupant"]
 script = ExtResource( 18 )
 group = "trainees"
 mode = 4
+limited_space = true
+max_occupancy = 1
 
-[node name="FindDoor" type="Node" parent="Idle/RandomBranch"]
+[node name="TurnOffEmote" parent="IsOnFloor/RandomBranch/GroupUp" instance=ExtResource( 30 )]
+enabled = false
+
+[node name="FindDoor" type="Node" parent="IsOnFloor/RandomBranch"]
 script = ExtResource( 11 )
 
-[node name="RepeatWhile2" type="Node" parent="Idle/RandomBranch/FindDoor"]
-script = ExtResource( 15 )
-early_exit_on_failure = true
+[node name="IsNearby" type="Node" parent="IsOnFloor/RandomBranch/FindDoor"]
+script = ExtResource( 25 )
+distance = 5.0
 
-[node name="FaceTowardsAction" type="Node" parent="Idle/RandomBranch/FindDoor/RepeatWhile2"]
-script = ExtResource( 4 )
-
-[node name="GetGroupNode" type="Node" parent="Idle/RandomBranch/FindDoor/RepeatWhile2/FaceTowardsAction"]
+[node name="GetGroupNode" type="Node" parent="IsOnFloor/RandomBranch/FindDoor/IsNearby"]
 script = ExtResource( 18 )
 group = "warp_regions"
 mode = 4
 
-[node name="FollowAction" type="Node" parent="Idle/RandomBranch/FindDoor/RepeatWhile2"]
+[node name="RepeatWhile2" type="Node" parent="IsOnFloor/RandomBranch/FindDoor"]
+script = ExtResource( 15 )
+early_exit_on_failure = true
+
+[node name="FaceTowardsAction" type="Node" parent="IsOnFloor/RandomBranch/FindDoor/RepeatWhile2"]
+script = ExtResource( 53 )
+
+[node name="GetGroupNode" type="Node" parent="IsOnFloor/RandomBranch/FindDoor/RepeatWhile2/FaceTowardsAction"]
+script = ExtResource( 18 )
+group = "warp_regions"
+mode = 4
+
+[node name="FollowAction" type="Node" parent="IsOnFloor/RandomBranch/FindDoor/RepeatWhile2"]
 script = ExtResource( 17 )
 __meta__ = {
 "action_tree": true
@@ -190,173 +244,271 @@ strafe = true
 buffer = true
 zbuffer_dist = 4.0
 
-[node name="GetPawn" type="Node" parent="Idle/RandomBranch/FindDoor/RepeatWhile2/FollowAction"]
-script = ExtResource( 2 )
-
-[node name="GetGroupNode" type="Node" parent="Idle/RandomBranch/FindDoor/RepeatWhile2/FollowAction"]
+[node name="GetGroupNode" type="Node" parent="IsOnFloor/RandomBranch/FindDoor/RepeatWhile2/FollowAction"]
 script = ExtResource( 18 )
 group = "warp_regions"
 mode = 4
 
-[node name="RemoveNodeAction" type="Node" parent="Idle/RandomBranch/FindDoor"]
+[node name="RemoveNodeAction" type="Node" parent="IsOnFloor/RandomBranch/FindDoor"]
 script = ExtResource( 20 )
 animation = 1
 
-[node name="FindRogues" type="Node" parent="Idle/RandomBranch"]
+[node name="FindRogues" type="Node" parent="IsOnFloor/RandomBranch"]
 script = ExtResource( 11 )
 
-[node name="RepeatWhile2" type="Node" parent="Idle/RandomBranch/FindRogues"]
-script = ExtResource( 15 )
-early_exit_on_failure = true
+[node name="IsNearby" type="Node" parent="IsOnFloor/RandomBranch/FindRogues"]
+script = ExtResource( 25 )
+distance = 64.0
 
-[node name="FaceTowardsAction" type="Node" parent="Idle/RandomBranch/FindRogues/RepeatWhile2"]
-script = ExtResource( 4 )
-
-[node name="GetGroupNode" type="Node" parent="Idle/RandomBranch/FindRogues/RepeatWhile2/FaceTowardsAction"]
+[node name="GetGroupNode" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/IsNearby"]
 script = ExtResource( 18 )
 group = "RogueFusions"
 mode = 4
+limited_space = true
+max_occupancy = 3
 
-[node name="FollowAction" type="Node" parent="Idle/RandomBranch/FindRogues/RepeatWhile2"]
+[node name="RepeatWhile2" type="Node" parent="IsOnFloor/RandomBranch/FindRogues"]
+script = ExtResource( 15 )
+
+[node name="RogueEmote" parent="IsOnFloor/RandomBranch/FindRogues/RepeatWhile2" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 28 )
+
+[node name="FaceTowardsAction" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/RepeatWhile2"]
+script = ExtResource( 53 )
+
+[node name="GetGroupNode" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/RepeatWhile2/FaceTowardsAction"]
+script = ExtResource( 18 )
+group = "RogueFusions"
+mode = 4
+limited_space = true
+max_occupancy = 2
+
+[node name="FollowAction" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/RepeatWhile2"]
 script = ExtResource( 17 )
 __meta__ = {
 "action_tree": true
 }
-can_fly = true
-can_jump = true
-can_fall = true
-can_glide = true
-min_distance = 6.0
-ignore_ending_y = false
-strafe = true
-zbuffer_dist = 4.0
-
-[node name="GetPawn" type="Node" parent="Idle/RandomBranch/FindRogues/RepeatWhile2/FollowAction"]
-script = ExtResource( 2 )
-
-[node name="GetGroupNode" type="Node" parent="Idle/RandomBranch/FindRogues/RepeatWhile2/FollowAction"]
-script = ExtResource( 18 )
-group = "RogueFusions"
-mode = 4
-
-[node name="SetNPCControlsAction" type="Node" parent="Idle/RandomBranch/FindRogues"]
-script = ExtResource( 14 )
-jump = true
-set_values = 28
-
-[node name="PlayEmoteAction" type="Node" parent="Idle/RandomBranch/FindRogues"]
-script = ExtResource( 24 )
-emote = "aggro_in"
-
-[node name="RepeatWhile" type="Node" parent="Idle/RandomBranch/FindRogues"]
-script = ExtResource( 15 )
-
-[node name="PlayEmoteAction2" type="Node" parent="Idle/RandomBranch/FindRogues/RepeatWhile"]
-script = ExtResource( 24 )
-emote = "aggro_loop"
-
-[node name="WaitAction" type="Node" parent="Idle/RandomBranch/FindRogues/RepeatWhile"]
-script = ExtResource( 7 )
-base_seconds = 10.0
-
-[node name="SetNPCControlsAction2" type="Node" parent="Idle/RandomBranch/FindRogues"]
-script = ExtResource( 14 )
-set_values = 4
-
-[node name="SetNPCStateAction" type="Node" parent="Idle/RandomBranch/FindRogues"]
-script = ExtResource( 16 )
-state = "Defeated"
-
-[node name="WaitAction2" type="Node" parent="Idle/RandomBranch/FindRogues"]
-script = ExtResource( 7 )
-base_seconds = 5.0
-
-[node name="RemoveNodeAction" type="Node" parent="Idle/RandomBranch/FindRogues"]
-script = ExtResource( 20 )
-animation = 1
-fade_duration = 1.0
-
-[node name="FindPlayer" type="Node" parent="Idle/RandomBranch"]
-script = ExtResource( 11 )
-
-[node name="IsPlayerNearby" type="Node" parent="Idle/RandomBranch/FindPlayer"]
-script = ExtResource( 23 )
-
-[node name="RepeatWhile" type="Node" parent="Idle/RandomBranch/FindPlayer/IsPlayerNearby"]
-script = ExtResource( 15 )
-
-[node name="FaceTowardsAction" type="Node" parent="Idle/RandomBranch/FindPlayer/IsPlayerNearby/RepeatWhile"]
-script = ExtResource( 4 )
-
-[node name="GetPawn" type="Node" parent="Idle/RandomBranch/FindPlayer/IsPlayerNearby/RepeatWhile/FaceTowardsAction"]
-script = ExtResource( 2 )
-
-[node name="GetPlayer" type="Node" parent="Idle/RandomBranch/FindPlayer/IsPlayerNearby/RepeatWhile/FaceTowardsAction"]
-script = ExtResource( 3 )
-which = 3
-
-[node name="FollowAction" type="Node" parent="Idle/RandomBranch/FindPlayer/IsPlayerNearby/RepeatWhile"]
-script = ExtResource( 8 )
-__meta__ = {
-"action_tree": true
-}
+always_succeed = true
 can_fly = true
 can_jump = true
 can_fall = true
 can_glide = true
 can_wait = true
 min_distance = 6.0
-ignore_ending_y = false
 strafe = true
 
-[node name="GetPawn" type="Node" parent="Idle/RandomBranch/FindPlayer/IsPlayerNearby/RepeatWhile/FollowAction"]
-script = ExtResource( 2 )
+[node name="GetGroupNode" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/RepeatWhile2/FollowAction"]
+script = ExtResource( 18 )
+group = "RogueFusions"
+mode = 4
+limited_space = true
+max_occupancy = 2
 
-[node name="GetPlayer" type="Node" parent="Idle/RandomBranch/FindPlayer/IsPlayerNearby/RepeatWhile/FollowAction"]
-script = ExtResource( 3 )
-which = 3
+[node name="TurnOffEmote" parent="IsOnFloor/RandomBranch/FindRogues" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 28 )
+enabled = false
 
-[node name="SetNPCControlsAction" type="Node" parent="Idle/RandomBranch/FindPlayer/IsPlayerNearby"]
+[node name="RegisterOccupant" type="Node" parent="IsOnFloor/RandomBranch/FindRogues"]
+script = ExtResource( 1 )
+register = true
+max_occupancy = 3
+
+[node name="GetGroupNode" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/RegisterOccupant"]
+script = ExtResource( 18 )
+group = "RogueFusions"
+mode = 4
+limited_space = true
+max_occupancy = 3
+
+[node name="FaceTowardsAction" type="Node" parent="IsOnFloor/RandomBranch/FindRogues"]
+script = ExtResource( 53 )
+
+[node name="GetGroupNode" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/FaceTowardsAction"]
+script = ExtResource( 18 )
+group = "RogueFusions"
+mode = 4
+limited_space = true
+max_occupancy = 2
+
+[node name="PlayEmoteAction" type="Node" parent="IsOnFloor/RandomBranch/FindRogues"]
+script = ExtResource( 24 )
+emote = "aggro_in"
+
+[node name="RepeatWhile" type="Node" parent="IsOnFloor/RandomBranch/FindRogues"]
+script = ExtResource( 15 )
+
+[node name="PlayEmoteAction2" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/RepeatWhile"]
+script = ExtResource( 24 )
+emote = "aggro_loop"
+
+[node name="WaitAction" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/RepeatWhile"]
+script = ExtResource( 7 )
+base_seconds = 30.0
+
+[node name="Victory" type="Node" parent="IsOnFloor/RandomBranch/FindRogues"]
+script = ExtResource( 26 )
+always_succeed = true
+inverted = true
+group = "RogueFusions"
+
+[node name="SetNPCControlsAction" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/Victory"]
 script = ExtResource( 14 )
 jump = true
-set_values = 28
+set_values = 478
 
-[node name="WaitAction" type="Node" parent="Idle/RandomBranch/FindPlayer/IsPlayerNearby"]
+[node name="PlayCustomEmote" parent="IsOnFloor/RandomBranch/FindRogues/Victory" instance=ExtResource( 30 )]
+emotes = [ ExtResource( 29 ), ExtResource( 37 ) ]
+use_random = true
+
+[node name="WaitAction" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/Victory"]
 script = ExtResource( 7 )
 base_seconds = 2.0
 random_seconds = 1.0
 
-[node name="SetNPCControlsAction2" type="Node" parent="Idle/RandomBranch/FindPlayer/IsPlayerNearby"]
-script = ExtResource( 14 )
-set_values = 4
+[node name="PlayCustomEmote2" parent="IsOnFloor/RandomBranch/FindRogues/Victory" instance=ExtResource( 30 )]
+enabled = false
+emotes = [ ExtResource( 29 ), ExtResource( 37 ) ]
+use_random = true
 
-[node name="DropItem" type="Node" parent="Idle/RandomBranch/FindPlayer/IsPlayerNearby"]
+[node name="SetNPCControlsAction2" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/Victory"]
+script = ExtResource( 14 )
+set_values = 478
+
+[node name="DropItem" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/Victory"]
 script = ExtResource( 22 )
 loot_table = ExtResource( 19 )
-max_value = 1000
+max_value = 500
 max_num = 500
 
-[node name="FindCamp" type="Node" parent="Idle/RandomBranch"]
+[node name="FailedEncounter" type="Node" parent="IsOnFloor/RandomBranch/FindRogues"]
+script = ExtResource( 26 )
+always_succeed = true
+group = "RogueFusions"
+
+[node name="UnregisterOccupant" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/FailedEncounter"]
+script = ExtResource( 1 )
+max_occupancy = 2
+
+[node name="GetGroupNode" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/FailedEncounter/UnregisterOccupant"]
+script = ExtResource( 18 )
+group = "RogueFusions"
+mode = 4
+limited_space = true
+max_occupancy = 2
+
+[node name="PlayCustomEmote" parent="IsOnFloor/RandomBranch/FindRogues/FailedEncounter" instance=ExtResource( 30 )]
+emotes = [ ExtResource( 41 ), ExtResource( 43 ), ExtResource( 42 ) ]
+use_random = true
+
+[node name="SetNPCStateAction" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/FailedEncounter"]
+script = ExtResource( 16 )
+state = "Defeated"
+
+[node name="WaitAction2" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/FailedEncounter"]
+script = ExtResource( 7 )
+base_seconds = 5.0
+
+[node name="PlayCustomEmote2" parent="IsOnFloor/RandomBranch/FindRogues/FailedEncounter" instance=ExtResource( 30 )]
+enabled = false
+emotes = [ ExtResource( 41 ), ExtResource( 43 ), ExtResource( 42 ) ]
+use_random = true
+
+[node name="RemoveNodeAction" type="Node" parent="IsOnFloor/RandomBranch/FindRogues/FailedEncounter"]
+script = ExtResource( 20 )
+animation = 1
+fade_duration = 1.0
+
+[node name="FindPlayer" type="Node" parent="IsOnFloor/RandomBranch"]
 script = ExtResource( 11 )
 
-[node name="RepeatWhile" type="Node" parent="Idle/RandomBranch/FindCamp"]
+[node name="IsPlayerNearby" type="Node" parent="IsOnFloor/RandomBranch/FindPlayer"]
+script = ExtResource( 23 )
+
+[node name="RepeatWhile" type="Node" parent="IsOnFloor/RandomBranch/FindPlayer/IsPlayerNearby"]
 script = ExtResource( 15 )
-early_exit_on_failure = true
 
-[node name="FaceTowardsAction" type="Node" parent="Idle/RandomBranch/FindCamp/RepeatWhile"]
-script = ExtResource( 4 )
+[node name="FaceTowardsAction" type="Node" parent="IsOnFloor/RandomBranch/FindPlayer/IsPlayerNearby/RepeatWhile"]
+script = ExtResource( 53 )
 
-[node name="GetGroupNode" type="Node" parent="Idle/RandomBranch/FindCamp/RepeatWhile/FaceTowardsAction"]
+[node name="GetPlayer" type="Node" parent="IsOnFloor/RandomBranch/FindPlayer/IsPlayerNearby/RepeatWhile/FaceTowardsAction"]
+script = ExtResource( 3 )
+which = 3
+
+[node name="FollowAction" type="Node" parent="IsOnFloor/RandomBranch/FindPlayer/IsPlayerNearby/RepeatWhile"]
+script = ExtResource( 8 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_warp = true
+can_wait = true
+min_distance = 6.0
+ignore_ending_y = false
+strafe = true
+
+[node name="GetPlayer" type="Node" parent="IsOnFloor/RandomBranch/FindPlayer/IsPlayerNearby/RepeatWhile/FollowAction"]
+script = ExtResource( 3 )
+which = 3
+
+[node name="RandomExpression" parent="IsOnFloor/RandomBranch/FindPlayer/IsPlayerNearby" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 29 )
+use_random = true
+
+[node name="WaitAction" type="Node" parent="IsOnFloor/RandomBranch/FindPlayer/IsPlayerNearby"]
+script = ExtResource( 7 )
+base_seconds = 2.0
+
+[node name="TurnoffExpression" parent="IsOnFloor/RandomBranch/FindPlayer/IsPlayerNearby" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 29 )
+enabled = false
+use_random = true
+
+[node name="FindCamp" type="Node" parent="IsOnFloor/RandomBranch"]
+script = ExtResource( 11 )
+
+[node name="IsNearby" type="Node" parent="IsOnFloor/RandomBranch/FindCamp"]
+script = ExtResource( 25 )
+distance = 64.0
+
+[node name="GetGroupNode" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/IsNearby"]
 script = ExtResource( 18 )
 group = "campfires"
 mode = 4
 limited_space = true
+max_occupancy = 6
 
-[node name="FollowAction" type="Node" parent="Idle/RandomBranch/FindCamp/RepeatWhile"]
+[node name="SetTarget" type="Node" parent="IsOnFloor/RandomBranch/FindCamp"]
+script = ExtResource( 50 )
+
+[node name="GetGroupNode" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/SetTarget"]
+script = ExtResource( 18 )
+group = "campfires"
+mode = 4
+limited_space = true
+max_occupancy = 6
+
+[node name="RepeatWhile" type="Node" parent="IsOnFloor/RandomBranch/FindCamp"]
+script = ExtResource( 15 )
+
+[node name="CampfireEmote" parent="IsOnFloor/RandomBranch/FindCamp/RepeatWhile" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 27 )
+
+[node name="FaceTowardsAction" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/RepeatWhile"]
+script = ExtResource( 4 )
+
+[node name="CurrentTarget" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/RepeatWhile/FaceTowardsAction"]
+script = ExtResource( 51 )
+
+[node name="FollowAction" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/RepeatWhile"]
 script = ExtResource( 17 )
 __meta__ = {
 "action_tree": true
 }
+always_succeed = true
 can_fly = true
 can_jump = true
 can_fall = true
@@ -365,46 +517,167 @@ can_wait = true
 min_distance = 4.0
 strafe = true
 
-[node name="GetPawn" type="Node" parent="Idle/RandomBranch/FindCamp/RepeatWhile/FollowAction"]
-script = ExtResource( 2 )
+[node name="CurrentTarget" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/RepeatWhile/FollowAction"]
+script = ExtResource( 51 )
 
-[node name="GetGroupNode" type="Node" parent="Idle/RandomBranch/FindCamp/RepeatWhile/FollowAction"]
-script = ExtResource( 18 )
-group = "campfires"
-mode = 4
-limited_space = true
+[node name="CampfireEmote2" parent="IsOnFloor/RandomBranch/FindCamp" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 27 )
+enabled = false
 
-[node name="FaceTowardsAction" type="Node" parent="Idle/RandomBranch/FindCamp"]
-script = ExtResource( 4 )
+[node name="FaceTowardsAction" type="Node" parent="IsOnFloor/RandomBranch/FindCamp"]
+script = ExtResource( 53 )
 
-[node name="GetGroupNode" type="Node" parent="Idle/RandomBranch/FindCamp/FaceTowardsAction"]
-script = ExtResource( 18 )
-group = "campfires"
-mode = 4
-limited_space = true
+[node name="CurrentTarget" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/FaceTowardsAction"]
+script = ExtResource( 51 )
 
-[node name="SetNPCControlsAction" type="Node" parent="Idle/RandomBranch/FindCamp"]
+[node name="SetNPCControlsAction" type="Node" parent="IsOnFloor/RandomBranch/FindCamp"]
 script = ExtResource( 14 )
 set_values = 476
 
-[node name="SetNPCStateAction" type="Node" parent="Idle/RandomBranch/FindCamp"]
+[node name="RegisterOccupant" type="Node" parent="IsOnFloor/RandomBranch/FindCamp"]
+script = ExtResource( 1 )
+register = true
+max_occupancy = 6
+
+[node name="CurrentTarget" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/RegisterOccupant"]
+script = ExtResource( 51 )
+
+[node name="FollowTarget" type="Node" parent="IsOnFloor/RandomBranch/FindCamp"]
+script = ExtResource( 17 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+strafe = true
+
+[node name="GetSeat" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/FollowTarget"]
+script = ExtResource( 52 )
+
+[node name="FaceTowardsAction2" type="Node" parent="IsOnFloor/RandomBranch/FindCamp"]
+script = ExtResource( 53 )
+
+[node name="CurrentTarget" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/FaceTowardsAction2"]
+script = ExtResource( 51 )
+
+[node name="SetNPCStateAction" type="Node" parent="IsOnFloor/RandomBranch/FindCamp"]
 script = ExtResource( 16 )
 state = "Sitting"
 
-[node name="WaitAction" type="Node" parent="Idle/RandomBranch/FindCamp"]
-script = ExtResource( 7 )
-base_seconds = 15.0
-random_seconds = 25.0
+[node name="LightCampfire" type="Node" parent="IsOnFloor/RandomBranch/FindCamp"]
+script = ExtResource( 10 )
+activate = true
 
-[node name="UnregisterOccupant" type="Node" parent="Idle/RandomBranch/FindCamp"]
+[node name="CurrentTarget" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/LightCampfire"]
+script = ExtResource( 51 )
+
+[node name="RepeatWhile2" type="Node" parent="IsOnFloor/RandomBranch/FindCamp"]
+script = ExtResource( 15 )
+
+[node name="OtherCampers" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/RepeatWhile2"]
+script = ExtResource( 21 )
+always_succeed = true
+group = "campfires"
+
+[node name="Expressions" parent="IsOnFloor/RandomBranch/FindCamp/RepeatWhile2/OtherCampers" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 27 )
+emotes = [ ExtResource( 40 ), ExtResource( 41 ), ExtResource( 33 ), ExtResource( 29 ), ExtResource( 32 ), ExtResource( 43 ), ExtResource( 42 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 36 ), ExtResource( 39 ), ExtResource( 35 ), ExtResource( 45 ), ExtResource( 44 ) ]
+use_random = true
+
+[node name="WaitAction2" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/RepeatWhile2/OtherCampers"]
+script = ExtResource( 7 )
+base_seconds = 3.0
+random_seconds = 2.0
+
+[node name="Expressions2" parent="IsOnFloor/RandomBranch/FindCamp/RepeatWhile2/OtherCampers" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 27 )
+enabled = false
+use_random = true
+
+[node name="WaitAction" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/RepeatWhile2"]
+script = ExtResource( 7 )
+base_seconds = 45.0
+random_seconds = 15.0
+
+[node name="Expressions" parent="IsOnFloor/RandomBranch/FindCamp" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 27 )
+enabled = false
+use_random = true
+
+[node name="UnregisterOccupant" type="Node" parent="IsOnFloor/RandomBranch/FindCamp"]
 script = ExtResource( 1 )
 
-[node name="GetGroupNode" type="Node" parent="Idle/RandomBranch/FindCamp/UnregisterOccupant"]
-script = ExtResource( 18 )
-group = "campfires"
-mode = 4
-limited_space = true
+[node name="CurrentTarget" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/UnregisterOccupant"]
+script = ExtResource( 51 )
 
-[node name="CheckConditionAction" type="Node" parent="."]
-script = ExtResource( 21 )
-require_flags = [ "nevertrigger" ]
+[node name="PutoutCampfire" type="Node" parent="IsOnFloor/RandomBranch/FindCamp"]
+script = ExtResource( 10 )
+
+[node name="CurrentTarget" type="Node" parent="IsOnFloor/RandomBranch/FindCamp/PutoutCampfire"]
+script = ExtResource( 51 )
+
+[node name="Sit" type="Node" parent="IsOnFloor/RandomBranch"]
+script = ExtResource( 11 )
+
+[node name="SetNPCControlsAction" type="Node" parent="IsOnFloor/RandomBranch/Sit"]
+script = ExtResource( 14 )
+set_values = 478
+
+[node name="SetNPCStateAction" type="Node" parent="IsOnFloor/RandomBranch/Sit"]
+script = ExtResource( 16 )
+state = "Sitting"
+
+[node name="RepeatWhile" type="Node" parent="IsOnFloor/RandomBranch/Sit"]
+script = ExtResource( 15 )
+
+[node name="Sequence" type="Node" parent="IsOnFloor/RandomBranch/Sit/RepeatWhile"]
+script = ExtResource( 34 )
+
+[node name="Expressions" parent="IsOnFloor/RandomBranch/Sit/RepeatWhile/Sequence" instance=ExtResource( 30 )]
+emotes = [ ExtResource( 33 ), ExtResource( 32 ) ]
+use_random = true
+random_skip = true
+
+[node name="WaitAction" type="Node" parent="IsOnFloor/RandomBranch/Sit/RepeatWhile/Sequence"]
+script = ExtResource( 7 )
+base_seconds = 3.0
+random_seconds = 2.0
+
+[node name="FaceTowardsAction" type="Node" parent="IsOnFloor/RandomBranch/Sit/RepeatWhile/Sequence"]
+script = ExtResource( 4 )
+__meta__ = {
+"action_tree": true
+}
+
+[node name="GetPawn" type="Node" parent="IsOnFloor/RandomBranch/Sit/RepeatWhile/Sequence/FaceTowardsAction"]
+script = ExtResource( 2 )
+
+[node name="RandomDirectionValue" type="Node" parent="IsOnFloor/RandomBranch/Sit/RepeatWhile/Sequence/FaceTowardsAction"]
+script = ExtResource( 5 )
+spawn_point_return_threshold = 45.0
+
+[node name="Expressions2" parent="IsOnFloor/RandomBranch/Sit/RepeatWhile/Sequence" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 29 )
+enabled = false
+emotes = [ ExtResource( 33 ), ExtResource( 32 ), ExtResource( 31 ) ]
+use_random = true
+
+[node name="WaitAction2" type="Node" parent="IsOnFloor/RandomBranch/Sit/RepeatWhile/Sequence"]
+script = ExtResource( 7 )
+base_seconds = 3.0
+random_seconds = 2.0
+
+[node name="WaitAction2" type="Node" parent="IsOnFloor/RandomBranch/Sit/RepeatWhile"]
+script = ExtResource( 7 )
+base_seconds = 5.0
+random_seconds = 10.0
+
+[node name="Expressions2" parent="IsOnFloor/RandomBranch/Sit" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 29 )
+enabled = false
+emotes = [ ExtResource( 33 ), ExtResource( 32 ), ExtResource( 31 ) ]
+use_random = true

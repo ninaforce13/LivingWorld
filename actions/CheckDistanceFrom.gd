@@ -11,7 +11,6 @@ func conditions_met()->bool:
 		for player in WorldSystem.get_players():		
 			if global_pos.distance_to(player.global_transform.origin) < within_distance and not gifted:
 				gifted = true
-				print("Player nearby! Give them stuff!")
 				return true
 			else:
 				return false		

@@ -17,11 +17,11 @@ static func patch():
 	if class_name_index >= 0:
 		code_lines.remove(class_name_index)		
 	
-	var code_index = code_lines.find("	current_spawns.push_back(node)")
+	var code_index = code_lines.find("func _ready():")
 	if code_index > 0:
-		code_lines.insert(code_index-1,get_code("add_npc"))
+		code_lines.insert(code_index+1,get_code("add_spawner"))
 
-	
+	code_lines.insert(code_lines.size()-1, get_code("setup_recruit_spawner"))
 	patched_script.source_code = ""
 	for line in code_lines:
 		patched_script.source_code += line + "\n"
@@ -34,10 +34,14 @@ static func patch():
 	
 static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
-	code_blocks["add_npc"] = """
-	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
-	npc_manager.create_npc(self, node)
+	code_blocks["add_spawner"] = """
+	call_deferred("setup_recruit_spawner",preload("res://mods/LivingWorld/nodes/RecruitSpawner.tscn").instance())
 	"""
-	
+	code_blocks["setup_recruit_spawner"] = """
+func setup_recruit_spawner(node):
+		get_parent().add_child(node)
+		node.global_transform.origin = global_transform.origin
+		node.aabb = aabb
+	"""
 	return code_blocks[block]
 

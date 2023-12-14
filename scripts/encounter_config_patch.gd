@@ -34,8 +34,9 @@ static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
 	code_blocks["add_follower"] = """
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
-	if npc_manager.has_active_follower() and !has_node("FollowerConfig"):
-		add_child(npc_manager.get_follower_config())
+	npc_manager.remove_old_configs(self)
+	if npc_manager.engaged_recruits_nearby(self):
+		npc_manager.add_extra_fighters(self)
 	"""
 	return code_blocks[block]
 

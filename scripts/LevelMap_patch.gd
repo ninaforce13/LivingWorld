@@ -21,10 +21,12 @@ static func patch():
 	if code_index > 0:
 		code_lines.insert(code_index-1,get_code("respawn_recruit"))
 	
-	code_index = code_lines.find("	if warp_target:")
-	if code_index > 0:
-		code_lines.insert(code_index-1,get_code("warp_recruit")) 
-		
+#
+#	code_index = code_lines.find("	if warp_target:")
+#	if code_index > 0:
+#		code_lines.insert(code_index-1,get_code("warp_recruit")) 
+
+	
 	patched_script.source_code = ""
 	for line in code_lines:
 		patched_script.source_code += line + "\n"
@@ -51,5 +53,12 @@ static func get_code(block:String)->String:
 	if npc_manager.has_active_follower() and !has_node("CustomTrainee"):
 		npc_manager.spawn_recruit(self, SaveState.other_data.follower.recruit)
 	"""
+	
+	code_blocks["add_spawner"] = """
+
+	call_deferred("check_for_spawner",preload("res://mods/LivingWorld/nodes/RecruitSpawner.tscn").instance())
+
+	"""
+	
 	return code_blocks[block]
 

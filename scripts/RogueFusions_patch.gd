@@ -16,7 +16,10 @@ static func patch():
 	var code_index = code_lines.find("func _ready():")
 	if code_index > 0:
 		code_lines.insert(code_index+1,get_code("add_to_group"))
-
+	
+	code_index = code_lines.find("func _remove():")
+	if code_index > 0:
+		code_lines.insert(code_index+1,get_code("remove_from_group"))
 		
 	patched_script.source_code = ""
 	for line in code_lines:
@@ -31,6 +34,11 @@ static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
 	code_blocks["add_to_group"] = """
 	add_to_group("RogueFusions")
+	call_deferred("add_child",preload("res://mods/LivingWorld/nodes/RecruitData.tscn").instance())
+	"""
+	
+	code_blocks["remove_from_group"] = """
+	remove_from_group("RogueFusions")	
 	"""
 	return code_blocks[block]
 

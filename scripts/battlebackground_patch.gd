@@ -31,8 +31,7 @@ static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
 	code_blocks["add_battleslot"] = """
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
-	if npc_manager.has_active_follower():
-		npc_manager.add_battle_slots(self)
+	npc_manager.add_battle_slots(self)
 	"""
 	return code_blocks[block]
 

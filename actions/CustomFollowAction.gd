@@ -68,10 +68,6 @@ func _run():
 	
 	pawn.controls.speed_multiplier = 1.0
 	pawn.controls.strafe = false
-	if target and pawn :
-		set_direction(pawn, target)
-	if result and target is WarpTarget:
-		pawn.direction = WarpTarget.get_direction(target)
 	
 	if not result:
 		_pathing_failed()
@@ -80,6 +76,8 @@ func _run():
 
 func set_direction(pawn, target):
 	var dir:Vector2 = Vector2()
+	if target == null:
+		return 
 	if target is String:
 		dir = Direction.get(target)
 	elif target is Vector2:

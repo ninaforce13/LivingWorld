@@ -8,7 +8,6 @@ var battlebackground_patch = preload("battlebackground_patch.gd")
 var npcspawner = preload("res://mods/LivingWorld/scripts/Spawner_patch.gd")
 var roguefusions = preload("res://mods/LivingWorld/scripts/RogueFusions_patch.gd")
 var campsite = preload("res://mods/LivingWorld/scripts/Camping_patch.gd")
-
 func _init():
 #	Console.register("add_recruit", {
 #			"description":"Adds debug recruit follower.", 
@@ -23,6 +22,5 @@ func _init():
 	npcspawner.patch()
 	campsite.patch()
 	roguefusions.patch()
-	
 #func add_recruit():
 #	WorldSystem.get_level_map().spawn_recruit()	

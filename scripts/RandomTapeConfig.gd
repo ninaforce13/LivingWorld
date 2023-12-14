@@ -29,6 +29,7 @@ func _generate_tape(encounter_rand:Random, defeat_count:int)->MonsterTape:
 		assert (tape.form != null)
 	if tape.form == null:
 		tape.form = _rand_form(rand)
+		form = tape.form
 	if rand.rand_bool(profile_evolution_rate):
 		var evos = []
 		for evolution in tape.form.evolutions:
