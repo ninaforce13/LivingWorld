@@ -40,8 +40,9 @@ static func get_code(block:String)->String:
 	code_blocks["setup_recruit_spawner"] = """
 func setup_recruit_spawner(node):
 		get_parent().add_child(node)
-		node.global_transform.origin = global_transform.origin
+		node.global_transform = global_transform
 		node.aabb = aabb
+		node.aabb.size.y += 10
 	"""
 	return code_blocks[block]
 

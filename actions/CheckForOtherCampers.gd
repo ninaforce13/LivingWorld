@@ -8,9 +8,9 @@ func conditions_met()->bool:
 	var nearbycamp = get_nearest_node(nodes)
 	if !nearbycamp:
 		return always_succeed
-	var campingdata = nearbycamp.get_node("RecruitData")
+	var campingdata = nearbycamp.get_node("ObjectData")
 	if campingdata:		
-		return campingdata.occupants.size() > 1 if not inverted else campingdata.occupants.size() <= 1 
+		return campingdata.occupied_atleast(2) if not inverted else !campingdata.occupied_atleast(2) 
 	return .check_conditions(self)
 
 func get_nearest_node(nodes):

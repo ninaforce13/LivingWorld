@@ -2,8 +2,7 @@ extends ActionValue
 
 export (String) var group:String
 export (int, "First", "Last", "Random", "All", "Nearest") var mode:int = 0
-export (bool) var limited_space = false
-export (int) var max_occupancy = 4
+export (bool) var ignore_limited_space = false
 
 func get_value():
 	var nodes = get_tree().get_nodes_in_group(group)
@@ -17,26 +16,26 @@ func get_value():
 	elif mode == 2:
 		return nodes[randi() % nodes.size()]
 	elif mode == 4:
-		return get_nearest_node(nodes)
+		var best_node = get_nearest_node(nodes)		
+		return best_node
 	assert (mode == 3)
 	return nodes
 
 func get_nearest_node(nodes):
-	var recruitdata = get_pawn().get_node("RecruitData")
-	if not (get_pawn() is Spatial):
+	var pawn = get_pawn()
+	if not (pawn is Spatial):
 		return null
-	var pawn_pos = get_pawn().global_transform.origin
+	var pawn_pos = pawn.global_transform.origin
 	var best = null
 	var best_dist = INF
 	for node in nodes:
-		if node == get_pawn():
+		if node == pawn:
 			continue
-		if limited_space and node.has_node("RecruitData"):
-			var node_data = node.get_node("RecruitData")
-			if node_data.occupants.size() >= max_occupancy and !node_data.occupants.has(recruitdata.recruit):
-				continue
-			if recruitdata.occupants.size() + node_data.occupants.size() + 1 > max_occupancy:
-				continue
+		if !node.has_node("ObjectData"):
+			continue
+		var object_data = node.get_node("ObjectData")
+		if object_data.is_full() and !ignore_limited_space:
+			continue	
 		var dist = node.global_transform.origin.distance_to(pawn_pos)
 		if dist < best_dist:
 			best_dist = dist

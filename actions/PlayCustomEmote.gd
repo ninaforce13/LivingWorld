@@ -4,6 +4,7 @@ export (bool) var enabled
 export (Array, Texture) var emotes
 export (bool) var use_random = false
 export (bool) var random_skip = false
+export (int) var skip_rate = 7
 func _run():
 	var interaction = get_interaction()
 	if !interaction:
@@ -19,7 +20,7 @@ func _run():
 	return true
 
 func check_skip()->bool:
-	return randi()%10 < 7
+	return randi()%10 < skip_rate
 func get_interaction():
 	return values[0]
 

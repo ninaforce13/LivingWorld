@@ -1,7 +1,7 @@
 extends Action
 
 export(bool) var register=false
-export(int) var max_occupancy = 4
+export(int) var max_occupancy = 2
 func _run():
 	if register:
 		var target = get_target()
@@ -19,5 +19,5 @@ func _run():
 		recruitdata.remove_party_member(recruit, recruitdata)
 	return true
 func get_target():
-	return values[0]	
+	return values[0]
 		

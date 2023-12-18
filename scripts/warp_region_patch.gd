@@ -42,8 +42,6 @@ static func get_code(block:String)->String:
 	"""
 	code_blocks["add_groups"] = """
 	add_to_group("warp_regions")
-	if has_node("PartnerTarget"):
-		get_node("PartnerTarget").add_to_group("partner_pathfinding")	
 	"""
 	
 	return code_blocks[block]

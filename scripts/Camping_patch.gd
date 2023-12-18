@@ -31,7 +31,7 @@ static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
 	code_blocks["add_to_group"] = """
 	add_to_group("campfires")
-	call_deferred("add_child",preload("res://mods/LivingWorld/nodes/RecruitData.tscn").instance())
+	call_deferred("add_child",preload("res://mods/LivingWorld/nodes/CampfireData.tscn").instance())
 	call_deferred("add_firesprite")
 	"""
 	
@@ -46,34 +46,39 @@ func add_firesprite():
 	if parent.has_node("PlayerTarget"):
 		var basetarget = parent.get_node("PlayerTarget")
 		var basetarget2 = parent.get_node("PartnerTarget")
-
+		var target_positions:Array = []
 		var newtarget = preload("res://mods/LivingWorld/nodes/RecruitTarget.tscn").instance()
 		newtarget.transform.origin = basetarget.transform.origin
+		target_positions.push_back(newtarget)
 		parent.add_child(newtarget)
 		var newtarget2 = preload("res://mods/LivingWorld/nodes/RecruitTarget.tscn").instance()
 		newtarget2.transform.origin = basetarget2.transform.origin
+		target_positions.push_back(newtarget2)
 		parent.add_child(newtarget2)
 		var newtarget3 = preload("res://mods/LivingWorld/nodes/RecruitTarget.tscn").instance()
 		newtarget3.transform.origin = Vector3(-2.5,0,2.5)
+		target_positions.push_back(newtarget3)
 		parent.add_child(newtarget3)		
 		var newtarget4 = preload("res://mods/LivingWorld/nodes/RecruitTarget.tscn").instance()
 		newtarget4.transform.origin = Vector3(2.5,0,2.5)
 		parent.add_child(newtarget4)		
+		target_positions.push_back(newtarget4)
 		var newtarget5 = preload("res://mods/LivingWorld/nodes/RecruitTarget.tscn").instance()
 		newtarget5.transform.origin = Vector3(-2.5,0,-2.5)
 		parent.add_child(newtarget5)		
+		target_positions.push_back(newtarget5)
 		var newtarget6 = preload("res://mods/LivingWorld/nodes/RecruitTarget.tscn").instance()
 		newtarget6.transform.origin = Vector3(2.5,0,-2.5)
 		parent.add_child(newtarget6)		
+		target_positions.push_back(newtarget6)
 		
-		if has_node("RecruitData"):
-			var recruitdata = get_node("RecruitData")
-			recruitdata.targets.push_back({"seat":newtarget,"occupied":false,"occupant":null})
-			recruitdata.targets.push_back({"seat":newtarget2,"occupied":false,"occupant":null})
-			recruitdata.targets.push_back({"seat":newtarget3,"occupied":false,"occupant":null})
-			recruitdata.targets.push_back({"seat":newtarget4,"occupied":false,"occupant":null})
-			recruitdata.targets.push_back({"seat":newtarget5,"occupied":false,"occupant":null})
-			recruitdata.targets.push_back({"seat":newtarget6,"occupied":false,"occupant":null})
+		if has_node("ObjectData"):
+			var object_data = get_node("ObjectData")
+			var index:int = 0
+			for slot in object_data.slots:
+				slot.position_target = target_positions[index]
+				index += 1
+			object_data.campfire = firesprite
 	"""	
 	return code_blocks[block]
 

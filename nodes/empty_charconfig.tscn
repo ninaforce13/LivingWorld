@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://nodes/encounter_config/CharacterConfig.gd" type="Script" id=1]
 [ext_resource path="res://mods/LivingWorld/scripts/RandomTapeConfig.gd" type="Script" id=2]
 [ext_resource path="res://mods/LivingWorld/spawn_profiles/all_mobs2.tres" type="Resource" id=3]
 [ext_resource path="res://data/character_sfx/female_npc_3_sfx.tres" type="Resource" id=4]
+[ext_resource path="res://mods/LivingWorld/nodes/RecruitAI.tscn" type="PackedScene" id=5]
 
 [node name="FollowerConfig" type="Node"]
 script = ExtResource( 1 )
@@ -22,6 +23,7 @@ human_colors = {
 "shoe_color": -1,
 "skin_color": -1
 }
+ai = ExtResource( 5 )
 human_colors/body_color_1 = -1
 human_colors/body_color_2 = -1
 human_colors/eye_color = -1
@@ -33,6 +35,14 @@ human_colors/legs_color = -1
 human_colors/shoe_color = -1
 human_colors/skin_color = -1
 
-[node name="Node" type="Node" parent="."]
+[node name="Tape" type="Node" parent="."]
+script = ExtResource( 2 )
+spawn_profile = ExtResource( 3 )
+
+[node name="Tape2" type="Node" parent="."]
+script = ExtResource( 2 )
+spawn_profile = ExtResource( 3 )
+
+[node name="Tape3" type="Node" parent="."]
 script = ExtResource( 2 )
 spawn_profile = ExtResource( 3 )

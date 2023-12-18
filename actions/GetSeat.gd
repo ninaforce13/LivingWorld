@@ -1,14 +1,11 @@
 extends ActionValue
-
+export (String) var bb_name:String = ""
 func get_value():	
-	var pawn = get_pawn()
-	var target = pawn.get_node("RecruitData").current_target
-	var targetdata = target.get_node("RecruitData")
-	for seat in targetdata.targets:
-		if !seat.occupied:
-			seat.occupied = true
-			seat.occupant = pawn
-			return seat.seat
+	var target = get_bb(bb_name)
+	var object_data = target.get_node("ObjectData")
+	var slot = object_data.get_own_slot(get_pawn())
+	if slot:
+		return slot.position_target
 	return null
 
 	

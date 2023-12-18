@@ -9,11 +9,7 @@ var npcspawner = preload("res://mods/LivingWorld/scripts/Spawner_patch.gd")
 var roguefusions = preload("res://mods/LivingWorld/scripts/RogueFusions_patch.gd")
 var campsite = preload("res://mods/LivingWorld/scripts/Camping_patch.gd")
 func _init():
-#	Console.register("add_recruit", {
-#			"description":"Adds debug recruit follower.", 
-#			"args":[TYPE_BOOL], 
-#			"target":[self, "add_recruit"]
-#		})	
+	add_debug_commands()
 	levelmap_patch.patch()
 	encounterconfig_patch.patch()
 	warpregion_patch.patch()
@@ -22,5 +18,33 @@ func _init():
 	npcspawner.patch()
 	campsite.patch()
 	roguefusions.patch()
-#func add_recruit():
-#	WorldSystem.get_level_map().spawn_recruit()	
+	
+func add_debug_commands():
+	Console.register("debug_camera", {
+			"description":"Adds debug camera controls.", 
+			"args":[TYPE_BOOL], 
+			"target":[self, "add_debug_camera"]
+		})			
+	Console.register("my_pos", {
+			"description":"Prints player's current global position Vector3", 
+			"args":[], 
+			"target":[self, "get_my_pos"]
+		})		
+
+func get_my_pos():
+	var player = WorldSystem.get_player()
+	print("Player current @%s"%str(player.global_transform.origin))
+	
+func add_debug_camera(value):
+	var camera = WorldSystem.get_level_map().camera
+	
+	if value:
+		var debugnode = preload("res://mods/LivingWorld/nodes/DebugCameraController.tscn").instance()	
+		camera.add_child(debugnode)
+		debugnode.set_player_control(false)
+	else:
+		if camera.has_node("DebugCameraController"):
+			var debugnode = camera.get_node("DebugCameraController")
+			debugnode.reset_camera()
+			debugnode.set_player_control(true)
+			camera.remove_child(debugnode)

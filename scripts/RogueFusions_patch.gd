@@ -34,7 +34,7 @@ static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
 	code_blocks["add_to_group"] = """
 	add_to_group("RogueFusions")
-	call_deferred("add_child",preload("res://mods/LivingWorld/nodes/RecruitData.tscn").instance())
+	call_deferred("add_child",preload("res://mods/LivingWorld/nodes/RogueData.tscn").instance())
 	"""
 	
 	code_blocks["remove_from_group"] = """

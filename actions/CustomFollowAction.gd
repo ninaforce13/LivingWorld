@@ -26,7 +26,7 @@ func _run():
 	var target = get_target()
 	
 	if pawn == null or target == null:
-		return false
+		return always_succeed
 	
 	if hide_avatars_if_cutscene and blackboard.get("is_cutscene"):
 		WorldSystem.set_hide_net_avatars(true)
@@ -57,7 +57,11 @@ func _run():
 	if target is Vector3:
 		path_controller.target_pos = target
 	else :
-		path_controller.target_node = target.get_path()
+		var wr = weakref(target)
+		if (!wr.get_ref()):		
+			path_controller.target_node = pawn.get_path()
+		else:
+			path_controller.target_node = target.get_path()
 	path_controller.enabled = true
 	pawn.set_paused(false)
 	var result = yield (wait_for_result(Co.listen(path_controller, "arrived")), "completed")

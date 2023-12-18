@@ -54,18 +54,23 @@ func _try_spawn_attempt():
 	if not is_inside_tree():
 		return null
 	
-	var pos = Vector3(rand.rand_float(), rand.rand_float(), rand.rand_float()) * aabb.size + aabb.position
+	var pos = aabb.position + Vector3(randf() * aabb.size.x, randf() * aabb.size.y, randf() * aabb.size.z)  
 	var global_pos = global_transform.xform(pos)
-	
 	for player in WorldSystem.get_players():
 		var flat_pos = Vector3(global_pos.x, player.global_transform.origin.y, global_pos.z) 
 		if flat_pos.distance_to(player.global_transform.origin) < MIN_DISTANCE_TO_PLAYER:
 			return null
 
 	var npc = npcmanager.create_npc(self,self)
-	
+	if UserSettings.graphics_world_streaming == 0 and npc.has_method("beam_in"):
+		npc.beam_in()
+	npc.global_transform.origin += Vector3(0,100,0)
+	if npc is KinematicBody:
+		var orig_xform = npc.transform
+		var collision = npc.move_and_collide(Vector3(0, - 200, 0), false)
+		if not collision:
+			npc.transform = orig_xform	
 	if npc:
-		npc.transform.origin = pos
 		current_spawns.push_back(npc)
 		return npc
 	return null	

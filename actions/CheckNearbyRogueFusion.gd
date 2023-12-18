@@ -20,9 +20,9 @@ func conditions_met()->bool:
 	if check_conditions(self):
 		var global_pos = get_pawn().global_transform.origin
 		if target:	
-			if inverted:	
+			if inverted:					
 				return !global_pos.distance_to(target.global_transform.origin) < within_distance
-			else:
+			else:			
 				return global_pos.distance_to(target.global_transform.origin) < within_distance
 	return check_conditions(self)
 

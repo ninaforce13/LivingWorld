@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://mods/LivingWorld/scripts/ObjectDataNode.gd" type="Script" id=1]
+
+[node name="ObjectData" type="Node"]
+script = ExtResource( 1 )
+object_type = 1
+max_slots = 3

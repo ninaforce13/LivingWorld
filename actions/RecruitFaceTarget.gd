@@ -17,7 +17,7 @@ func _run():
 				whos.push_back(values[i])
 		target = values[values.size() - 1]
 	if target == null:
-		return null
+		return true
 	
 	for who in whos:
 		var dir:Vector2 = Vector2()
@@ -28,9 +28,13 @@ func _run():
 		elif target is Vector3:
 			var dir3 = target - who.global_transform.origin
 			dir = Vector2(dir3.x, dir3.z).normalized()
-		elif target != null:
-			var dir3 = target.global_transform.origin - who.global_transform.origin
-			dir = Vector2(dir3.x, dir3.z).normalized()
+		else:
+			var wr = weakref(target)
+			if (!wr.get_ref()) or !target.is_inside_tree():
+				dir = Vector2.ZERO.normalized()
+			else:
+				var dir3 = target.global_transform.origin - who.global_transform.origin
+				dir = Vector2(dir3.x, dir3.z).normalized()
 		
 		if snap_to_cardinal:
 			dir = Direction.get(Direction.get_nearest(dir))

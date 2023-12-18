@@ -8,6 +8,7 @@ const ItemDrop = preload("res://world/core/ItemDrop.tscn")
 func _run():
 	var item = loot_table.generate_rewards(Random.new(), max_value, max_num)
 	drop_item(item[0].item, item[0].amount)
+	return true
 
 func drop_item(item:BaseItem, amount:int):
 	var location = get_pawn()
