@@ -1,0 +1,471 @@
+[gd_scene load_steps=35 format=2]
+
+[ext_resource path="res://sprites/monsters/world/nevermort.json" type="PackedScene" id=1]
+[ext_resource path="res://sprites/monsters/world/masquerattle.json" type="PackedScene" id=2]
+[ext_resource path="res://sprites/monsters/world/faucetear.json" type="PackedScene" id=3]
+[ext_resource path="res://sprites/monsters/world/bulletino.json" type="PackedScene" id=4]
+[ext_resource path="res://sprites/monsters/world/pombomb.json" type="PackedScene" id=5]
+[ext_resource path="res://sprites/monsters/world/terracooka.json" type="PackedScene" id=6]
+[ext_resource path="res://nodes/sprite_container/SpriteContainer.gd" type="Script" id=7]
+[ext_resource path="res://sprites/monsters/world/dominoth.json" type="PackedScene" id=8]
+[ext_resource path="res://sprites/monsters/world/squirey.json" type="PackedScene" id=9]
+[ext_resource path="res://sprites/monsters/world/carniviper.json" type="PackedScene" id=10]
+[ext_resource path="res://sprites/monsters/world/puppercut.json" type="PackedScene" id=11]
+[ext_resource path="res://sprites/monsters/world/diveal.json" type="PackedScene" id=12]
+[ext_resource path="res://sprites/monsters/world/boltam.json" type="PackedScene" id=13]
+[ext_resource path="res://sprites/monsters/world/charlequin.json" type="PackedScene" id=14]
+[ext_resource path="res://sprites/monsters/world/kirikuri.json" type="PackedScene" id=15]
+[ext_resource path="res://sprites/monsters/world/hauntome.json" type="PackedScene" id=16]
+[ext_resource path="res://sprites/monsters/world/icepeck.json" type="PackedScene" id=17]
+[ext_resource path="res://sprites/monsters/world/mascotoy.json" type="PackedScene" id=18]
+[ext_resource path="res://sprites/monsters/world/minortom.json" type="PackedScene" id=19]
+[ext_resource path="res://sprites/monsters/world/pawndead.json" type="PackedScene" id=20]
+[ext_resource path="res://sprites/monsters/world/queenyx.json" type="PackedScene" id=21]
+[ext_resource path="res://sprites/monsters/world/sanzatime.json" type="PackedScene" id=22]
+[ext_resource path="res://sprites/monsters/world/amphare.json" type="PackedScene" id=23]
+[ext_resource path="res://sprites/monsters/world/busheye.json" type="PackedScene" id=24]
+[ext_resource path="res://sprites/monsters/world/elfless.json" type="PackedScene" id=25]
+[ext_resource path="res://sprites/monsters/world/jellyton.json" type="PackedScene" id=26]
+[ext_resource path="res://sprites/monsters/world/littlered.json" type="PackedScene" id=27]
+[ext_resource path="res://sprites/monsters/world/cluckabilly.json" type="PackedScene" id=28]
+[ext_resource path="res://sprites/monsters/world/spooki-onna.json" type="PackedScene" id=29]
+[ext_resource path="res://sprites/monsters/world/allseer.json" type="PackedScene" id=30]
+[ext_resource path="res://sprites/monsters/world/ferriclaw.json" type="PackedScene" id=31]
+[ext_resource path="res://sprites/monsters/world/springheel.json" type="PackedScene" id=32]
+[ext_resource path="res://sprites/monsters/world/twirligig.json" type="PackedScene" id=33]
+[ext_resource path="res://sprites/monsters/world/traffikrab.json" type="PackedScene" id=34]
+
+[node name="MonsterForms" type="Spatial"]
+
+[node name="Traffikrab" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="MonsterSprite" type="Spatial" parent="Traffikrab" instance=ExtResource( 34 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Diveal" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Diveal" instance=ExtResource( 12 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Boltam" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Boltam" instance=ExtResource( 13 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Allseer" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+render_priority = 1
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite2" type="Spatial" parent="Allseer" instance=ExtResource( 30 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Amphare" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+emission_palette = [ Color( 0.996078, 0.960784, 0.466667, 1 ), Color( 0.976471, 0.796078, 0.203922, 1 ), Color( 0.780392, 0.541176, 0.0588235, 1 ) ]
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Amphare" instance=ExtResource( 23 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Bulletino" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Bulletino" instance=ExtResource( 4 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Carniviper" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Carniviper" instance=ExtResource( 10 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Busheye" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Busheye" instance=ExtResource( 24 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Charlequin" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Charlequin" instance=ExtResource( 14 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Cluckabilly" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Cluckabilly" instance=ExtResource( 28 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Dominoth" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Dominoth" instance=ExtResource( 8 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Elfless" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Elfless" instance=ExtResource( 25 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Faucetear" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Faucetear" instance=ExtResource( 3 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Kirikuri" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Kirikuri" instance=ExtResource( 15 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Ferriclaw" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+emission_palette = [ Color( 0.435294, 0.0862745, 0.145098, 1 ), Color( 0.694118, 0.12549, 0.192157, 1 ), Color( 0.913725, 0.258824, 0.247059, 1 ), Color( 1, 1, 1, 1 ) ]
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Ferriclaw" instance=ExtResource( 31 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Hauntome" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+render_priority = 1
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Hauntome" instance=ExtResource( 16 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Icepeck" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Icepeck" instance=ExtResource( 17 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Jellyton" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Jellyton" instance=ExtResource( 26 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Littlered" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Littlered" instance=ExtResource( 27 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Mascotoy" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Mascotoy" instance=ExtResource( 18 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Masquerattle" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Masquerattle" instance=ExtResource( 2 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Minortom" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+emission_palette = [ Color( 1, 1, 1, 1 ), Color( 0.996078, 0.909804, 0.345098, 1 ), Color( 0.992157, 0.67451, 0.227451, 1 ) ]
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Minortom" instance=ExtResource( 19 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Nevermort" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite2" type="Spatial" parent="Nevermort" instance=ExtResource( 1 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Pawndead" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Pawndead" instance=ExtResource( 20 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Pombomb" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Pombomb" instance=ExtResource( 5 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Puppercut" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Puppercut" instance=ExtResource( 11 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Queenyx" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Queenyx" instance=ExtResource( 21 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Sanzatime" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Sanzatime" instance=ExtResource( 22 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Spooki-oona" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+emission_palette = [ Color( 1, 1, 1, 1 ) ]
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Spooki-oona" instance=ExtResource( 29 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Springheel" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Springheel" instance=ExtResource( 32 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Squirey" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Squirey" instance=ExtResource( 9 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Terracooka" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Terracooka" instance=ExtResource( 6 )]
+__meta__ = {
+"_ase_imported": true
+}
+
+[node name="Twirligig" type="Spatial" parent="."]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" type="Spatial" parent="Twirligig" instance=ExtResource( 33 )]
+__meta__ = {
+"_ase_imported": true
+}

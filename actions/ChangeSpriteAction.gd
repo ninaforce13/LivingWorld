@@ -3,7 +3,7 @@ enum FORMS {HUMAN, MONSTER}
 export (FORMS) var sprite_form
 export (float) var static_amount = 1.0
 export (float) var wave_amplitude = 0.2
-export (float) var duration = .5
+export (float) var duration = .25
 export (String) var random_activation_bb = ""
 func _run():
 	if random_activation_bb != "":

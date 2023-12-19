@@ -145,7 +145,7 @@ script = ExtResource( 47 )
 key = "Camp"
 
 [node name="FollowAction" type="Node" parent="FindCamp/RepeatWhile"]
-script = ExtResource( 17 )
+script = ExtResource( 8 )
 __meta__ = {
 "action_tree": true
 }
@@ -197,6 +197,7 @@ can_fall = true
 can_glide = true
 can_wait = true
 strafe = true
+hide_avatars_if_cutscene = false
 
 [node name="GetSeat" type="Node" parent="FindCamp/FollowTarget"]
 script = ExtResource( 52 )

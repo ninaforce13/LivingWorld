@@ -612,4 +612,6 @@ wave_v_frequency = 20.0
 
 [node name="Sprite" parent="MonsterForms/Twirligig" instance=ExtResource( 60 )]
 
+[connection signal="screen_entered" from="VisibilityNotifier" to="." method="set_paused" binds= [ false ]]
+[connection signal="screen_exited" from="VisibilityNotifier" to="." method="set_paused" binds= [ true ]]
 [connection signal="detected" from="MagnetDetector" to="RecruitBehavior" method="set_play_with_magnets"]

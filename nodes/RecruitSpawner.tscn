@@ -5,9 +5,6 @@
 [node name="RecruitSpawner" type="VisibilityNotifier"]
 aabb = AABB( -1, 0, -1, 2, 2, 2 )
 script = ExtResource( 1 )
-spawn_period = 1.0
 initial_spawns = 1
-day_max_spawns = 1
 night_max_spawns = 1
-max_attempts = 10
-remove_below_y = -2.0
+max_attempts = 5

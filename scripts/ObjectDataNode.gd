@@ -85,13 +85,11 @@ func purge_slots():
 	if is_empty():
 		set_campfire(false)
 
-func _enter_tree():
-	purge_slots()
-	if is_empty():
-		set_campfire(false)
-
-func _exit_tree():
-	purge_slots()
+#func _enter_tree():
+#	purge_slots()
+#
+#func _exit_tree():
+#	purge_slots()
 	
 func set_campfire(value):
 	if campfire and object_type == ObjectType.CAMP:

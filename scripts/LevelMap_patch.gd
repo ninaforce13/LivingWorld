@@ -18,8 +18,8 @@ static func patch():
 		code_lines.remove(class_name_index)		
 	
 	var code_index = code_lines.find("	if SaveState.party.is_partner_unlocked(SaveState.party.current_partner_id):")
-	if code_index > 0:
-		code_lines.insert(code_index-1,get_code("respawn_recruit"))
+#	if code_index > 0:
+#		code_lines.insert(code_index-1,get_code("respawn_recruit"))
 	
 #
 #	code_index = code_lines.find("	if warp_target:")
@@ -54,11 +54,6 @@ static func get_code(block:String)->String:
 		npc_manager.spawn_recruit(self, SaveState.other_data.follower.recruit)
 	"""
 	
-	code_blocks["add_spawner"] = """
-
-	call_deferred("check_for_spawner",preload("res://mods/LivingWorld/nodes/RecruitSpawner.tscn").instance())
-
-	"""
 	
 	return code_blocks[block]
 

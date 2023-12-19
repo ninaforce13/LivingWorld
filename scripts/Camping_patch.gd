@@ -48,11 +48,11 @@ func add_firesprite():
 		var basetarget2 = parent.get_node("PartnerTarget")
 		var target_positions:Array = []
 		var newtarget = preload("res://mods/LivingWorld/nodes/RecruitTarget.tscn").instance()
-		newtarget.transform.origin = basetarget.transform.origin
+		newtarget.transform.origin = Vector3(0,0,3.5)
 		target_positions.push_back(newtarget)
 		parent.add_child(newtarget)
 		var newtarget2 = preload("res://mods/LivingWorld/nodes/RecruitTarget.tscn").instance()
-		newtarget2.transform.origin = basetarget2.transform.origin
+		newtarget2.transform.origin = Vector3(0,0,-3.5)
 		target_positions.push_back(newtarget2)
 		parent.add_child(newtarget2)
 		var newtarget3 = preload("res://mods/LivingWorld/nodes/RecruitTarget.tscn").instance()
