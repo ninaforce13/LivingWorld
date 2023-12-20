@@ -24,7 +24,7 @@ func _ready():
 	add_child(timer)
 	timer.connect("timeout", self, "_timed_spawn")
 	timer.start(spawn_period)
-	WorldSystem.time.connect("time_skipped", self, "_on_time_skipped")
+#	WorldSystem.time.connect("time_skipped", self, "_on_time_skipped")
 #	WorldSystem.connect("suppress_spawns_changed", self, "_on_suppress_spawns_changed")
 #
 func _enter_tree():

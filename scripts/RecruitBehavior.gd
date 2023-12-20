@@ -51,3 +51,10 @@ func kill_npc(_detection):
 func warp_npc(_detection):
 	var pawn = get_parent()
 	pawn.warp_to(_detection.position)
+
+
+func _on_MonsterDetector_detected(detection):
+	var pawn = get_parent()
+	var recruitdata = pawn.get_node("RecruitData")
+	recruitdata.engaged_target = detection
+	set_state("EngageEnemy")

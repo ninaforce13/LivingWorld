@@ -149,13 +149,17 @@ static func get_npc():
 	return npc	
 
 static func engaged_recruits_nearby(encounter)->bool:
-	var parent = encounter.get_parent().get_parent()
-	if parent.has_node("ObjectData"):
+	var parent = encounter.get_parent()
+	if !parent.has_node("ObjectData"):
+		parent = parent.get_parent()
+	if parent.has_node("ObjectData"):		
 		return !parent.get_node("ObjectData").is_empty()
 	return false
 
 static func add_extra_fighters(encounter):
-	var parent = encounter.get_parent().get_parent()
+	var parent = encounter.get_parent()
+	if !parent.has_node("ObjectData"):
+		parent = parent.get_parent()
 	if parent.has_node("ObjectData"):
 		for slot in parent.get_node("ObjectData").slots:
 			if !slot.occupied:

@@ -3,7 +3,7 @@ extends Node
 signal engaging
  
 var follow_target = null
-var partner = null
+var engaged_target = null
 var engaged:bool = false setget set_engage
 var recruit
 

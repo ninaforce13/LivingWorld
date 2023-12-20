@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://world/npc/EmotePlayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=2]
@@ -60,6 +60,7 @@
 [ext_resource path="res://sprites/monsters/world/squirey.json" type="PackedScene" id=58]
 [ext_resource path="res://sprites/monsters/world/terracooka.json" type="PackedScene" id=59]
 [ext_resource path="res://sprites/monsters/world/twirligig.json" type="PackedScene" id=60]
+[ext_resource path="res://mods/LivingWorld/scripts/MonsterDetector.gd" type="Script" id=61]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.9
@@ -71,6 +72,9 @@ height = 2.40243
 
 [sub_resource type="SphereShape" id=4]
 radius = 15.0
+
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 11.3643, 1.59925, 10.2657 )
 
 [node name="CustomTrainee" type="KinematicBody" groups=["trainees"]]
 collision_layer = 144
@@ -612,6 +616,17 @@ wave_v_frequency = 20.0
 
 [node name="Sprite" parent="MonsterForms/Twirligig" instance=ExtResource( 60 )]
 
+[node name="MonsterDetector" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 16384
+script = ExtResource( 61 )
+detection_cooldown = 30.0
+
+[node name="CollisionShape" type="CollisionShape" parent="MonsterDetector"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+shape = SubResource( 5 )
+
 [connection signal="screen_entered" from="VisibilityNotifier" to="." method="set_paused" binds= [ false ]]
 [connection signal="screen_exited" from="VisibilityNotifier" to="." method="set_paused" binds= [ true ]]
 [connection signal="detected" from="MagnetDetector" to="RecruitBehavior" method="set_play_with_magnets"]
+[connection signal="detected" from="MonsterDetector" to="RecruitBehavior" method="_on_MonsterDetector_detected"]

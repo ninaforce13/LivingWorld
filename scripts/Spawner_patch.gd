@@ -20,7 +20,11 @@ static func patch():
 	var code_index = code_lines.find("func _ready():")
 	if code_index > 0:
 		code_lines.insert(code_index+1,get_code("add_spawner"))
-
+	
+	code_index = code_lines.find("	current_spawns.push_back(node)")
+	if code_index > 0:
+		code_lines.insert(code_index-1,get_code("add_objectdata"))	
+	
 	code_lines.insert(code_lines.size()-1, get_code("setup_recruit_spawner"))
 	patched_script.source_code = ""
 	for line in code_lines:
@@ -29,8 +33,7 @@ static func patch():
 	var err = Spawner.reload()
 	if err != OK:
 		push_error("Failed to patch %s." % script_path)
-		return
-
+		return	
 	
 static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
@@ -43,6 +46,10 @@ func setup_recruit_spawner(node):
 		node.global_transform = global_transform
 		node.aabb = aabb
 		node.aabb.size.y += 10
+	"""
+	code_blocks["add_objectdata"] = """
+	var object_data = preload("res://mods/LivingWorld/nodes/WildEncounterObjectData.tscn").instance()
+	node.add_child(object_data)
 	"""
 	return code_blocks[block]
 

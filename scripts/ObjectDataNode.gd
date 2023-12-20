@@ -1,12 +1,15 @@
 extends Node
-enum ObjectType {CAMP, ROGUEFUSION}
+enum ObjectType {CAMP, ROGUEFUSION, WILD_ENCOUNTER}
 export (ObjectType) var object_type
 export (int) var max_slots = 4
+export (NodePath) var fire 
 var purge_timer:float = 15.0
 var timer:float = 0.0
 var slots:Array = []
 var campfire = null
 func _ready():
+	if fire:
+		campfire = get_node(fire)
 	timer = purge_timer
 	for i in range(0,max_slots):
 		slots.push_back({"occupant":null,"occupied":false,"position_target":null,"npc_data":null})
@@ -84,12 +87,6 @@ func purge_slots():
 			clear_slot(slot)
 	if is_empty():
 		set_campfire(false)
-
-#func _enter_tree():
-#	purge_slots()
-#
-#func _exit_tree():
-#	purge_slots()
 	
 func set_campfire(value):
 	if campfire and object_type == ObjectType.CAMP:

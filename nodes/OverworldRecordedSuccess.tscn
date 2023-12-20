@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+emission_enabled = true
+emission = Color( 1, 1, 1, 1 )
+emission_energy = 2.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[sub_resource type="Animation" id=2]
+resource_name = "animation_1"
+tracks/0/type = "value"
+tracks/0/path = NodePath("CSGTorus:inner_radius")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5 ),
+"transitions": PoolRealArray( 0.450625, 1.8025, 1 ),
+"update": 0,
+"values": [ 1.0, 2.5, 3.25 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("CSGTorus:outer_radius")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5 ),
+"transitions": PoolRealArray( 0.450625, 1.8025, 1 ),
+"update": 0,
+"values": [ 1.375, 2.95, 3.25 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("CSGTorus:translation")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 2, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 3, 0 ) ]
+}
+
+[node name="RecordSuccess" type="Spatial"]
+
+[node name="CSGTorus" type="CSGTorus" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+material_override = SubResource( 1 )
+cast_shadow = 0
+inner_radius = 3.25
+outer_radius = 3.25
+sides = 32
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/animation_1 = SubResource( 2 )

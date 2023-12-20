@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=2]
+[gd_scene load_steps=67 format=2]
 
 [ext_resource path="res://mods/LivingWorld/actions/RegisterOccupant.gd" type="Script" id=1]
 [ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=2]
@@ -11,7 +11,7 @@
 [ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=9]
 [ext_resource path="res://mods/LivingWorld/actions/WaitUntil.gd" type="Script" id=10]
 [ext_resource path="res://addons/misc_utils/actions/decorators/Failer.gd" type="Script" id=11]
-[ext_resource path="res://mods/LivingWorld/actions/GetNodeWithin.gd" type="Script" id=12]
+[ext_resource path="res://mods/LivingWorld/actions/SpawnRecordingBeam.gd" type="Script" id=12]
 [ext_resource path="res://nodes/actions/SpawnPointReturnAction.gd" type="Script" id=13]
 [ext_resource path="res://nodes/actions/SetNPCControlsAction.gd" type="Script" id=14]
 [ext_resource path="res://addons/misc_utils/actions/decorators/RepeatWhile.gd" type="Script" id=15]
@@ -55,6 +55,17 @@
 [ext_resource path="res://mods/LivingWorld/actions/RecruitFaceTarget.gd" type="Script" id=53]
 [ext_resource path="res://mods/LivingWorld/scripts/RecruitBehavior.gd" type="Script" id=54]
 [ext_resource path="res://mods/LivingWorld/actions/CheckFlagValue.gd" type="Script" id=55]
+[ext_resource path="res://mods/LivingWorld/actions/GetEngagedTarget.gd" type="Script" id=56]
+[ext_resource path="res://mods/LivingWorld/actions/PauseTarget.gd" type="Script" id=57]
+[ext_resource path="res://mods/LivingWorld/actions/GetNodeWithin.gd" type="Script" id=58]
+[ext_resource path="res://mods/LivingWorld/actions/SetStaticAction.gd" type="Script" id=59]
+[ext_resource path="res://mods/LivingWorld/actions/RecordSuccessAction.gd" type="Script" id=60]
+[ext_resource path="res://nodes/actions/PlayAudioAction.gd" type="Script" id=61]
+[ext_resource path="res://mods/LivingWorld/icons/traffikrab.png" type="Texture" id=62]
+[ext_resource path="res://sfx/ui/recorded.wav" type="AudioStream" id=63]
+[ext_resource path="res://mods/LivingWorld/icons/pvp.png" type="Texture" id=64]
+[ext_resource path="res://sfx/transform.wav" type="AudioStream" id=65]
+[ext_resource path="res://sfx/recording.wav" type="AudioStream" id=66]
 
 [node name="RecruitBehavior" type="Node"]
 script = ExtResource( 54 )
@@ -130,6 +141,11 @@ bb_name = "Camp"
 script = ExtResource( 18 )
 group = "campfires"
 mode = 4
+
+[node name="SetTransformFlag" type="Node" parent="FindCamp"]
+script = ExtResource( 51 )
+bb_name = "transform"
+activation_chance = 0.01
 
 [node name="RepeatWhile" type="Node" parent="FindCamp"]
 script = ExtResource( 15 )
@@ -214,6 +230,26 @@ key = "Camp"
 script = ExtResource( 16 )
 state = "Sitting"
 
+[node name="ChangeSprite" type="Node" parent="FindCamp"]
+script = ExtResource( 49 )
+sprite_form = 1
+random_activation_bb = "transform"
+
+[node name="CheckTransformFlag" type="Node" parent="FindCamp"]
+script = ExtResource( 55 )
+always_succeed = true
+bb_name = "transform"
+
+[node name="FaceTowardsAction2" type="Node" parent="FindCamp/CheckTransformFlag"]
+script = ExtResource( 53 )
+
+[node name="GetBlackboardValue" type="Node" parent="FindCamp/CheckTransformFlag/FaceTowardsAction2"]
+script = ExtResource( 47 )
+key = "Camp"
+
+[node name="SetNPCStateAction" type="Node" parent="FindCamp/CheckTransformFlag"]
+script = ExtResource( 16 )
+
 [node name="RepeatWhile2" type="Node" parent="FindCamp"]
 script = ExtResource( 15 )
 
@@ -221,31 +257,6 @@ script = ExtResource( 15 )
 script = ExtResource( 21 )
 always_succeed = true
 group = "campfires"
-
-[node name="SetTransformFlag" type="Node" parent="FindCamp/RepeatWhile2/OtherCampers"]
-script = ExtResource( 51 )
-bb_name = "transform"
-activation_chance = 0.01
-
-[node name="ChangeSprite" type="Node" parent="FindCamp/RepeatWhile2/OtherCampers"]
-script = ExtResource( 49 )
-sprite_form = 1
-random_activation_bb = "transform"
-
-[node name="CheckTransformFlag" type="Node" parent="FindCamp/RepeatWhile2/OtherCampers"]
-script = ExtResource( 55 )
-always_succeed = true
-bb_name = "transform"
-
-[node name="FaceTowardsAction2" type="Node" parent="FindCamp/RepeatWhile2/OtherCampers/CheckTransformFlag"]
-script = ExtResource( 53 )
-
-[node name="GetBlackboardValue" type="Node" parent="FindCamp/RepeatWhile2/OtherCampers/CheckTransformFlag/FaceTowardsAction2"]
-script = ExtResource( 47 )
-key = "Camp"
-
-[node name="SetNPCStateAction" type="Node" parent="FindCamp/RepeatWhile2/OtherCampers/CheckTransformFlag"]
-script = ExtResource( 16 )
 
 [node name="Expressions" parent="FindCamp/RepeatWhile2/OtherCampers" instance=ExtResource( 30 )]
 emote_icon = ExtResource( 27 )
@@ -264,10 +275,6 @@ emote_icon = ExtResource( 27 )
 enabled = false
 use_random = true
 
-[node name="ChangeSprite2" type="Node" parent="FindCamp/RepeatWhile2/OtherCampers"]
-script = ExtResource( 49 )
-random_activation_bb = "transform"
-
 [node name="WaitAction" type="Node" parent="FindCamp/RepeatWhile2"]
 script = ExtResource( 7 )
 base_seconds = 45.0
@@ -277,6 +284,10 @@ random_seconds = 15.0
 emote_icon = ExtResource( 27 )
 enabled = false
 use_random = true
+
+[node name="ChangeSprite2" type="Node" parent="FindCamp"]
+script = ExtResource( 49 )
+random_activation_bb = "transform"
 
 [node name="UnregisterOccupant" type="Node" parent="FindCamp"]
 script = ExtResource( 1 )
@@ -372,7 +383,7 @@ script = ExtResource( 10 )
 base_seconds = 30.0
 
 [node name="GetNodeWithinRange" type="Node" parent="FindRogues/RepeatWhile/WaitUntil"]
-script = ExtResource( 12 )
+script = ExtResource( 58 )
 group = "RogueFusions"
 inverted = true
 
@@ -733,6 +744,11 @@ animation = 1
 script = ExtResource( 9 )
 interruptible = false
 
+[node name="PlayAudioAction" type="Node" parent="Transform"]
+script = ExtResource( 61 )
+stream = ExtResource( 65 )
+wait_for_finish = false
+
 [node name="ChangeSprite" type="Node" parent="Transform"]
 script = ExtResource( 49 )
 sprite_form = 1
@@ -785,6 +801,11 @@ base_seconds = 0.75
 [node name="WaitAction" type="Node" parent="Transform"]
 script = ExtResource( 7 )
 
+[node name="PlayAudioAction2" type="Node" parent="Transform"]
+script = ExtResource( 61 )
+stream = ExtResource( 65 )
+wait_for_finish = false
+
 [node name="ChangeSprite2" type="Node" parent="Transform"]
 script = ExtResource( 49 )
 
@@ -800,4 +821,247 @@ skip_rate = 3
 script = ExtResource( 7 )
 
 [node name="Failer" type="Node" parent="Transform"]
+script = ExtResource( 11 )
+
+[node name="EngageEnemy" type="Node" parent="."]
+script = ExtResource( 9 )
+interruptible = false
+reset_on_exit_tree = true
+
+[node name="Register" type="Node" parent="EngageEnemy"]
+script = ExtResource( 1 )
+register = true
+
+[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/Register"]
+script = ExtResource( 56 )
+
+[node name="SetRecorded" type="Node" parent="EngageEnemy"]
+script = ExtResource( 51 )
+bb_name = "recorded"
+activation_chance = 0.0
+
+[node name="PauseEngagedTarget" type="Node" parent="EngageEnemy"]
+script = ExtResource( 57 )
+pause = true
+
+[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/PauseEngagedTarget"]
+script = ExtResource( 56 )
+
+[node name="PlayEmoteAction" type="Node" parent="EngageEnemy"]
+script = ExtResource( 24 )
+emote = "aggro_in"
+
+[node name="GetPawn" type="Node" parent="EngageEnemy/PlayEmoteAction"]
+script = ExtResource( 2 )
+
+[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/PlayEmoteAction"]
+script = ExtResource( 56 )
+
+[node name="FaceTowardsAction" type="Node" parent="EngageEnemy"]
+script = ExtResource( 4 )
+
+[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/FaceTowardsAction"]
+script = ExtResource( 56 )
+
+[node name="FollowAction" type="Node" parent="EngageEnemy"]
+script = ExtResource( 8 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+min_distance = 6.0
+strafe = true
+
+[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/FollowAction"]
+script = ExtResource( 56 )
+
+[node name="PlayAudioAction" type="Node" parent="EngageEnemy"]
+script = ExtResource( 61 )
+stream = ExtResource( 66 )
+wait_for_finish = false
+
+[node name="RecordingBeam" type="Node" parent="EngageEnemy"]
+script = ExtResource( 12 )
+hold_duration = 3.0
+
+[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/RecordingBeam"]
+script = ExtResource( 56 )
+
+[node name="WaitAction3" type="Node" parent="EngageEnemy"]
+script = ExtResource( 7 )
+base_seconds = 0.5
+
+[node name="SetStatic" type="Node" parent="EngageEnemy"]
+script = ExtResource( 59 )
+static_amount = 1.0
+
+[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/SetStatic"]
+script = ExtResource( 56 )
+
+[node name="WaitAction2" type="Node" parent="EngageEnemy"]
+script = ExtResource( 7 )
+base_seconds = 3.0
+
+[node name="SetStatic2" type="Node" parent="EngageEnemy"]
+script = ExtResource( 59 )
+
+[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/SetStatic2"]
+script = ExtResource( 56 )
+
+[node name="SuccessRecording" type="Node" parent="EngageEnemy"]
+script = ExtResource( 55 )
+always_succeed = true
+bb_name = "recorded"
+
+[node name="PlayAudioAction" type="Node" parent="EngageEnemy/SuccessRecording"]
+script = ExtResource( 61 )
+stream = ExtResource( 63 )
+wait_for_finish = false
+
+[node name="ApplyRecordSuccess" type="Node" parent="EngageEnemy/SuccessRecording"]
+script = ExtResource( 60 )
+
+[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/SuccessRecording/ApplyRecordSuccess"]
+script = ExtResource( 56 )
+
+[node name="WaitAction4" type="Node" parent="EngageEnemy/SuccessRecording"]
+script = ExtResource( 7 )
+base_seconds = 0.5
+
+[node name="PlayCustomEmote" parent="EngageEnemy/SuccessRecording" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 38 )
+emotes = [ ExtResource( 40 ), ExtResource( 41 ), ExtResource( 33 ), ExtResource( 29 ), ExtResource( 32 ), ExtResource( 43 ), ExtResource( 42 ), ExtResource( 45 ), ExtResource( 44 ), ExtResource( 62 ), ExtResource( 46 ), ExtResource( 38 ) ]
+
+[node name="WaitAction2" type="Node" parent="EngageEnemy/SuccessRecording"]
+script = ExtResource( 7 )
+
+[node name="PlayCustomEmote3" parent="EngageEnemy/SuccessRecording" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 38 )
+enabled = false
+emotes = [ ExtResource( 40 ), ExtResource( 41 ), ExtResource( 33 ), ExtResource( 29 ), ExtResource( 32 ), ExtResource( 43 ), ExtResource( 42 ), ExtResource( 45 ), ExtResource( 44 ), ExtResource( 62 ), ExtResource( 46 ), ExtResource( 38 ) ]
+
+[node name="PlayCustomEmote2" parent="EngageEnemy/SuccessRecording" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 29 )
+emotes = [ ExtResource( 40 ), ExtResource( 41 ), ExtResource( 33 ), ExtResource( 29 ), ExtResource( 32 ), ExtResource( 43 ), ExtResource( 42 ), ExtResource( 45 ), ExtResource( 44 ), ExtResource( 62 ), ExtResource( 46 ), ExtResource( 38 ) ]
+
+[node name="WaitAction3" type="Node" parent="EngageEnemy/SuccessRecording"]
+script = ExtResource( 7 )
+
+[node name="FailedRecording" type="Node" parent="EngageEnemy"]
+script = ExtResource( 55 )
+always_succeed = true
+bb_name = "recorded"
+inverted = true
+
+[node name="PlayCustomEmote" parent="EngageEnemy/FailedRecording" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 40 )
+
+[node name="WaitAction" type="Node" parent="EngageEnemy/FailedRecording"]
+script = ExtResource( 7 )
+
+[node name="PlayCustomEmote2" parent="EngageEnemy/FailedRecording" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 40 )
+enabled = false
+
+[node name="PlayAudioAction" type="Node" parent="EngageEnemy/FailedRecording"]
+script = ExtResource( 61 )
+stream = ExtResource( 65 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="EngageEnemy/FailedRecording"]
+script = ExtResource( 49 )
+sprite_form = 1
+
+[node name="WaitAction3" type="Node" parent="EngageEnemy/FailedRecording"]
+script = ExtResource( 7 )
+base_seconds = 0.5
+
+[node name="PlayCustomEmote3" parent="EngageEnemy/FailedRecording" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 64 )
+
+[node name="WaitAction2" type="Node" parent="EngageEnemy/FailedRecording"]
+script = ExtResource( 7 )
+base_seconds = 15.0
+
+[node name="PlayCustomEmote4" parent="EngageEnemy/FailedRecording" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 40 )
+enabled = false
+
+[node name="PlayAudioAction2" type="Node" parent="EngageEnemy/FailedRecording"]
+script = ExtResource( 61 )
+stream = ExtResource( 65 )
+wait_for_finish = false
+
+[node name="ChangeSprite2" type="Node" parent="EngageEnemy/FailedRecording"]
+script = ExtResource( 49 )
+
+[node name="SetDeathFlag" type="Node" parent="EngageEnemy/FailedRecording"]
+script = ExtResource( 51 )
+bb_name = "dead"
+activation_chance = 0.2
+
+[node name="DeathSequence" type="Node" parent="EngageEnemy/FailedRecording"]
+script = ExtResource( 55 )
+always_succeed = true
+bb_name = "dead"
+
+[node name="WaitAction2" type="Node" parent="EngageEnemy/FailedRecording/DeathSequence"]
+script = ExtResource( 7 )
+base_seconds = 0.5
+
+[node name="SetNPCStateAction" type="Node" parent="EngageEnemy/FailedRecording/DeathSequence"]
+script = ExtResource( 16 )
+state = "Defeated"
+
+[node name="PlayCustomEmote2" parent="EngageEnemy/FailedRecording/DeathSequence" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 45 )
+
+[node name="WaitAction" type="Node" parent="EngageEnemy/FailedRecording/DeathSequence"]
+script = ExtResource( 7 )
+base_seconds = 2.0
+
+[node name="PlayCustomEmote3" parent="EngageEnemy/FailedRecording/DeathSequence" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 45 )
+enabled = false
+
+[node name="Unpause" type="Node" parent="EngageEnemy/FailedRecording/DeathSequence"]
+script = ExtResource( 57 )
+
+[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/FailedRecording/DeathSequence/Unpause"]
+script = ExtResource( 56 )
+
+[node name="UnRegister" type="Node" parent="EngageEnemy/FailedRecording/DeathSequence"]
+script = ExtResource( 1 )
+
+[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/FailedRecording/DeathSequence/UnRegister"]
+script = ExtResource( 56 )
+
+[node name="RemoveNodeAction" type="Node" parent="EngageEnemy/FailedRecording/DeathSequence"]
+script = ExtResource( 20 )
+animation = 1
+
+[node name="Failer" type="Node" parent="EngageEnemy/FailedRecording/DeathSequence"]
+script = ExtResource( 11 )
+
+[node name="Unpause" type="Node" parent="EngageEnemy"]
+script = ExtResource( 57 )
+
+[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/Unpause"]
+script = ExtResource( 56 )
+
+[node name="PlayCustomEmote2" parent="EngageEnemy" instance=ExtResource( 30 )]
+emote_icon = ExtResource( 40 )
+enabled = false
+
+[node name="UnRegister" type="Node" parent="EngageEnemy"]
+script = ExtResource( 1 )
+
+[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/UnRegister"]
+script = ExtResource( 56 )
+
+[node name="Failer" type="Node" parent="EngageEnemy"]
 script = ExtResource( 11 )

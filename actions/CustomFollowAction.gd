@@ -57,8 +57,7 @@ func _run():
 	if target is Vector3:
 		path_controller.target_pos = target
 	else :
-		var wr = weakref(target)
-		if (!wr.get_ref()):		
+		if !is_instance_valid(target):		
 			path_controller.target_node = pawn.get_path()
 		else:
 			path_controller.target_node = target.get_path()

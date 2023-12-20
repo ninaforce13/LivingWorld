@@ -2,6 +2,7 @@ extends DecoratorAction
 
 export (bool) var interruptible:bool = true
 export (float) var time_limit:float = 0.0
+export (bool) var reset_on_exit_tree = false
 
 var in_state:bool = false setget set_in_state
 var _timer:float = 0.0
@@ -27,9 +28,9 @@ func set_in_state(value:bool):
 	if was_in_state and not in_state and is_running():
 		call_deferred("reset")
 
-#func _exit_tree():
-#	if is_running() and not free_on_exit:
-#		call_deferred("reset")
+func _exit_tree():
+	if is_running() and not free_on_exit and reset_on_exit_tree:
+		call_deferred("reset")
 
 func _world_flags_changed():
 	set_paused( not in_state or not WorldSystem.is_ai_enabled())

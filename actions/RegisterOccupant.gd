@@ -6,6 +6,8 @@ func _run():
 	var target = values[0]
 	if not target:
 		return false
+	if !is_instance_valid(target):
+		return false
 	var object_data = target.get_node("ObjectData")
 	if !object_data:
 		return false
