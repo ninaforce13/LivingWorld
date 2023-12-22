@@ -12,7 +12,7 @@ func _ready():
 #	set_in_state(false)
 
 func _enter_state():
-	_timer = time_limit	
+	_timer = time_limit
 	set_in_state(true)
 
 func _exit_state():
@@ -20,13 +20,14 @@ func _exit_state():
 
 func set_in_state(value:bool):
 	if free_on_exit:
-		return 
+		return
 	var was_in_state = in_state
 	in_state = value
 	blackboard.pawn = get_parent().pawn
 	set_paused( not in_state or not WorldSystem.is_ai_enabled())
-	if was_in_state and not in_state and is_running():
-		call_deferred("reset")
+#	if was_in_state and not in_state and is_running():
+#		call_deferred("reset")
+
 
 func _exit_tree():
 	if is_running() and not free_on_exit and reset_on_exit_tree:
@@ -49,7 +50,7 @@ func _exit_action(result):
 
 func reset():
 	if free_on_exit:
-		return 
+		return
 	var new_actions = []
 	for action in get_children():
 		new_actions.push_back(action.duplicate())

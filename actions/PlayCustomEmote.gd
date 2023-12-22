@@ -9,14 +9,14 @@ func _run():
 	var interaction = get_interaction()
 	if !interaction:
 		return true
-		
+
 	interaction.icon_override = emote_icon
 	if use_random:
 		interaction.icon_override = emotes[randi()%emotes.size()]
 	if !enabled or (random_skip and check_skip()):
 		MenuHelper.hud.position_markers.remove_interaction(get_pawn())
 	else:
-		MenuHelper.hud.position_markers.add_interaction(get_pawn())	
+		MenuHelper.hud.position_markers.add_interaction(get_pawn())
 	return true
 
 func check_skip()->bool:

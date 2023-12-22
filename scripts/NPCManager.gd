@@ -7,7 +7,7 @@ static func has_active_follower()->bool:
 static func is_current_follower(recruit)->bool:
 	return SaveState.other_data.follower.recruit == recruit
 
-static func get_follower_config(other_recruit = null):				
+static func get_follower_config(other_recruit = null):
 	var recruit = SaveState.other_data.follower.recruit if other_recruit == null else other_recruit
 	var new_config = preload("res://mods/LivingWorld/nodes/empty_charconfig.tscn").instance()
 	new_config.character_name = recruit.name
@@ -18,11 +18,11 @@ static func get_follower_config(other_recruit = null):
 	new_config.name = "FollowerConfig"
 	new_config.copy_human_sprite = ""
 	var colors:Dictionary = recruit.human_colors if typeof( recruit.human_colors) == TYPE_DICTIONARY else JSON.parse(recruit.human_colors).result
-	var parts:Dictionary = recruit.human_part_names if typeof(recruit.human_part_names) == TYPE_DICTIONARY else JSON.parse(recruit.human_part_names).result				
+	var parts:Dictionary = recruit.human_part_names if typeof(recruit.human_part_names) == TYPE_DICTIONARY else JSON.parse(recruit.human_part_names).result
 	new_config.human_part_names = parts
-	new_config.human_colors = colors	
+	new_config.human_colors = colors
 	return new_config
-	
+
 static func add_battle_slots(battlebackground):
 	if !SaveState.other_data.has("ExtraEncounterConfig"):
 		SaveState.other_data["ExtraEncounterConfig"] = {"extra_slots":0}
@@ -39,7 +39,7 @@ static func add_battle_slots(battlebackground):
 	if not player1slot:
 		return
 	var index:int
-	for i in range (0, SaveState.other_data.ExtraEncounterConfig.extra_slots):			
+	for i in range (0, SaveState.other_data.ExtraEncounterConfig.extra_slots):
 		var followerslot = preload("res://mods/LivingWorld/nodes/BattleSlotFollower.tscn").instance()
 		var extra_enemy_slot = preload("res://mods/LivingWorld/nodes/BattleSlotEnemy.tscn").instance()
 		var offset:int = 4
@@ -48,36 +48,36 @@ static func add_battle_slots(battlebackground):
 		if index == 1:
 			translation_slot = player2slot
 			enemytranslation_slot = enemy2slot
-		if index == 2:			
+		if index == 2:
 			battlebackground.add_child_below_node(player2slot, followerslot)
 			battlebackground.add_child_below_node(enemy2slot, extra_enemy_slot)
 			followerslot.transform.origin = player3slot.transform.origin + Vector3(2,0,0)
 			extra_enemy_slot.transform.origin = enemy3slot.transform.origin - Vector3(2,0,0)
 			player3slot.transform.origin += Vector3(10,0,0)
-			enemy3slot.transform.origin -= Vector3(10,0,0)	
-			index+=1			
+			enemy3slot.transform.origin -= Vector3(10,0,0)
+			index+=1
 			continue
-			
+
 		battlebackground.add_child_below_node(player2slot, followerslot)
 		battlebackground.add_child_below_node(enemy2slot, extra_enemy_slot)
 		followerslot.translation = translation_slot.translation + Vector3(-12 +(offset*index), 0,0)
-		extra_enemy_slot.translation = enemytranslation_slot.translation + Vector3(12-(offset*index), 0,0)	
+		extra_enemy_slot.translation = enemytranslation_slot.translation + Vector3(12-(offset*index), 0,0)
 		index+=1
 	if SaveState.other_data.ExtraEncounterConfig.extra_slots > 0:
 		battlebackground.battle_camera.wide_mode = true
 
-static func spawn_recruit(levelmap, current_recruit = null):	
-	var recruitdata_node	
+static func spawn_recruit(levelmap, current_recruit = null):
+	var recruitdata_node
 	var rangerdata = load("res://mods/LivingWorld/scripts/RangerDataParser.gd")
 	var datapath = rangerdata.get_directory()
-	var files:Array = rangerdata.get_files(datapath)	
-	var recruits:Array = rangerdata.read_json(files)	
-	var recruit = recruits[randi()%recruits.size()]	if current_recruit == null else current_recruit	
-	var PartnerController = load("res://nodes/partners/PartnerController.tscn")	
+	var files:Array = rangerdata.get_files(datapath)
+	var recruits:Array = rangerdata.read_json(files)
+	var recruit = recruits[randi()%recruits.size()]	if current_recruit == null else current_recruit
+	var PartnerController = load("res://nodes/partners/PartnerController.tscn")
 	var player
 	if levelmap.has_node("Player"):
-		player = levelmap.get_node("Player")	
-	var npc = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn").instance()	
+		player = levelmap.get_node("Player")
+	var npc = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn").instance()
 	if not npc.has_node(NodePath("PartnerController")):
 		var controller = PartnerController.instance()
 		controller.min_distance = 6
@@ -91,11 +91,11 @@ static func spawn_recruit(levelmap, current_recruit = null):
 		char_config.pronouns = recruit.pronouns
 		char_config.team = 0
 		var char_stats:Character = Character.new()
-			
+
 		char_config.base_character = char_stats
 		char_config.base_character.base_max_hp = 120
 		var colors:Dictionary = recruit.human_colors if typeof(recruit.human_colors) == TYPE_DICTIONARY else JSON.parse(recruit.human_colors).result
-		var parts:Dictionary = recruit.human_part_names if typeof(recruit.human_part_names) == TYPE_DICTIONARY else JSON.parse(recruit.human_part_names).result				
+		var parts:Dictionary = recruit.human_part_names if typeof(recruit.human_part_names) == TYPE_DICTIONARY else JSON.parse(recruit.human_part_names).result
 		npc.sprite_part_names = parts
 		npc.sprite_colors = colors
 		char_config.human_part_names = parts
@@ -108,8 +108,8 @@ static func spawn_recruit(levelmap, current_recruit = null):
 		recruitdata_node.recruit = recruit
 	SaveState.other_data["follower"] = {"recruit":recruit, "active":true}
 	return npc
-	
-static func create_npc(spawner, node):	
+
+static func create_npc(spawner, node):
 	var recruit = get_npc()
 	var monbehavior = preload("res://mods/LivingWorld/nodes/recruitbehavior.tscn").instance()
 	if !recruit.has_node("RecruitBehavior"):
@@ -121,12 +121,12 @@ static func create_npc(spawner, node):
 static func get_npc():
 	var rangerdata = load("res://mods/LivingWorld/scripts/RangerDataParser.gd")
 	var datapath = rangerdata.get_directory()
-	var files:Array = rangerdata.get_files(datapath)	
+	var files:Array = rangerdata.get_files(datapath)
 #	var recruits:Array = rangerdata.read_json(files)
-#	var recruit = recruits[randi()%recruits.size()]	
+#	var recruit = recruits[randi()%recruits.size()]
 	var recruit = rangerdata.get_empty_recruit()
-	var npc = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn").instance()	
-#	var npc = preload("res://world/npc/HumanNPC.tscn").instance()	
+	var npc = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn").instance()
+#	var npc = preload("res://world/npc/HumanNPC.tscn").instance()
 	if recruit:
 		var recruitdata_node = npc.get_node("RecruitData")
 		var char_config:Node = npc.get_node("EncounterConfig/CharacterConfig")
@@ -136,23 +136,23 @@ static func get_npc():
 			char_config.team = 0
 			var char_stats:Character = Character.new()
 			char_config.human_part_names = recruit.human_part_names if typeof(recruit.human_part_names) == TYPE_DICTIONARY else JSON.parse(recruit.human_part_names).result
-			char_config.human_colors = recruit.human_colors if typeof(recruit.human_colors) == TYPE_DICTIONARY else JSON.parse(recruit.human_colors).result						
+			char_config.human_colors = recruit.human_colors if typeof(recruit.human_colors) == TYPE_DICTIONARY else JSON.parse(recruit.human_colors).result
 			char_config.base_character = char_stats
-			char_config.base_character.base_max_hp = 120		
+			char_config.base_character.base_max_hp = 120
 		npc.sprite_part_names = recruit.human_part_names if typeof(recruit.human_part_names) == TYPE_DICTIONARY else JSON.parse(recruit.human_part_names).result
 		npc.sprite_colors = recruit.human_colors if typeof(recruit.human_colors) == TYPE_DICTIONARY else JSON.parse(recruit.human_colors).result
 		npc.pronouns = recruit.pronouns
 		npc.npc_name = recruit.name
 		if recruitdata_node:
 			recruitdata_node.recruit = recruit
-	
-	return npc	
+
+	return npc
 
 static func engaged_recruits_nearby(encounter)->bool:
 	var parent = encounter.get_parent()
 	if !parent.has_node("ObjectData"):
 		parent = parent.get_parent()
-	if parent.has_node("ObjectData"):		
+	if parent.has_node("ObjectData"):
 		return !parent.get_node("ObjectData").is_empty()
 	return false
 
@@ -165,7 +165,7 @@ static func add_extra_fighters(encounter):
 			if !slot.occupied:
 				continue
 			var newconfig = get_follower_config(slot.npc_data)
-			encounter.add_child(newconfig)		
+			encounter.add_child(newconfig)
 			newconfig.add_to_group("trainee_allies")
 			if !SaveState.other_data.has("ExtraEncounterConfig"):
 				SaveState.other_data["ExtraEncounterConfig"] = {"extra_slots":0}

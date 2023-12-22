@@ -1,6 +1,6 @@
-[gd_scene load_steps=66 format=2]
+[gd_scene load_steps=70 format=2]
 
-[ext_resource path="res://world/npc/EmotePlayer.tscn" type="PackedScene" id=1]
+[ext_resource path="res://mods/LivingWorld/nodes/emoteplayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=2]
 [ext_resource path="res://nodes/layered_sprite/WorldHumanSprite3D.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/misc_utils/StateMachine.gd" type="Script" id=4]
@@ -61,23 +61,27 @@
 [ext_resource path="res://sprites/monsters/world/terracooka.json" type="PackedScene" id=59]
 [ext_resource path="res://sprites/monsters/world/twirligig.json" type="PackedScene" id=60]
 [ext_resource path="res://mods/LivingWorld/scripts/MonsterDetector.gd" type="Script" id=61]
+[ext_resource path="res://nodes/actions/values/GetPlayer.gd" type="Script" id=62]
+[ext_resource path="res://nodes/actions/FaceTowardsAction.gd" type="Script" id=63]
+[ext_resource path="res://nodes/actions/Cutscene.gd" type="Script" id=64]
+[ext_resource path="res://mods/LivingWorld/actions/MessageDialogRandom.gd" type="Script" id=66]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.9
 height = 0.9
 
-[sub_resource type="CapsuleShape" id=3]
+[sub_resource type="CapsuleShape" id=17]
 radius = 3.34122
 height = 2.40243
 
-[sub_resource type="SphereShape" id=4]
+[sub_resource type="SphereShape" id=18]
 radius = 15.0
 
 [sub_resource type="BoxShape" id=5]
 extents = Vector3( 11.3643, 1.59925, 10.2657 )
 
 [node name="CustomTrainee" type="KinematicBody" groups=["trainees"]]
-collision_layer = 144
+collision_layer = 128
 collision_mask = 32769
 script = ExtResource( 2 )
 direction = Vector2( 0, 1 )
@@ -131,14 +135,14 @@ wave_v_frequency = 20.0
 [node name="HumanSprite" parent="Sprite" instance=ExtResource( 3 )]
 
 [node name="EmotePlayer" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.351, 0 )
 
 [node name="Interaction" parent="." instance=ExtResource( 9 )]
+pawn_path = NodePath("..")
 
 [node name="CollisionShape" type="CollisionShape" parent="Interaction"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.325, 0 )
-shape = SubResource( 3 )
-disabled = true
+shape = SubResource( 17 )
 
 [node name="Footsteps" parent="." instance=ExtResource( 8 )]
 
@@ -263,18 +267,18 @@ spawn_profile = ExtResource( 24 )
 [node name="RecruitData" parent="." instance=ExtResource( 10 )]
 
 [node name="RecruitBehavior" parent="." instance=ExtResource( 7 )]
-randomized_states = [ "FindCamp", "Sit", "FindRogues", "Dash", "Transform" ]
+randomized_states = [ "Dash", "FindPlayer", "FindRogues", "FindCamp", "Sit", "Transform" ]
 
 [node name="MagnetDetector" type="Area" parent="."]
 collision_layer = 0
 collision_mask = 288
 script = ExtResource( 23 )
-disabled = true
 detection_cooldown = 60.0
+detection_chance = 0.1
 
 [node name="CollisionShape" type="CollisionShape" parent="MagnetDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-shape = SubResource( 4 )
+shape = SubResource( 18 )
 
 [node name="MagnetismController" parent="." instance=ExtResource( 27 )]
 
@@ -620,11 +624,28 @@ wave_v_frequency = 20.0
 collision_layer = 0
 collision_mask = 16384
 script = ExtResource( 61 )
-detection_cooldown = 30.0
+detection_cooldown = 60.0
+detection_chance = 0.1
 
 [node name="CollisionShape" type="CollisionShape" parent="MonsterDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 shape = SubResource( 5 )
+
+[node name="InteractionBehavior" type="Node" parent="."]
+script = ExtResource( 64 )
+
+[node name="FaceTowardsAction" type="Node" parent="InteractionBehavior"]
+script = ExtResource( 63 )
+
+[node name="GetPlayer" type="Node" parent="InteractionBehavior/FaceTowardsAction"]
+script = ExtResource( 62 )
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior"]
+script = ExtResource( 66 )
+title = "{pawn}"
+messages = [ "test 1", "test 2" ]
+use_random = true
+message_array = [ [ "RECRUIT_IDLE_DIALOG_1" ], [ "RECRUIT_IDLE_DIALOG_2", "RECRUIT_IDLE_DIALOG_3" ], [ "RECRUIT_IDLE_DIALOG_4" ], [ "RECRUIT_IDLE_DIALOG_5" ], [ "RECRUIT_IDLE_DIALOG_6" ] ]
 
 [connection signal="screen_entered" from="VisibilityNotifier" to="." method="set_paused" binds= [ false ]]
 [connection signal="screen_exited" from="VisibilityNotifier" to="." method="set_paused" binds= [ true ]]

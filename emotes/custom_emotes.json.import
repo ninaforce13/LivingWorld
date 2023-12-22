@@ -1,0 +1,29 @@
+[remap]
+
+importer="eska.aseprite_importer"
+type="PackedScene"
+path="res://.import/custom_emotes.json-053fda607079a27b1e98b43395f530fd.scn"
+
+[deps]
+
+source_file="res://mods/LivingWorld/emotes/custom_emotes.json"
+dest_files=[ "res://.import/custom_emotes.json-053fda607079a27b1e98b43395f530fd.scn" ]
+
+[params]
+
+sheet_image=""
+post_script=""
+root_node_name="Sprite"
+autoplay_animation=""
+loop=true
+as_3d=true
+custom_material=""
+billboard=1
+pixel_size=0.125
+origin_x=0.5
+origin_y=0.0
+offset=Vector2( 0, 0 )
+cast_shadow=true
+unshaded=false
+use_alpha_scissor=true
+cull_mode=0

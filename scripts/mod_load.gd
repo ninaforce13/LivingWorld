@@ -18,16 +18,16 @@ func _init():
 	npcspawner.patch()
 	campsite.patch()
 	roguefusions.patch()
-	
+
 func add_debug_commands():
 	Console.register("debug_camera", {
-			"description":"Adds debug camera controls.", 
-			"args":[TYPE_BOOL], 
+			"description":"Adds debug camera controls.",
+			"args":[TYPE_BOOL],
 			"target":[self, "add_debug_camera"]
-		})			
+		})
 	Console.register("my_pos", {
-			"description":"Prints player's current global position Vector3", 
-			"args":[], 
+			"description":"Prints player's current global position Vector3",
+			"args":[],
 			"target":[self, "get_my_pos"]
 		})
 	Console.register("clean_data",{
@@ -39,12 +39,12 @@ func add_debug_commands():
 		"description":"Get key values from Savestate.other_data dictionary",
 		"args":[],
 		"target":[self,"get_otherdata_keys"]
-		})	
+		})
 	Console.register("pause",{
 		"description":"Pause World",
 		"args":[],
 		"target":[self,"pause"]
-		})				
+		})
 
 func pause():
 	WorldSystem.get_tree().paused = !WorldSystem.get_tree().paused
@@ -54,7 +54,7 @@ func clean_data(key:String):
 		SaveState.other_data.erase(key)
 		return "Erased %s from SaveState.other_data."%key
 	return "%s is not a valid key."%key
-	
+
 func get_otherdata_keys():
 	var key_array:Array = []
 	for key in SaveState.other_data:
@@ -63,12 +63,12 @@ func get_otherdata_keys():
 func get_my_pos():
 	var player = WorldSystem.get_player()
 	print("Player current @%s"%str(player.global_transform.origin))
-	
+
 func add_debug_camera(value):
 	var camera = WorldSystem.get_level_map().camera
-	
+
 	if value:
-		var debugnode = preload("res://mods/LivingWorld/nodes/DebugCameraController.tscn").instance()	
+		var debugnode = preload("res://mods/LivingWorld/nodes/DebugCameraController.tscn").instance()
 		camera.add_child(debugnode)
 		debugnode.set_player_control(false)
 	else:

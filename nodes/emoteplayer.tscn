@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://sfx/world/alert.wav" type="AudioStream" id=1]
+[ext_resource path="res://world/npc/EmotePlayer.gd" type="Script" id=2]
+[ext_resource path="res://mods/LivingWorld/emotes/custom_emotes.json" type="PackedScene" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "aggro_in"
+length = 0.1
+tracks/0/type = "audio"
+tracks/0/path = NodePath("AudioStreamPlayer3D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 1 )
+} ],
+"times": PoolRealArray( 0 )
+}
+
+[node name="EmotePlayer" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="Sprite" parent="." instance=ExtResource( 3 )]
+visible = false
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+unit_size = 50.0
+max_distance = 100.0
+bus = "World"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/aggro_in = SubResource( 1 )

@@ -53,11 +53,11 @@ func _try_spawn_attempt():
 	assert (is_inside_tree())
 	if not is_inside_tree():
 		return null
-	
-	var pos = aabb.position + Vector3(randf() * aabb.size.x, randf() * aabb.size.y, randf() * aabb.size.z)  
+
+	var pos = aabb.position + Vector3(randf() * aabb.size.x, randf() * aabb.size.y, randf() * aabb.size.z)
 	var global_pos = global_transform.xform(pos)
 	for player in WorldSystem.get_players():
-		var flat_pos = Vector3(global_pos.x, player.global_transform.origin.y, global_pos.z) 
+		var flat_pos = Vector3(global_pos.x, player.global_transform.origin.y, global_pos.z)
 		if flat_pos.distance_to(player.global_transform.origin) < MIN_DISTANCE_TO_PLAYER:
 			return null
 
@@ -69,12 +69,12 @@ func _try_spawn_attempt():
 		var orig_xform = npc.transform
 		var collision = npc.move_and_collide(Vector3(0, - 200, 0), false)
 		if not collision:
-			npc.transform = orig_xform	
+			npc.transform = orig_xform
 	if npc:
 		current_spawns.push_back(npc)
 		return npc
-	return null	
-	
+	return null
+
 
 func _on_time_skipped():
 	kill_spawns()
@@ -103,7 +103,7 @@ func _cull_freed_spawns():
 func _do_initial_spawns():
 	for _i in range(int(max(initial_spawns - current_spawns.size(), 0))):
 		if not is_inside_tree():
-			return 
+			return
 		var co = try_spawn()
 		if co is GDScriptFunctionState:
 			yield (co, "completed")
@@ -117,5 +117,5 @@ func _timed_spawn():
 
 
 
-	
-	
+
+

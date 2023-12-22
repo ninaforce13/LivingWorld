@@ -5,7 +5,7 @@ export (bool) var snap_to_cardinal:bool = false
 func _run():
 	var whos = [get_pawn()]
 	var target = null
-	
+
 	if values.size() == 1:
 		target = values[0]
 	elif values.size() >= 2:
@@ -18,7 +18,7 @@ func _run():
 		target = values[values.size() - 1]
 	if target == null:
 		return true
-	
+
 	for who in whos:
 		var dir:Vector2 = Vector2()
 		if target is String:
@@ -35,13 +35,13 @@ func _run():
 			else:
 				var dir3 = target.global_transform.origin - who.global_transform.origin
 				dir = Vector2(dir3.x, dir3.z).normalized()
-		
+
 		if snap_to_cardinal:
 			dir = Direction.get(Direction.get_nearest(dir))
-		
+
 		if who is SpriteContainer:
 			who.direction = Direction.get_nearest(dir)
 		else :
 			who.direction = dir
-	
+
 	return true

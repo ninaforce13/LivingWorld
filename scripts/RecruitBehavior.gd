@@ -1,6 +1,6 @@
 extends "res://addons/misc_utils/StateMachine.gd"
 
-export (String) var previous_state = "Idle" 
+export (String) var previous_state = "Idle"
 export (float) var time_limit = 15.0
 export (Array, String) var randomized_states = []
 var _timer:float = 0.0
@@ -18,7 +18,7 @@ func _process(delta):
 			if !randomized_states.size() > 0:
 				return
 			var filtered_states = randomized_states.duplicate()
-			if previous_state != "Idle": 
+			if previous_state != "Idle":
 				filtered_states.erase(previous_state)
 				if !filtered_states.size() > 0:
 					previous_state = "Idle"
@@ -41,19 +41,23 @@ func _before_enter_state(old_state:String, new_state:String):
 
 func set_paused(value:bool):
 	.set_paused(value)
-	
+
 func set_play_with_magnets(_detection):
+	if !is_interruptible(state_node):
+		return
 	set_state("Magnetism")
-	
+
 func kill_npc(_detection):
 	set_state("Kill")
-	
+
 func warp_npc(_detection):
 	var pawn = get_parent()
 	pawn.warp_to(_detection.position)
 
 
 func _on_MonsterDetector_detected(detection):
+	if !is_interruptible(state_node):
+		return
 	var pawn = get_parent()
 	var recruitdata = pawn.get_node("RecruitData")
 	recruitdata.engaged_target = detection

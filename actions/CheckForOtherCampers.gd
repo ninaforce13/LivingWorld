@@ -2,15 +2,15 @@ extends CheckConditionAction
 export (bool) var inverted = false
 export (String) var group
 func conditions_met()->bool:
-	var nodes = get_tree().get_nodes_in_group(group)	
+	var nodes = get_tree().get_nodes_in_group(group)
 	if nodes.size() <= 0:
 		return always_succeed
 	var nearbycamp = get_nearest_node(nodes)
 	if !nearbycamp:
 		return always_succeed
 	var campingdata = nearbycamp.get_node("ObjectData")
-	if campingdata:		
-		return campingdata.occupied_atleast(2) if not inverted else !campingdata.occupied_atleast(2) 
+	if campingdata:
+		return campingdata.occupied_atleast(2) if not inverted else !campingdata.occupied_atleast(2)
 	return .check_conditions(self)
 
 func get_nearest_node(nodes):

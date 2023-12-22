@@ -2,7 +2,7 @@ extends Node
 enum ObjectType {CAMP, ROGUEFUSION, WILD_ENCOUNTER}
 export (ObjectType) var object_type
 export (int) var max_slots = 4
-export (NodePath) var fire 
+export (NodePath) var fire
 var purge_timer:float = 15.0
 var timer:float = 0.0
 var slots:Array = []
@@ -23,7 +23,7 @@ func add_occupant(node):
 			break
 	if !is_empty():
 		set_campfire(true)
-	
+
 func remove_occupant(node):
 	var slot = get_own_slot(node)
 	if slot:
@@ -36,7 +36,7 @@ func is_full()->bool:
 	for slot in slots:
 		if slot.occupied:
 			count+=1
-	return count == max_slots	
+	return count == max_slots
 
 func is_empty()->bool:
 	var count:int = 0
@@ -44,7 +44,7 @@ func is_empty()->bool:
 		if slot.occupied:
 			count+=1
 	return count == 0
-	
+
 func occupied_atleast(threshold:int)->bool:
 	var count:int = 0
 	for slot in slots:
@@ -57,12 +57,12 @@ func get_own_slot(occupant):
 		if slot.occupant == occupant:
 			return slot
 	return null
-	
+
 func clear_slot(slot):
 	slot.occupant = null
 	slot.occupied = false
 	slot.npc_data = null
-	
+
 func _process(delta):
 	if timer > 0.0:
 		timer -= delta
@@ -70,11 +70,10 @@ func _process(delta):
 			purge_slots()
 			timer = purge_timer
 
-func purge_slots():
+func purge_slots(force_purge:bool = false):
 	for slot in slots:
 		if slot.occupant != null:
-			var wr = weakref(slot.occupant)
-			if (!wr.get_ref()) or !slot.occupant.is_inside_tree():
+			if !is_instance_valid(slot.occupant) or !slot.occupant.is_inside_tree():
 				clear_slot(slot)
 				continue
 			var occupant_data = slot.occupant.get_node("RecruitBehavior")
@@ -85,9 +84,11 @@ func purge_slots():
 					clear_slot(slot)
 		if slot.occupant == null and slot.occupied:
 			clear_slot(slot)
+		if force_purge:
+			clear_slot(slot)
 	if is_empty():
 		set_campfire(false)
-	
+
 func set_campfire(value):
 	if campfire and object_type == ObjectType.CAMP:
 		campfire.visible = value

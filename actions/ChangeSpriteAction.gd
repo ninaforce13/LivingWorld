@@ -16,7 +16,7 @@ func _run():
 	if sprite:
 		tween.interpolate_property(sprite,"static_amount",sprite.static_amount,static_amount,duration,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		tween.start()
-		yield(tween,"tween_completed")	
+		yield(tween,"tween_completed")
 		tween.interpolate_property(sprite,"wave_amplitude",sprite.wave_amplitude, wave_amplitude,duration*2,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		tween.start()
 		yield(tween,"tween_completed")

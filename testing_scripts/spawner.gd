@@ -61,7 +61,7 @@ func _cull_freed_spawns():
 func _do_initial_spawns():
 	for _i in range(int(max(initial_spawns - current_spawns.size(), 0))):
 		if not is_inside_tree():
-			return 
+			return
 		var co = try_spawn()
 		if co is GDScriptFunctionState:
 			yield (co, "completed")
@@ -97,7 +97,7 @@ func _choose_config():
 	assert (spawn_profile != null)
 	if spawn_profile == null:
 		return null
-	
+
 	return spawn_profile.choose_config(rand)
 
 func set_spawn_profile(value:Resource):
@@ -108,39 +108,39 @@ func _try_spawn_attempt(config):
 	assert (is_inside_tree())
 	if not is_inside_tree():
 		return null
-	
+
 	var pos = Vector3(rand.rand_float(), rand.rand_float(), rand.rand_float()) * aabb.size + aabb.position
 	var global_pos = global_transform.xform(pos)
-	
+
 	for player in WorldSystem.get_players():
 		if global_pos.distance_to(player.global_transform.origin) < MIN_DISTANCE_TO_PLAYER:
 			return null
-	
+
 	var node
 	if UserSettings.graphics_world_streaming == 0:
 		node = yield (Co.safe_yield_free(self, config.spawn_async()), "completed")
 	else :
 		node = config.spawn()
-	
+
 	if not is_inside_tree():
 		node.queue_free()
 		return null
 	node.add_to_group("free_on_chunk_unload")
-	
+
 	if node is Spatial:
 		node.transform.origin = pos
 		node.transform = transform * node.transform
-	
-	
+
+
 	yield (Co.next_frame(), "completed")
 	if not is_inside_tree():
 		node.queue_free()
 		return null
-	
+
 	get_parent().add_child(node)
 	if UserSettings.graphics_world_streaming == 0 and node.has_method("beam_in"):
 		node.beam_in()
-	
+
 	if node is KinematicBody:
 		if spawn_kinematics_on_floor:
 			var orig_xform = node.transform
@@ -148,10 +148,10 @@ func _try_spawn_attempt(config):
 			if not collision:
 				node.transform = orig_xform
 		else :
-			
+
 			node.move_and_collide(Vector3(), false)
 	var object_data = preload("res://mods/LivingWorld/nodes/WildEncounterObjectData.tscn").instance()
-	node.add_child(object_data)	
+	node.add_child(object_data)
 	current_spawns.push_back(node)
 	return node
 func setup_recruit_spawner(node):

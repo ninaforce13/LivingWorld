@@ -15,6 +15,7 @@ func _run():
 		if object_data.is_full():
 			return false
 		object_data.add_occupant(get_pawn())
+		set_bb("object_data", object_data)
 	else:
 		object_data.remove_occupant(get_pawn())
 	return true

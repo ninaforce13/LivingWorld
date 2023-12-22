@@ -13,5 +13,5 @@ func _run():
 	anim.play("animation_1")
 	yield(anim,"animation_finished")
 	record_vfx.queue_free()
-	return true	
-	
+	return true
+

@@ -8,7 +8,7 @@ func get_value():
 	if nodes.size() == 0:
 		return true
 
-	var best_node = get_nearest_node(nodes)		
+	var best_node = get_nearest_node(nodes)
 	if best_node == null:
 		return true
 	var node_distance = get_pawn().global_transform.origin.distance_to(best_node.global_transform.origin)
@@ -16,7 +16,7 @@ func get_value():
 	if node_distance <= distance:
 		var object_data = best_node.get_node("ObjectData")
 		result = object_data.is_empty()
-			
+
 	return result
 
 func get_nearest_node(nodes):

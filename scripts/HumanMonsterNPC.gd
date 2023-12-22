@@ -1,4 +1,4 @@
-tool 
+tool
 extends NPC
 enum FORMS {HUMAN, MONSTER}
 signal character_changed
@@ -48,13 +48,13 @@ func swap_sprite(value:int):
 		monster_sprite.visible = false
 	sprite = dominant_sprite
 	sprite.visible = true
-	if previous_monster_form_index != index:		
+	if previous_monster_form_index != index:
 		monster_forms.get_child(previous_monster_form_index).visible = false
 		previous_monster_form_index = index
 func refresh_sprite():
 	if not sprite or use_monster_form:
-		return 
-	
+		return
+
 	if sprite_body:
 		if not (sprite.scene is UniqueSprite3D):
 			sprite.set_scene(WorldUniqueSprite3DScene)
@@ -62,12 +62,12 @@ func refresh_sprite():
 	else :
 		if sprite.scene is UniqueSprite3D:
 			sprite.set_scene(WorldHumanSprite3DScene)
-	
+
 	sprite.scene.part_names = sprite_part_names.duplicate()
 	sprite.scene.colors = sprite_colors.duplicate()
-	
+
 	sprite.scene.refresh()
-	
+
 	if Engine.editor_hint:
 		property_list_changed_notify()
 
@@ -134,5 +134,5 @@ func _get(property:String):
 
 func get_aabb()->AABB:
 	return Spatials.get_collision_aabb(self)
-	
+
 

@@ -15,18 +15,18 @@ func run():
 func conditions_met()->bool:
 	if root == null:
 		setup()
-	var nodes = get_tree().get_nodes_in_group(group)		
+	var nodes = get_tree().get_nodes_in_group(group)
 	var target = get_nearest_node(nodes)
 	if check_conditions(self):
 		var global_pos = get_pawn().global_transform.origin
-		if target:	
-			if inverted:					
+		if target:
+			if inverted:
 				return !global_pos.distance_to(target.global_transform.origin) < within_distance
-			else:			
+			else:
 				return global_pos.distance_to(target.global_transform.origin) < within_distance
 	return check_conditions(self)
 
-			
+
 func get_nearest_node(nodes):
 	if not (get_pawn() is Spatial):
 		return null

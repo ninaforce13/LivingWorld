@@ -20,7 +20,7 @@ func is_condition_met()->bool:
 	get_values()
 	var result = values[0]
 	return result
-	
+
 func get_values():
 	values = []
 	for child in get_children():
