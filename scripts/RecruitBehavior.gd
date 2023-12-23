@@ -62,3 +62,21 @@ func _on_MonsterDetector_detected(detection):
 	var recruitdata = pawn.get_node("RecruitData")
 	recruitdata.engaged_target = detection
 	set_state("EngageEnemy")
+
+
+func _on_TalkingNPCDetector_detected(detection):
+	if !is_interruptible(state_node):
+		return
+	var pawn = get_parent()
+	var own_data = pawn.get_node("RecruitData")
+	var partner_data = detection.get_node("RecruitData")
+	if partner_data.conversation_partners.size() > 0:
+		for partner in partner_data.conversation_partners:
+			if !own_data.conversation_partners.has(partner):
+				own_data.conversation_partners.push_back(partner)
+	partner_data.add_conversation_partner(pawn)
+	set_state("Conversation")
+
+
+func _on_RecruitData_engaging():
+	set_state("Conversation")

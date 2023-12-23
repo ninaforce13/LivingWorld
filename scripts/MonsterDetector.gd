@@ -11,7 +11,7 @@ func is_valid_detection(_detection)->bool:
 	var object_data = _detection.get_node("ObjectData")
 	if !object_data.is_empty():
 		return false
-	if detection_chance > randf():
+	if detection_chance < randf():
 		return false
 	return true
 func get_cooldown_duration()->float:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=71 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/emoteplayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=2]
@@ -64,6 +64,7 @@
 [ext_resource path="res://nodes/actions/values/GetPlayer.gd" type="Script" id=62]
 [ext_resource path="res://nodes/actions/FaceTowardsAction.gd" type="Script" id=63]
 [ext_resource path="res://nodes/actions/Cutscene.gd" type="Script" id=64]
+[ext_resource path="res://mods/LivingWorld/scripts/TalkingNPCDetector.gd" type="Script" id=65]
 [ext_resource path="res://mods/LivingWorld/actions/MessageDialogRandom.gd" type="Script" id=66]
 
 [sub_resource type="CapsuleShape" id=1]
@@ -71,7 +72,7 @@ radius = 0.9
 height = 0.9
 
 [sub_resource type="CapsuleShape" id=17]
-radius = 3.34122
+radius = 0.991032
 height = 2.40243
 
 [sub_resource type="SphereShape" id=18]
@@ -82,7 +83,7 @@ extents = Vector3( 11.3643, 1.59925, 10.2657 )
 
 [node name="CustomTrainee" type="KinematicBody" groups=["trainees"]]
 collision_layer = 128
-collision_mask = 32769
+collision_mask = 32785
 script = ExtResource( 2 )
 direction = Vector2( 0, 1 )
 sprite_colors = {
@@ -267,7 +268,7 @@ spawn_profile = ExtResource( 24 )
 [node name="RecruitData" parent="." instance=ExtResource( 10 )]
 
 [node name="RecruitBehavior" parent="." instance=ExtResource( 7 )]
-randomized_states = [ "Dash", "FindPlayer", "FindRogues", "FindCamp", "Sit", "Transform" ]
+randomized_states = [ "Transform", "FindRogues", "FindPlayer", "FindCamp", "FindDoor", "Sit", "Dash" ]
 
 [node name="MagnetDetector" type="Area" parent="."]
 collision_layer = 0
@@ -626,8 +627,21 @@ collision_mask = 16384
 script = ExtResource( 61 )
 detection_cooldown = 60.0
 detection_chance = 0.1
+max_player_dist = 25.0
 
 [node name="CollisionShape" type="CollisionShape" parent="MonsterDetector"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+shape = SubResource( 5 )
+
+[node name="TalkingNPCDetector" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 128
+script = ExtResource( 65 )
+detection_bb_key = "conversation_partner"
+detection_cooldown = 60.0
+detection_chance = 0.25
+
+[node name="CollisionShape" type="CollisionShape" parent="TalkingNPCDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 shape = SubResource( 5 )
 
@@ -649,5 +663,7 @@ message_array = [ [ "RECRUIT_IDLE_DIALOG_1" ], [ "RECRUIT_IDLE_DIALOG_2", "RECRU
 
 [connection signal="screen_entered" from="VisibilityNotifier" to="." method="set_paused" binds= [ false ]]
 [connection signal="screen_exited" from="VisibilityNotifier" to="." method="set_paused" binds= [ true ]]
+[connection signal="engaging" from="RecruitData" to="RecruitBehavior" method="_on_RecruitData_engaging"]
 [connection signal="detected" from="MagnetDetector" to="RecruitBehavior" method="set_play_with_magnets"]
 [connection signal="detected" from="MonsterDetector" to="RecruitBehavior" method="_on_MonsterDetector_detected"]
+[connection signal="detected" from="TalkingNPCDetector" to="RecruitBehavior" method="_on_TalkingNPCDetector_detected"]

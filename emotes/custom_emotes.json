@@ -1734,6 +1734,126 @@
     "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
     "sourceSize": { "w": 16, "h": 16 },
     "duration": 100
+   },
+   "custom_emotes 217.aseprite": {
+    "frame": { "x": 3690, "y": 1, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "custom_emotes 218.aseprite": {
+    "frame": { "x": 3707, "y": 1, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "custom_emotes 219.aseprite": {
+    "frame": { "x": 3724, "y": 1, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "custom_emotes 220.aseprite": {
+    "frame": { "x": 3741, "y": 1, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "custom_emotes 221.aseprite": {
+    "frame": { "x": 3758, "y": 1, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "custom_emotes 222.aseprite": {
+    "frame": { "x": 3775, "y": 1, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "custom_emotes 223.aseprite": {
+    "frame": { "x": 3792, "y": 1, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "custom_emotes 224.aseprite": {
+    "frame": { "x": 3809, "y": 1, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "custom_emotes 225.aseprite": {
+    "frame": { "x": 3826, "y": 1, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "custom_emotes 226.aseprite": {
+    "frame": { "x": 3843, "y": 1, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "custom_emotes 227.aseprite": {
+    "frame": { "x": 3860, "y": 1, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "custom_emotes 228.aseprite": {
+    "frame": { "x": 3877, "y": 1, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "custom_emotes 229.aseprite": {
+    "frame": { "x": 3894, "y": 1, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "custom_emotes 230.aseprite": {
+    "frame": { "x": 3911, "y": 1, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "custom_emotes 231.aseprite": {
+    "frame": { "x": 3928, "y": 1, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
    }
  },
  "meta": {
@@ -1741,7 +1861,7 @@
   "version": "1.3.2-x64",
   "image": "custom_emotes.png",
   "format": "I8",
-  "size": { "w": 3690, "h": 18 },
+  "size": { "w": 3945, "h": 18 },
   "scale": "1",
   "frameTags": [
    { "name": "singing_loop", "from": 0, "to": 17, "direction": "forward", "color": "#000000ff" },
@@ -1759,7 +1879,7 @@
    { "name": "silly", "from": 168, "to": 179, "direction": "forward", "color": "#000000ff" },
    { "name": "Love", "from": 180, "to": 194, "direction": "forward", "color": "#000000ff" },
    { "name": "tape", "from": 195, "to": 210, "direction": "forward", "color": "#000000ff" },
-   { "name": "convo", "from": 211, "to": 216, "direction": "forward", "color": "#000000ff" }
+   { "name": "convo", "from": 211, "to": 231, "direction": "forward", "color": "#000000ff" }
   ]
  }
 }

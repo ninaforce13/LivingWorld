@@ -64,7 +64,7 @@ func _try_spawn_attempt():
 	var npc = npcmanager.create_npc(self,self)
 	if npc.has_method("beam_in"):
 		npc.beam_in()
-	npc.global_transform.origin += Vector3(0,100,0)
+	npc.global_transform.origin = global_pos + Vector3(0,100,0)
 	if npc is KinematicBody:
 		var orig_xform = npc.transform
 		var collision = npc.move_and_collide(Vector3(0, - 200, 0), false)

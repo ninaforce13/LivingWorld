@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://mods/LivingWorld/actions/RegisterOccupant.gd" type="Script" id=1]
 [ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=2]
@@ -27,6 +27,12 @@
 [ext_resource path="res://mods/LivingWorld/actions/IsNearby.gd" type="Script" id=25]
 [ext_resource path="res://mods/LivingWorld/actions/CheckNearbyRogueFusion.gd" type="Script" id=26]
 [ext_resource path="res://nodes/actions/PassiveMessageAction.gd" type="Script" id=27]
+[ext_resource path="res://mods/LivingWorld/actions/IsConversationEnded.gd" type="Script" id=28]
+[ext_resource path="res://addons/misc_utils/actions/composites/Sequence.gd" type="Script" id=29]
+[ext_resource path="res://mods/LivingWorld/actions/ExitConversation.gd" type="Script" id=30]
+[ext_resource path="res://mods/LivingWorld/actions/AdjustYAxis.gd" type="Script" id=31]
+[ext_resource path="res://mods/LivingWorld/scripts/ConversationBehavior.gd" type="Script" id=32]
+[ext_resource path="res://mods/LivingWorld/actions/GetConversationPartner.gd" type="Script" id=33]
 [ext_resource path="res://addons/misc_utils/actions/values/GetBlackboardValue.gd" type="Script" id=47]
 [ext_resource path="res://nodes/actions/FaceDirectionAction.gd" type="Script" id=48]
 [ext_resource path="res://mods/LivingWorld/actions/ChangeSpriteAction.gd" type="Script" id=49]
@@ -406,7 +412,6 @@ fade_duration = 1.0
 
 [node name="Sit" type="Node" parent="."]
 script = ExtResource( 9 )
-interruptible = false
 
 [node name="SetNPCControlsAction" type="Node" parent="Sit"]
 script = ExtResource( 14 )
@@ -416,67 +421,127 @@ set_values = 478
 script = ExtResource( 16 )
 state = "Sitting"
 
-[node name="PlayEmoteAction" type="Node" parent="Sit"]
+[node name="LowerHeight" type="Node" parent="Sit"]
+script = ExtResource( 31 )
+
+[node name="Sequence" type="Node" parent="Sit"]
+script = ExtResource( 29 )
+
+[node name="PlayEmoteAction" type="Node" parent="Sit/Sequence"]
 script = ExtResource( 69 )
 emotes = [ "singing_loop", "aggro_check", "annoyed", "content", "frustrated", "questioning", "Sad" ]
 use_random = true
 
-[node name="FaceTowardsAction" type="Node" parent="Sit"]
+[node name="FaceTowardsAction" type="Node" parent="Sit/Sequence"]
 script = ExtResource( 4 )
 __meta__ = {
 "action_tree": true
 }
 
-[node name="RandomDirectionValue" type="Node" parent="Sit/FaceTowardsAction"]
+[node name="RandomDirectionValue" type="Node" parent="Sit/Sequence/FaceTowardsAction"]
 script = ExtResource( 5 )
 spawn_point_return_threshold = 45.0
 
-[node name="WaitAction2" type="Node" parent="Sit"]
+[node name="WaitAction2" type="Node" parent="Sit/Sequence"]
 script = ExtResource( 7 )
-base_seconds = 3.0
 random_seconds = 2.0
-
-[node name="PlayEmoteAction2" type="Node" parent="Sit"]
-script = ExtResource( 69 )
-emotes = [ "singing_loop", "aggro_check", "annoyed", "content", "frustrated", "questioning", "Sad" ]
-use_random = true
-
-[node name="FaceTowardsAction2" type="Node" parent="Sit"]
-script = ExtResource( 4 )
-__meta__ = {
-"action_tree": true
-}
-
-[node name="RandomDirectionValue" type="Node" parent="Sit/FaceTowardsAction2"]
-script = ExtResource( 5 )
-spawn_point_return_threshold = 45.0
-
-[node name="WaitAction4" type="Node" parent="Sit"]
-script = ExtResource( 7 )
-base_seconds = 3.0
-random_seconds = 3.0
-
-[node name="PlayEmoteAction3" type="Node" parent="Sit"]
-script = ExtResource( 69 )
-emotes = [ "singing_loop", "aggro_check", "annoyed", "content", "frustrated", "questioning", "Sad" ]
-use_random = true
-
-[node name="FaceTowardsAction3" type="Node" parent="Sit"]
-script = ExtResource( 4 )
-__meta__ = {
-"action_tree": true
-}
-
-[node name="RandomDirectionValue" type="Node" parent="Sit/FaceTowardsAction3"]
-script = ExtResource( 5 )
-spawn_point_return_threshold = 45.0
 
 [node name="WaitAction5" type="Node" parent="Sit"]
 script = ExtResource( 7 )
 base_seconds = 2.0
 random_seconds = 3.0
 
+[node name="RaiseHeight" type="Node" parent="Sit"]
+script = ExtResource( 31 )
+positive_move = true
+
 [node name="Failer" type="Node" parent="Sit"]
+script = ExtResource( 11 )
+
+[node name="Conversation" type="Node" parent="."]
+script = ExtResource( 32 )
+
+[node name="RepeatWhile2" type="Node" parent="Conversation"]
+script = ExtResource( 15 )
+
+[node name="FaceTowardsAction" type="Node" parent="Conversation/RepeatWhile2"]
+script = ExtResource( 4 )
+
+[node name="GetConversationPartner" type="Node" parent="Conversation/RepeatWhile2/FaceTowardsAction"]
+script = ExtResource( 33 )
+
+[node name="FollowAction" type="Node" parent="Conversation/RepeatWhile2"]
+script = ExtResource( 8 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 4.0
+strafe = true
+
+[node name="GetConversationPartner" type="Node" parent="Conversation/RepeatWhile2/FollowAction"]
+script = ExtResource( 33 )
+
+[node name="RepeatWhile" type="Node" parent="Conversation"]
+script = ExtResource( 15 )
+
+[node name="Sequence" type="Node" parent="Conversation/RepeatWhile"]
+script = ExtResource( 29 )
+
+[node name="SetRandomAction" type="Node" parent="Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 51 )
+bb_name = "react"
+activation_chance = 0.3
+
+[node name="Reaction" type="Node" parent="Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 55 )
+always_succeed = true
+bb_name = "react"
+
+[node name="PlayEmoteAction3" type="Node" parent="Conversation/RepeatWhile/Sequence/Reaction"]
+script = ExtResource( 69 )
+selection = 15
+emotes = [ "singing_loop", "aggro_check", "Happy", "Angry", "annoyed", "frustrated", "questioning", "Sad", "shocked", "silly", "Love" ]
+use_random = true
+
+[node name="Conversation" type="Node" parent="Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 55 )
+always_succeed = true
+bb_name = "react"
+inverted = true
+
+[node name="PlayEmoteAction3" type="Node" parent="Conversation/RepeatWhile/Sequence/Conversation"]
+script = ExtResource( 69 )
+selection = 15
+
+[node name="WaitAction" type="Node" parent="Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 7 )
+base_seconds = 0.1
+random_seconds = 1.0
+
+[node name="FaceTowardsAction" type="Node" parent="Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 4 )
+
+[node name="GetConversationPartner" type="Node" parent="Conversation/RepeatWhile/Sequence/FaceTowardsAction"]
+script = ExtResource( 33 )
+
+[node name="WaitUntil" type="Node" parent="Conversation/RepeatWhile"]
+script = ExtResource( 10 )
+base_seconds = 20.0
+random_seconds = 10.0
+
+[node name="EmptyConversation" type="Node" parent="Conversation/RepeatWhile/WaitUntil"]
+script = ExtResource( 28 )
+
+[node name="ExitConversation" type="Node" parent="Conversation"]
+script = ExtResource( 30 )
+
+[node name="Failer" type="Node" parent="Conversation"]
 script = ExtResource( 11 )
 
 [node name="EmoteTest" type="Node" parent="."]
@@ -514,6 +579,7 @@ script = ExtResource( 11 )
 
 [node name="Magnetism" type="Node" parent="."]
 script = ExtResource( 9 )
+interruptible = false
 
 [node name="RepeatWhile" type="Node" parent="Magnetism"]
 script = ExtResource( 15 )
@@ -645,7 +711,6 @@ interruptible = false
 
 [node name="IsNearby" type="Node" parent="FindDoor"]
 script = ExtResource( 25 )
-distance = 5.0
 
 [node name="GetGroupNode" type="Node" parent="FindDoor/IsNearby"]
 script = ExtResource( 18 )
