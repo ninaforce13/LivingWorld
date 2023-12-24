@@ -9,8 +9,8 @@ func is_valid_detection(_detection)->bool:
 	var behavior = _detection.get_node("RecruitBehavior")
 	if !behavior.is_interruptible(behavior.state_node):
 		return false
-	if behavior.state == "Conversation" or behavior.state == "StartConversation":
-		return false
+#	if behavior.state == "Conversation" or behavior.state == "StartConversation":
+#		return false
 	if !_detection.has_node("RecruitData"):
 		return false
 	var object_data = _detection.get_node("RecruitData")

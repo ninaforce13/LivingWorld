@@ -639,7 +639,7 @@ collision_mask = 128
 script = ExtResource( 65 )
 detection_bb_key = "conversation_partner"
 detection_cooldown = 60.0
-detection_chance = 0.25
+detection_chance = 0.65
 
 [node name="CollisionShape" type="CollisionShape" parent="TalkingNPCDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )

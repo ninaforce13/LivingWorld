@@ -496,7 +496,7 @@ script = ExtResource( 29 )
 [node name="SetRandomAction" type="Node" parent="Conversation/RepeatWhile/Sequence"]
 script = ExtResource( 51 )
 bb_name = "react"
-activation_chance = 0.3
+activation_chance = 0.1
 
 [node name="Reaction" type="Node" parent="Conversation/RepeatWhile/Sequence"]
 script = ExtResource( 55 )
@@ -522,7 +522,7 @@ selection = 15
 [node name="WaitAction" type="Node" parent="Conversation/RepeatWhile/Sequence"]
 script = ExtResource( 7 )
 base_seconds = 0.1
-random_seconds = 1.0
+random_seconds = 0.2
 
 [node name="FaceTowardsAction" type="Node" parent="Conversation/RepeatWhile/Sequence"]
 script = ExtResource( 4 )
@@ -553,6 +553,7 @@ script = ExtResource( 69 )
 
 [node name="Dash" type="Node" parent="."]
 script = ExtResource( 9 )
+interruptible = false
 
 [node name="RepeatWhile" type="Node" parent="Dash"]
 script = ExtResource( 15 )
