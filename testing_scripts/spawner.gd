@@ -153,6 +153,7 @@ func _try_spawn_attempt(config):
 	var object_data = preload("res://mods/LivingWorld/nodes/WildEncounterObjectData.tscn").instance()
 	node.add_child(object_data)
 	current_spawns.push_back(node)
+
 	return node
 func setup_recruit_spawner(node):
 		get_parent().add_child(node)

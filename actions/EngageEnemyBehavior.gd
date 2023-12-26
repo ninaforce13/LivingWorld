@@ -4,6 +4,9 @@ func reset():
 	var pawn = get_pawn()
 	if pawn == null or !is_instance_valid(pawn):
 		return
+	var interaction = pawn.get_node("Interaction")
+	if interaction:
+		interaction.disabled = false
 	var recruitdata = pawn.get_node("RecruitData")
 	var target = recruitdata.engaged_target
 	pawn.sprite.set_static_amount(0)

@@ -12,7 +12,7 @@ func _process(_delta):
 	if Input.is_key_pressed(KEY_S):
 		pawn.global_transform.origin = move_camera(pawn.global_transform.origin, positions[DIRECTION.BACK])
 	if Input.is_key_pressed(KEY_W):
-		pawn.global_transform.origin = move_camera(pawn.global_transform.origin, positions[DIRECTION.FORWARD])	
+		pawn.global_transform.origin = move_camera(pawn.global_transform.origin, positions[DIRECTION.FORWARD])
 	if Input.is_key_pressed(KEY_A):
 		pawn.global_transform.origin = move_camera(pawn.global_transform.origin, positions[DIRECTION.LEFT])
 	if Input.is_key_pressed(KEY_D):
@@ -28,7 +28,7 @@ func move_camera(current_position, offset:Vector3):
 	var old_pos = current_position
 	var new_pos = current_position + offset
 	remove_target()
-	return lerp(old_pos,new_pos, weight)	
+	return lerp(old_pos,new_pos, weight)
 
 
 func reset_camera():
@@ -37,10 +37,10 @@ func reset_camera():
 
 	SceneManager.current_scene.tracker.set_targets(original_targets)
 	pawn.translation = lerp(old_pos,Vector3.ZERO, weight)
-	
-func set_player_control(enabled:bool):
-	WorldSystem.set_flag(WorldSystem.WorldFlags.PLAYER_CONTROL_ENABLED, enabled)
+
+func set_player_control(value:bool):
+	WorldSystem.set_flag(WorldSystem.WorldFlags.PLAYER_CONTROL_ENABLED, value)
 
 func remove_target():
-	var tracker = WorldSystem.get_level_map().get_node("Tracker")						
+	var tracker = WorldSystem.get_level_map().get_node("Tracker")
 	tracker.set_targets([])

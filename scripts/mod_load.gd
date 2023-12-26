@@ -1,5 +1,5 @@
 extends ContentInfo
-
+var recruit_tracker:Array = []
 var levelmap_patch = preload("LevelMap_patch.gd")
 var encounterconfig_patch = preload("encounter_config_patch.gd")
 var warptarget_patch = preload("warptarget_patch.gd")
@@ -18,6 +18,33 @@ func _init():
 	npcspawner.patch()
 	campsite.patch()
 	roguefusions.patch()
+
+func clear_recruit_tracker():
+	recruit_tracker.clear()
+
+func add_recruit_spawn(recruit):
+	if not recruit_tracker.has(recruit):
+		recruit_tracker.append(recruit)
+
+func remove_recruit_spawn(recruit):
+	if recruit_tracker.has(recruit):
+		recruit_tracker.erase(recruit)
+
+func recruit_exists(recruit)->bool:
+	var result:bool = false
+	for child in recruit_tracker:
+		if child.hash() == recruit.hash():
+			result = true
+			break
+	return result
+
+func filter_recruits(recruits)->Array:
+	var filtered_recruits:Array = recruits.duplicate()
+	for recruit in recruits:
+		if recruit_exists(recruit):
+			filtered_recruits.erase(recruit)
+	return filtered_recruits
+
 
 func add_debug_commands():
 	Console.register("debug_camera", {
@@ -77,3 +104,4 @@ func add_debug_camera(value):
 			debugnode.reset_camera()
 			debugnode.set_player_control(true)
 			camera.remove_child(debugnode)
+			debugnode.queue_free()

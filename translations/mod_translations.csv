@@ -14,3 +14,21 @@ RECRUIT_IDLE_DIALOG_12,
 RECRUIT_IDLE_DIALOG_13,
 RECRUIT_IDLE_DIALOG_14,
 RECRUIT_PASSIVE_ROGUE,There's been another rogue sighting![pause][pause] We need all available rangers!
+RECRUIT_MENU_OPTION1,Invite {pawn} to hang out.
+RECRUIT_MENU_OPTION2,Challenge {pawn} to a friendly battle.
+RECRUIT_MENU_OPTION3,Good Bye!
+RECRUIT_MENU_INVITE_ACCEPT1,"Sure, I've got some free time!"
+RECRUIT_MENU_INVITE_ACCEPT2,"I guess I can lend a hand, if you [wave amp=30 freq=10]really[/wave] need it."
+RECRUIT_MENU_INVITE_ACCEPT3,"We're not doing anything too dangerous[pause], are we?"
+RECRUIT_MENU_INVITE_REJECT1,"It seems like you've got your hands full, maybe later! "
+RECRUIT_MENU_INVITE_REJECT2,I'm a bit anxious around this many people. Can we hang out some other time?
+RECRUIT_MENU_INVITE_REJECT3,Lose the extra pair of hands first.
+RECRUIT_MENU_GOODBYE1,See you around!
+RECRUIT_MENU_GOODBYE2,"Don't go too far, in case I need help…"
+RECRUIT_MENU_GOODBYE3,"Fine, I was in the middle of something anyway. "
+RECRUIT_MENU_CHALLENGE_ACCEPT1,"Sure, I could use the warm up!"
+RECRUIT_MENU_CHALLENGE_ACCEPT2,"Alright, but don't blame me for what happens next."
+RECRUIT_MENU_CHALLENGE_ACCEPT3,"You'll go easy on me[pause], right?"
+RECRUIT_CHALLENGE_WIN1,That was more of a workout than I expected!
+RECRUIT_CHALLENGE_WIN2,I was still getting warmed up.
+RECRUIT_CHALLENGE_WIN3,"{player}, you really don't pull your punches do you?"

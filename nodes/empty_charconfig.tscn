@@ -46,3 +46,15 @@ spawn_profile = ExtResource( 3 )
 [node name="Tape3" type="Node" parent="."]
 script = ExtResource( 2 )
 spawn_profile = ExtResource( 3 )
+
+[node name="Tape4" type="Node" parent="."]
+script = ExtResource( 2 )
+spawn_profile = ExtResource( 3 )
+
+[node name="Tape5" type="Node" parent="."]
+script = ExtResource( 2 )
+spawn_profile = ExtResource( 3 )
+
+[node name="Tape6" type="Node" parent="."]
+script = ExtResource( 2 )
+spawn_profile = ExtResource( 3 )

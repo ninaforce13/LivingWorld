@@ -7,20 +7,18 @@ static func has_active_follower()->bool:
 static func is_current_follower(recruit)->bool:
 	return SaveState.other_data.follower.recruit == recruit
 
-static func get_follower_config(other_recruit = null):
-	var recruit = SaveState.other_data.follower.recruit if other_recruit == null else other_recruit
+static func get_follower_config(other_recruit):
+	var recruit = other_recruit
 	var new_config = preload("res://mods/LivingWorld/nodes/empty_charconfig.tscn").instance()
-	new_config.character_name = recruit.name
+	var randomtapeconfig = preload("res://mods/LivingWorld/scripts/RandomTapeConfig.gd")
+	var rangerdata = load("res://mods/LivingWorld/scripts/RangerDataParser.gd")
 	new_config.team = 0
-	var char_stats:Character = Character.new()
-	new_config.base_character = char_stats
-	new_config.base_character.base_max_hp = 120
+	var tape_nodes:Array
+	for tape in new_config.get_children():
+		tape_nodes.push_back(tape)
+	rangerdata.set_char_config(new_config,recruit,tape_nodes)
 	new_config.name = "FollowerConfig"
-	new_config.copy_human_sprite = ""
-	var colors:Dictionary = recruit.human_colors if typeof( recruit.human_colors) == TYPE_DICTIONARY else JSON.parse(recruit.human_colors).result
-	var parts:Dictionary = recruit.human_part_names if typeof(recruit.human_part_names) == TYPE_DICTIONARY else JSON.parse(recruit.human_part_names).result
-	new_config.human_part_names = parts
-	new_config.human_colors = colors
+	new_config.ai = preload("res://mods/LivingWorld/nodes/RecruitAINoStatus.tscn")
 	return new_config
 
 static func add_battle_slots(battlebackground):
@@ -119,33 +117,50 @@ static func create_npc(spawner, node):
 
 	return recruit
 static func get_npc():
+	var Mod = DLC.mods_by_id["LivingWorldMod"]
+	var settings = preload("res://mods/LivingWorld/settings.tres")
+	var name_generator = preload("res://mods/LivingWorld/scripts/NameGenerator.gd")
 	var rangerdata = load("res://mods/LivingWorld/scripts/RangerDataParser.gd")
 	var datapath = rangerdata.get_directory()
 	var files:Array = rangerdata.get_files(datapath)
-#	var recruits:Array = rangerdata.read_json(files)
-#	var recruit = recruits[randi()%recruits.size()]
+	var custom_recruits:Array = rangerdata.read_json(files)
 	var recruit = rangerdata.get_empty_recruit()
 	var npc = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn").instance()
-#	var npc = preload("res://world/npc/HumanNPC.tscn").instance()
-	if recruit:
-		var recruitdata_node = npc.get_node("RecruitData")
+	var filtered_recruits = Mod.filter_recruits(custom_recruits)
+	var use_custom:bool = false
+	if randf() <= settings.custom_recruit_rate and filtered_recruits.size() > 0:
+		recruit = filtered_recruits[randi()%filtered_recruits.size()]
+		Mod.add_recruit_spawn(recruit)
+		use_custom = true
+	var recruitdata_node = npc.get_node("RecruitData")
+	if recruit and not use_custom:
+		var new_name = name_generator.generate()
 		var char_config:Node = npc.get_node("EncounterConfig/CharacterConfig")
 		if char_config:
-			char_config.character_name = recruit.name
+			char_config.character_name = new_name
 			char_config.pronouns = recruit.pronouns
-			char_config.team = 0
 			var char_stats:Character = Character.new()
-			char_config.human_part_names = recruit.human_part_names if typeof(recruit.human_part_names) == TYPE_DICTIONARY else JSON.parse(recruit.human_part_names).result
-			char_config.human_colors = recruit.human_colors if typeof(recruit.human_colors) == TYPE_DICTIONARY else JSON.parse(recruit.human_colors).result
+			rangerdata.set_npc_appearance(npc, recruit)
 			char_config.base_character = char_stats
 			char_config.base_character.base_max_hp = 120
 		npc.sprite_part_names = recruit.human_part_names if typeof(recruit.human_part_names) == TYPE_DICTIONARY else JSON.parse(recruit.human_part_names).result
 		npc.sprite_colors = recruit.human_colors if typeof(recruit.human_colors) == TYPE_DICTIONARY else JSON.parse(recruit.human_colors).result
 		npc.pronouns = recruit.pronouns
+		npc.npc_name = new_name
+	if recruit and use_custom:
+		var char_config:Node = npc.get_node("EncounterConfig/CharacterConfig")
+		var sidekick_config:Node = npc.get_node("EncounterConfig/Sidekick")
+		var tape_nodes:Array
+		for tape in char_config.get_children():
+			tape_nodes.push_back(tape)
+		for tape in sidekick_config.get_children():
+			tape_nodes.push_back(tape)
+		rangerdata.set_char_config(char_config,recruit,tape_nodes)
+		sidekick_config.base_character = char_config.base_character
+		rangerdata.set_npc_appearance(npc, recruit)
 		npc.npc_name = recruit.name
-		if recruitdata_node:
-			recruitdata_node.recruit = recruit
-
+	if recruitdata_node and recruit:
+		recruitdata_node.recruit = recruit
 	return npc
 
 static func engaged_recruits_nearby(encounter)->bool:

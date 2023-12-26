@@ -4,7 +4,7 @@ static func get_directory()->String:
 
 static func get_current_version()->float:
 	return 1.1
-	
+
 static func get_files(dirname:String)->Array:
 	var dir = Directory.new()
 	if not dir.dir_exists(dirname):
@@ -18,17 +18,17 @@ static func get_files(dirname:String)->Array:
 	if err != OK:
 		push_error("Cannot list " + dirname)
 		return []
-	
-	var results = []	
-	
+
+	var results = []
+
 	while true:
 		var file = dir.get_next()
 		if file == "":
-			break			
+			break
 		var json = dirname+file
 		results.push_back(json)
 	dir.list_dir_end()
-	return results	
+	return results
 
 static func read_json(files:Array)->Array:
 	var parsed_files:Array = []
@@ -37,13 +37,13 @@ static func read_json(files:Array)->Array:
 		var err = file.open(item, File.READ)
 		if err != OK:
 			continue
-		var content = file.get_as_text()	
+		var content = file.get_as_text()
 		var parse = JSON.parse(content)
 		if typeof(parse.result) == TYPE_DICTIONARY:
 			parse.result["filepath"] = item
 			parsed_files.append(parse.result)
 		else:
-			push_error("Cassette Arenas: Failed to parse: " + item)
+			push_error("Living World Mod: Failed to parse: " + item)
 		file.close()
 	parsed_files = remove_broken_data(parsed_files)
 	return parsed_files
@@ -54,14 +54,14 @@ static func append_json(ranger_dict:Dictionary, filepath:String, folder_name:Str
 	if directory_missing(dir, folder_name):
 		create_directory(dir, folder_name)
 	version_tag_file(ranger_dict)
-	print("Cassette Arenas: Attempting to edit file: " + filepath)			
+	print("Living World Mod: Attempting to edit file: " + filepath)
 	var result = file.open(filepath, File.WRITE)
 	if result != OK:
-		push_error("Cassette Arenas: Failed to save file: " + filepath)
+		push_error("Living World Mod: Failed to save file: " + filepath)
 		return false
 	file.store_string(JSON.print(ranger_dict, "\t"))
-	file.close()	
-	print("Cassette Arenas: Successfully appended file: " + filepath)
+	file.close()
+	print("Living World Mod: Successfully appended file: " + filepath)
 	return true
 
 static func save_json(ranger_dict:Dictionary, folder_name:String = get_directory())->bool:
@@ -77,32 +77,32 @@ static func save_json(ranger_dict:Dictionary, folder_name:String = get_directory
 	version_tag_file(ranger_dict)
 	while duplicate_filename:
 		if file.file_exists(folder_name+divider+filename+extension):
-			var tagon = "("+str(pass_index)+")"									
-			if not file.file_exists(folder_name+divider+filename+tagon+extension):				
+			var tagon = "("+str(pass_index)+")"
+			if not file.file_exists(folder_name+divider+filename+tagon+extension):
 				filename = filename+tagon
 				duplicate_filename = false
-			pass_index += 1	
+			pass_index += 1
 		if not file.file_exists(folder_name+divider+filename+extension):
 			duplicate_filename = false
-	print("Cassette Arenas: Attempting to save file: " + filename+extension)			
+	print("Living World Mod: Attempting to save file: " + filename+extension)
 	var result = file.open(folder_name+divider+filename+extension, File.WRITE)
 	if result != OK:
-		push_error("Cassette Arenas: Failed to save file: " + filename+extension + " in " + folder_name)
+		push_error("Living World Mod: Failed to save file: " + filename+extension + " in " + folder_name)
 		return false
 	file.store_string(JSON.print(ranger_dict, "\t"))
-	file.close()	
-	print("Cassette Arenas: Successfully created file: " + filename+extension + " in " + folder_name)
+	file.close()
+	print("Living World Mod: Successfully created file: " + filename+extension + " in " + folder_name)
 	return true
 
 static func version_tag_file(file:Dictionary):
 	file["version"] = get_current_version()
 
 static func create_directory(dir:Directory, folder:String):
-	print("Cassette Arenas: " + folder+" does not exist. Attempting to create folder.")
+	print("Living World Mod: " + folder+" does not exist. Attempting to create folder.")
 	var result = dir.make_dir(folder)
 	if result != OK:
-		push_error("Cassette Arenas: Failed to create folder "+folder)
-		return false	
+		push_error("Living World Mod: Failed to create folder "+folder)
+		return false
 
 static func directory_missing(dir:Directory, dir_path:String)->bool:
 	return not dir.dir_exists(dir_path)
@@ -118,49 +118,49 @@ static func remove_broken_data(collection:Array)->Array:
 		record_count += 1
 		var invalid_record:bool = false
 		for key in key_fields:
-			if not record.has(key):					
-				push_error("Cassette Arenas: Failed to find key " + key + " in record " + str(record_count))
+			if not record.has(key):
+				push_error("Living World Mod: Failed to find key " + key + " in record " + str(record_count))
 				invalid_record = true
-#				
+#
 		var tape_count:int = 1
-		for tape_field in tape_fields:			
-			if record.has(tape_field):								
+		for tape_field in tape_fields:
+			if record.has(tape_field):
 				for tape_data_field in tape_data_fields:
 					if not record[tape_field].has(tape_data_field):
-						push_error("Cassette Arenas: Failed to find key " + tape_data_field + " in record " + str(record_count))
+						push_error("Living World Mod: Failed to find key " + tape_data_field + " in record " + str(record_count))
 						invalid_record = true
-#						
+#
 					if tape_data_field == "stickers":
 						if not record[tape_field].has(tape_data_field):
-							push_error("Cassette Arenas: Failed to find key " + tape_data_field + " in record " + str(record_count))
-							invalid_record = true								
+							push_error("Living World Mod: Failed to find key " + tape_data_field + " in record " + str(record_count))
+							invalid_record = true
 						if record[tape_field].has(tape_data_field):
 							if not record[tape_field].get(tape_data_field) is Array:
-								push_error("Cassette Arenas: [Stickers] is not valid type Array. Record " + str(record_count))
-								invalid_record = true									
+								push_error("Living World Mod: [Stickers] is not valid type Array. Record " + str(record_count))
+								invalid_record = true
 							else:
 								var sticker_count:int = 1
 								for sticker in record[tape_field].get(tape_data_field):
 									if not sticker is Dictionary and sticker != null:
-										push_error("Cassette Arenas: sticker# "+ str(sticker_count) +" in tape# "+ str(tape_count)+" is not valid type Dictionary. Record " + str(record_count))
-										invalid_record = true		
+										push_error("Living World Mod: sticker# "+ str(sticker_count) +" in tape# "+ str(tape_count)+" is not valid type Dictionary. Record " + str(record_count))
+										invalid_record = true
 									elif sticker != null:
 										for sticker_field in sticker_fields:
-											if not sticker.has(sticker_field):								
-												push_error("Cassette Arenas: Failed to find key " + sticker_field + " in sticker# "+ str(sticker_count) +" in tape# "+ str(tape_count)+ " in record# " + str(record_count))
-												invalid_record = true											
-									sticker_count+=1									 					
+											if not sticker.has(sticker_field):
+												push_error("Living World Mod: Failed to find key " + sticker_field + " in sticker# "+ str(sticker_count) +" in tape# "+ str(tape_count)+ " in record# " + str(record_count))
+												invalid_record = true
+									sticker_count+=1
 
-				if monster_validation(record[tape_field]):				
+				if monster_validation(record[tape_field]):
 					tape_count += 1
-					
+
 		if tape_count < 3:
-			push_error("Cassette Arenas: Not enough tapes. Tape count: " + str(tape_count) + " in record " + str(record_count))
+			push_error("Living World Mod: Not enough tapes. Tape count: " + str(tape_count) + " in record " + str(record_count))
 			invalid_record = true
-			
-		if not invalid_record:			
+
+		if not invalid_record:
 			valid_records.push_back(record)
-		
+
 	return valid_records
 
 static func monster_validation(tape_snapshot:Dictionary)->bool:
@@ -169,32 +169,28 @@ static func monster_validation(tape_snapshot:Dictionary)->bool:
 	return tape.set_snapshot(tape_snapshot, 1)
 
 
-static func get_custom_monster(tape_snapshot:Dictionary)->Dictionary:		
+static func get_custom_monster(tape_snapshot:Dictionary)->Dictionary:
 	if tape_snapshot.has("custom_form"):
 		if tape_snapshot.custom_form != "":
 			var form = load(tape_snapshot.custom_form) as MonsterForm
-			if form:									
-				tape_snapshot.form = tape_snapshot.custom_form						
-				print("Cassette Arenas: Retrieved custom form " + tape_snapshot.custom_form)			
+			if form:
+				tape_snapshot.form = tape_snapshot.custom_form
+				print("Living World Mod: Retrieved custom form " + tape_snapshot.custom_form)
 	return tape_snapshot
-	
+
 static func set_custom_monster(tape_snapshot:Dictionary)->Dictionary:
 	if tape_snapshot["form"].begins_with("res://mods/") or tape_snapshot["form"].begins_with("res://data/monster_forms/mods_"):
 		tape_snapshot["custom_form"] = tape_snapshot["form"]
-		tape_snapshot["form"] =  "res://data/monster_forms/traffikrab.tres"	
-		print("Cassette Arenas: Set fallback form for custom form: " + tape_snapshot.custom_form)
+		tape_snapshot["form"] =  "res://data/monster_forms/traffikrab.tres"
+		print("Living World Mod: Set fallback form for custom form: " + tape_snapshot.custom_form)
 	return tape_snapshot
 
-static func set_char_config(char_config:CharacterConfig, ranger_data, tape1=null, tape2=null, tape3=null, own_tapes:bool = true):
-	
-	tape1 = tape1 if tape1 != null else load("CustomRangerTapeConfig.gd").instance()
-	tape2 = tape2 if tape2 != null else load("CustomRangerRandomTapeConfig.gd").instance()
-	tape3 = tape3 if tape3 != null else load("CustomRangerRandomTapeConfig.gd").instance()
-	tape3 = tape3 if tape3 != null else load("CustomRangerRandomTapeConfig.gd").instance()
-	 
+static func set_char_config(char_config:CharacterConfig, ranger_data, tapes:Array = []):
+	var randomtapeconfig = preload("res://mods/LivingWorld/scripts/RandomTapeConfig.gd")
+
 	char_config.character_name = ranger_data.name
 	char_config.pronouns = ranger_data.pronouns
-	var char_stats:Character = Character.new()		
+	var char_stats:Character = Character.new()
 	if ranger_data.has("stats"):
 		if ranger_data["stats"] != null:
 			if ranger_data["stats"].size() > 0:
@@ -211,33 +207,28 @@ static func set_char_config(char_config:CharacterConfig, ranger_data, tape1=null
 	for key in ranger_data:
 		if str(key) == "tape"+str(index):
 			if ranger_data[key].favorite:
-				tape1.tape_snapshot = ranger_data[key]
+				tapes[index].tape_snapshot = get_custom_monster(ranger_data[key])
 				var snapshot = get_custom_monster(ranger_data[key])
 				var form = load(snapshot.form)
 				if form:
 					char_config.base_character.partner_signature_species = form
 			else:
-				tape2.monster_profile.push_back(ranger_data[key])
-				tape3.monster_profile.push_back(ranger_data[key])
-			index += 1 	
-	if not own_tapes:
-		char_config.add_child(tape1)
-		char_config.add_child(tape2)
-		char_config.add_child(tape3)	
+				tapes[index].tape_snapshot = get_custom_monster(ranger_data[key])
+			index += 1
 
 static func set_npc_appearance(npc:NPC, ranger_data):
 	var colors:Dictionary = ranger_data.human_colors if typeof(ranger_data.human_colors) == TYPE_DICTIONARY else JSON.parse(ranger_data.human_colors).result
 	var parts:Dictionary = ranger_data.human_part_names if typeof(ranger_data.human_part_names) == TYPE_DICTIONARY else JSON.parse(ranger_data.human_part_names).result
-	npc.set_sprite_colors(colors) 
+	npc.set_sprite_colors(colors)
 	npc.set_sprite_part_names(parts)
-	
+
 static func get_empty_recruit()->Dictionary:
 	var recruit:Dictionary = {"appearance":{}, "tapes":{}, "stats":{}, "filepath":""}
 	var parts = {}
 	var colors = {}
 	HumanLayersHelper.randomize_sprite(null, parts, colors)
-	recruit = {"name":"Trainee", 
-				"human_part_names":to_json(parts), 
+	recruit = {"name":"Trainee",
+				"human_part_names":to_json(parts),
 				"human_colors":to_json(colors),
 				"pronouns":2,
 				"introdialog":"Hello!",
@@ -248,5 +239,5 @@ static func get_empty_recruit()->Dictionary:
 				"tapes":{},
 				"stats":{},
 				"filepath":""}
-	
+
 	return recruit

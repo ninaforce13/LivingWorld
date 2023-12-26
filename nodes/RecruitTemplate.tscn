@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=2]
+[gd_scene load_steps=75 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/emoteplayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=2]
@@ -66,6 +66,10 @@
 [ext_resource path="res://nodes/actions/Cutscene.gd" type="Script" id=64]
 [ext_resource path="res://mods/LivingWorld/scripts/TalkingNPCDetector.gd" type="Script" id=65]
 [ext_resource path="res://mods/LivingWorld/actions/MessageDialogRandom.gd" type="Script" id=66]
+[ext_resource path="res://nodes/actions/MenuDialogAction.gd" type="Script" id=67]
+[ext_resource path="res://addons/misc_utils/actions/DecoratorAction.gd" type="Script" id=68]
+[ext_resource path="res://nodes/actions/BattleAction.gd" type="Script" id=69]
+[ext_resource path="res://mods/LivingWorld/scripts/BootlegDetector.gd" type="Script" id=70]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.9
@@ -221,8 +225,7 @@ remove_collision = true
 script = ExtResource( 5 )
 can_flee = false
 enable_ai_fusion = true
-suppress_exp = true
-transition = 4
+transition = 3
 
 [node name="CharacterConfig" type="Node" parent="EncounterConfig"]
 script = ExtResource( 6 )
@@ -253,15 +256,60 @@ human_colors/legs_color = -1
 human_colors/shoe_color = -1
 human_colors/skin_color = -1
 
-[node name="Tape" type="Node" parent="EncounterConfig/CharacterConfig"]
+[node name="Tape1" type="Node" parent="EncounterConfig/CharacterConfig"]
 script = ExtResource( 11 )
 spawn_profile = ExtResource( 24 )
+profile_evolution_rate = 0.0
+non_profile_rate = 0.0
 
 [node name="Tape2" type="Node" parent="EncounterConfig/CharacterConfig"]
 script = ExtResource( 11 )
 spawn_profile = ExtResource( 24 )
 
 [node name="Tape3" type="Node" parent="EncounterConfig/CharacterConfig"]
+script = ExtResource( 11 )
+spawn_profile = ExtResource( 24 )
+
+[node name="Tape4" type="Node" parent="EncounterConfig/CharacterConfig"]
+script = ExtResource( 11 )
+spawn_profile = ExtResource( 24 )
+
+[node name="Tape5" type="Node" parent="EncounterConfig/CharacterConfig"]
+script = ExtResource( 11 )
+spawn_profile = ExtResource( 24 )
+
+[node name="Sidekick" type="Node" parent="EncounterConfig"]
+script = ExtResource( 6 )
+character_name = "Ranger"
+level_scale_override_key = "monster_miniboss_smart"
+character_sfx = ExtResource( 12 )
+character_kind = 1
+human_colors = {
+"body_color_1": -1,
+"body_color_2": -1,
+"eye_color": -1,
+"face_accessory_color": -1,
+"favorite_color": -1,
+"hair_accessory_color": -1,
+"hair_color": -1,
+"legs_color": -1,
+"shoe_color": -1,
+"skin_color": -1
+}
+randomize_human_sprite = true
+ai = ExtResource( 26 )
+human_colors/body_color_1 = -1
+human_colors/body_color_2 = -1
+human_colors/eye_color = -1
+human_colors/face_accessory_color = -1
+human_colors/favorite_color = -1
+human_colors/hair_accessory_color = -1
+human_colors/hair_color = -1
+human_colors/legs_color = -1
+human_colors/shoe_color = -1
+human_colors/skin_color = -1
+
+[node name="Tape6" type="Node" parent="EncounterConfig/Sidekick"]
 script = ExtResource( 11 )
 spawn_profile = ExtResource( 24 )
 
@@ -626,10 +674,19 @@ collision_layer = 0
 collision_mask = 16384
 script = ExtResource( 61 )
 detection_cooldown = 60.0
-detection_chance = 0.1
+detection_chance = 1.0
 max_player_dist = 25.0
 
 [node name="CollisionShape" type="CollisionShape" parent="MonsterDetector"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+shape = SubResource( 5 )
+
+[node name="BootlegDetector" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 16384
+script = ExtResource( 70 )
+
+[node name="CollisionShape" type="CollisionShape" parent="BootlegDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 shape = SubResource( 5 )
 
@@ -657,13 +714,60 @@ script = ExtResource( 62 )
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 66 )
 title = "{pawn}"
-messages = [ "test 1", "test 2" ]
+close_after = false
 use_random = true
-message_array = [ [ "RECRUIT_IDLE_DIALOG_1" ], [ "RECRUIT_IDLE_DIALOG_2", "RECRUIT_IDLE_DIALOG_3" ], [ "RECRUIT_IDLE_DIALOG_4" ], [ "RECRUIT_IDLE_DIALOG_5" ], [ "RECRUIT_IDLE_DIALOG_6" ] ]
+message_array = [ [ "RECRUIT_IDLE_DIALOG_1" ], [ "RECRUIT_IDLE_DIALOG_2", "RECRUIT_IDLE_DIALOG_3" ], [ "RECRUIT_IDLE_DIALOG_4" ], [ "RECRUIT_IDLE_DIALOG_5" ], [ "RECRUIT_IDLE_DIALOG_6" ], [ "RECRUIT_IDLE_DIALOG_7" ] ]
+
+[node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
+script = ExtResource( 67 )
+menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3" ]
+default_option = 2
+always_succeed = true
+
+[node name="PartyInvite" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 68 )
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
+script = ExtResource( 66 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_MENU_INVITE_ACCEPT1" ], [ "RECRUIT_MENU_INVITE_ACCEPT2" ], [ "RECRUIT_MENU_INVITE_ACCEPT3" ] ]
+
+[node name="Challenge" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 68 )
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge"]
+script = ExtResource( 66 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_MENU_CHALLENGE_ACCEPT1" ], [ "RECRUIT_MENU_CHALLENGE_ACCEPT2" ], [ "RECRUIT_MENU_CHALLENGE_ACCEPT3" ] ]
+
+[node name="BattleAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge"]
+script = ExtResource( 69 )
+result_on_player_win = 1
+result_on_player_loss = 0
+result_on_flee = 0
+disable_fleeing = true
+
+[node name="MessageDialogAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge"]
+script = ExtResource( 66 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_CHALLENGE_WIN1" ], [ "RECRUIT_CHALLENGE_WIN2" ], [ "RECRUIT_CHALLENGE_WIN3" ] ]
+
+[node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 68 )
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Leave"]
+script = ExtResource( 66 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_MENU_GOODBYE1" ], [ "RECRUIT_MENU_GOODBYE2" ], [ "RECRUIT_MENU_GOODBYE3" ] ]
 
 [connection signal="screen_entered" from="VisibilityNotifier" to="." method="set_paused" binds= [ false ]]
 [connection signal="screen_exited" from="VisibilityNotifier" to="." method="set_paused" binds= [ true ]]
 [connection signal="engaging" from="RecruitData" to="RecruitBehavior" method="_on_RecruitData_engaging"]
 [connection signal="detected" from="MagnetDetector" to="RecruitBehavior" method="set_play_with_magnets"]
 [connection signal="detected" from="MonsterDetector" to="RecruitBehavior" method="_on_MonsterDetector_detected"]
+[connection signal="detected" from="BootlegDetector" to="RecruitBehavior" method="_on_BootlegDetector_detected"]
 [connection signal="detected" from="TalkingNPCDetector" to="RecruitBehavior" method="_on_TalkingNPCDetector_detected"]

@@ -83,3 +83,11 @@ func _on_TalkingNPCDetector_detected(detection):
 
 func _on_RecruitData_engaging():
 	set_state("Conversation")
+
+
+func _on_BootlegDetector_detected(detection):
+	if !is_interruptible(state_node):
+		return
+	var recruitdata = pawn.get_node("RecruitData")
+	recruitdata.engaged_target = detection
+	set_state("BootlegBehavior")

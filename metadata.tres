@@ -5,7 +5,7 @@
 
 [resource]
 script = ExtResource( 1 )
-id = "livingworldmod"
+id = "LivingWorldMod"
 name = "Living World"
 version_code = 0
 version_string = "1.0"

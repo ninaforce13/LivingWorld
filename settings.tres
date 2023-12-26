@@ -1,0 +1,12 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://mods/LivingWorld/scripts/LivingWorldSettings.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+population_level = 0
+participate_in_roguefusions = true
+use_magnetism = true
+use_emotes = true
+wandering_captains = false
+custom_recruit_rate = 1.0
