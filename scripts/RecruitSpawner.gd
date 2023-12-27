@@ -24,8 +24,8 @@ func _ready():
 	add_child(timer)
 	timer.connect("timeout", self, "_timed_spawn")
 	timer.start(spawn_period)
-#	WorldSystem.time.connect("time_skipped", self, "_on_time_skipped")
-#	WorldSystem.connect("suppress_spawns_changed", self, "_on_suppress_spawns_changed")
+	if !npcmanager.has_savedata():
+		npcmanager.initialize_savedata()
 #
 func _enter_tree():
 	_cull_freed_spawns()
@@ -64,10 +64,10 @@ func _try_spawn_attempt():
 	var npc = npcmanager.create_npc(self,self)
 	if npc.has_method("beam_in"):
 		npc.beam_in()
-	npc.global_transform.origin = global_pos + Vector3(0,100,0)
+	npc.global_transform.origin = global_pos + Vector3(0,20,0)
 	if npc is KinematicBody:
 		var orig_xform = npc.transform
-		var collision = npc.move_and_collide(Vector3(0, - 200, 0), false)
+		var collision = npc.move_and_collide(Vector3(0, - 100, 0), false)
 		if not collision:
 			npc.transform = orig_xform
 	if npc:

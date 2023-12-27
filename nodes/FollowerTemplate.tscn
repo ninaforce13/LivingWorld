@@ -1,0 +1,722 @@
+[gd_scene load_steps=60 format=2]
+
+[ext_resource path="res://sprites/monsters/world/carniviper.json" type="PackedScene" id=1]
+[ext_resource path="res://sprites/monsters/world/charlequin.json" type="PackedScene" id=2]
+[ext_resource path="res://sprites/monsters/world/jellyton.json" type="PackedScene" id=3]
+[ext_resource path="res://sprites/monsters/world/elfless.json" type="PackedScene" id=5]
+[ext_resource path="res://sprites/monsters/world/mascotoy.json" type="PackedScene" id=6]
+[ext_resource path="res://sprites/monsters/world/sanzatime.json" type="PackedScene" id=7]
+[ext_resource path="res://sprites/monsters/world/spooki-onna.json" type="PackedScene" id=8]
+[ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=9]
+[ext_resource path="res://sprites/monsters/world/bulletino.json" type="PackedScene" id=10]
+[ext_resource path="res://mods/LivingWorld/nodes/emoteplayer.tscn" type="PackedScene" id=11]
+[ext_resource path="res://sprites/monsters/world/dominoth.json" type="PackedScene" id=12]
+[ext_resource path="res://sprites/monsters/world/hauntome.json" type="PackedScene" id=13]
+[ext_resource path="res://sprites/monsters/world/icepeck.json" type="PackedScene" id=14]
+[ext_resource path="res://sprites/monsters/world/littlered.json" type="PackedScene" id=15]
+[ext_resource path="res://sprites/monsters/world/traffikrab.json" type="PackedScene" id=16]
+[ext_resource path="res://sprites/monsters/world/busheye.json" type="PackedScene" id=17]
+[ext_resource path="res://sprites/monsters/world/allseer.json" type="PackedScene" id=18]
+[ext_resource path="res://sprites/monsters/world/faucetear.json" type="PackedScene" id=20]
+[ext_resource path="res://sprites/monsters/world/kirikuri.json" type="PackedScene" id=21]
+[ext_resource path="res://sprites/monsters/world/cluckabilly.json" type="PackedScene" id=22]
+[ext_resource path="res://sprites/monsters/world/ferriclaw.json" type="PackedScene" id=23]
+[ext_resource path="res://sprites/monsters/world/masquerattle.json" type="PackedScene" id=24]
+[ext_resource path="res://sprites/monsters/world/diveal.json" type="PackedScene" id=25]
+[ext_resource path="res://sprites/monsters/world/minortom.json" type="PackedScene" id=26]
+[ext_resource path="res://sprites/monsters/world/amphare.json" type="PackedScene" id=27]
+[ext_resource path="res://sprites/monsters/world/nevermort.json" type="PackedScene" id=28]
+[ext_resource path="res://sprites/monsters/world/pawndead.json" type="PackedScene" id=29]
+[ext_resource path="res://sprites/monsters/world/pombomb.json" type="PackedScene" id=30]
+[ext_resource path="res://sprites/monsters/world/queenyx.json" type="PackedScene" id=31]
+[ext_resource path="res://sprites/monsters/world/puppercut.json" type="PackedScene" id=32]
+[ext_resource path="res://sprites/monsters/world/boltam.json" type="PackedScene" id=33]
+[ext_resource path="res://sprites/monsters/world/twirligig.json" type="PackedScene" id=34]
+[ext_resource path="res://sprites/monsters/world/springheel.json" type="PackedScene" id=35]
+[ext_resource path="res://sprites/monsters/world/terracooka.json" type="PackedScene" id=36]
+[ext_resource path="res://sprites/monsters/world/squirey.json" type="PackedScene" id=37]
+[ext_resource path="res://nodes/actions/MenuDialogAction.gd" type="Script" id=39]
+[ext_resource path="res://world/npc/SwimmingState.gd" type="Script" id=41]
+[ext_resource path="res://world/npc/PauseState.gd" type="Script" id=42]
+[ext_resource path="res://world/npc/DashingState.gd" type="Script" id=43]
+[ext_resource path="res://world/npc/WalkingState.gd" type="Script" id=44]
+[ext_resource path="res://world/npc/ClimbState.gd" type="Script" id=45]
+[ext_resource path="res://world/npc/IdleAnimationState.gd" type="Script" id=46]
+[ext_resource path="res://world/npc/AirState.gd" type="Script" id=47]
+[ext_resource path="res://nodes/encounter_config/EncounterConfig.gd" type="Script" id=48]
+[ext_resource path="res://nodes/sprite_container/SpriteContainer.gd" type="Script" id=49]
+[ext_resource path="res://nodes/layered_sprite/WorldHumanSprite3D.tscn" type="PackedScene" id=51]
+[ext_resource path="res://world/npc/FloorRay.gd" type="Script" id=52]
+[ext_resource path="res://addons/misc_utils/StateMachine.gd" type="Script" id=53]
+[ext_resource path="res://world/npc/Footsteps.tscn" type="PackedScene" id=54]
+[ext_resource path="res://world/core/Interaction.tscn" type="PackedScene" id=55]
+[ext_resource path="res://addons/misc_utils/actions/DecoratorAction.gd" type="Script" id=56]
+[ext_resource path="res://nodes/actions/values/GetPlayer.gd" type="Script" id=57]
+[ext_resource path="res://world/npc/Controls.gd" type="Script" id=58]
+[ext_resource path="res://nodes/actions/FaceTowardsAction.gd" type="Script" id=59]
+[ext_resource path="res://nodes/actions/Cutscene.gd" type="Script" id=60]
+[ext_resource path="res://mods/LivingWorld/actions/MessageDialogRandom.gd" type="Script" id=61]
+[ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=62]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.9
+height = 0.9
+
+[sub_resource type="CapsuleShape" id=17]
+radius = 0.991032
+height = 2.40243
+
+[node name="CustomTrainee" type="KinematicBody" groups=["trainees"]]
+collision_layer = 128
+collision_mask = 32785
+script = ExtResource( 62 )
+direction = Vector2( 0, 1 )
+sprite_colors = {
+"body_color_1": -1,
+"body_color_2": -1,
+"eye_color": -1,
+"face_accessory_color": -1,
+"favorite_color": -1,
+"hair_accessory_color": -1,
+"hair_color": -1,
+"legs_color": -1,
+"shoe_color": -1,
+"skin_color": -1
+}
+sprite_part_names = {
+"arms": "sweater1",
+"body": "sweater1",
+"hair": "short",
+"head": "generic",
+"legs": "generic",
+"wings": "generic"
+}
+human_colors/body_color_1 = -1
+human_colors/body_color_2 = -1
+human_colors/eye_color = -1
+human_colors/face_accessory_color = -1
+human_colors/favorite_color = -1
+human_colors/hair_accessory_color = -1
+human_colors/hair_color = -1
+human_colors/legs_color = -1
+human_colors/shoe_color = -1
+human_colors/skin_color = -1
+
+[node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
+aabb = AABB( -2, -1, -2, 4, 4.7, 4 )
+max_distance = 100.0
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.325, 0 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Spatial" parent="."]
+script = ExtResource( 49 )
+idle = "idle"
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="HumanSprite" parent="Sprite" instance=ExtResource( 51 )]
+
+[node name="EmotePlayer" parent="." instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.351, 0 )
+
+[node name="Interaction" parent="." instance=ExtResource( 55 )]
+pawn_path = NodePath("..")
+
+[node name="CollisionShape" type="CollisionShape" parent="Interaction"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.325, 0 )
+shape = SubResource( 17 )
+
+[node name="Footsteps" parent="." instance=ExtResource( 54 )]
+
+[node name="Controls" type="Node" parent="."]
+script = ExtResource( 58 )
+
+[node name="FloorRay" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+enabled = true
+cast_to = Vector3( 0, -5, 0 )
+collision_mask = 8193
+collide_with_areas = true
+script = ExtResource( 52 )
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 53 )
+default_state = "Walking"
+
+[node name="Walking" type="Node" parent="StateMachine"]
+script = ExtResource( 44 )
+
+[node name="Dashing" type="Node" parent="StateMachine"]
+script = ExtResource( 43 )
+
+[node name="Falling" type="Node" parent="StateMachine"]
+script = ExtResource( 47 )
+max_glide_speed = 8.0
+glide_acceleration = 48.0
+recovery_y_velocity_threshold = 32.0
+recovery_play_land_audio = true
+
+[node name="Climbing" type="Node" parent="StateMachine"]
+script = ExtResource( 45 )
+loop_animation = "climb"
+
+[node name="Gliding" type="Node" parent="StateMachine"]
+script = ExtResource( 47 )
+terminal_velocity = -5.0
+glide_acceleration = 48.0
+show_wings = true
+uses_stamina = true
+
+[node name="ForcedFlying" type="Node" parent="StateMachine"]
+script = ExtResource( 47 )
+terminal_velocity = -5.0
+glide_acceleration = 48.0
+show_wings = true
+enable_flight = true
+force_flight = true
+
+[node name="Recover" type="Node" parent="StateMachine"]
+script = ExtResource( 42 )
+animation = "land"
+
+[node name="DashingRecover" type="Node" parent="StateMachine"]
+script = ExtResource( 42 )
+animation = "land"
+
+[node name="Swimming" type="Node" parent="StateMachine"]
+script = ExtResource( 41 )
+uses_stamina = true
+loop_animation = "swim"
+
+[node name="Sitting" type="Node" parent="StateMachine"]
+script = ExtResource( 46 )
+
+[node name="Defeated" type="Node" parent="StateMachine"]
+script = ExtResource( 46 )
+animation_loop = "defeated"
+remove_collision = true
+
+[node name="Nothing" type="Node" parent="StateMachine"]
+
+[node name="EncounterConfig" type="Node" parent="."]
+script = ExtResource( 48 )
+can_flee = false
+enable_ai_fusion = true
+transition = 3
+
+[node name="RecruitData" parent="." instance=ExtResource( 9 )]
+
+[node name="MonsterForms" type="Spatial" parent="."]
+
+[node name="Traffikrab" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="MonsterSprite" parent="MonsterForms/Traffikrab" instance=ExtResource( 16 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Traffikrab"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Traffikrab/Node"]
+
+[node name="Diveal" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Diveal" instance=ExtResource( 25 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Diveal"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Diveal/Node"]
+
+[node name="Boltam" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Boltam" instance=ExtResource( 33 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Boltam"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Boltam/Node"]
+
+[node name="Allseer" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+render_priority = 1
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite2" parent="MonsterForms/Allseer" instance=ExtResource( 18 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Allseer"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Allseer/Node"]
+
+[node name="Amphare" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+emission_palette = [ Color( 0.996078, 0.960784, 0.466667, 1 ), Color( 0.976471, 0.796078, 0.203922, 1 ), Color( 0.780392, 0.541176, 0.0588235, 1 ) ]
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Amphare" instance=ExtResource( 27 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Amphare"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Amphare/Node"]
+
+[node name="Bulletino" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Bulletino" instance=ExtResource( 10 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Bulletino"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Bulletino/Node"]
+
+[node name="Carniviper" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Carniviper" instance=ExtResource( 1 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Carniviper"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Carniviper/Node"]
+
+[node name="Busheye" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Busheye" instance=ExtResource( 17 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Busheye"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Busheye/Node"]
+
+[node name="Charlequin" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Charlequin" instance=ExtResource( 2 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Charlequin"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Charlequin/Node"]
+
+[node name="Cluckabilly" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Cluckabilly" instance=ExtResource( 22 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Cluckabilly"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Cluckabilly/Node"]
+
+[node name="Dominoth" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Dominoth" instance=ExtResource( 12 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Dominoth"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Dominoth/Node"]
+
+[node name="Elfless" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Elfless" instance=ExtResource( 5 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Elfless"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Elfless/Node"]
+
+[node name="Faucetear" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Faucetear" instance=ExtResource( 20 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Faucetear"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Faucetear/Node"]
+
+[node name="Kirikuri" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Kirikuri" instance=ExtResource( 21 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Kirikuri"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Kirikuri/Node"]
+
+[node name="Ferriclaw" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+emission_palette = [ Color( 0.435294, 0.0862745, 0.145098, 1 ), Color( 0.694118, 0.12549, 0.192157, 1 ), Color( 0.913725, 0.258824, 0.247059, 1 ), Color( 1, 1, 1, 1 ) ]
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Ferriclaw" instance=ExtResource( 23 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Ferriclaw"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Ferriclaw/Node"]
+
+[node name="Hauntome" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+render_priority = 1
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Hauntome" instance=ExtResource( 13 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Hauntome"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Hauntome/Node"]
+
+[node name="Icepeck" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Icepeck" instance=ExtResource( 14 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Icepeck"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Icepeck/Node"]
+
+[node name="Jellyton" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Jellyton" instance=ExtResource( 3 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Jellyton"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Jellyton/Node"]
+
+[node name="Littlered" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Littlered" instance=ExtResource( 15 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Littlered"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Littlered/Node"]
+
+[node name="Mascotoy" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Mascotoy" instance=ExtResource( 6 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Mascotoy"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Mascotoy/Node"]
+
+[node name="Masquerattle" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Masquerattle" instance=ExtResource( 24 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Masquerattle"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Masquerattle/Node"]
+
+[node name="Minortom" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+emission_palette = [ Color( 1, 1, 1, 1 ), Color( 0.996078, 0.909804, 0.345098, 1 ), Color( 0.992157, 0.67451, 0.227451, 1 ) ]
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Minortom" instance=ExtResource( 26 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Minortom"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Minortom/Node"]
+
+[node name="Nevermort" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite2" parent="MonsterForms/Nevermort" instance=ExtResource( 28 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Nevermort"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Nevermort/Node"]
+
+[node name="Pawndead" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Pawndead" instance=ExtResource( 29 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Pawndead"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Pawndead/Node"]
+
+[node name="Pombomb" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Pombomb" instance=ExtResource( 30 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Pombomb"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Pombomb/Node"]
+
+[node name="Puppercut" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Puppercut" instance=ExtResource( 32 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Puppercut"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Puppercut/Node"]
+
+[node name="Queenyx" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Queenyx" instance=ExtResource( 31 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Queenyx"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Queenyx/Node"]
+
+[node name="Sanzatime" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Sanzatime" instance=ExtResource( 7 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Sanzatime"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Sanzatime/Node"]
+
+[node name="Spooki-oona" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+emission_palette = [ Color( 1, 1, 1, 1 ) ]
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Spooki-oona" instance=ExtResource( 8 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Spooki-oona"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Spooki-oona/Node"]
+
+[node name="Springheel" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Springheel" instance=ExtResource( 35 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Springheel"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Springheel/Node"]
+
+[node name="Squirey" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Squirey" instance=ExtResource( 37 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Squirey"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Squirey/Node"]
+
+[node name="Terracooka" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Terracooka" instance=ExtResource( 36 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Terracooka"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Terracooka/Node"]
+
+[node name="Twirligig" type="Spatial" parent="MonsterForms"]
+visible = false
+script = ExtResource( 49 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="MonsterForms/Twirligig" instance=ExtResource( 34 )]
+
+[node name="Node" type="Node" parent="MonsterForms/Twirligig"]
+
+[node name="Tween" type="Tween" parent="MonsterForms/Twirligig/Node"]
+
+[node name="InteractionBehavior" type="Node" parent="."]
+script = ExtResource( 60 )
+
+[node name="FaceTowardsAction" type="Node" parent="InteractionBehavior"]
+script = ExtResource( 59 )
+
+[node name="GetPlayer" type="Node" parent="InteractionBehavior/FaceTowardsAction"]
+script = ExtResource( 57 )
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior"]
+script = ExtResource( 61 )
+title = "{pawn}"
+close_after = false
+use_random = true
+message_array = [ [ "RECRUIT_IDLE_DIALOG_1" ], [ "RECRUIT_IDLE_DIALOG_2", "RECRUIT_IDLE_DIALOG_3" ], [ "RECRUIT_IDLE_DIALOG_4" ], [ "RECRUIT_IDLE_DIALOG_5" ], [ "RECRUIT_IDLE_DIALOG_6" ], [ "RECRUIT_IDLE_DIALOG_7" ] ]
+
+[node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
+script = ExtResource( 39 )
+menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION3" ]
+default_option = 2
+always_succeed = true
+
+[node name="Dismiss" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 56 )
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Dismiss"]
+script = ExtResource( 61 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_MENU_INVITE_ACCEPT1" ], [ "RECRUIT_MENU_INVITE_ACCEPT2" ], [ "RECRUIT_MENU_INVITE_ACCEPT3" ] ]
+
+[node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 56 )
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Leave"]
+script = ExtResource( 61 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_MENU_GOODBYE1" ], [ "RECRUIT_MENU_GOODBYE2" ], [ "RECRUIT_MENU_GOODBYE3" ] ]
+
+[connection signal="screen_entered" from="VisibilityNotifier" to="." method="set_paused" binds= [ false ]]
+[connection signal="screen_exited" from="VisibilityNotifier" to="." method="set_paused" binds= [ true ]]

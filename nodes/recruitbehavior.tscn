@@ -1101,6 +1101,34 @@ script = ExtResource( 11 )
 script = ExtResource( 9 )
 interruptible = false
 
+[node name="RepeatWhile2" type="Node" parent="BootlegBehavior"]
+script = ExtResource( 15 )
+
+[node name="FaceTowardsAction" type="Node" parent="BootlegBehavior/RepeatWhile2"]
+script = ExtResource( 4 )
+__meta__ = {
+"action_tree": true
+}
+
+[node name="GetEngagedTarget" type="Node" parent="BootlegBehavior/RepeatWhile2/FaceTowardsAction"]
+script = ExtResource( 56 )
+
+[node name="FollowAction" type="Node" parent="BootlegBehavior/RepeatWhile2"]
+script = ExtResource( 8 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 3.0
+
+[node name="GetEngagedTarget" type="Node" parent="BootlegBehavior/RepeatWhile2/FollowAction"]
+script = ExtResource( 56 )
+
 [node name="RepeatWhile" type="Node" parent="BootlegBehavior"]
 script = ExtResource( 15 )
 
@@ -1118,22 +1146,6 @@ __meta__ = {
 }
 
 [node name="GetEngagedTarget" type="Node" parent="BootlegBehavior/RepeatWhile/Sequence/FaceTowardsAction"]
-script = ExtResource( 56 )
-
-[node name="FollowAction" type="Node" parent="BootlegBehavior/RepeatWhile/Sequence"]
-script = ExtResource( 8 )
-__meta__ = {
-"action_tree": true
-}
-always_succeed = true
-can_fly = true
-can_jump = true
-can_fall = true
-can_glide = true
-can_wait = true
-min_distance = 3.0
-
-[node name="GetEngagedTarget" type="Node" parent="BootlegBehavior/RepeatWhile/Sequence/FollowAction"]
 script = ExtResource( 56 )
 
 [node name="WaitAction2" type="Node" parent="BootlegBehavior/RepeatWhile"]

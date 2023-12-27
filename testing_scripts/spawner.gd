@@ -14,6 +14,7 @@ export (float) var remove_below_y:float = - 10.0
 export (bool) var spawn_kinematics_on_floor:bool = true
 export (Resource) var spawn_profile:Resource setget set_spawn_profile
 export (bool) var ignore_visibility:bool = false
+export (bool) var backup_bootlegs = false
 
 var rand:Random
 var current_spawns:Array = []
@@ -152,8 +153,13 @@ func _try_spawn_attempt(config):
 			node.move_and_collide(Vector3(), false)
 	var object_data = preload("res://mods/LivingWorld/nodes/WildEncounterObjectData.tscn").instance()
 	node.add_child(object_data)
+	if backup_bootlegs:
+		var encounter = node.get_node("EncounterConfig")
+		if encounter.get_bootlegs().size() == 0:
+			var charconfig = encounter.get_child(encounter.get_child_count()-1)
+			var tape = charconfig.get_child(charconfig.get_child_count()-1)
+			tape.type_override = [BattleSetupUtil.random_type(Random.new())]
 	current_spawns.push_back(node)
-
 	return node
 func setup_recruit_spawner(node):
 		get_parent().add_child(node)

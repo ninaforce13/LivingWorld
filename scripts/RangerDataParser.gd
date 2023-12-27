@@ -169,6 +169,18 @@ static func monster_validation(tape_snapshot:Dictionary)->bool:
 	return tape.set_snapshot(tape_snapshot, 1)
 
 
+static func add_tapes_to_data(tapes:Array,snapshot:Dictionary):
+	var tape_fields:Array = ["tape0","tape1","tape2","tape3","tape4","tape5"]
+	var index:int = 0
+	for field in tape_fields:
+		if snapshot.has(field):
+			if index >= tapes.size():
+				break
+			snapshot[field] = tapes[index].get_snapshot()
+		index+=1
+	return snapshot
+
+
 static func get_custom_monster(tape_snapshot:Dictionary)->Dictionary:
 	if tape_snapshot.has("custom_form"):
 		if tape_snapshot.custom_form != "":
@@ -186,7 +198,6 @@ static func set_custom_monster(tape_snapshot:Dictionary)->Dictionary:
 	return tape_snapshot
 
 static func set_char_config(char_config:CharacterConfig, ranger_data, tapes:Array = []):
-	var randomtapeconfig = preload("res://mods/LivingWorld/scripts/RandomTapeConfig.gd")
 
 	char_config.character_name = ranger_data.name
 	char_config.pronouns = ranger_data.pronouns
@@ -206,7 +217,7 @@ static func set_char_config(char_config:CharacterConfig, ranger_data, tapes:Arra
 	var index:int = 0
 	for key in ranger_data:
 		if str(key) == "tape"+str(index):
-			if ranger_data[key].favorite:
+			if ranger_data[key].get("favorite"):
 				tapes[index].tape_snapshot = get_custom_monster(ranger_data[key])
 				var snapshot = get_custom_monster(ranger_data[key])
 				var form = load(snapshot.form)
@@ -236,7 +247,12 @@ static func get_empty_recruit()->Dictionary:
 				"biotext":"Random Recruit",
 				"recruiter":SaveState.party.player.name,
 				"recruiter_id":SaveState.get_ranger_id(),
-				"tapes":{},
+				"tape0":{},
+				"tape1":{},
+				"tape2":{},
+				"tape3":{},
+				"tape4":{},
+				"tape5":{},
 				"stats":{},
 				"filepath":""}
 

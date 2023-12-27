@@ -32,3 +32,6 @@ RECRUIT_MENU_CHALLENGE_ACCEPT3,"You'll go easy on me[pause], right?"
 RECRUIT_CHALLENGE_WIN1,That was more of a workout than I expected!
 RECRUIT_CHALLENGE_WIN2,I was still getting warmed up.
 RECRUIT_CHALLENGE_WIN3,"{player}, you really don't pull your punches do you?"
+RECRUIT_MENU_CHALLENGE_REJECT1,I'm still catching my breath from our last round! Maybe we can go again tomorrow?
+RECRUIT_MENU_CHALLENGE_REJECT2,Are you [wave amp=30 freq=10]trying[/wave] to humiliate me? Go pick on somebody else for a while.
+RECRUIT_MENU_CHALLENGE_REJECT3,"I don't think I can keep up with you, {player}. I need some time to rethink my strategy!"

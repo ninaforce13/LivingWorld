@@ -7,6 +7,10 @@ var engaged_target = null
 var conversation_partners:Array = []
 var engaged:bool = false setget set_engage
 var recruit
+var on_battle_cooldown:bool = false
+
+func _ready():
+	WorldSystem.time.connect("date_changed", self, "_on_date_changed")
 
 func set_engage(value):
 	engaged = value
@@ -42,4 +46,7 @@ func exit_conversation():
 
 func full_conversation()->bool:
 	return conversation_partners.size() >= max_partners
+
+func _on_date_changed():
+	on_battle_cooldown = false
 

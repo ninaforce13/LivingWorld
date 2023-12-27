@@ -8,13 +8,13 @@ func conditions_met()->bool:
 		setup()
 	if check_conditions(self):
 		var global_pos = get_pawn().global_transform.origin
-		for player in WorldSystem.get_players():		
+		for player in WorldSystem.get_players():
 			if global_pos.distance_to(player.global_transform.origin) < within_distance and not gifted:
 				gifted = true
 				return true
 			else:
-				return false		
+				return false
 	return check_conditions(self)
 
-			
-	
+
+

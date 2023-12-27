@@ -18,13 +18,13 @@ static func patch():
 		code_lines.remove(class_name_index)
 
 	var code_index = code_lines.find("	if SaveState.party.is_partner_unlocked(SaveState.party.current_partner_id):")
-#	if code_index > 0:
-#		code_lines.insert(code_index-1,get_code("respawn_recruit"))
+	if code_index > 0:
+		code_lines.insert(code_index-1,get_code("respawn_recruit"))
 
-#
-#	code_index = code_lines.find("	if warp_target:")
-#	if code_index > 0:
-#		code_lines.insert(code_index-1,get_code("warp_recruit"))
+
+	code_index = code_lines.find("	if warp_target:")
+	if code_index > 0:
+		code_lines.insert(code_index-1,get_code("warp_recruit"))
 
 
 	patched_script.source_code = ""
@@ -41,17 +41,17 @@ static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
 	code_blocks["warp_recruit"] = """
 
-	if npc_manager.has_active_follower() and !has_node("CustomTrainee"):
-		npc_manager.spawn_recruit(self, SaveState.other_data.follower.recruit)
-	if npc_manager.has_active_follower() and has_node("CustomTrainee"):
-		var custom_recruit = get_node("CustomTrainee")
+	if npc_manager.has_active_follower() and !has_node("FollowerRecruit"):
+		npc_manager.spawn_recruit(self, npc_manager.get_current_follower())
+	if npc_manager.has_active_follower() and has_node("FollowerRecruit"):
+		var custom_recruit = get_node("FollowerRecruit")
 		warp_entities.push_back(custom_recruit)
 	"""
 
 	code_blocks["respawn_recruit"] = """
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
-	if npc_manager.has_active_follower() and !has_node("CustomTrainee"):
-		npc_manager.spawn_recruit(self, SaveState.other_data.follower.recruit)
+	if npc_manager.has_active_follower() and !has_node("FollowerRecruit"):
+		npc_manager.spawn_recruit(self, npc_manager.get_current_follower())
 	"""
 
 

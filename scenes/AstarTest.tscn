@@ -9,11 +9,11 @@
 [ext_resource path="res://world/objects/grass/GrassParticles.tscn" type="PackedScene" id=7]
 [ext_resource path="res://world/objects/rigid_physics/LiftableCrate.tscn" type="PackedScene" id=8]
 [ext_resource path="res://world/objects/rigid_physics/LiftableRock2.tscn" type="PackedScene" id=9]
+[ext_resource path="res://data/monster_spawn_profiles/dungeon_glowshroom.tres" type="Resource" id=10]
 [ext_resource path="res://world/objects/rigid_physics/LiftableRock1.tscn" type="PackedScene" id=11]
 [ext_resource path="res://world/objects/grass/GrassFlowersParticles.tscn" type="PackedScene" id=12]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitSpawner.tscn" type="PackedScene" id=13]
 [ext_resource path="res://world/objects/grass/grass_emitter.shader" type="Shader" id=14]
-[ext_resource path="res://data/monster_spawn_profiles/deadlands.tres" type="Resource" id=15]
 
 [sub_resource type="CubeMesh" id=13]
 custom_aabb = AABB( -51, -8.5, -51, 102, 17, 102 )
@@ -122,15 +122,16 @@ initial_spawns = 3
 day_max_spawns = 3
 night_max_spawns = 3
 max_attempts = 5
-spawn_profile = ExtResource( 15 )
+spawn_profile = ExtResource( 10 )
 ignore_visibility = true
+backup_bootlegs = true
 
 [node name="RecruitSpawner" parent="." instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5682, 0, -2.38089 )
 aabb = AABB( -8.35238, 0, -7.20357, 16.7048, 2, 14.4071 )
 spawn_period = 1.0
-initial_spawns = 3
-day_max_spawns = 3
+initial_spawns = 10
+day_max_spawns = 10
 night_max_spawns = 3
 max_attempts = 10
 ignore_visibility = true

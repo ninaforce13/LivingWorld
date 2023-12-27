@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=2]
+[gd_scene load_steps=79 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/emoteplayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=2]
@@ -70,6 +70,10 @@
 [ext_resource path="res://addons/misc_utils/actions/DecoratorAction.gd" type="Script" id=68]
 [ext_resource path="res://nodes/actions/BattleAction.gd" type="Script" id=69]
 [ext_resource path="res://mods/LivingWorld/scripts/BootlegDetector.gd" type="Script" id=70]
+[ext_resource path="res://mods/LivingWorld/actions/SetBattleCooldown.gd" type="Script" id=71]
+[ext_resource path="res://mods/LivingWorld/actions/CheckBattleCooldown.gd" type="Script" id=72]
+[ext_resource path="res://mods/LivingWorld/actions/AddFollower.gd" type="Script" id=73]
+[ext_resource path="res://nodes/actions/RemoveNodeAction.gd" type="Script" id=74]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.9
@@ -674,7 +678,7 @@ collision_layer = 0
 collision_mask = 16384
 script = ExtResource( 61 )
 detection_cooldown = 60.0
-detection_chance = 1.0
+detection_chance = 0.25
 max_player_dist = 25.0
 
 [node name="CollisionShape" type="CollisionShape" parent="MonsterDetector"]
@@ -733,23 +737,49 @@ title = "{pawn}"
 use_random = true
 message_array = [ [ "RECRUIT_MENU_INVITE_ACCEPT1" ], [ "RECRUIT_MENU_INVITE_ACCEPT2" ], [ "RECRUIT_MENU_INVITE_ACCEPT3" ] ]
 
+[node name="AddToParty" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
+script = ExtResource( 73 )
+
+[node name="RemoveNodeAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
+script = ExtResource( 74 )
+animation = 0
+
 [node name="Challenge" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 68 )
 
-[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge"]
+[node name="IsResting" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge"]
+script = ExtResource( 72 )
+always_succeed = true
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsResting"]
+script = ExtResource( 66 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_MENU_CHALLENGE_REJECT1" ], [ "RECRUIT_MENU_CHALLENGE_REJECT2" ], [ "RECRUIT_MENU_CHALLENGE_REJECT3" ] ]
+
+[node name="IsReady" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge"]
+script = ExtResource( 72 )
+always_succeed = true
+invert = true
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
 script = ExtResource( 66 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "RECRUIT_MENU_CHALLENGE_ACCEPT1" ], [ "RECRUIT_MENU_CHALLENGE_ACCEPT2" ], [ "RECRUIT_MENU_CHALLENGE_ACCEPT3" ] ]
 
-[node name="BattleAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge"]
+[node name="BattleAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
 script = ExtResource( 69 )
 result_on_player_win = 1
 result_on_player_loss = 0
 result_on_flee = 0
 disable_fleeing = true
 
-[node name="MessageDialogAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge"]
+[node name="SetCooldownFlag" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 71 )
+value = true
+
+[node name="MessageDialogAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
 script = ExtResource( 66 )
 title = "{pawn}"
 use_random = true
