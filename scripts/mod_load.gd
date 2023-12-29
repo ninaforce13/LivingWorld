@@ -8,6 +8,8 @@ var battlebackground_patch = preload("battlebackground_patch.gd")
 var npcspawner = preload("res://mods/LivingWorld/scripts/Spawner_patch.gd")
 var roguefusions = preload("res://mods/LivingWorld/scripts/RogueFusions_patch.gd")
 var campsite = preload("res://mods/LivingWorld/scripts/Camping_patch.gd")
+var inventorydetail = preload("res://mods/LivingWorld/scripts/inventorydetail_patch.gd")
+var stickeritem_patch = preload("res://mods/LivingWorld/scripts/StickerItem_patch.gd")
 func _init():
 	add_debug_commands()
 	levelmap_patch.patch()
@@ -18,6 +20,8 @@ func _init():
 	npcspawner.patch()
 	campsite.patch()
 	roguefusions.patch()
+	inventorydetail.patch()
+	stickeritem_patch.patch()
 
 func clear_recruit_tracker():
 	recruit_tracker.clear()

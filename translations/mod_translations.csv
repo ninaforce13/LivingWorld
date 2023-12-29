@@ -16,7 +16,8 @@ RECRUIT_IDLE_DIALOG_14,
 RECRUIT_PASSIVE_ROGUE,There's been another rogue sighting![pause][pause] We need all available rangers!
 RECRUIT_MENU_OPTION1,Invite {pawn} to hang out.
 RECRUIT_MENU_OPTION2,Challenge {pawn} to a friendly battle.
-RECRUIT_MENU_OPTION3,Good Bye!
+RECRUIT_MENU_OPTION3,Trade stickers with {pawn}.
+RECRUIT_MENU_OPTION4,Goodbye!
 RECRUIT_MENU_INVITE_ACCEPT1,"Sure, I've got some free time!"
 RECRUIT_MENU_INVITE_ACCEPT2,"I guess I can lend a hand, if you [wave amp=30 freq=10]really[/wave] need it."
 RECRUIT_MENU_INVITE_ACCEPT3,"We're not doing anything too dangerous[pause], are we?"
@@ -35,3 +36,31 @@ RECRUIT_CHALLENGE_WIN3,"{player}, you really don't pull your punches do you?"
 RECRUIT_MENU_CHALLENGE_REJECT1,I'm still catching my breath from our last round! Maybe we can go again tomorrow?
 RECRUIT_MENU_CHALLENGE_REJECT2,Are you [wave amp=30 freq=10]trying[/wave] to humiliate me? Go pick on somebody else for a while.
 RECRUIT_MENU_CHALLENGE_REJECT3,"I don't think I can keep up with you, {player}. I need some time to rethink my strategy!"
+FOLLOWER_IDLE_DIALOG1,"Hey {player}, need something?"
+FOLLOWER_IDLE_DIALOG2,You and {partner} seem like a great team. I hope I can find somebody like that!
+FOLLOWER_IDLE_DIALOG3,I heard some weird stuff happens here in {region_name}. Maybe we can wrap up and go hang out at the Café?
+FOLLOWER_IDLE_DIALOG4,How long have you been using that {first_tape_name} tape? We should go record one for me to try out!
+FOLLOWER_IDLE_DIALOG5,How's it going?
+FOLLOWER_IDLE_DIALOG6,I'm so pumped! What's next?
+FOLLOWER_MENU_OPTION1,Dismiss {pawn}
+FOLLOWER_MENU_OPTION2,Nevermind
+FOLLOWER_DISMISSED1,"Darn, things were just starting to get interesting!"
+FOLLOWER_DISMISSED2,"Oh, alright. I'll go work on my sticker collection then."
+FOLLOWER_DISMISSED3,"Done already? Alright, I'll see you around then!"
+RECRUIT_TRADE_OFFER1,I really need [color=#{request_rarity}][{trade_request}][/color] to complete my newest strategy. I'm willing to offer [color=#{offer_rarity}][{trade_offer}][/color] in exchange!
+RECRUIT_TRADE_OFFER2,I've been looking everywhere for [color=#{request_rarity}][{trade_request}][/color]! If you're interested I'll trade [color=#{offer_rarity}][{trade_offer}][/color] for it.
+RECRUIT_TRADE_OFFER3,"If you've got any spare [color=#{request_rarity}][{trade_request}][/color] stickers laying around, I'll gladly give you my [color=#{offer_rarity}][{trade_offer}][/color] for it."
+RECRUIT_TRADE_OFFER4,"[color=#{request_rarity}][{trade_request}][/color] is the missing piece to my perfect winning strategy! You can have [color=#{offer_rarity}][{trade_offer}][/color] for it, if you promise not to tell anybody about my amazing setup!"
+RECRUIT_TRADE_OFFER5,Would you be willing to trade [color=#{request_rarity}][{trade_request}][/color] for my [color=#{offer_rarity}][{trade_offer}][/color] sticker?
+RECRUIT_TRADE_ACCEPTED1,"Finally, this [color=#{request_rarity}]{trade_request}[/color] sticker will make me invincible!"
+RECRUIT_TRADE_ACCEPTED2,Thanks! I hope [color=#{offer_rarity}][{trade_offer}][/color] is useful to you!
+RECRUIT_TRADE_ACCEPTED3,What a steal! I would have gladly traded [wave amp=30 freq=10]two[/wave] [color=#{offer_rarity}][{trade_offer}][/color] stickers!
+RECRUIT_TRADE_REJECTED1,What kind of fool do you take me for? That's not [color=#{request_rarity}][{trade_request}][/color]!
+RECRUIT_TRADE_REJECTED2,If you didn't have [color=#{request_rarity}][{trade_request}][/color] all you had to do was say so…
+RECRUIT_TRADE_REJECTED3,What am I supposed to do with this? I really needed [color=#{request_rarity}][{trade_request}][/color] to complete my collection!
+RECRUIT_TRADE_MENU_OPTION1,"Sure, here you go!"
+RECRUIT_TRADE_MENU_OPTION2,No way!
+RECRUIT_TRADE_CANCEL1,Dang it! Now what am I going to do?!
+RECRUIT_TRADE_CANCEL2,"Oh, okay. Thanks for considering it."
+RECRUIT_TRADE_CANCEL3,I guess I'll have to keep checking the sticker merchants…
+TRADE_STICKER_UI_USE,Trade Sticker

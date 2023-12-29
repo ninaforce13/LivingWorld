@@ -1,8 +1,9 @@
-[gd_scene load_steps=60 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://sprites/monsters/world/carniviper.json" type="PackedScene" id=1]
 [ext_resource path="res://sprites/monsters/world/charlequin.json" type="PackedScene" id=2]
 [ext_resource path="res://sprites/monsters/world/jellyton.json" type="PackedScene" id=3]
+[ext_resource path="res://nodes/actions/RemoveNodeAction.gd" type="Script" id=4]
 [ext_resource path="res://sprites/monsters/world/elfless.json" type="PackedScene" id=5]
 [ext_resource path="res://sprites/monsters/world/mascotoy.json" type="PackedScene" id=6]
 [ext_resource path="res://sprites/monsters/world/sanzatime.json" type="PackedScene" id=7]
@@ -17,6 +18,7 @@
 [ext_resource path="res://sprites/monsters/world/traffikrab.json" type="PackedScene" id=16]
 [ext_resource path="res://sprites/monsters/world/busheye.json" type="PackedScene" id=17]
 [ext_resource path="res://sprites/monsters/world/allseer.json" type="PackedScene" id=18]
+[ext_resource path="res://mods/LivingWorld/actions/RemoveFollower.gd" type="Script" id=19]
 [ext_resource path="res://sprites/monsters/world/faucetear.json" type="PackedScene" id=20]
 [ext_resource path="res://sprites/monsters/world/kirikuri.json" type="PackedScene" id=21]
 [ext_resource path="res://sprites/monsters/world/cluckabilly.json" type="PackedScene" id=22]
@@ -690,14 +692,15 @@ script = ExtResource( 57 )
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 61 )
 title = "{pawn}"
+wait_for_confirm = false
 close_after = false
 use_random = true
-message_array = [ [ "RECRUIT_IDLE_DIALOG_1" ], [ "RECRUIT_IDLE_DIALOG_2", "RECRUIT_IDLE_DIALOG_3" ], [ "RECRUIT_IDLE_DIALOG_4" ], [ "RECRUIT_IDLE_DIALOG_5" ], [ "RECRUIT_IDLE_DIALOG_6" ], [ "RECRUIT_IDLE_DIALOG_7" ] ]
+message_array = [ [ "FOLLOWER_IDLE_DIALOG1" ], [ "FOLLOWER_IDLE_DIALOG2" ], [ "FOLLOWER_IDLE_DIALOG3" ], [ "FOLLOWER_IDLE_DIALOG4" ], [ "FOLLOWER_IDLE_DIALOG5" ], [ "FOLLOWER_IDLE_DIALOG6" ] ]
 
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 39 )
-menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION3" ]
-default_option = 2
+menu_options = [ "FOLLOWER_MENU_OPTION1", "FOLLOWER_MENU_OPTION2" ]
+default_option = 1
 always_succeed = true
 
 [node name="Dismiss" type="Node" parent="InteractionBehavior/MenuDialogAction"]
@@ -707,16 +710,14 @@ script = ExtResource( 56 )
 script = ExtResource( 61 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_MENU_INVITE_ACCEPT1" ], [ "RECRUIT_MENU_INVITE_ACCEPT2" ], [ "RECRUIT_MENU_INVITE_ACCEPT3" ] ]
+message_array = [ [ "FOLLOWER_DISMISSED1" ], [ "FOLLOWER_DISMISSED2" ], [ "FOLLOWER_DISMISSED3" ] ]
 
-[node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
-script = ExtResource( 56 )
+[node name="RemoveFromParty" type="Node" parent="InteractionBehavior/MenuDialogAction/Dismiss"]
+script = ExtResource( 19 )
 
-[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Leave"]
-script = ExtResource( 61 )
-title = "{pawn}"
-use_random = true
-message_array = [ [ "RECRUIT_MENU_GOODBYE1" ], [ "RECRUIT_MENU_GOODBYE2" ], [ "RECRUIT_MENU_GOODBYE3" ] ]
+[node name="RemoveNodeAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Dismiss"]
+script = ExtResource( 4 )
+animation = 0
 
 [connection signal="screen_entered" from="VisibilityNotifier" to="." method="set_paused" binds= [ false ]]
 [connection signal="screen_exited" from="VisibilityNotifier" to="." method="set_paused" binds= [ true ]]

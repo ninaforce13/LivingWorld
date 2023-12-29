@@ -1,0 +1,401 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://ui/fonts/regular/regular_30.tres" type="DynamicFont" id=1]
+[ext_resource path="res://menus/menu_bg_fade.shader" type="Shader" id=2]
+[ext_resource path="res://menus/inventory/InventoryDetailPanel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://menus/inventory/InventoryTab.tscn" type="PackedScene" id=4]
+[ext_resource path="res://menus/BaseMenu.tscn" type="PackedScene" id=5]
+[ext_resource path="res://menus/inventory/InventoryMenu.gd" type="Script" id=6]
+[ext_resource path="res://addons/misc_utils/OverscanMarginContainer.gd" type="Script" id=10]
+[ext_resource path="res://nodes/menus/InputMappedButton.gd" type="Script" id=14]
+[ext_resource path="res://menus/BackButtonPanel.tscn" type="PackedScene" id=15]
+[ext_resource path="res://ui/inventory/inventory_cog_2.png" type="Texture" id=18]
+[ext_resource path="res://ui/inventory/inventory_cog_1.png" type="Texture" id=19]
+[ext_resource path="res://ui/inventory/bag_bottom.png" type="Texture" id=20]
+[ext_resource path="res://ui/inventory/bag_top.png" type="Texture" id=21]
+[ext_resource path="res://ui/inventory/bag_middle.png" type="Texture" id=22]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 2 )
+shader_param/progress = 0.0
+shader_param/max_alpha = 1.0
+shader_param/base_color = Color( 0.1686, 0.1098, 0.2235, 1 )
+shader_param/hi_color = Color( 0.6706, 0.4588, 0.9098, 0.0625 )
+
+[sub_resource type="Animation" id=7]
+resource_name = "default"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Blur:material:shader_param/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Blur:material:shader_param/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Scroller:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Scroller:margin_top")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 540, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Scroller:margin_bottom")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 540, 0.0 ]
+}
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+content_margin_left = 5.0
+content_margin_right = 5.0
+
+[sub_resource type="StyleBoxEmpty" id=4]
+content_margin_top = 44.0
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=6]
+
+[node name="InventoryMenu" instance=ExtResource( 5 )]
+script = ExtResource( 6 )
+inventory_path = NodePath("/root/SaveState/Inventory")
+immediate_item_use = true
+tab_filter = [  ]
+
+[node name="Blur" parent="." index="0"]
+material = SubResource( 1 )
+
+[node name="AnimationPlayer" parent="." index="1"]
+anims/default = SubResource( 7 )
+anims/show = SubResource( 8 )
+
+[node name="CogTween" type="Tween" parent="." index="2"]
+
+[node name="CogShadow" type="TextureRect" parent="Scroller" index="0"]
+margin_left = 172.0
+margin_top = 862.0
+margin_right = 648.0
+margin_bottom = 1339.0
+rect_pivot_offset = Vector2( 238, 238 )
+texture = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cog" type="TextureRect" parent="Scroller" index="1"]
+margin_left = 192.0
+margin_top = 842.0
+margin_right = 668.0
+margin_bottom = 1319.0
+rect_pivot_offset = Vector2( 238, 238 )
+texture = ExtResource( 19 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OverscanMarginContainer" parent="Scroller" index="2"]
+custom_constants/margin_top = 0
+custom_constants/margin_bottom = 0
+vertical_margin = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer" index="0"]
+margin_left = 172.0
+margin_right = 1748.0
+margin_bottom = 1080.0
+custom_constants/separation = 32
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OverscanMarginContainer" type="MarginContainer" parent="Scroller/OverscanMarginContainer/HBoxContainer" index="0"]
+margin_right = 684.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+custom_constants/margin_right = 0
+custom_constants/margin_top = 97
+custom_constants/margin_left = 0
+custom_constants/margin_bottom = 97
+script = ExtResource( 10 )
+horizontal_margin = false
+
+[node name="DetailPanel" parent="Scroller/OverscanMarginContainer/HBoxContainer/OverscanMarginContainer" index="0" instance=ExtResource( 3 )]
+margin_top = 97.0
+margin_right = 684.0
+margin_bottom = 983.0
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="Scroller/OverscanMarginContainer/HBoxContainer" index="1"]
+margin_left = 716.0
+margin_right = 1576.0
+margin_bottom = 1080.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+custom_styles/panel = SubResource( 2 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Scroller/OverscanMarginContainer/HBoxContainer/PanelContainer" index="0"]
+margin_right = 860.0
+margin_bottom = 1080.0
+custom_constants/separation = 0
+
+[node name="TextureRect" type="TextureRect" parent="Scroller/OverscanMarginContainer/HBoxContainer/PanelContainer/VBoxContainer" index="0"]
+margin_right = 860.0
+margin_bottom = 366.0
+texture = ExtResource( 21 )
+
+[node name="TextureRect2" type="TextureRect" parent="Scroller/OverscanMarginContainer/HBoxContainer/PanelContainer/VBoxContainer" index="1"]
+margin_top = 366.0
+margin_right = 860.0
+margin_bottom = 964.0
+size_flags_vertical = 3
+texture = ExtResource( 22 )
+expand = true
+
+[node name="TextureRect3" type="TextureRect" parent="Scroller/OverscanMarginContainer/HBoxContainer/PanelContainer/VBoxContainer" index="2"]
+margin_top = 964.0
+margin_right = 860.0
+margin_bottom = 1080.0
+texture = ExtResource( 20 )
+
+[node name="MarginContainer" type="MarginContainer" parent="Scroller/OverscanMarginContainer/HBoxContainer/PanelContainer" index="1"]
+margin_right = 860.0
+margin_bottom = 1080.0
+custom_constants/margin_top = 128
+custom_constants/margin_left = 18
+custom_constants/margin_bottom = 50
+
+[node name="InventoryTabs" type="TabContainer" parent="Scroller/OverscanMarginContainer/HBoxContainer/PanelContainer/MarginContainer" index="0"]
+margin_left = 18.0
+margin_top = 128.0
+margin_right = 860.0
+margin_bottom = 1030.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_colors/font_color_fg = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 1 )
+custom_styles/tab_fg = SubResource( 3 )
+custom_styles/tab_disabled = SubResource( 3 )
+custom_styles/tab_bg = SubResource( 3 )
+custom_styles/panel = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExampleTab1" parent="Scroller/OverscanMarginContainer/HBoxContainer/PanelContainer/MarginContainer/InventoryTabs" index="0" instance=ExtResource( 4 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 74.0
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="ExampleTab2" parent="Scroller/OverscanMarginContainer/HBoxContainer/PanelContainer/MarginContainer/InventoryTabs" index="1" instance=ExtResource( 4 )]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 74.0
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Scroller/OverscanMarginContainer/HBoxContainer/PanelContainer/MarginContainer" index="1"]
+margin_left = 18.0
+margin_top = 128.0
+margin_right = 860.0
+margin_bottom = 210.0
+mouse_filter = 2
+size_flags_vertical = 0
+custom_constants/margin_right = 95
+custom_constants/margin_top = 10
+custom_constants/margin_left = 95
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/HBoxContainer/PanelContainer/MarginContainer/MarginContainer" index="0"]
+margin_left = 95.0
+margin_top = 10.0
+margin_right = 747.0
+margin_bottom = 82.0
+mouse_filter = 2
+size_flags_vertical = 0
+
+[node name="TabLeftButton" type="Button" parent="Scroller/OverscanMarginContainer/HBoxContainer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer" index="0"]
+margin_right = 72.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 72, 72 )
+size_flags_horizontal = 2
+custom_constants/hseparation = 2
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/focus = SubResource( 5 )
+custom_styles/disabled = SubResource( 5 )
+custom_styles/normal = SubResource( 5 )
+expand_icon = true
+script = ExtResource( 14 )
+action = "ui_page_up"
+icon_set_suffix = "white"
+
+[node name="TabRightButton" type="Button" parent="Scroller/OverscanMarginContainer/HBoxContainer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer" index="1"]
+margin_left = 580.0
+margin_right = 652.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 72, 72 )
+size_flags_horizontal = 10
+custom_constants/hseparation = 2
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/focus = SubResource( 5 )
+custom_styles/disabled = SubResource( 5 )
+custom_styles/normal = SubResource( 5 )
+expand_icon = true
+script = ExtResource( 14 )
+action = "ui_page_down"
+icon_set_suffix = "white"
+
+[node name="BackButtonPanel" parent="." index="4" instance=ExtResource( 15 )]
+margin_left = -795.0
+margin_top = -62.0
+
+[node name="HBoxContainer" parent="BackButtonPanel" index="0"]
+margin_right = 1534.0
+
+[node name="BulkRecycleButton" type="Button" parent="BackButtonPanel/HBoxContainer" index="0"]
+margin_right = 422.0
+margin_bottom = 52.0
+size_flags_vertical = 8
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 6 )
+custom_styles/disabled = SubResource( 6 )
+custom_styles/normal = SubResource( 6 )
+text = "UI_INVENTORY_BULK_RECYCLE"
+flat = true
+align = 0
+expand_icon = true
+script = ExtResource( 14 )
+action = "ui_action_3"
+
+[node name="SortButton" type="Button" parent="BackButtonPanel/HBoxContainer" index="1"]
+margin_left = 486.0
+margin_right = 772.0
+margin_bottom = 52.0
+size_flags_vertical = 8
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 6 )
+custom_styles/disabled = SubResource( 6 )
+custom_styles/normal = SubResource( 6 )
+text = "UI_INVENTORY_SORT"
+flat = true
+align = 0
+expand_icon = true
+script = ExtResource( 14 )
+action = "ui_action_1"
+hide_if_disabled = true
+
+[node name="FilterButton" type="Button" parent="BackButtonPanel/HBoxContainer" index="2"]
+margin_left = 836.0
+margin_right = 1142.0
+margin_bottom = 52.0
+size_flags_vertical = 8
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 6 )
+custom_styles/disabled = SubResource( 6 )
+custom_styles/normal = SubResource( 6 )
+text = "UI_INVENTORY_FILTER"
+flat = true
+align = 0
+expand_icon = true
+script = ExtResource( 14 )
+action = "ui_action_2"
+
+[node name="RecycleButton" type="Button" parent="BackButtonPanel/HBoxContainer" index="3"]
+visible = false
+margin_left = 700.0
+margin_right = 1129.0
+margin_bottom = 52.0
+focus_mode = 0
+size_flags_vertical = 8
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 6 )
+custom_styles/disabled = SubResource( 6 )
+custom_styles/normal = SubResource( 6 )
+disabled = true
+text = "ITEM_DISCARD_MODE_RECYCLE"
+flat = true
+align = 0
+expand_icon = true
+script = ExtResource( 14 )
+action = "ui_accept"
+detect_action = false
+
+[node name="BackButton" parent="BackButtonPanel/HBoxContainer" index="4"]
+margin_left = 1206.0
+margin_right = 1450.0
+focus_mode = 2
+
+[node name="MouseBlocker" type="Control" parent="." index="5"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[connection signal="block_mouse" from="Scroller/OverscanMarginContainer/HBoxContainer/OverscanMarginContainer/DetailPanel" to="." method="_on_DetailPanel_block_mouse"]
+[connection signal="canceled" from="Scroller/OverscanMarginContainer/HBoxContainer/OverscanMarginContainer/DetailPanel" to="." method="_on_DetailPanel_canceled"]
+[connection signal="entering_recycle_mode" from="Scroller/OverscanMarginContainer/HBoxContainer/OverscanMarginContainer/DetailPanel" to="." method="_on_DetailPanel_entering_recycle_mode"]
+[connection signal="exiting_recycle_mode" from="Scroller/OverscanMarginContainer/HBoxContainer/OverscanMarginContainer/DetailPanel" to="." method="_on_DetailPanel_exiting_recycle_mode"]
+[connection signal="item_discarded" from="Scroller/OverscanMarginContainer/HBoxContainer/OverscanMarginContainer/DetailPanel" to="." method="_on_item_discarded"]
+[connection signal="item_used" from="Scroller/OverscanMarginContainer/HBoxContainer/OverscanMarginContainer/DetailPanel" to="." method="_on_item_used"]
+[connection signal="unblock_mouse" from="Scroller/OverscanMarginContainer/HBoxContainer/OverscanMarginContainer/DetailPanel" to="." method="_on_DetailPanel_unblock_mouse"]
+[connection signal="tab_changed" from="Scroller/OverscanMarginContainer/HBoxContainer/PanelContainer/MarginContainer/InventoryTabs" to="." method="_on_InventoryTabs_tab_changed"]
+[connection signal="pressed" from="Scroller/OverscanMarginContainer/HBoxContainer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer/TabLeftButton" to="." method="_on_TabLeftButton_pressed"]
+[connection signal="pressed" from="Scroller/OverscanMarginContainer/HBoxContainer/PanelContainer/MarginContainer/MarginContainer/HBoxContainer/TabRightButton" to="." method="_on_TabRightButton_pressed"]
+[connection signal="pressed" from="BackButtonPanel/HBoxContainer/BulkRecycleButton" to="." method="_on_BulkRecycleButton_pressed"]
+[connection signal="pressed" from="BackButtonPanel/HBoxContainer/SortButton" to="." method="_on_SortButton_pressed"]
+[connection signal="pressed" from="BackButtonPanel/HBoxContainer/FilterButton" to="." method="_on_FilterButton_pressed"]
+[connection signal="pressed" from="BackButtonPanel/HBoxContainer/RecycleButton" to="." method="_on_RecycleButton_pressed"]
+
+[editable path="BackButtonPanel"]

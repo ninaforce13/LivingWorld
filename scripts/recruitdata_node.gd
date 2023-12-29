@@ -2,15 +2,31 @@ extends Node
 
 signal engaging
 const max_partners = 2
+const trade_generator = preload("res://mods/LivingWorld/scripts/StickerTradeGenerator.gd")
 var follow_target = null
 var engaged_target = null
 var conversation_partners:Array = []
 var engaged:bool = false setget set_engage
 var recruit
 var on_battle_cooldown:bool = false
+var trade_offer = null
 
 func _ready():
 	WorldSystem.time.connect("date_changed", self, "_on_date_changed")
+	WorldSystem.time.connect("date_changed", self, "generate_trade")
+	generate_trade()
+
+func generate_trade():
+	trade_offer = trade_generator.generate()
+	add_child(trade_offer)
+	trade_offer.connect("trade_completed",self,"remove_trade",[trade_offer])
+
+func remove_trade(trade_offer):
+	remove_child(trade_offer)
+	trade_offer.queue_free()
+
+func has_trade_offer()->bool:
+	return trade_offer != null and is_instance_valid(trade_offer)
 
 func set_engage(value):
 	engaged = value

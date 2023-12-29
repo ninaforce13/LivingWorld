@@ -1,0 +1,32 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://ui/battle_theme.tres" type="Theme" id=1]
+[ext_resource path="res://global/save_state/ItemNode.gd" type="Script" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[sub_resource type="StyleBoxEmpty" id=4]
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[node name="Node" type="Button"]
+margin_right = 1200.0
+margin_bottom = 58.0
+rect_min_size = Vector2( 600, 0 )
+theme = ExtResource( 1 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+shortcut_in_tooltip = false
+flat = true
+align = 0
+expand_icon = true
+
+[node name="ItemNode" type="Node" parent="."]
+script = ExtResource( 2 )

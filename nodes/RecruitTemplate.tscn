@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=2]
+[gd_scene load_steps=83 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/emoteplayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=2]
@@ -70,10 +70,14 @@
 [ext_resource path="res://addons/misc_utils/actions/DecoratorAction.gd" type="Script" id=68]
 [ext_resource path="res://nodes/actions/BattleAction.gd" type="Script" id=69]
 [ext_resource path="res://mods/LivingWorld/scripts/BootlegDetector.gd" type="Script" id=70]
-[ext_resource path="res://mods/LivingWorld/actions/SetBattleCooldown.gd" type="Script" id=71]
+[ext_resource path="res://mods/LivingWorld/actions/SetTradeBB.gd" type="Script" id=71]
 [ext_resource path="res://mods/LivingWorld/actions/CheckBattleCooldown.gd" type="Script" id=72]
 [ext_resource path="res://mods/LivingWorld/actions/AddFollower.gd" type="Script" id=73]
 [ext_resource path="res://nodes/actions/RemoveNodeAction.gd" type="Script" id=74]
+[ext_resource path="res://mods/LivingWorld/actions/MessageTradeDialog.gd" type="Script" id=75]
+[ext_resource path="res://mods/LivingWorld/actions/SetBattleCooldown.gd" type="Script" id=76]
+[ext_resource path="res://mods/LivingWorld/actions/ChooseSticker.gd" type="Script" id=77]
+[ext_resource path="res://nodes/actions/CheckConditionAction.gd" type="Script" id=79]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.9
@@ -709,6 +713,12 @@ shape = SubResource( 5 )
 [node name="InteractionBehavior" type="Node" parent="."]
 script = ExtResource( 64 )
 
+[node name="SetTradeBB" type="Node" parent="InteractionBehavior"]
+script = ExtResource( 71 )
+__meta__ = {
+"_editor_description_": "Checks RecruitData node for existing trade offer and sets the \"has_trade\" blackboard key with that boolean value"
+}
+
 [node name="FaceTowardsAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 63 )
 
@@ -718,18 +728,19 @@ script = ExtResource( 62 )
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 66 )
 title = "{pawn}"
+wait_for_confirm = false
 close_after = false
 use_random = true
 message_array = [ [ "RECRUIT_IDLE_DIALOG_1" ], [ "RECRUIT_IDLE_DIALOG_2", "RECRUIT_IDLE_DIALOG_3" ], [ "RECRUIT_IDLE_DIALOG_4" ], [ "RECRUIT_IDLE_DIALOG_5" ], [ "RECRUIT_IDLE_DIALOG_6" ], [ "RECRUIT_IDLE_DIALOG_7" ] ]
 
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 67 )
-menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3" ]
-default_option = 2
+menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3", "RECRUIT_MENU_OPTION4" ]
+default_option = 3
 always_succeed = true
 
 [node name="PartyInvite" type="Node" parent="InteractionBehavior/MenuDialogAction"]
-script = ExtResource( 68 )
+script = ExtResource( 79 )
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
 script = ExtResource( 66 )
@@ -776,7 +787,7 @@ result_on_flee = 0
 disable_fleeing = true
 
 [node name="SetCooldownFlag" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
-script = ExtResource( 71 )
+script = ExtResource( 76 )
 value = true
 
 [node name="MessageDialogAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
@@ -784,6 +795,71 @@ script = ExtResource( 66 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "RECRUIT_CHALLENGE_WIN1" ], [ "RECRUIT_CHALLENGE_WIN2" ], [ "RECRUIT_CHALLENGE_WIN3" ] ]
+
+[node name="Trade" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 79 )
+require_blackboard_values = {
+"has_trade": true
+}
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade"]
+script = ExtResource( 75 )
+title = "{pawn}"
+messages = [ "RECRUIT_TRADE_OFFER" ]
+wait_for_confirm = false
+close_after = false
+substitute_blackboard_keys = [ "trade_offer", "trade_request", "request_rarity", "offer_rarity" ]
+use_random = true
+message_array = [ [ "RECRUIT_TRADE_OFFER1" ], [ "RECRUIT_TRADE_OFFER2" ], [ "RECRUIT_TRADE_OFFER3" ], [ "RECRUIT_TRADE_OFFER4" ], [ "RECRUIT_TRADE_OFFER5" ] ]
+
+[node name="MenuDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade"]
+script = ExtResource( 67 )
+menu_options = [ "RECRUIT_TRADE_MENU_OPTION1", "RECRUIT_TRADE_MENU_OPTION2" ]
+default_option = 1
+always_succeed = true
+
+[node name="Trading" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction"]
+script = ExtResource( 68 )
+
+[node name="ChooseSticker" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading"]
+script = ExtResource( 77 )
+
+[node name="TradeAccepted" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading"]
+script = ExtResource( 79 )
+always_succeed = true
+require_blackboard_values = {
+"valid_trade": true
+}
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading/TradeAccepted"]
+script = ExtResource( 75 )
+title = "{pawn}"
+substitute_blackboard_keys = [ "trade_offer", "trade_request", "request_rarity", "offer_rarity" ]
+use_random = true
+message_array = [ [ "RECRUIT_TRADE_ACCEPTED1" ], [ "RECRUIT_TRADE_ACCEPTED2" ], [ "RECRUIT_TRADE_ACCEPTED3" ] ]
+
+[node name="TradeRejected" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading"]
+script = ExtResource( 79 )
+always_succeed = true
+require_blackboard_values = {
+"valid_trade": false
+}
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading/TradeRejected"]
+script = ExtResource( 75 )
+title = "{pawn}"
+substitute_blackboard_keys = [ "trade_offer", "trade_request", "request_rarity", "offer_rarity" ]
+use_random = true
+message_array = [ [ "RECRUIT_TRADE_REJECTED1" ], [ "RECRUIT_TRADE_REJECTED2" ], [ "RECRUIT_TRADE_REJECTED3" ] ]
+
+[node name="Cancel" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction"]
+script = ExtResource( 68 )
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Cancel"]
+script = ExtResource( 66 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_TRADE_CANCEL1" ], [ "RECRUIT_TRADE_CANCEL2" ], [ "RECRUIT_TRADE_CANCEL3" ] ]
 
 [node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 68 )

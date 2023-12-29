@@ -114,7 +114,7 @@ static func create_npc(spawner, node):
 	spawner.get_parent().add_child(recruit)
 
 	return recruit
-static func get_npc():
+static func get_npc(recruitdata=null):
 	var Mod = DLC.mods_by_id["LivingWorldMod"]
 	var settings = preload("res://mods/LivingWorld/settings.tres")
 	var name_generator = preload("res://mods/LivingWorld/scripts/NameGenerator.gd")
@@ -122,11 +122,11 @@ static func get_npc():
 	var datapath = rangerdata.get_directory()
 	var files:Array = rangerdata.get_files(datapath)
 	var custom_recruits:Array = rangerdata.read_json(files)
-	var recruit = rangerdata.get_empty_recruit()
+	var recruit = rangerdata.get_empty_recruit() if recruitdata == null else recruitdata
 	var npc = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn").instance()
 	var filtered_recruits = Mod.filter_recruits(custom_recruits)
-	var use_custom:bool = false
-	if randf() <= settings.custom_recruit_rate and filtered_recruits.size() > 0:
+	var use_custom:bool = recruitdata != null
+	if randf() <= settings.custom_recruit_rate and filtered_recruits.size() > 0 and not recruitdata:
 		recruit = filtered_recruits[randi()%filtered_recruits.size()]
 		Mod.add_recruit_spawn(recruit)
 		use_custom = true
