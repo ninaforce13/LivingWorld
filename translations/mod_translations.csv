@@ -16,7 +16,7 @@ RECRUIT_IDLE_DIALOG_14,
 RECRUIT_PASSIVE_ROGUE,There's been another rogue sighting![pause][pause] We need all available rangers!
 RECRUIT_MENU_OPTION1,Invite {pawn} to hang out.
 RECRUIT_MENU_OPTION2,Challenge {pawn} to a friendly battle.
-RECRUIT_MENU_OPTION3,Trade stickers with {pawn}.
+RECRUIT_MENU_OPTION3,[color=#1fba33]Trade stickers with {pawn}.[/color]
 RECRUIT_MENU_OPTION4,Goodbye!
 RECRUIT_MENU_INVITE_ACCEPT1,"Sure, I've got some free time!"
 RECRUIT_MENU_INVITE_ACCEPT2,"I guess I can lend a hand, if you [wave amp=30 freq=10]really[/wave] need it."
@@ -64,3 +64,5 @@ RECRUIT_TRADE_CANCEL1,Dang it! Now what am I going to do?!
 RECRUIT_TRADE_CANCEL2,"Oh, okay. Thanks for considering it."
 RECRUIT_TRADE_CANCEL3,I guess I'll have to keep checking the sticker merchants…
 TRADE_STICKER_UI_USE,Trade Sticker
+LIVINGWORLD_SETTINGS_UI_ENCOUNTERS,Wandering NPCs Join Encounters:
+LIVINGWORLD_SETTINGS_UI_MAGNETISM,Wandering NPCs Use Magnetism:

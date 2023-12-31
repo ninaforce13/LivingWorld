@@ -232,6 +232,8 @@ static func set_npc_appearance(npc:NPC, ranger_data):
 	var parts:Dictionary = ranger_data.human_part_names if typeof(ranger_data.human_part_names) == TYPE_DICTIONARY else JSON.parse(ranger_data.human_part_names).result
 	npc.set_sprite_colors(colors)
 	npc.set_sprite_part_names(parts)
+	npc.pronouns = ranger_data.pronouns
+	npc.npc_name = ranger_data.name
 
 static func get_empty_recruit()->Dictionary:
 	var recruit:Dictionary = {"appearance":{}, "tapes":{}, "stats":{}, "filepath":""}

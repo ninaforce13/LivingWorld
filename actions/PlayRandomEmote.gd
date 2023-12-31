@@ -1,7 +1,41 @@
 extends Action
-enum Animations{singing_loop,aggro_check,aggro_loop,aggro_in,Happy,Angry,annoyed,content,frustrated,questioning,Sad,shocked,silly,Love,tape,convo}
+enum Animations{singing_loop,
+				aggro_check,
+				aggro_loop,
+				aggro_in,
+				Happy,
+				Angry,
+				annoyed,
+				content,
+				frustrated,
+				questioning,
+				Sad,
+				shocked,
+				silly,
+				Love,
+				tape,
+				convo,
+				Traffikrab,
+				scared}
 export (Animations) var selection
-export (Array,String) var emotes = ["singing_loop","aggro_check","aggro_loop","aggro_in","Happy","Angry","annoyed","content","frustrated","questioning","Sad","shocked","silly","Love","tape","convo"]
+export (Array,String) var emotes = ["singing_loop",
+									"aggro_check",
+									"aggro_loop",
+									"aggro_in",
+									"Happy",
+									"Angry",
+									"annoyed",
+									"content",
+									"frustrated",
+									"questioning",
+									"Sad",
+									"shocked",
+									"silly",
+									"Love",
+									"tape",
+									"convo",
+									"Traffikrab",
+									"scared"]
 export (bool) var use_random = false
 var emote
 func _run():

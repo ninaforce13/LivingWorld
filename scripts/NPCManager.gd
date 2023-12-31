@@ -18,7 +18,9 @@ static func has_savedata()->bool:
 static func initialize_savedata():
 	if !SaveState.other_data.has("LivingWorldData"):
 		SaveState.other_data["LivingWorldData"] = {"ExtraEncounterConfig":{"extra_slots":0},
-													"CurrentFollower":{"recruit":{}, "active":false}}
+													"CurrentFollower":{"recruit":{}, "active":false},
+													"Settings":{"JoinEncounters":true,
+																"MagnetismEnabled":true}}
 
 
 
@@ -130,36 +132,26 @@ static func get_npc(recruitdata=null):
 		recruit = filtered_recruits[randi()%filtered_recruits.size()]
 		Mod.add_recruit_spawn(recruit)
 		use_custom = true
+
 	var recruitdata_node = npc.get_node("RecruitData")
-	if recruit and not use_custom:
-		var new_name = name_generator.generate()
-		recruit.name = new_name
-		var char_config:Node = npc.get_node("EncounterConfig/CharacterConfig")
-		if char_config:
-			char_config.character_name = new_name
-			char_config.pronouns = recruit.pronouns
-			var char_stats:Character = Character.new()
-			rangerdata.set_npc_appearance(npc, recruit)
-			char_config.base_character = char_stats
-			char_config.base_character.base_max_hp = 120
-		npc.sprite_part_names = recruit.human_part_names if typeof(recruit.human_part_names) == TYPE_DICTIONARY else JSON.parse(recruit.human_part_names).result
-		npc.sprite_colors = recruit.human_colors if typeof(recruit.human_colors) == TYPE_DICTIONARY else JSON.parse(recruit.human_colors).result
-		npc.pronouns = recruit.pronouns
-		npc.npc_name = new_name
-	if recruit and use_custom:
-		var char_config:Node = npc.get_node("EncounterConfig/CharacterConfig")
-		var sidekick_config:Node = npc.get_node("EncounterConfig/Sidekick")
-		var tape_nodes:Array
-		for tape in char_config.get_children():
-			tape_nodes.push_back(tape)
-		for tape in sidekick_config.get_children():
-			tape_nodes.push_back(tape)
-		rangerdata.set_char_config(char_config,recruit,tape_nodes)
-		sidekick_config.base_character = char_config.base_character
-		rangerdata.set_npc_appearance(npc, recruit)
-		npc.npc_name = recruit.name
+	var char_config:Node = npc.get_node("EncounterConfig/CharacterConfig")
+	var sidekick_config:Node = npc.get_node("EncounterConfig/Sidekick")
+	var tape_nodes:Array
+
+	recruit.name = name_generator.generate() if not use_custom else recruit.name
+
+	for tape in char_config.get_children():
+		tape_nodes.push_back(tape)
+	for tape in sidekick_config.get_children():
+		tape_nodes.push_back(tape)
+
+	rangerdata.set_char_config(char_config,recruit,tape_nodes)
+	sidekick_config.base_character = char_config.base_character
+	rangerdata.set_npc_appearance(npc, recruit)
+
 	if recruitdata_node and recruit:
 		recruitdata_node.recruit = recruit
+
 	return npc
 
 static func engaged_recruits_nearby(encounter)->bool:
@@ -181,16 +173,15 @@ static func add_extra_fighters(encounter):
 			var newconfig = get_follower_config(slot.npc_data)
 			encounter.add_child(newconfig)
 			newconfig.add_to_group("trainee_allies")
-			if !SaveState.other_data.has("ExtraEncounterConfig"):
-				SaveState.other_data["ExtraEncounterConfig"] = {"extra_slots":0}
-			SaveState.other_data.ExtraEncounterConfig.extra_slots += 1
+			SaveState.other_data.LivingWorldData.ExtraEncounterConfig.extra_slots += 1
 static func add_follower_to_encounter(encounter):
 	if has_active_follower():
 		var newconfig = get_follower_config(get_current_follower())
 		encounter.add_child(newconfig)
+		newconfig.add_to_group("trainee_allies")
 
 static func remove_old_configs(encounter):
-	SaveState.other_data["ExtraEncounterConfig"] = {"extra_slots":0}
+	SaveState.other_data.LivingWorldData.ExtraEncounterConfig.extra_slots = 0
 	for child in encounter.get_children():
 		if child.is_in_group("trainee_allies"):
 			encounter.remove_child(child)

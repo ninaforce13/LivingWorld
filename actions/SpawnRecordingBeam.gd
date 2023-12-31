@@ -12,11 +12,14 @@ func _run():
 	beam.target_length = dist
 	pawn.add_child(beam)
 	beam.global_transform.origin.y += 1
-	beam.global_transform.looking_at(target.global_transform.origin,Vector3.UP)
-	beam.rotate_object_local(Vector3.UP,PI)
-#	yield(beam, "beam_finished")
-#	beam.queue_free()
+	beam.global_transform = beam.global_transform.looking_at(target.global_transform.origin + (Vector3.UP * 2),Vector3.UP)
+	free_beam(beam)
 	return true
+
+func free_beam(beam):
+	yield(beam,"beam_finished")
+	get_pawn().remove_child(beam)
+	beam.queue_free()
 
 #func _process(delta):
 #	if has_bb("beam"):

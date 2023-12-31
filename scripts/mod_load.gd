@@ -10,6 +10,7 @@ var roguefusions = preload("res://mods/LivingWorld/scripts/RogueFusions_patch.gd
 var campsite = preload("res://mods/LivingWorld/scripts/Camping_patch.gd")
 var inventorydetail = preload("res://mods/LivingWorld/scripts/inventorydetail_patch.gd")
 var stickeritem_patch = preload("res://mods/LivingWorld/scripts/StickerItem_patch.gd")
+var gameplay_settings = preload("res://mods/LivingWorld/scripts/GameplaySettings_patch.gd")
 func _init():
 	add_debug_commands()
 	levelmap_patch.patch()
@@ -22,6 +23,7 @@ func _init():
 	roguefusions.patch()
 	inventorydetail.patch()
 	stickeritem_patch.patch()
+	gameplay_settings.patch()
 
 func clear_recruit_tracker():
 	recruit_tracker.clear()

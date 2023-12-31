@@ -2,31 +2,54 @@ extends "res://addons/misc_utils/StateMachine.gd"
 
 export (String) var previous_state = "Idle"
 export (float) var time_limit = 15.0
-export (Array, String) var randomized_states = []
+export (Array) var randomized_states
 var _timer:float = 0.0
+var random:Random
 func _ready():
 	_timer = time_limit
 	yield (get_parent(), "ready")
 	assert (get_parent() is NPC)
 	get_parent().connect("resumed", self, "set_paused", [false])
 	get_parent().connect("paused", self, "set_paused", [true])
+	random = Random.new()
+	set_randomized_states()
+
+func set_randomized_states():
+	randomized_states.clear()
+	for child in get_children():
+		if child.get("weight"):
+			randomized_states.push_back({"state":child.name,"weight":child.weight})
 
 func _process(delta):
 	if state == "Idle" and time_limit > 0.0:
 		_timer -= delta
 		if _timer < 0.0:
+			set_randomized_states()
 			if !randomized_states.size() > 0:
 				return
 			var filtered_states = randomized_states.duplicate()
+			filter_invalid_states(filtered_states)
 			if previous_state != "Idle":
-				filtered_states.erase(previous_state)
+				filtered_states.erase(get_state("Idle"))
 				if !filtered_states.size() > 0:
 					previous_state = "Idle"
 					return
-			var statename = filtered_states[randi()%filtered_states.size()]
-			set_state(statename)
+			var choice = random.weighted_choice(filtered_states)
+			set_state(choice.state)
 			_timer = time_limit
 	._process(delta)
+
+func get_state(state_name):
+	for child in get_children():
+		if child.name == state_name:
+			return {"state":child.name,"weight":child.weight}
+
+func filter_invalid_states(filtered_states:Array):
+	for child in get_children():
+		if child.has_method("conditions_met"):
+			if not child.conditions_met() and filtered_states.has({"state":child.name,"weight":child.weight}):
+				filtered_states.erase({"state":child.name,"weight":child.weight})
+
 func is_interruptible(state_node):
 	return not (state_node is ActionBase) or state_node.interruptible
 
@@ -45,7 +68,8 @@ func set_paused(value:bool):
 func set_play_with_magnets(_detection):
 	if !is_interruptible(state_node):
 		return
-	set_state("Magnetism")
+	if conditions_met("Magnetism"):
+		set_state("Magnetism")
 
 func kill_npc(_detection):
 	set_state("Kill")
@@ -54,14 +78,26 @@ func warp_npc(_detection):
 	var pawn = get_parent()
 	pawn.warp_to(_detection.position)
 
+func get_state_node(statename):
+	if has_node(statename):
+		return get_node(statename)
+	return null
+
+func conditions_met(statename)->bool:
+	var new_state = get_state_node(statename)
+	if new_state:
+		if new_state.has_method("conditions_met"):
+			return new_state.conditions_met()
+	return true
 
 func _on_MonsterDetector_detected(detection):
 	if !is_interruptible(state_node):
 		return
-	var pawn = get_parent()
-	var recruitdata = pawn.get_node("RecruitData")
-	recruitdata.engaged_target = detection
-	set_state("EngageEnemy")
+	if conditions_met("EngageEnemy"):
+		var pawn = get_parent()
+		var recruitdata = pawn.get_node("RecruitData")
+		recruitdata.engaged_target = detection
+		set_state("EngageEnemy")
 
 
 func _on_TalkingNPCDetector_detected(detection):
@@ -91,3 +127,12 @@ func _on_BootlegDetector_detected(detection):
 	var recruitdata = pawn.get_node("RecruitData")
 	recruitdata.engaged_target = detection
 	set_state("BootlegBehavior")
+
+
+func _on_RogueFusionDetector_detected(detection):
+	if !is_interruptible(state_node):
+		return
+	var pawn = get_parent()
+	var recruitdata = pawn.get_node("RecruitData")
+	recruitdata.engaged_target = detection
+	set_state("Flee")

@@ -3,6 +3,7 @@ extends DecoratorAction
 export (bool) var interruptible:bool = true
 export (float) var time_limit:float = 0.0
 export (bool) var reset_on_exit_tree = false
+export (float) var weight = 0.0
 
 var in_state:bool = false setget set_in_state
 var _timer:float = 0.0

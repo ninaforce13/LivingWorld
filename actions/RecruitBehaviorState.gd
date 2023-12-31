@@ -1,9 +1,10 @@
-extends DecoratorAction
+extends CheckConditionAction
 
-export (bool) var interruptible:bool = true
+export (bool) var interruptible:bool = false
 export (float) var time_limit:float = 0.0
 export (bool) var reset_on_exit_tree = false
-
+export (float) var weight = 0.0
+export (bool) var disable_on_water = false
 var in_state:bool = false setget set_in_state
 var _timer:float = 0.0
 
@@ -12,8 +13,19 @@ func _ready():
 #	set_in_state(false)
 
 func _enter_state():
+	if not conditions_met():
+		_exit_action(true)
+		return
 	_timer = time_limit
 	set_in_state(true)
+
+func conditions_met()->bool:
+	if disable_on_water:
+		if get_parent().get("pawn"):
+			var pawn = get_parent().pawn
+			if pawn.in_water:
+				return false
+	return check_conditions(self)
 
 func _exit_state():
 	set_in_state(false)
@@ -39,6 +51,8 @@ func _world_flags_changed():
 func update(delta):
 	if not is_paused() and not is_running():
 		run()
+	if not conditions_met():
+		get_parent().set_state("")
 	if time_limit > 0.0:
 		_timer -= delta
 		if _timer < 0.0:
