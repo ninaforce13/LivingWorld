@@ -22,6 +22,12 @@ static func patch():
 		code_lines.insert(code_index-1,get_code("respawn_recruit"))
 
 
+	code_index = code_lines.find("func set_region_settings(value:RegionSettings):")
+	if code_index > 0:
+		code_lines.insert(code_index+1,get_code("add_spawner"))
+
+	code_lines.insert(code_lines.size()-1,get_code("setup_recruit_spawner"))
+
 	code_index = code_lines.find("	if warp_target:")
 	if code_index > 0:
 		code_lines.insert(code_index-1,get_code("warp_recruit"))
@@ -54,6 +60,15 @@ static func get_code(block:String)->String:
 		npc_manager.spawn_recruit(self, npc_manager.get_current_follower())
 	"""
 
+	code_blocks["add_spawner"] = """
+	if value:
+		call_deferred("setup_recruit_spawner",value.region_name)
+	"""
+	code_blocks["setup_recruit_spawner"] = """
+func setup_recruit_spawner(current_regionname):
+	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
+	npc_manager.add_spawner(current_regionname,self)
+	"""
 
 	return code_blocks[block]
 

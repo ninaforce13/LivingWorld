@@ -16,7 +16,8 @@ enum Animations{singing_loop,
 				tape,
 				convo,
 				Traffikrab,
-				scared}
+				scared,
+				battle}
 export (Animations) var selection
 export (Array,String) var emotes = ["singing_loop",
 									"aggro_check",
@@ -35,7 +36,8 @@ export (Array,String) var emotes = ["singing_loop",
 									"tape",
 									"convo",
 									"Traffikrab",
-									"scared"]
+									"scared",
+									"battle"]
 export (bool) var use_random = false
 var emote
 func _run():

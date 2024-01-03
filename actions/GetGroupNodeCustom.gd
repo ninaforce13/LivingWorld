@@ -1,9 +1,9 @@
 extends ActionValue
-
+enum GROUPTYPE {OBJECT, TRAINEE, DOOR}
 export (String) var group:String
 export (int, "First", "Last", "Random", "All", "Nearest") var mode:int = 0
 export (bool) var ignore_limited_space = false
-
+export (GROUPTYPE) var group_type = GROUPTYPE.OBJECT
 func get_value():
 	var nodes = get_tree().get_nodes_in_group(group)
 	if nodes.size() == 0 and mode != 3:
@@ -31,11 +31,18 @@ func get_nearest_node(nodes):
 	for node in nodes:
 		if node == pawn:
 			continue
-		if !node.has_node("ObjectData"):
-			continue
-		var object_data = node.get_node("ObjectData")
-		if object_data.is_full() and !ignore_limited_space:
-			continue
+		if group_type == GROUPTYPE.OBJECT:
+			if !node.has_node("ObjectData"):
+				continue
+			var object_data = node.get_node("ObjectData")
+			if object_data.is_full() and !ignore_limited_space:
+				continue
+		if group_type == GROUPTYPE.TRAINEE:
+			if !node.has_node("RecruitData"):
+				continue
+			var data = node.get_node("RecruitData")
+			if data.engaged:
+				continue
 		var dist = node.global_transform.origin.distance_to(pawn_pos)
 		if dist < best_dist:
 			best_dist = dist

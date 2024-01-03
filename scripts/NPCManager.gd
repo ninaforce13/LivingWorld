@@ -13,16 +13,38 @@ static func get_current_follower()->Dictionary:
 	return SaveState.other_data.LivingWorldData.CurrentFollower.recruit
 
 static func has_savedata()->bool:
-	return SaveState.other_data.has("LivingWorldData")
+	var result:int = 0
+	if SaveState.other_data.has("LivingWorldData"):
+		result += 1
+		if SaveState.other_data.LivingWorldData.has("ExtraEncounterConfig"):
+			result += 1
+		if SaveState.other_data.LivingWorldData.has("CurrentFollower"):
+			result += 1
+		if SaveState.other_data.LivingWorldData.has("Settings"):
+			result += 1
+			if SaveState.other_data.LivingWorldData.Settings.has("JoinEncounters"):
+				result += 1
+			if SaveState.other_data.LivingWorldData.Settings.has("MagnetismEnabled"):
+				result += 1
+			if SaveState.other_data.LivingWorldData.Settings.has("NPCPopulation"):
+				result += 1
+
+	return result == 7
 
 static func initialize_savedata():
 	if !SaveState.other_data.has("LivingWorldData"):
 		SaveState.other_data["LivingWorldData"] = {"ExtraEncounterConfig":{"extra_slots":0},
 													"CurrentFollower":{"recruit":{}, "active":false},
 													"Settings":{"JoinEncounters":true,
-																"MagnetismEnabled":true}}
+																"MagnetismEnabled":true,
+																"NPCPopulation":3}}
 
-
+static func get_setting(setting_name):
+	if !has_savedata():
+		initialize_savedata()
+	if SaveState.other_data.LivingWorldData.Settings.has("setting_name"):
+		return SaveState.other_data.LivingWorldData.Settings[setting_name]
+	return null
 
 static func get_follower_config(other_recruit):
 	var recruit = other_recruit
@@ -107,12 +129,17 @@ static func spawn_recruit(levelmap, current_recruit = null):
 	template.get_node("RecruitData").recruit = current_recruit
 	return template
 
-static func create_npc(spawner, node):
+static func create_npc(spawner, node, forced_personality,supress_abilities):
+	var random = Random.new()
 	var recruit = get_npc()
-	var monbehavior = preload("res://mods/LivingWorld/nodes/recruitbehavior.tscn").instance()
+
 	if !recruit.has_node("RecruitBehavior"):
-		recruit.add_child(monbehavior)
+		var new_behavior = preload("res://mods/LivingWorld/nodes/recruitbehavior.tscn").instance()
+		recruit.add_child(new_behavior)
+	var behavior = recruit.get_node("RecruitBehavior")
+	behavior.personality = forced_personality if forced_personality >= 0 else random.rand_int(behavior.PERSONALITY.size())
 	recruit.transform = node.transform
+	recruit.supress_abilities = supress_abilities
 	spawner.get_parent().add_child(recruit)
 
 	return recruit
@@ -155,6 +182,9 @@ static func get_npc(recruitdata=null):
 	return npc
 
 static func engaged_recruits_nearby(encounter)->bool:
+	var allow_recruits = get_setting("JoinEncounters")
+	if !allow_recruits:
+		return false
 	var parent = encounter.get_parent()
 	if !parent.has_node("ObjectData"):
 		parent = parent.get_parent()
@@ -197,3 +227,22 @@ static func set_warp_target(warp_target, subtarget_name, index):
 			follower_target.translation.x += 2
 		subtarget_name = "FollowerTarget"
 	return subtarget_name
+
+static func add_spawner(region_name,level):
+	var settings = load("res://mods/LivingWorld/settings.tres")
+	var spawner_scene = load("res://mods/LivingWorld/nodes/RecruitSpawner.tscn")
+	var player = WorldSystem.get_player()
+	if settings.levelmap_spawners.has(region_name):
+		for location in settings.levelmap_spawners[region_name].locations:
+			if !level.has_node(location.name):
+				print("adding %s to %s"%[location.name, region_name])
+				var spawner = spawner_scene.instance()
+				level.add_child(spawner)
+				spawner.global_transform.origin = location.pos
+				spawner.name = location.name
+				spawner.ignore_visibility = location.ignore_visibility
+				spawner.forced_personality = location.forced_personality
+				spawner.supress_abilities = location.supress_abilities
+#				yield(Co.wait(2),"completed")
+
+

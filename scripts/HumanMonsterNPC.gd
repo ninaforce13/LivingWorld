@@ -13,6 +13,7 @@ export (Dictionary) var sprite_part_names:Dictionary setget set_sprite_part_name
 export (PackedScene) var sprite_body:PackedScene setget set_sprite_body
 export (Resource) var character:Resource setget set_character
 export (bool) var use_monster_form = false
+export (bool) var supress_abilities = false
 var previous_monster_form_index = 0
 var sfx:CharacterSfx
 func _ready():
@@ -22,10 +23,11 @@ func _ready():
 		refresh_sprite()
 
 func swap_sprite(value:int):
+	var random = Random.new()
 	use_monster_form = value == FORMS.MONSTER
 	var dominant_sprite
 	var monster_forms = get_node("MonsterForms")
-	var index = randi()%monster_forms.get_child_count()
+	var index = random.rand_int(monster_forms.get_child_count())
 	var monster_sprite = monster_forms.get_child(index)
 	var human_sprite = get_node("Sprite")
 	monster_sprite.visible = use_monster_form

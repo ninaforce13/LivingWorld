@@ -64,5 +64,6 @@ RECRUIT_TRADE_CANCEL1,Dang it! Now what am I going to do?!
 RECRUIT_TRADE_CANCEL2,"Oh, okay. Thanks for considering it."
 RECRUIT_TRADE_CANCEL3,I guess I'll have to keep checking the sticker merchants…
 TRADE_STICKER_UI_USE,Trade Sticker
-LIVINGWORLD_SETTINGS_UI_ENCOUNTERS,Wandering NPCs Join Encounters:
+LIVINGWORLD_SETTINGS_UI_ENCOUNTERS,Wandering NPCs Join Raids:
 LIVINGWORLD_SETTINGS_UI_MAGNETISM,Wandering NPCs Use Magnetism:
+LIVINGWORLD_SETTINGS_UI_POPULATION,Wandering NPC Population:

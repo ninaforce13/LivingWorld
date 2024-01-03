@@ -40,6 +40,7 @@ static func get_code(block:String)->String:
 	code_blocks["add_global_vars"] = """
 var join_encounters_input
 var use_magnetism_input
+var npc_population_input
 var modmanager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 	"""
 
@@ -57,6 +58,8 @@ var modmanager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 			return true
 		if use_magnetism_input.selected_value != SaveState.other_data.LivingWorldData.Settings.MagnetismEnabled:
 			return true
+		if npc_population_input.selected_value != SaveState.other_data.LivingWorldData.Settings.NPCPopulation:
+			return true
 	"""
 
 	code_blocks["add_functions"] = """
@@ -66,32 +69,46 @@ func add_mod_fields():
 		var autosaveinput = inputs.get_node("AutosaveInput")
 		join_encounters_input = preload("res://nodes/menus/ArrowOptionList.tscn").instance()
 		use_magnetism_input = preload("res://nodes/menus/ArrowOptionList.tscn").instance()
+		npc_population_input = preload("res://nodes/menus/ArrowOptionList.tscn").instance()
 		var join_encounters_label = Label.new()
 		var use_magnetism_label = Label.new()
+		var npc_population_label = Label.new()
 		join_encounters_label = autosavelbl.duplicate()
 		use_magnetism_label = autosavelbl.duplicate()
+		npc_population_label = autosavelbl.duplicate()
 		join_encounters_label.text = "LIVINGWORLD_SETTINGS_UI_ENCOUNTERS"
 		use_magnetism_label.text = "LIVINGWORLD_SETTINGS_UI_MAGNETISM"
+		npc_population_label.text = "LIVINGWORLD_SETTINGS_UI_POPULATION"
 		join_encounters_input.values.push_back(true)
 		use_magnetism_input.values.push_back(true)
 		join_encounters_input.values.push_back(false)
 		use_magnetism_input.values.push_back(false)
+		npc_population_input.values.push_back(1)
+		npc_population_input.values.push_back(3)
+		npc_population_input.values.push_back(5)
 		join_encounters_input.value_labels.push_back("Enabled")
 		use_magnetism_input.value_labels.push_back("Enabled")
 		join_encounters_input.value_labels.push_back("Disabled")
+		npc_population_input.value_labels.push_back("Low")
+		npc_population_input.value_labels.push_back("Medium")
+		npc_population_input.value_labels.push_back("High")
 		use_magnetism_input.value_labels.push_back("Disabled")
 		inputs.add_child_below_node(inputs.get_node("VibrationInput"),join_encounters_label)
 		inputs.add_child_below_node(inputs.get_node("VibrationInput"),use_magnetism_label)
+		inputs.add_child_below_node(inputs.get_node("VibrationInput"),npc_population_label)
 		inputs.add_child_below_node(join_encounters_label,join_encounters_input)
 		inputs.add_child_below_node(use_magnetism_label,use_magnetism_input)
+		inputs.add_child_below_node(npc_population_label,npc_population_input)
 		if modmanager.has_savedata():
 			join_encounters_input.selected_value = SaveState.other_data.LivingWorldData.Settings.JoinEncounters
 			use_magnetism_input.selected_value = SaveState.other_data.LivingWorldData.Settings.MagnetismEnabled
+			npc_population_input.selected_value = SaveState.other_data.LivingWorldData.Settings.NPCPopulation
 func save_mod_settings():
 	if !modmanager.has_savedata():
 		modmanager.initialize_savedata()
 	SaveState.other_data.LivingWorldData.Settings.JoinEncounters = join_encounters_input.selected_value
 	SaveState.other_data.LivingWorldData.Settings.MagnetismEnabled = use_magnetism_input.selected_value
+	SaveState.other_data.LivingWorldData.Settings.NPCPopulation = npc_population_input.selected_value
 
 	"""
 	return code_blocks[block]

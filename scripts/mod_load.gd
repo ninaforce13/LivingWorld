@@ -78,6 +78,11 @@ func add_debug_commands():
 		"args":[],
 		"target":[self,"pause"]
 		})
+	Console.register("add_spawner",{
+		"description":"Adds the current location as a recruit spawner",
+		"args":[TYPE_STRING,TYPE_BOOL,TYPE_INT,TYPE_BOOL],
+		"target":[self,"add_location_spawner"]
+		})
 
 func pause():
 	WorldSystem.get_tree().paused = !WorldSystem.get_tree().paused
@@ -95,8 +100,21 @@ func get_otherdata_keys():
 	return key_array
 func get_my_pos():
 	var player = WorldSystem.get_player()
-	print("Player current @%s"%str(player.global_transform.origin))
+	print("Player current @%s in region %s in current scene %s"%[str(player.global_transform.origin), WorldSystem.get_level_map().region_settings.region_name, str(SceneManager.current_scene)])
 
+func add_location_spawner(location_name:String,ignore_visibility:bool=false,personality=-1,supress_abilities:bool = false):
+	var settings = load("res://mods/LivingWorld/settings.tres")
+	var player = WorldSystem.get_player()
+	var region_name = WorldSystem.get_level_map().region_settings.region_name
+	if !settings.levelmap_spawners.has(region_name):
+		settings.levelmap_spawners[region_name] = {"locations":[]}
+	for location in settings.levelmap_spawners[region_name].locations:
+		if location.name == location_name:
+			return ("Location name already exists.")
+	settings.levelmap_spawners[region_name].locations.push_back({"name":location_name,"pos":player.global_transform.origin,"ignore_visibility":ignore_visibility,"forced_personality":personality, "supress_abilities":supress_abilities})
+	var err = ResourceSaver.save("res://mods/LivingWorld/settings.tres",settings)
+	if err == OK:
+		return ("Saved %s for region %s at position %s with ignore_visibility set to %s personality set to %s abiilities supressed %s"%[location_name,region_name,player.global_transform.origin,ignore_visibility,personality,supress_abilities])
 func add_debug_camera(value):
 	var camera = WorldSystem.get_level_map().camera
 

@@ -2,6 +2,7 @@ extends Action
 export (float) var distance = 10.0
 export (bool) var inverted = false
 export (String) var bb_name:String = ""
+export (bool) var set_as_engaged_target = false
 func _run():
 	var target = get_target()
 	if target:
@@ -10,12 +11,26 @@ func _run():
 			if !global_pos.distance_to(target.global_transform.origin) < distance:
 				if bb_name != "":
 					set_bb(bb_name, target)
+				if set_as_engaged_target:
+					var target_data = target.get_node("RecruitData")
+					var pawn_data = get_pawn().get_node("RecruitData")
+					pawn_data.engaged_target = target
+					target_data.engaged_target = get_pawn()
+					pawn_data.set_engage(true)
+					target_data.set_engage(true)
 				return true
 			return false
 		else:
 			if global_pos.distance_to(target.global_transform.origin) < distance:
 				if bb_name != "":
 					set_bb(bb_name, target)
+				if set_as_engaged_target:
+					var target_data = target.get_node("RecruitData")
+					var pawn_data = get_pawn().get_node("RecruitData")
+					pawn_data.engaged_target = target
+					target_data.engaged_target = get_pawn()
+					pawn_data.set_engage(true)
+					target_data.set_engage(true)
 				return true
 			return false
 

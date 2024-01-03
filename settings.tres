@@ -4,9 +4,357 @@
 
 [resource]
 script = ExtResource( 1 )
-population_level = 0
-participate_in_roguefusions = true
-use_magnetism = true
-use_emotes = true
-wandering_captains = false
-custom_recruit_rate = 1.0
+custom_recruit_rate = 0.3
+levelmap_spawners = {
+"REGION_NAME_EASTHAM_WOODS": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "eastham",
+"pos": Vector3( -11.2114, 28.0265, -409.464 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "eastham_woods1",
+"pos": Vector3( 153.982, 24.0262, -377.022 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "eastham_woods2",
+"pos": Vector3( 146.394, 32.0265, -422.151 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "eastham_camp",
+"pos": Vector3( 195.025, 34.0265, -435.041 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "easthamwoods1",
+"pos": Vector3( 246.849, 24.0265, -425.328 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "easthamwoods2",
+"pos": Vector3( 312.398, 18.0265, -422.099 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "easthamwoods3",
+"pos": Vector3( 201.811, 18.0265, -388.422 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_HAM": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "ham1",
+"pos": Vector3( -60.587, 16.0265, -416.774 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "ham2",
+"pos": Vector3( -62.111, 18.0262, -456.016 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_LAKESIDE": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "park13",
+"pos": Vector3( 65.4544, 20.0265, -340.214 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "park14",
+"pos": Vector3( -1.10258, 19.9986, -339.649 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "lakeside1",
+"pos": Vector3( -33.993, 12.026, -312.904 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "lakeside2",
+"pos": Vector3( 7.39539, 10.0265, -297.487 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "lakesidecamp",
+"pos": Vector3( -61.5862, 14.0265, -318.832 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_MALL": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "mall1",
+"pos": Vector3( -43.5925, 2.0265, -88.4314 ),
+"supress_abilities": true
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "mall2",
+"pos": Vector3( 21.2045, 2.0265, -132.82 ),
+"supress_abilities": true
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "mall3",
+"pos": Vector3( 94.7626, 2.0265, -77.724 ),
+"supress_abilities": true
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "mall4",
+"pos": Vector3( 33.7451, 2.0265, 0.989782 ),
+"supress_abilities": true
+} ]
+},
+"REGION_NAME_MIRE_SEA": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "miresea1",
+"pos": Vector3( 435.995, 8.02577, -455.65 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_NEW_WIRRAL_PARK": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "park1camp",
+"pos": Vector3( 206.878, 22.0265, -175.767 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "park2",
+"pos": Vector3( 233.58, 22.0265, -176.796 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "park3",
+"pos": Vector3( 278.831, 22.0265, -174.556 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "park4",
+"pos": Vector3( 245.988, 18.026, -241.329 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "park5",
+"pos": Vector3( 214.557, 22.0265, -270.322 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "park6",
+"pos": Vector3( 247.098, 18.0265, -277.521 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "park7",
+"pos": Vector3( 289.764, 16.0265, -274.459 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "park8",
+"pos": Vector3( 330.507, 16.0265, -253.051 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "park9",
+"pos": Vector3( 349.86, 20.0265, -291.416 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "park10",
+"pos": Vector3( 270.304, 16.0265, -330.369 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "outpost",
+"pos": Vector3( 128.818, 30.0265, -242.074 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "park11",
+"pos": Vector3( 181.259, 26.0265, -254.591 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "park12",
+"pos": Vector3( 115.113, 16.0265, -336.08 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_RANGER_OUTPOST": {
+"locations": [ {
+"forced_personality": 1,
+"ignore_visibility": false,
+"name": "outpost_inner",
+"pos": Vector3( -1.44773, 2.02631, 4.15813 ),
+"supress_abilities": true
+} ]
+},
+"REGION_NAME_TOWN": {
+"locations": [ {
+"forced_personality": 3,
+"ignore_visibility": false,
+"name": "center1",
+"pos": Vector3( -17.827, 8.0265, -14.3575 ),
+"supress_abilities": true
+}, {
+"forced_personality": 3,
+"ignore_visibility": false,
+"name": "center2",
+"pos": Vector3( 12.7933, 8.0068, -4.14309 ),
+"supress_abilities": true
+}, {
+"forced_personality": 3,
+"ignore_visibility": false,
+"name": "center3",
+"pos": Vector3( 54.4049, 7.7765, -7.7497 ),
+"supress_abilities": true
+}, {
+"forced_personality": 3,
+"ignore_visibility": false,
+"name": "upper1",
+"pos": Vector3( 58.4299, 16.0265, -40.9564 ),
+"supress_abilities": true
+}, {
+"forced_personality": 3,
+"ignore_visibility": false,
+"name": "upper2",
+"pos": Vector3( -13.5443, 16.0265, -61.431 ),
+"supress_abilities": true
+}, {
+"forced_personality": 3,
+"ignore_visibility": false,
+"name": "upper3",
+"pos": Vector3( -18.9344, 16.0265, -34.7089 ),
+"supress_abilities": true
+} ]
+},
+"REGION_NAME_TOWN_OUTSKIRTS": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "upper3",
+"pos": Vector3( 133.014, 8.0265, -69.9512 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "outskirtscamp1",
+"pos": Vector3( 196.33, 10.0265, -61.2912 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "outskirtscamp2",
+"pos": Vector3( 247.242, 10.0265, -64.3301 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "outskirtscamp3",
+"pos": Vector3( 189.184, 16.0265, -108.144 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "outskirtscamp4",
+"pos": Vector3( 202.906, 20.0265, -151.744 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "upperpath2",
+"pos": Vector3( 159.887, 20.0265, -149.602 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_TOWN_WEST": {
+"locations": [ {
+"forced_personality": 3,
+"ignore_visibility": false,
+"name": "west1",
+"pos": Vector3( -70.913, 16.0265, -53.8454 ),
+"supress_abilities": true
+}, {
+"forced_personality": 3,
+"ignore_visibility": false,
+"name": "west2",
+"pos": Vector3( -72.6687, 7.7765, -8.48827 ),
+"supress_abilities": true
+}, {
+"forced_personality": 3,
+"ignore_visibility": false,
+"name": "west3",
+"pos": Vector3( -70.7951, 2.0265, 9.06388 ),
+"supress_abilities": true
+} ]
+},
+"REGION_NAME_UPPER_PATH": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "outskirts4",
+"pos": Vector3( 122.134, 14.0265, -121.26 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "outskirts5",
+"pos": Vector3( 63.3857, 14.0265, -114.675 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "outskirts6",
+"pos": Vector3( 4.82497, 14.0265, -114.298 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "outskirts7",
+"pos": Vector3( -93.1634, 14.0265, -86.8205 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "upperpath1",
+"pos": Vector3( 112.37, 24.0265, -149.223 ),
+"supress_abilities": false
+} ]
+}
+}

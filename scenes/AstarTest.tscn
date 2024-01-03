@@ -62,14 +62,14 @@ shader_param/frame_odds_curve = 3.0
 
 [sub_resource type="ShaderMaterial" id=5]
 shader = ExtResource( 14 )
-shader_param/random_seed = -1159
+shader_param/random_seed = 58662
 shader_param/offset = Vector3( 0, 1, 0 )
-shader_param/rows = 6
+shader_param/rows = 7
 shader_param/spacing = 1.25
 shader_param/rand_theta_max = 0.5
 shader_param/rand_flip = true
-shader_param/aabb_min = Vector3( -4, 0, -4 )
-shader_param/aabb_max = Vector3( 4, 4, 4 )
+shader_param/aabb_min = Vector3( -4.67216, 0, -4 )
+shader_param/aabb_max = Vector3( 4.67216, 4, 4 )
 shader_param/num_frames = 20
 shader_param/frame_odds_curve = 3.0
 
@@ -114,6 +114,7 @@ process_material = SubResource( 4 )
 
 [node name="GrassParticles2" parent="." instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.84209, 6.10171, -5.87703 )
+amount = 42
 visibility_aabb = AABB( -4.67216, 0, -4, 9.34432, 4, 8 )
 process_material = SubResource( 5 )
 

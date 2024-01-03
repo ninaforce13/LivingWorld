@@ -1,4 +1,27 @@
 extends PathController
+var attempts:int = 0
+func _pause_controls():
+	if not pawn.controls:
+		return
+	pawn.controls.direction = Vector2()
+	if params.can_jump:
+		pawn.controls.jump = false
+	force_fly = false
+	if params.can_fly:
+		pawn.controls.force_fly = false
+	if params.can_glide:
+		pawn.controls.glide = true
+	pawn.controls.climb = false
+
+func get_target()->Vector3:
+	if target_node.is_empty():
+		return target_pos
+	if not has_node(target_node):
+		return target_pos
+	var node = get_node(target_node)
+	if not is_instance_valid(node) or not (node is Spatial):
+		return target_pos
+	return node.global_transform.origin
 
 func control_movement(delta):
 	var cur_pos = pawn.global_transform.origin
@@ -78,9 +101,13 @@ func control_movement(delta):
 	var climb_height:bool = col_count > 1 and col_count <= 7 and not pawn.in_water
 	var fly_height:bool = col_count > 7 or (col_count < 2 and not pawn.test_move(next_t, Vector3.DOWN * 1.5, pawn.infinite_inertia))
 	var jump_height:bool = col_count <= 1 and pawn.test_move(next_t, Vector3.DOWN * 1.5, pawn.infinite_inertia)
-
-	if collides_forwards or ( not moving_xz and target_is_up) or avoid_down or (dist_y >= 10.0 and params.can_fly):
-		if collides_forwards and climb_height:
+	var height_cleared:bool = col_count <= 3
+	if collides_forwards and pawn.supress_abilities and not height_cleared:
+		_pause_controls()
+		arrive(true)
+		return
+	if (collides_forwards or ( not moving_xz and target_is_up) or avoid_down or (dist_y >= 10.0 and params.can_fly)):
+		if collides_forwards and climb_height and not pawn.supress_abilities:
 			pawn.controls.climb = true
 		elif collides_forwards and fly_height:
 			pawn.controls.force_fly = true
@@ -148,3 +175,9 @@ func control_movement(delta):
 			pawn.global_transform.origin = target
 			pawn.move_and_collide(Vector3(), false)
 			arrive(true)
+		if !(abs(target.y - cur_pos.y) <= 0.125) and !params.ignore_ending_y and attempts < 5:
+			attempts+=1
+			if attempts >= 5:
+				_pause_controls()
+				arrive(true)
+				return

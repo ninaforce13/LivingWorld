@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://sprites/monsters/world/carniviper.json" type="PackedScene" id=1]
 [ext_resource path="res://sprites/monsters/world/charlequin.json" type="PackedScene" id=2]
@@ -20,7 +20,6 @@
 [ext_resource path="res://sprites/monsters/world/allseer.json" type="PackedScene" id=18]
 [ext_resource path="res://mods/LivingWorld/actions/RemoveFollower.gd" type="Script" id=19]
 [ext_resource path="res://sprites/monsters/world/faucetear.json" type="PackedScene" id=20]
-[ext_resource path="res://sprites/monsters/world/kirikuri.json" type="PackedScene" id=21]
 [ext_resource path="res://sprites/monsters/world/cluckabilly.json" type="PackedScene" id=22]
 [ext_resource path="res://sprites/monsters/world/ferriclaw.json" type="PackedScene" id=23]
 [ext_resource path="res://sprites/monsters/world/masquerattle.json" type="PackedScene" id=24]
@@ -396,20 +395,6 @@ wave_v_frequency = 20.0
 
 [node name="Tween" type="Tween" parent="MonsterForms/Faucetear/Node"]
 
-[node name="Kirikuri" type="Spatial" parent="MonsterForms"]
-visible = false
-script = ExtResource( 49 )
-direction = "down"
-billboard_depth_hack = true
-wave_t_frequency = 20.0
-wave_v_frequency = 20.0
-
-[node name="Sprite" parent="MonsterForms/Kirikuri" instance=ExtResource( 21 )]
-
-[node name="Node" type="Node" parent="MonsterForms/Kirikuri"]
-
-[node name="Tween" type="Tween" parent="MonsterForms/Kirikuri/Node"]
-
 [node name="Ferriclaw" type="Spatial" parent="MonsterForms"]
 visible = false
 script = ExtResource( 49 )
@@ -706,14 +691,14 @@ always_succeed = true
 [node name="Dismiss" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 56 )
 
+[node name="RemoveFollower" type="Node" parent="InteractionBehavior/MenuDialogAction/Dismiss"]
+script = ExtResource( 19 )
+
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Dismiss"]
 script = ExtResource( 61 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "FOLLOWER_DISMISSED1" ], [ "FOLLOWER_DISMISSED2" ], [ "FOLLOWER_DISMISSED3" ] ]
-
-[node name="RemoveFromParty" type="Node" parent="InteractionBehavior/MenuDialogAction/Dismiss"]
-script = ExtResource( 19 )
 
 [node name="RemoveNodeAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Dismiss"]
 script = ExtResource( 4 )

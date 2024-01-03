@@ -3,8 +3,9 @@
 [ext_resource path="res://mods/LivingWorld/scripts/RecruitSpawner.gd" type="Script" id=1]
 
 [node name="RecruitSpawner" type="VisibilityNotifier"]
-aabb = AABB( -1, 0, -1, 2, 2, 2 )
+aabb = AABB( -5, 0, -5, 10, 2, 10 )
+max_distance = 100.0
 script = ExtResource( 1 )
-initial_spawns = 1
-night_max_spawns = 1
-max_attempts = 5
+spawn_period = 3.0
+initial_spawns = 0
+max_attempts = 1

@@ -1,35 +1,42 @@
 extends VisibilityNotifier
 
+const MAX_SPAWN_DISTANCE:float = 60.0
 const MIN_DISTANCE_TO_PLAYER:float = 10.0
-export (bool) var only_npc = true
 var npcmanager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 export (float) var spawn_period:float = 10.0
 export (int) var initial_spawns:int = 2
-export (int) var day_max_spawns:int = 2
-export (int) var night_max_spawns:int = 2
+export (int) var day_max_spawns:int = 3
+export (int) var night_max_spawns:int = 1
 export (int) var max_attempts:int = 3
 export (float) var remove_below_y:float = - 10.0
 export (bool) var spawn_kinematics_on_floor:bool = true
 export (bool) var ignore_visibility:bool = false
-
-var rand:Random
+export (int) var forced_personality = -1
+export (bool) var supress_abilities = false
 var current_spawns:Array = []
 var timer:Timer
 
 var done_initial_spawns:bool = false
 
 func _ready():
-	rand = Random.new()
 	timer = Timer.new()
 	add_child(timer)
 	timer.connect("timeout", self, "_timed_spawn")
+	UserSettings.connect("settings_changed", self,"_update_population")
 	timer.start(spawn_period)
 	if !npcmanager.has_savedata():
 		npcmanager.initialize_savedata()
-#
-func _enter_tree():
-	_cull_freed_spawns()
-	call_deferred("_do_initial_spawns")
+	_update_population()
+
+func _update_population():
+	var population = SaveState.other_data.LivingWorldData.Settings.NPCPopulation
+	day_max_spawns = clamp(population,1,5)
+	night_max_spawns = clamp(population-2,1,5)
+
+
+#func _enter_tree():
+#	_cull_freed_spawns()
+#	call_deferred("_do_initial_spawns")
 
 
 func try_spawn():
@@ -61,7 +68,7 @@ func _try_spawn_attempt():
 		if flat_pos.distance_to(player.global_transform.origin) < MIN_DISTANCE_TO_PLAYER:
 			return null
 
-	var npc = npcmanager.create_npc(self,self)
+	var npc = npcmanager.create_npc(self,self,forced_personality,supress_abilities)
 	if npc.has_method("beam_in"):
 		npc.beam_in()
 	npc.global_transform.origin = global_pos + Vector3(0,20,0)
@@ -110,8 +117,9 @@ func _do_initial_spawns():
 		yield (Co.next_frame(), "completed")
 
 func _timed_spawn():
+	var player = WorldSystem.get_player()
 	if WorldSystem.is_ai_enabled() and is_inside_tree():
-		if ignore_visibility or not is_on_screen():
+		if ignore_visibility or not is_on_screen() and self.global_transform.origin.distance_to(player.global_transform.origin) < MAX_SPAWN_DISTANCE:
 			_cull_freed_spawns()
 			try_spawn()
 

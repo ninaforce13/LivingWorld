@@ -16,16 +16,16 @@ static func patch():
 	var class_name_index = code_lines.find("class_name Spawner")
 	if class_name_index >= 0:
 		code_lines.remove(class_name_index)
+#
+#	var code_index = code_lines.find("func _ready():")
+#	if code_index > 0:
+#		code_lines.insert(code_index+1,get_code("add_spawner"))
 
-	var code_index = code_lines.find("func _ready():")
-	if code_index > 0:
-		code_lines.insert(code_index+1,get_code("add_spawner"))
-
-	code_index = code_lines.find("	current_spawns.push_back(node)")
+	var code_index = code_lines.find("	current_spawns.push_back(node)")
 	if code_index > 0:
 		code_lines.insert(code_index-1,get_code("add_objectdata"))
 
-	code_lines.insert(code_lines.size()-1, get_code("setup_recruit_spawner"))
+#	code_lines.insert(code_lines.size()-1, get_code("setup_recruit_spawner"))
 	patched_script.source_code = ""
 	for line in code_lines:
 		patched_script.source_code += line + "\n"

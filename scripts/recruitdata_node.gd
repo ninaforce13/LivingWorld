@@ -6,6 +6,7 @@ const trade_generator = preload("res://mods/LivingWorld/scripts/StickerTradeGene
 var follow_target = null
 var engaged_target = null
 var conversation_partners:Array = []
+var slots:Array
 var engaged:bool = false setget set_engage
 var recruit
 var on_battle_cooldown:bool = false
@@ -61,7 +62,13 @@ func exit_conversation():
 
 
 func full_conversation()->bool:
+	check_partners()
 	return conversation_partners.size() >= max_partners
+
+func check_partners():
+	for partner in conversation_partners:
+		if !is_instance_valid(partner):
+			conversation_partners.erase(partner)
 
 func _on_date_changed():
 	on_battle_cooldown = false

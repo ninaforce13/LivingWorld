@@ -3,7 +3,10 @@ extends CheckConditionAction
 export (bool) var interruptible:bool = false
 export (float) var time_limit:float = 0.0
 export (bool) var reset_on_exit_tree = false
-export (float) var weight = 0.0
+export (float) var combative_weight = 0.0
+export (float) var social_weight = 0.0
+export (float) var loner_weight = 0.0
+export (float) var townie_weight = 0.0
 export (bool) var disable_on_water = false
 var in_state:bool = false setget set_in_state
 var _timer:float = 0.0

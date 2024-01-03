@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=2]
+[gd_scene load_steps=83 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/emoteplayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=2]
@@ -40,7 +40,6 @@
 [ext_resource path="res://sprites/monsters/world/dominoth.json" type="PackedScene" id=38]
 [ext_resource path="res://sprites/monsters/world/elfless.json" type="PackedScene" id=39]
 [ext_resource path="res://sprites/monsters/world/faucetear.json" type="PackedScene" id=40]
-[ext_resource path="res://sprites/monsters/world/kirikuri.json" type="PackedScene" id=41]
 [ext_resource path="res://sprites/monsters/world/ferriclaw.json" type="PackedScene" id=42]
 [ext_resource path="res://sprites/monsters/world/hauntome.json" type="PackedScene" id=43]
 [ext_resource path="res://sprites/monsters/world/icepeck.json" type="PackedScene" id=44]
@@ -96,7 +95,7 @@ extents = Vector3( 11.3643, 1.59925, 10.2657 )
 
 [node name="CustomTrainee" type="KinematicBody" groups=["trainees"]]
 collision_layer = 128
-collision_mask = 32917
+collision_mask = 32789
 script = ExtResource( 2 )
 direction = Vector2( 0, 1 )
 sprite_colors = {
@@ -473,16 +472,6 @@ wave_v_frequency = 20.0
 
 [node name="Sprite" parent="MonsterForms/Faucetear" instance=ExtResource( 40 )]
 
-[node name="Kirikuri" type="Spatial" parent="MonsterForms"]
-visible = false
-script = ExtResource( 13 )
-direction = "down"
-billboard_depth_hack = true
-wave_t_frequency = 20.0
-wave_v_frequency = 20.0
-
-[node name="Sprite" parent="MonsterForms/Kirikuri" instance=ExtResource( 41 )]
-
 [node name="Ferriclaw" type="Spatial" parent="MonsterForms"]
 visible = false
 script = ExtResource( 13 )
@@ -682,7 +671,9 @@ collision_layer = 0
 collision_mask = 16384
 script = ExtResource( 61 )
 detection_cooldown = 60.0
-detection_chance = 0.25
+combative_chance = 0.9
+social_chance = 0.4
+loner_chance = 0.4
 max_player_dist = 25.0
 
 [node name="CollisionShape" type="CollisionShape" parent="MonsterDetector"]
@@ -694,7 +685,6 @@ collision_layer = 0
 collision_mask = 16384
 script = ExtResource( 78 )
 detection_cooldown = 5.0
-detection_chance = 1.0
 
 [node name="CollisionShape" type="CollisionShape" parent="RogueFusionDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
@@ -715,7 +705,10 @@ collision_mask = 128
 script = ExtResource( 65 )
 detection_bb_key = "conversation_partner"
 detection_cooldown = 60.0
-detection_chance = 0.65
+combative_chance = 0.3
+social_chance = 0.9
+loner_chance = 0.0
+townie_chance = 0.85
 
 [node name="CollisionShape" type="CollisionShape" parent="TalkingNPCDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
