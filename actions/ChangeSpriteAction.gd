@@ -5,6 +5,8 @@ export (float) var static_amount = 1.0
 export (float) var wave_amplitude = 0.2
 export (float) var duration = .25
 export (String) var random_activation_bb = ""
+export (bool) var use_bb = false
+export (String) var blackboard_value = "mode"
 func _run():
 	if random_activation_bb != "":
 		var result = get_bb(random_activation_bb)
@@ -20,6 +22,8 @@ func _run():
 		tween.interpolate_property(sprite,"wave_amplitude",sprite.wave_amplitude, wave_amplitude,duration*2,Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		tween.start()
 		yield(tween,"tween_completed")
+	if use_bb:
+		sprite_form = get_bb(blackboard_value)
 	pawn.swap_sprite(sprite_form)
 	sprite = pawn.sprite
 	tween = sprite.controller.tween

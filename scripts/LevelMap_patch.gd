@@ -28,6 +28,10 @@ static func patch():
 
 	code_lines.insert(code_lines.size()-1,get_code("setup_recruit_spawner"))
 
+	code_index = code_lines.find("	var npc = WorldPlayerFactory.create_player(player_index)")
+	if code_index > 0:
+		code_lines[code_index] = get_code("change_player")
+
 	code_index = code_lines.find("	if warp_target:")
 	if code_index > 0:
 		code_lines.insert(code_index-1,get_code("warp_recruit"))
@@ -54,6 +58,10 @@ static func get_code(block:String)->String:
 		warp_entities.push_back(custom_recruit)
 	"""
 
+	code_blocks["change_player"] = """
+	var npc = create_modded_player(player_index)
+	"""
+
 	code_blocks["respawn_recruit"] = """
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 	if npc_manager.has_active_follower() and !has_node("FollowerRecruit"):
@@ -68,6 +76,19 @@ static func get_code(block:String)->String:
 func setup_recruit_spawner(current_regionname):
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 	npc_manager.add_spawner(current_regionname,self)
+
+func create_modded_player(player_index:int):
+	var npc = preload("res://mods/LivingWorld/nodes/PlayerMonster.tscn").instance()
+	npc.character = SaveState.party.characters[player_index]
+
+	if player_index == 0:
+		npc.name = "Player"
+		npc.add_to_group("player_character")
+	else :
+		npc.name = "Partner"
+
+	WorldPlayerFactory.set_npc_to_player(npc, player_index)
+	return npc
 	"""
 
 	return code_blocks[block]

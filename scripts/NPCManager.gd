@@ -32,12 +32,11 @@ static func has_savedata()->bool:
 	return result == 7
 
 static func initialize_savedata():
-	if !SaveState.other_data.has("LivingWorldData"):
-		SaveState.other_data["LivingWorldData"] = {"ExtraEncounterConfig":{"extra_slots":0},
-													"CurrentFollower":{"recruit":{}, "active":false},
-													"Settings":{"JoinEncounters":true,
-																"MagnetismEnabled":true,
-																"NPCPopulation":3}}
+	SaveState.other_data["LivingWorldData"] = {"ExtraEncounterConfig":{"extra_slots":0},
+												"CurrentFollower":{"recruit":{}, "active":false},
+												"Settings":{"JoinEncounters":true,
+															"MagnetismEnabled":true,
+															"NPCPopulation":3}}
 
 static func get_setting(setting_name):
 	if !has_savedata():

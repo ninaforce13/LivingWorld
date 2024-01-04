@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://sprites/monsters/world/nevermort.json" type="PackedScene" id=1]
 [ext_resource path="res://sprites/monsters/world/masquerattle.json" type="PackedScene" id=2]
@@ -14,7 +14,7 @@
 [ext_resource path="res://sprites/monsters/world/diveal.json" type="PackedScene" id=12]
 [ext_resource path="res://sprites/monsters/world/boltam.json" type="PackedScene" id=13]
 [ext_resource path="res://sprites/monsters/world/charlequin.json" type="PackedScene" id=14]
-[ext_resource path="res://sprites/monsters/world/kirikuri.json" type="PackedScene" id=15]
+[ext_resource path="res://world/npc/HumanStateMachine.tscn" type="PackedScene" id=15]
 [ext_resource path="res://sprites/monsters/world/hauntome.json" type="PackedScene" id=16]
 [ext_resource path="res://sprites/monsters/world/icepeck.json" type="PackedScene" id=17]
 [ext_resource path="res://sprites/monsters/world/mascotoy.json" type="PackedScene" id=18]
@@ -34,34 +34,36 @@
 [ext_resource path="res://sprites/monsters/world/springheel.json" type="PackedScene" id=32]
 [ext_resource path="res://sprites/monsters/world/twirligig.json" type="PackedScene" id=33]
 [ext_resource path="res://sprites/monsters/world/traffikrab.json" type="PackedScene" id=34]
+[ext_resource path="res://addons/misc_utils/StateMachine.gd" type="Script" id=35]
+[ext_resource path="res://world/behaviors/monsters/DivealStateMachine.tscn" type="PackedScene" id=36]
+[ext_resource path="res://world/monsters/GhostlyFloatingState.gd" type="Script" id=37]
+[ext_resource path="res://world/behaviors/monsters/MascotoyStateMachine.tscn" type="PackedScene" id=38]
+[ext_resource path="res://world/behaviors/monsters/BoltamStateMachine.tscn" type="PackedScene" id=39]
+[ext_resource path="res://world/behaviors/monsters/BulletinoStateMachine.tscn" type="PackedScene" id=40]
+[ext_resource path="res://world/npc/WalkingState.gd" type="Script" id=41]
+[ext_resource path="res://world/npc/AirState.gd" type="Script" id=42]
+[ext_resource path="res://world/behaviors/monsters/PawndeadStateMachine.tscn" type="PackedScene" id=43]
 
 [node name="MonsterForms" type="Spatial"]
 
-[node name="Traffikrab" type="Spatial" parent="."]
+[node name="Traffikrab" type="Node" parent="."]
+
+[node name="Traffikrab" type="Spatial" parent="Traffikrab"]
 visible = false
 script = ExtResource( 7 )
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="MonsterSprite" type="Spatial" parent="Traffikrab" instance=ExtResource( 34 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="MonsterSprite" parent="Traffikrab/Traffikrab" instance=ExtResource( 34 )]
 
-[node name="Diveal" type="Spatial" parent="."]
-visible = false
-script = ExtResource( 7 )
-direction = "down"
-billboard_depth_hack = true
-wave_t_frequency = 20.0
-wave_v_frequency = 20.0
+[node name="StateMachine" parent="Traffikrab" instance=ExtResource( 15 )]
 
-[node name="Sprite" type="Spatial" parent="Diveal" instance=ExtResource( 12 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Walking" parent="Traffikrab/StateMachine" index="0"]
+max_walk_speed = 6.0
 
-[node name="Boltam" type="Spatial" parent="."]
+[node name="Diveal" type="Node" parent="."]
+
+[node name="Diveal" type="Spatial" parent="Diveal"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -69,12 +71,27 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Boltam" instance=ExtResource( 13 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Diveal/Diveal" instance=ExtResource( 12 )]
 
-[node name="Allseer" type="Spatial" parent="."]
+[node name="StateMachine" parent="Diveal" instance=ExtResource( 36 )]
+
+[node name="Boltam" type="Node" parent="."]
+
+[node name="Boltam" type="Spatial" parent="Boltam"]
+visible = false
+script = ExtResource( 7 )
+direction = "down"
+billboard_depth_hack = true
+wave_t_frequency = 20.0
+wave_v_frequency = 20.0
+
+[node name="Sprite" parent="Boltam/Boltam" instance=ExtResource( 13 )]
+
+[node name="StateMachine" parent="Boltam" instance=ExtResource( 39 )]
+
+[node name="Allseer" type="Node" parent="."]
+
+[node name="Allseer" type="Spatial" parent="Allseer"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -83,12 +100,20 @@ render_priority = 1
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite2" type="Spatial" parent="Allseer" instance=ExtResource( 30 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite2" parent="Allseer/Allseer" instance=ExtResource( 30 )]
 
-[node name="Amphare" type="Spatial" parent="."]
+[node name="StateMachine" type="Node" parent="Allseer"]
+script = ExtResource( 35 )
+
+[node name="GhostlyFloating" type="Node" parent="Allseer/StateMachine"]
+script = ExtResource( 37 )
+sprite_wave_amplitude = 0.0
+sprite_wave_t_frequency = 0.0
+sprite_wave_v_frequency = 0.0
+
+[node name="Amphare" type="Node" parent="."]
+
+[node name="Amphare" type="Spatial" parent="Amphare"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -97,12 +122,13 @@ emission_palette = [ Color( 0.996078, 0.960784, 0.466667, 1 ), Color( 0.976471, 
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Amphare" instance=ExtResource( 23 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Amphare/Amphare" instance=ExtResource( 23 )]
 
-[node name="Bulletino" type="Spatial" parent="."]
+[node name="StateMachine" parent="Amphare" instance=ExtResource( 38 )]
+
+[node name="Bulletino" type="Node" parent="."]
+
+[node name="Bulletino" type="Spatial" parent="Bulletino"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -110,12 +136,13 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Bulletino" instance=ExtResource( 4 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Bulletino/Bulletino" instance=ExtResource( 4 )]
 
-[node name="Carniviper" type="Spatial" parent="."]
+[node name="StateMachine" parent="Bulletino" instance=ExtResource( 40 )]
+
+[node name="Carniviper" type="Node" parent="."]
+
+[node name="Carniviper" type="Spatial" parent="Carniviper"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -123,12 +150,16 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Carniviper" instance=ExtResource( 10 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Carniviper/Carniviper" instance=ExtResource( 10 )]
 
-[node name="Busheye" type="Spatial" parent="."]
+[node name="StateMachine" parent="Carniviper" instance=ExtResource( 15 )]
+
+[node name="Walking" parent="Carniviper/StateMachine" index="0"]
+max_walk_speed = 6.0
+
+[node name="Busheye" type="Node" parent="."]
+
+[node name="Busheye" type="Spatial" parent="Busheye"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -136,12 +167,29 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Busheye" instance=ExtResource( 24 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Busheye/Busheye" instance=ExtResource( 24 )]
 
-[node name="Charlequin" type="Spatial" parent="."]
+[node name="StateMachine" parent="Busheye" instance=ExtResource( 15 )]
+
+[node name="Walking" parent="Busheye/StateMachine" index="0"]
+max_walk_speed = 4.0
+
+[node name="Falling" parent="Busheye/StateMachine" index="2"]
+loop_animation = "run"
+
+[node name="Climbing" parent="Busheye/StateMachine" index="3"]
+loop_animation = "run"
+
+[node name="Gliding" parent="Busheye/StateMachine" index="4"]
+loop_animation = "run"
+
+[node name="ForcedFlying" parent="Busheye/StateMachine" index="5"]
+show_wings = false
+loop_animation = "run"
+
+[node name="Charlequin" type="Node" parent="."]
+
+[node name="Charlequin" type="Spatial" parent="Charlequin"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -149,12 +197,18 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Charlequin" instance=ExtResource( 14 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Charlequin/Charlequin" instance=ExtResource( 14 )]
 
-[node name="Cluckabilly" type="Spatial" parent="."]
+[node name="StateMachine" parent="Charlequin" instance=ExtResource( 36 )]
+
+[node name="Walking" parent="Charlequin/StateMachine" index="0"]
+max_walk_speed = 6.0
+walk_acceleration = 1.0
+jump_speed = 21.0
+
+[node name="Cluckabilly" type="Node" parent="."]
+
+[node name="Cluckabilly" type="Spatial" parent="Cluckabilly"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -162,12 +216,13 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Cluckabilly" instance=ExtResource( 28 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Cluckabilly/Cluckabilly" instance=ExtResource( 28 )]
 
-[node name="Dominoth" type="Spatial" parent="."]
+[node name="StateMachine" parent="Cluckabilly" instance=ExtResource( 36 )]
+
+[node name="Dominoth" type="Node" parent="."]
+
+[node name="Dominoth" type="Spatial" parent="Dominoth"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -175,12 +230,26 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Dominoth" instance=ExtResource( 8 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Dominoth/Dominoth" instance=ExtResource( 8 )]
 
-[node name="Elfless" type="Spatial" parent="."]
+[node name="StateMachine" parent="Dominoth" instance=ExtResource( 15 )]
+
+[node name="Falling" parent="Dominoth/StateMachine" index="2"]
+loop_animation = "run"
+
+[node name="Climbing" parent="Dominoth/StateMachine" index="3"]
+loop_animation = "run"
+
+[node name="Gliding" parent="Dominoth/StateMachine" index="4"]
+loop_animation = "run"
+
+[node name="ForcedFlying" parent="Dominoth/StateMachine" index="5"]
+show_wings = false
+loop_animation = "run"
+
+[node name="Elfless" type="Node" parent="."]
+
+[node name="Elfless" type="Spatial" parent="Elfless"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -188,12 +257,27 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Elfless" instance=ExtResource( 25 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Elfless/Elfless" instance=ExtResource( 25 )]
 
-[node name="Faucetear" type="Spatial" parent="."]
+[node name="StateMachine" type="Node" parent="Elfless"]
+script = ExtResource( 35 )
+
+[node name="Walking" type="Node" parent="Elfless/StateMachine"]
+script = ExtResource( 41 )
+max_walk_speed = 6.0
+walk_acceleration = 16.0
+
+[node name="Falling" type="Node" parent="Elfless/StateMachine"]
+script = ExtResource( 42 )
+glide_acceleration = 48.0
+recovery_y_velocity_threshold = 32.0
+recovery_play_land_audio = true
+
+[node name="Nothing" type="Node" parent="Elfless/StateMachine"]
+
+[node name="Faucetear" type="Node" parent="."]
+
+[node name="Faucetear" type="Spatial" parent="Faucetear"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -201,25 +285,16 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Faucetear" instance=ExtResource( 3 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Faucetear/Faucetear" instance=ExtResource( 3 )]
 
-[node name="Kirikuri" type="Spatial" parent="."]
-visible = false
-script = ExtResource( 7 )
-direction = "down"
-billboard_depth_hack = true
-wave_t_frequency = 20.0
-wave_v_frequency = 20.0
+[node name="StateMachine" parent="Faucetear" instance=ExtResource( 15 )]
 
-[node name="Sprite" type="Spatial" parent="Kirikuri" instance=ExtResource( 15 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Walking" parent="Faucetear/StateMachine" index="0"]
+max_walk_speed = 7.5
 
-[node name="Ferriclaw" type="Spatial" parent="."]
+[node name="Ferriclaw" type="Node" parent="."]
+
+[node name="Ferriclaw" type="Spatial" parent="Ferriclaw"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -228,12 +303,16 @@ emission_palette = [ Color( 0.435294, 0.0862745, 0.145098, 1 ), Color( 0.694118,
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Ferriclaw" instance=ExtResource( 31 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Ferriclaw/Ferriclaw" instance=ExtResource( 31 )]
 
-[node name="Hauntome" type="Spatial" parent="."]
+[node name="StateMachine" parent="Ferriclaw" instance=ExtResource( 15 )]
+
+[node name="Walking" parent="Ferriclaw/StateMachine" index="0"]
+max_walk_speed = 6.0
+
+[node name="Hauntome" type="Node" parent="."]
+
+[node name="Hauntome" type="Spatial" parent="Hauntome"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -242,12 +321,20 @@ render_priority = 1
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Hauntome" instance=ExtResource( 16 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Hauntome/Hauntome" instance=ExtResource( 16 )]
 
-[node name="Icepeck" type="Spatial" parent="."]
+[node name="StateMachine" type="Node" parent="Hauntome"]
+script = ExtResource( 35 )
+
+[node name="GhostlyFloating" type="Node" parent="Hauntome/StateMachine"]
+script = ExtResource( 37 )
+sprite_wave_amplitude = 0.0
+sprite_wave_t_frequency = 0.0
+sprite_wave_v_frequency = 0.0
+
+[node name="Icepeck" type="Node" parent="."]
+
+[node name="Icepeck" type="Spatial" parent="Icepeck"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -255,12 +342,16 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Icepeck" instance=ExtResource( 17 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Icepeck/Icepeck" instance=ExtResource( 17 )]
 
-[node name="Jellyton" type="Spatial" parent="."]
+[node name="StateMachine" parent="Icepeck" instance=ExtResource( 15 )]
+
+[node name="Walking" parent="Icepeck/StateMachine" index="0"]
+max_walk_speed = 10.0
+
+[node name="Jellyton" type="Node" parent="."]
+
+[node name="Jellyton" type="Spatial" parent="Jellyton"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -268,12 +359,27 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Jellyton" instance=ExtResource( 26 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Jellyton/Jellyton" instance=ExtResource( 26 )]
 
-[node name="Littlered" type="Spatial" parent="."]
+[node name="StateMachine" type="Node" parent="Jellyton"]
+script = ExtResource( 35 )
+
+[node name="Walking" type="Node" parent="Jellyton/StateMachine"]
+script = ExtResource( 41 )
+walk_acceleration = 2.0
+walk_deceleration = 16.0
+
+[node name="Falling" type="Node" parent="Jellyton/StateMachine"]
+script = ExtResource( 42 )
+glide_acceleration = 48.0
+recovery_y_velocity_threshold = 32.0
+recovery_play_land_audio = true
+
+[node name="Nothing" type="Node" parent="Jellyton/StateMachine"]
+
+[node name="Littlered" type="Node" parent="."]
+
+[node name="Littlered" type="Spatial" parent="Littlered"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -281,12 +387,16 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Littlered" instance=ExtResource( 27 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Littlered/Littlered" instance=ExtResource( 27 )]
 
-[node name="Mascotoy" type="Spatial" parent="."]
+[node name="StateMachine" parent="Littlered" instance=ExtResource( 15 )]
+
+[node name="Walking" parent="Littlered/StateMachine" index="0"]
+max_walk_speed = 7.5
+
+[node name="Mascotoy" type="Node" parent="."]
+
+[node name="Mascotoy" type="Spatial" parent="Mascotoy"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -294,12 +404,13 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Mascotoy" instance=ExtResource( 18 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Mascotoy/Mascotoy" instance=ExtResource( 18 )]
 
-[node name="Masquerattle" type="Spatial" parent="."]
+[node name="StateMachine" parent="Mascotoy" instance=ExtResource( 38 )]
+
+[node name="Masquerattle" type="Node" parent="."]
+
+[node name="Masquerattle" type="Spatial" parent="Masquerattle"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -307,12 +418,13 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Masquerattle" instance=ExtResource( 2 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Masquerattle/Masquerattle" instance=ExtResource( 2 )]
 
-[node name="Minortom" type="Spatial" parent="."]
+[node name="StateMachine" parent="Masquerattle" instance=ExtResource( 15 )]
+
+[node name="Minortom" type="Node" parent="."]
+
+[node name="Minortom" type="Spatial" parent="Minortom"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -321,12 +433,13 @@ emission_palette = [ Color( 1, 1, 1, 1 ), Color( 0.996078, 0.909804, 0.345098, 1
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Minortom" instance=ExtResource( 19 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Minortom/Minortom" instance=ExtResource( 19 )]
 
-[node name="Nevermort" type="Spatial" parent="."]
+[node name="StateMachine" parent="Minortom" instance=ExtResource( 40 )]
+
+[node name="Nevermort" type="Node" parent="."]
+
+[node name="Nevermort" type="Spatial" parent="Nevermort"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -334,12 +447,29 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite2" type="Spatial" parent="Nevermort" instance=ExtResource( 1 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite2" parent="Nevermort/Nevermort" instance=ExtResource( 1 )]
 
-[node name="Pawndead" type="Spatial" parent="."]
+[node name="StateMachine" parent="Nevermort" instance=ExtResource( 15 )]
+
+[node name="Walking" parent="Nevermort/StateMachine" index="0"]
+max_walk_speed = 6.0
+
+[node name="Falling" parent="Nevermort/StateMachine" index="2"]
+loop_animation = "run"
+
+[node name="Climbing" parent="Nevermort/StateMachine" index="3"]
+loop_animation = "run"
+
+[node name="Gliding" parent="Nevermort/StateMachine" index="4"]
+loop_animation = "run"
+
+[node name="ForcedFlying" parent="Nevermort/StateMachine" index="5"]
+show_wings = false
+loop_animation = "run"
+
+[node name="Pawndead" type="Node" parent="."]
+
+[node name="Pawndead" type="Spatial" parent="Pawndead"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -347,12 +477,13 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Pawndead" instance=ExtResource( 20 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Pawndead/Pawndead" instance=ExtResource( 20 )]
 
-[node name="Pombomb" type="Spatial" parent="."]
+[node name="StateMachine" parent="Pawndead" instance=ExtResource( 43 )]
+
+[node name="Pombomb" type="Node" parent="."]
+
+[node name="Pombomb" type="Spatial" parent="Pombomb"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -360,12 +491,13 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Pombomb" instance=ExtResource( 5 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Pombomb/Pombomb" instance=ExtResource( 5 )]
 
-[node name="Puppercut" type="Spatial" parent="."]
+[node name="StateMachine" parent="Pombomb" instance=ExtResource( 36 )]
+
+[node name="Puppercut" type="Node" parent="."]
+
+[node name="Puppercut" type="Spatial" parent="Puppercut"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -373,12 +505,25 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Puppercut" instance=ExtResource( 11 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Puppercut/Puppercut" instance=ExtResource( 11 )]
 
-[node name="Queenyx" type="Spatial" parent="."]
+[node name="StateMachine" type="Node" parent="Puppercut"]
+script = ExtResource( 35 )
+
+[node name="Walking" type="Node" parent="Puppercut/StateMachine"]
+script = ExtResource( 41 )
+
+[node name="Falling" type="Node" parent="Puppercut/StateMachine"]
+script = ExtResource( 42 )
+glide_acceleration = 48.0
+recovery_y_velocity_threshold = 32.0
+recovery_play_land_audio = true
+
+[node name="Nothing" type="Node" parent="Puppercut/StateMachine"]
+
+[node name="Queenyx" type="Node" parent="."]
+
+[node name="Queenyx" type="Spatial" parent="Queenyx"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -386,12 +531,16 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Queenyx" instance=ExtResource( 21 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Queenyx/Queenyx" instance=ExtResource( 21 )]
 
-[node name="Sanzatime" type="Spatial" parent="."]
+[node name="StateMachine" parent="Queenyx" instance=ExtResource( 43 )]
+
+[node name="Walking" parent="Queenyx/StateMachine" index="2"]
+max_walk_speed = 9.0
+
+[node name="Sanzatime" type="Node" parent="."]
+
+[node name="Sanzatime" type="Spatial" parent="Sanzatime"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -399,12 +548,13 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Sanzatime" instance=ExtResource( 22 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Sanzatime/Sanzatime" instance=ExtResource( 22 )]
 
-[node name="Spooki-oona" type="Spatial" parent="."]
+[node name="StateMachine" parent="Sanzatime" instance=ExtResource( 38 )]
+
+[node name="Spooki-oona" type="Node" parent="."]
+
+[node name="Spooki-oona" type="Spatial" parent="Spooki-oona"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -413,12 +563,25 @@ emission_palette = [ Color( 1, 1, 1, 1 ) ]
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Spooki-oona" instance=ExtResource( 29 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Spooki-oona/Spooki-oona" instance=ExtResource( 29 )]
 
-[node name="Springheel" type="Spatial" parent="."]
+[node name="StateMachine" type="Node" parent="Spooki-oona"]
+script = ExtResource( 35 )
+
+[node name="GhostlyFloatingState" type="Node" parent="Spooki-oona/StateMachine"]
+script = ExtResource( 37 )
+max_y_speed = 4.0
+y_acceleration = 8.0
+max_xz_speed = 24.0
+xz_acceleration = 12.0
+xz_deceleration = 8.0
+sprite_wave_amplitude = 0.0
+sprite_wave_t_frequency = 0.0
+sprite_wave_v_frequency = 0.0
+
+[node name="Springheel" type="Node" parent="."]
+
+[node name="Springheel" type="Spatial" parent="Springheel"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -426,12 +589,16 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Springheel" instance=ExtResource( 32 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Springheel/Springheel" instance=ExtResource( 32 )]
 
-[node name="Squirey" type="Spatial" parent="."]
+[node name="StateMachine" parent="Springheel" instance=ExtResource( 15 )]
+
+[node name="Walking" parent="Springheel/StateMachine" index="0"]
+max_walk_speed = 7.0
+
+[node name="Squirey" type="Node" parent="."]
+
+[node name="Squirey" type="Spatial" parent="Squirey"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -439,12 +606,16 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Squirey" instance=ExtResource( 9 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Squirey/Squirey" instance=ExtResource( 9 )]
 
-[node name="Terracooka" type="Spatial" parent="."]
+[node name="StateMachine" parent="Squirey" instance=ExtResource( 15 )]
+
+[node name="Walking" parent="Squirey/StateMachine" index="0"]
+max_walk_speed = 7.5
+
+[node name="Terracooka" type="Node" parent="."]
+
+[node name="Terracooka" type="Spatial" parent="Terracooka"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -452,12 +623,17 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Terracooka" instance=ExtResource( 6 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Terracooka/Terracooka" instance=ExtResource( 6 )]
 
-[node name="Twirligig" type="Spatial" parent="."]
+[node name="StateMachine" parent="Terracooka" instance=ExtResource( 15 )]
+
+[node name="Walking" parent="Terracooka/StateMachine" index="0"]
+max_walk_speed = 3.0
+walk_acceleration = 3.0
+
+[node name="Twirligig" type="Node" parent="."]
+
+[node name="Twirligig" type="Spatial" parent="Twirligig"]
 visible = false
 script = ExtResource( 7 )
 direction = "down"
@@ -465,7 +641,35 @@ billboard_depth_hack = true
 wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
-[node name="Sprite" type="Spatial" parent="Twirligig" instance=ExtResource( 33 )]
-__meta__ = {
-"_ase_imported": true
-}
+[node name="Sprite" parent="Twirligig/Twirligig" instance=ExtResource( 33 )]
+
+[node name="StateMachine" type="Node" parent="Twirligig"]
+script = ExtResource( 35 )
+
+[node name="Walking" type="Node" parent="Twirligig/StateMachine"]
+script = ExtResource( 41 )
+max_walk_speed = 7.0
+let_animations_finish = true
+
+[node name="Falling" type="Node" parent="Twirligig/StateMachine"]
+script = ExtResource( 42 )
+glide_acceleration = 48.0
+recovery_y_velocity_threshold = 32.0
+recovery_play_land_audio = true
+
+[node name="Nothing" type="Node" parent="Twirligig/StateMachine"]
+
+[editable path="Traffikrab/StateMachine"]
+[editable path="Carniviper/StateMachine"]
+[editable path="Busheye/StateMachine"]
+[editable path="Charlequin/StateMachine"]
+[editable path="Dominoth/StateMachine"]
+[editable path="Faucetear/StateMachine"]
+[editable path="Ferriclaw/StateMachine"]
+[editable path="Icepeck/StateMachine"]
+[editable path="Littlered/StateMachine"]
+[editable path="Nevermort/StateMachine"]
+[editable path="Queenyx/StateMachine"]
+[editable path="Springheel/StateMachine"]
+[editable path="Squirey/StateMachine"]
+[editable path="Terracooka/StateMachine"]
