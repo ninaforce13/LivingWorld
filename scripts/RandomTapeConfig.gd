@@ -166,12 +166,9 @@ func move_is_upgradable(move:BattleMove)->bool:
 	return move.attribute_profile != null
 
 func _rand_form(rand:Random)->MonsterForm:
-
+	var form = SaveState.species_collection.get_random_seen_spawnable_species(rand)
+	if form != null:
+		return form
 	rand = rand.get_child("_rand_form")
 	var sp = spawn_profile if spawn_profile is MonsterSpawnProfile else WorldSystem.current_spawn_profile
-	assert (sp == null or sp is MonsterSpawnProfile)
-	if not (sp is MonsterSpawnProfile) or rand.rand_float() < non_profile_rate:
-		var form = SaveState.species_collection.get_random_seen_spawnable_species(rand)
-		if form != null:
-			return form
 	return sp.choose_form(rand)

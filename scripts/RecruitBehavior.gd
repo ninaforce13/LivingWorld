@@ -162,3 +162,12 @@ func _on_RogueFusionDetector_detected(detection):
 		set_state("Flee")
 		return
 	set_state("FindRogues")
+
+
+func _on_MerchantDetector_detected(detection):
+	if !is_interruptible(state_node):
+		return
+	var recruitdata = pawn.get_node("RecruitData")
+	recruitdata.engaged_target = detection
+	set_state("Shop")
+

@@ -13,7 +13,7 @@ RECRUIT_IDLE_DIALOG_11,
 RECRUIT_IDLE_DIALOG_12,
 RECRUIT_IDLE_DIALOG_13,
 RECRUIT_IDLE_DIALOG_14,
-RECRUIT_PASSIVE_ROGUE,There's been another rogue sighting![pause][pause] We need all available rangers!
+RECRUIT_PASSIVE_ROGUE,There's been another rogue sighting![pause] We need all available rangers!
 RECRUIT_MENU_OPTION1,Invite {pawn} to hang out.
 RECRUIT_MENU_OPTION2,Challenge {pawn} to a friendly battle.
 RECRUIT_MENU_OPTION3,[color=#1fba33]Trade stickers with {pawn}.[/color]

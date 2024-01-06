@@ -1,7 +1,6 @@
 extends "res://world/core/Detector.gd"
 
 func is_valid_detection(_detection)->bool:
-	var player = WorldSystem.get_player()
 	if !_detection.has_node("ObjectData"):
 		return false
 	if !_detection.has_node("EncounterConfig"):

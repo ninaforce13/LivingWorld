@@ -47,10 +47,10 @@ static func get_setting(setting_name):
 
 static func get_follower_config(other_recruit):
 	var recruit = other_recruit
-	var new_config = preload("res://mods/LivingWorld/nodes/empty_charconfig.tscn").instance()
+	var new_config = load("res://mods/LivingWorld/nodes/empty_charconfig.tscn").instance()
 	var rangerdata = load("res://mods/LivingWorld/scripts/RangerDataParser.gd")
 	new_config.team = 0
-	var tape_nodes:Array
+	var tape_nodes:Array = []
 	for tape in new_config.get_children():
 		tape_nodes.push_back(tape)
 	rangerdata.set_char_config(new_config,recruit,tape_nodes)
@@ -73,8 +73,8 @@ static func add_battle_slots(battlebackground):
 	var enemy3slot = battlebackground.get_node("BattleSlotEnemy3") if battlebackground.has_node("BattleSlotEnemy3") else null
 	if not player1slot:
 		return
-	var index:int
-	for i in range (0, SaveState.other_data.LivingWorldData.ExtraEncounterConfig.extra_slots):
+	var index:int = 0
+	for _i in range (0, SaveState.other_data.LivingWorldData.ExtraEncounterConfig.extra_slots):
 		var followerslot = preload("res://mods/LivingWorld/nodes/BattleSlotFollower.tscn").instance()
 		var extra_enemy_slot = preload("res://mods/LivingWorld/nodes/BattleSlotEnemy.tscn").instance()
 		var offset:int = 4
@@ -151,7 +151,7 @@ static func get_npc(recruitdata=null):
 	var files:Array = rangerdata.get_files(datapath)
 	var custom_recruits:Array = rangerdata.read_json(files)
 	var recruit = rangerdata.get_empty_recruit() if recruitdata == null else recruitdata
-	var npc = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn").instance()
+	var npc = load("res://mods/LivingWorld/nodes/RecruitTemplate.tscn").instance()
 	var filtered_recruits = Mod.filter_recruits(custom_recruits)
 	var use_custom:bool = recruitdata != null
 	if randf() <= settings.custom_recruit_rate and filtered_recruits.size() > 0 and not recruitdata:
@@ -162,7 +162,7 @@ static func get_npc(recruitdata=null):
 	var recruitdata_node = npc.get_node("RecruitData")
 	var char_config:Node = npc.get_node("EncounterConfig/CharacterConfig")
 	var sidekick_config:Node = npc.get_node("EncounterConfig/Sidekick")
-	var tape_nodes:Array
+	var tape_nodes:Array = []
 
 	recruit.name = name_generator.generate() if not use_custom else recruit.name
 
@@ -230,7 +230,6 @@ static func set_warp_target(warp_target, subtarget_name, index):
 static func add_spawner(region_name,level):
 	var settings = load("res://mods/LivingWorld/settings.tres")
 	var spawner_scene = load("res://mods/LivingWorld/nodes/RecruitSpawner.tscn")
-	var player = WorldSystem.get_player()
 	if settings.levelmap_spawners.has(region_name):
 		for location in settings.levelmap_spawners[region_name].locations:
 			if !level.has_node(location.name):

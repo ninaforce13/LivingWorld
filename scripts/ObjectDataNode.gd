@@ -1,5 +1,5 @@
 extends Node
-enum ObjectType {CAMP, ROGUEFUSION, WILD_ENCOUNTER}
+enum ObjectType {CAMP, ROGUEFUSION, WILD_ENCOUNTER, MERCHANT}
 export (ObjectType) var object_type
 export (int) var max_slots = 4
 export (NodePath) var fire

@@ -85,11 +85,6 @@ func add_debug_commands():
 		"args":[TYPE_STRING,TYPE_BOOL,TYPE_INT,TYPE_BOOL],
 		"target":[self,"add_location_spawner"]
 		})
-	Console.register("player_transform",{
-		"description":"Transform into a random monster form",
-		"args":[TYPE_INT],
-		"target":[self,"transform"]
-		})
 
 func pause():
 	WorldSystem.get_tree().paused = !WorldSystem.get_tree().paused
@@ -136,6 +131,3 @@ func add_debug_camera(value):
 			debugnode.set_player_control(true)
 			camera.remove_child(debugnode)
 			debugnode.queue_free()
-func transform(value:int):
-	var player = WorldSystem.get_player()
-	player.player_transform(value)

@@ -8,18 +8,17 @@ var random = Random.new()
 func is_valid_detection(_detection)->bool:
 	if _detection == get_parent():
 		return false
-	if !_detection.has_node("RecruitBehavior"):
+	if !_detection.has_node("InteractionBehavior"):
 		return false
-	var behavior = _detection.get_node("RecruitBehavior")
-	if !behavior.is_interruptible(behavior.state_node):
-		return false
-	if !_detection.has_node("RecruitData"):
-		return false
-	var object_data = _detection.get_node("RecruitData")
-	if object_data.full_conversation():
+	var behavior = _detection.get_node("InteractionBehavior")
+	if !behavior.get("exchange_name"):
 		return false
 	if !random.rand_bool(get_chance()):
 		return false
+
+	if !_detection.has_node("ObjectData"):
+		var merchantdata = preload("res://mods/LivingWorld/nodes/MerchantData.tscn").instance()
+		_detection.add_child(merchantdata)
 	return true
 
 func get_chance()->float:

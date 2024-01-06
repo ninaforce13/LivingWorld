@@ -13,6 +13,10 @@ static func patch():
 
 	var code_lines:Array = patched_script.source_code.split("\n")
 
+	var class_name_index = code_lines.find("class_name PlayerController")
+	if class_name_index >= 0:
+		code_lines.remove(class_name_index)
+
 	var code_index = code_lines.find("	if requires_warp_to_player1 and WorldSystem.is_player_control_enabled():")
 	if code_index > 0:
 		code_lines.insert(code_index-1,get_code("add_key"))
@@ -21,8 +25,8 @@ static func patch():
 	patched_script.source_code = ""
 	for line in code_lines:
 		patched_script.source_code += line + "\n"
-
-	var err = patched_script.reload()
+	PlayerController.source_code = patched_script.source_code
+	var err = PlayerController.reload()
 	if err != OK:
 		push_error("Failed to patch %s." % script_path)
 		return

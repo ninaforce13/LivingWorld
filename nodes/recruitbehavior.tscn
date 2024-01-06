@@ -1005,6 +1005,81 @@ script = ExtResource( 2 )
 [node name="Failer" type="Node" parent="EngageEnemy"]
 script = ExtResource( 11 )
 
+[node name="Shop" type="Node" parent="."]
+script = ExtResource( 61 )
+reset_on_exit_tree = true
+disable_on_water = true
+
+[node name="SetNPCControlsAction" type="Node" parent="Shop"]
+script = ExtResource( 14 )
+set_values = 478
+
+[node name="Register" type="Node" parent="Shop"]
+script = ExtResource( 1 )
+register = true
+
+[node name="GetEngagedTarget" type="Node" parent="Shop/Register"]
+script = ExtResource( 56 )
+
+[node name="DisableInteraction" type="Node" parent="Shop"]
+script = ExtResource( 30 )
+disabled = true
+
+[node name="GetPawn" type="Node" parent="Shop/DisableInteraction"]
+script = ExtResource( 2 )
+
+[node name="FaceTowardsAction" type="Node" parent="Shop"]
+script = ExtResource( 8 )
+
+[node name="GetEngagedTarget" type="Node" parent="Shop/FaceTowardsAction"]
+script = ExtResource( 56 )
+
+[node name="FollowAction" type="Node" parent="Shop"]
+script = ExtResource( 17 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 3.0
+ignore_ending_y = false
+buffer = true
+zbuffer_dist = 5.0
+
+[node name="GetEngagedTarget" type="Node" parent="Shop/FollowAction"]
+script = ExtResource( 56 )
+
+[node name="RepeatWhile" type="Node" parent="Shop"]
+script = ExtResource( 15 )
+
+[node name="PlayEmote" type="Node" parent="Shop/RepeatWhile"]
+script = ExtResource( 69 )
+selection = 19
+
+[node name="WaitAction2" type="Node" parent="Shop/RepeatWhile"]
+script = ExtResource( 7 )
+base_seconds = 5.0
+random_seconds = 5.0
+
+[node name="UnRegister" type="Node" parent="Shop"]
+script = ExtResource( 1 )
+
+[node name="GetEngagedTarget" type="Node" parent="Shop/UnRegister"]
+script = ExtResource( 56 )
+
+[node name="EnableInteraction" type="Node" parent="Shop"]
+script = ExtResource( 30 )
+
+[node name="GetPawn" type="Node" parent="Shop/EnableInteraction"]
+script = ExtResource( 2 )
+
+[node name="Failer" type="Node" parent="Shop"]
+script = ExtResource( 11 )
+
 [node name="Flee" type="Node" parent="."]
 script = ExtResource( 9 )
 

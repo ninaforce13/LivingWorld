@@ -15,10 +15,11 @@ func reset():
 		target.sprite.set_static_amount(0)
 		if pawn.use_monster_form:
 			yield(revert_human_sprite(pawn),"completed")
-		if is_instance_valid(target):
+		if is_instance_valid(target) and target != null:
 			target.set_paused(false)
 			target.emote_player.stop()
-			target.get_node("PlayerTouchDetector").disabled = false
+			if target.has_node("PlayerTouchDetector"):
+				target.get_node("PlayerTouchDetector").disabled = false
 			if target.has_node("ObjectData"):
 				var object_data = target.get_node("ObjectData")
 				object_data.purge_slots(true)

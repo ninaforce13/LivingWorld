@@ -21,12 +21,6 @@ func _ready():
 		set_character(character)
 	else :
 		refresh_sprite()
-	pause_forms()
-func pause_forms():
-	var monster_forms = get_node("MonsterForms")
-	for form in monster_forms.get_children():
-		form.get_child(1).set_pawn_path(self.get_path())
-		form.get_child(1).set_paused(true)
 
 func player_transform(value=-1):
 	if value == -1:
@@ -53,9 +47,6 @@ func swap_sprite(value:int):
 		monster_sprite.set_wave_v_frequency(sprite.wave_v_frequency)
 		monster_sprite.direction = sprite.direction
 		dominant_sprite = monster_sprite
-		state_machine.set_paused(true)
-		state_machine = selection.get_child(1)
-		state_machine.set_paused(false)
 		human_sprite.visible = false
 	else:
 		human_sprite.set_static_amount(sprite.static_amount)
@@ -64,11 +55,9 @@ func swap_sprite(value:int):
 		human_sprite.set_wave_v_frequency(sprite.wave_v_frequency)
 		human_sprite.direction = sprite.direction
 		dominant_sprite = human_sprite
-		state_machine.set_paused(true)
-		state_machine = get_node("StateMachine")
-		state_machine.set_paused(false)
 		monster_sprite.visible = false
 	sprite = dominant_sprite
+	state_machine.change_forms(use_monster_form)
 	sprite.visible = true
 	if previous_monster_form_index != index:
 		monster_forms.get_child(previous_monster_form_index).get_child(0).visible = false

@@ -1,7 +1,7 @@
 extends ActionValue
 
 export (String) var group:String
-export (float) var distance = 10
+export (float) var distance = 10.0
 export (bool) var inverted = false
 func get_value():
 	var nodes = get_tree().get_nodes_in_group(group)

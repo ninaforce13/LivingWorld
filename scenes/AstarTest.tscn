@@ -147,8 +147,6 @@ ignore_visibility = true
 [node name="RecruitSpawner" parent="." instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5682, 0, -2.38089 )
 aabb = AABB( -8.35238, 0, -7.20357, 16.7048, 2, 14.4071 )
-spawn_period = 1.0
-initial_spawns = 5
-day_max_spawns = 5
+day_max_spawns = 1
 max_attempts = 10
 ignore_visibility = true
