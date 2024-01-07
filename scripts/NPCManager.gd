@@ -142,6 +142,28 @@ static func create_npc(spawner, node, forced_personality,supress_abilities):
 	spawner.get_parent().add_child(recruit)
 
 	return recruit
+
+static func get_data_from_npc(npc):
+	var rangerdata = load("res://mods/LivingWorld/scripts/RangerDataParser.gd")
+	var recruitdata = rangerdata.get_empty_recruit()
+	if npc.npc_name != "":
+		recruitdata.name = npc.npc_name
+	recruitdata.human_part_names = to_json(npc.sprite_part_names)
+	recruitdata.human_colors = to_json(npc.sprite_colors)
+	if npc.character:
+		recruitdata.stats = npc.character.get_snapshot()
+	if npc.has_node("EncounterConfig"):
+		var encounter = npc.get_node("EncounterConfig")
+		var characters = encounter.get_character_nodes()
+		var tapes = []
+		var index:int = 0
+		for c in characters:
+			for tape in c.get_tape_nodes():
+				var newtape = tape._generate_tape(Random.new(),0)
+				recruitdata["tape"+str(index)] = newtape.get_snapshot()
+				index+=1
+	return recruitdata
+
 static func get_npc(recruitdata=null):
 	var Mod = DLC.mods_by_id["LivingWorldMod"]
 	var settings = preload("res://mods/LivingWorld/settings.tres")

@@ -62,6 +62,7 @@ func swap_sprite(value:int):
 	if previous_monster_form_index != index:
 		monster_forms.get_child(previous_monster_form_index).get_child(0).visible = false
 		previous_monster_form_index = index
+
 func refresh_sprite():
 	if not sprite or use_monster_form:
 		return

@@ -12,6 +12,7 @@ var inventorydetail = preload("res://mods/LivingWorld/scripts/inventorydetail_pa
 var stickeritem_patch = preload("res://mods/LivingWorld/scripts/StickerItem_patch.gd")
 var gameplay_settings = preload("res://mods/LivingWorld/scripts/GameplaySettings_patch.gd")
 var playercontroller = preload("res://mods/LivingWorld/scripts/PlayerControllerPatch.gd")
+var interactor = preload("res://mods/LivingWorld/scripts/Interactor_patch.gd")
 func _init():
 	add_debug_commands()
 	levelmap_patch.patch()
@@ -26,6 +27,7 @@ func _init():
 	stickeritem_patch.patch()
 	gameplay_settings.patch()
 	playercontroller.patch()
+	interactor.patch()
 
 func clear_recruit_tracker():
 	recruit_tracker.clear()
@@ -85,6 +87,11 @@ func add_debug_commands():
 		"args":[TYPE_STRING,TYPE_BOOL,TYPE_INT,TYPE_BOOL],
 		"target":[self,"add_location_spawner"]
 		})
+	Console.register("export_player",{
+		"description":"Exports the player character as a JSON into the arena_archives folder",
+		"args":[],
+		"target":[self,"export_player"]
+	})
 
 func pause():
 	WorldSystem.get_tree().paused = !WorldSystem.get_tree().paused
@@ -131,3 +138,9 @@ func add_debug_camera(value):
 			debugnode.set_player_control(true)
 			camera.remove_child(debugnode)
 			debugnode.queue_free()
+func export_player():
+	var jsonparser = preload("res://mods/LivingWorld/scripts/RangerDataParser.gd")
+	var playersnap = jsonparser.get_player_snapshot()
+	if playersnap:
+		return jsonparser.save_json(playersnap)
+	return false

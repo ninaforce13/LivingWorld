@@ -17,9 +17,10 @@ static func patch():
 	if class_name_index >= 0:
 		code_lines.remove(class_name_index)
 
-	var code_index = code_lines.find("	if requires_warp_to_player1 and WorldSystem.is_player_control_enabled():")
+	var code_index = code_lines.find("	if event.is_action_pressed(\"interact\"):")
 	if code_index > 0:
-		code_lines.insert(code_index-1,get_code("add_key"))
+#		code_lines.insert(code_index+1,get_code("untransform"))
+		code_lines.insert(code_index,get_code("add_key"))
 
 
 	patched_script.source_code = ""
@@ -36,6 +37,10 @@ static func get_code(block:String)->String:
 	code_blocks["add_key"] = """
 	if Input.is_key_pressed(KEY_T):
 		pawn.player_transform()
+	"""
+	code_blocks["untransform"] = """
+		if pawn.use_monster_form:
+			pawn.swap_sprite(0)
 	"""
 	return code_blocks[block]
 

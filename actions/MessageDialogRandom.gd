@@ -16,6 +16,8 @@ func _enter_action():
 		for message in message_array[index]:
 			messages.push_back(message)
 	if dialogsprite:
+		var spritecont = dialogsprite.get_node("MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer")
+		spritecont.idle = "inactive"
 		if dialogsprite.visible:
 			tween.interpolate_property(dialogsprite,"rect_position",Vector2(0,0),Vector2(1800,0),0.05,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
 			tween.start()

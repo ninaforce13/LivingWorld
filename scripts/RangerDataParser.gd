@@ -240,7 +240,7 @@ static func get_empty_recruit()->Dictionary:
 	var parts = {}
 	var colors = {}
 	HumanLayersHelper.randomize_sprite(null, parts, colors)
-	recruit = {"name":"Trainee",
+	recruit = {"name":"Ranger",
 				"human_part_names":to_json(parts),
 				"human_colors":to_json(colors),
 				"pronouns":2,
@@ -259,3 +259,28 @@ static func get_empty_recruit()->Dictionary:
 				"filepath":""}
 
 	return recruit
+
+static func get_player_snapshot():
+	var player = SaveState.party.player
+	var partner = SaveState.party.partner
+	var snap:Dictionary = {
+		"name":player.name,
+		"human_colors":to_json(player.human_colors),
+		"human_part_names":to_json(player.human_part_names),
+		"pronouns":player.pronouns,
+		"introdialog":"Hey!",
+		"defeatdialog":"Nooo!",
+		"biotext":"Player of another world.",
+		"recruiter":player.name,
+		"recruiter_id":SaveState.get_ranger_id(),
+							}
+	var index:int = 0
+	for tape in player.tapes:
+		if index == 1:
+			snap["tape"+str(index)] = partner.tapes[0].get_snapshot()
+			index+=1
+		snap["tape"+str(index)] = tape.get_snapshot()
+		index+=1
+	snap["stats"] = player.get_snapshot()
+	snap["version"] = "1.1"
+	return snap

@@ -171,3 +171,11 @@ func _on_MerchantDetector_detected(detection):
 	recruitdata.engaged_target = detection
 	set_state("Shop")
 
+
+
+func _on_DefeatedDetector_detected(detection):
+	if !is_interruptible(state_node):
+		return
+	var recruitdata = pawn.get_node("RecruitData")
+	recruitdata.engaged_target = detection
+	set_state("Revive")

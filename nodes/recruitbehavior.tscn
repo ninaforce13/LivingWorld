@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://mods/LivingWorld/actions/RegisterOccupant.gd" type="Script" id=1]
 [ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=2]
@@ -23,12 +23,13 @@
 [ext_resource path="res://mods/LivingWorld/actions/CheckForOtherCampers.gd" type="Script" id=21]
 [ext_resource path="res://mods/LivingWorld/actions/DropItemAction.gd" type="Script" id=22]
 [ext_resource path="res://mods/LivingWorld/actions/CheckDistanceFrom.gd" type="Script" id=23]
+[ext_resource path="res://mods/LivingWorld/actions/SetInteraction.gd" type="Script" id=24]
 [ext_resource path="res://mods/LivingWorld/actions/IsNearby.gd" type="Script" id=25]
 [ext_resource path="res://mods/LivingWorld/actions/CheckNearbyRogueFusion.gd" type="Script" id=26]
 [ext_resource path="res://nodes/actions/PassiveMessageAction.gd" type="Script" id=27]
 [ext_resource path="res://mods/LivingWorld/actions/IsConversationEnded.gd" type="Script" id=28]
 [ext_resource path="res://addons/misc_utils/actions/composites/Sequence.gd" type="Script" id=29]
-[ext_resource path="res://mods/LivingWorld/actions/SetInteraction.gd" type="Script" id=30]
+[ext_resource path="res://mods/LivingWorld/actions/ConvertNPC.gd" type="Script" id=30]
 [ext_resource path="res://mods/LivingWorld/actions/AdjustYAxis.gd" type="Script" id=31]
 [ext_resource path="res://mods/LivingWorld/scripts/ConversationBehavior.gd" type="Script" id=32]
 [ext_resource path="res://mods/LivingWorld/actions/GetConversationPartner.gd" type="Script" id=33]
@@ -345,7 +346,7 @@ script = ExtResource( 47 )
 key = "Camp"
 
 [node name="DisableInteraction" type="Node" parent="FindCamp"]
-script = ExtResource( 30 )
+script = ExtResource( 24 )
 disabled = true
 
 [node name="GetPawn" type="Node" parent="FindCamp/DisableInteraction"]
@@ -421,7 +422,7 @@ script = ExtResource( 47 )
 key = "Camp"
 
 [node name="DisableInteraction2" type="Node" parent="FindCamp"]
-script = ExtResource( 30 )
+script = ExtResource( 24 )
 
 [node name="GetPawn" type="Node" parent="FindCamp/DisableInteraction2"]
 script = ExtResource( 2 )
@@ -446,7 +447,7 @@ group = "RogueFusions"
 mode = 4
 
 [node name="DisableInteraction" type="Node" parent="FindRogues"]
-script = ExtResource( 30 )
+script = ExtResource( 24 )
 disabled = true
 
 [node name="GetPawn" type="Node" parent="FindRogues/DisableInteraction"]
@@ -634,7 +635,7 @@ animation = 1
 fade_duration = 1.0
 
 [node name="EnableInteractions" type="Node" parent="FindRogues"]
-script = ExtResource( 30 )
+script = ExtResource( 24 )
 
 [node name="GetPawn" type="Node" parent="FindRogues/EnableInteractions"]
 script = ExtResource( 2 )
@@ -774,7 +775,7 @@ register = true
 script = ExtResource( 56 )
 
 [node name="DisableInteraction" type="Node" parent="EngageEnemy"]
-script = ExtResource( 30 )
+script = ExtResource( 24 )
 disabled = true
 
 [node name="GetPawn" type="Node" parent="EngageEnemy/DisableInteraction"]
@@ -997,7 +998,7 @@ script = ExtResource( 1 )
 script = ExtResource( 56 )
 
 [node name="EnableInteraction" type="Node" parent="EngageEnemy"]
-script = ExtResource( 30 )
+script = ExtResource( 24 )
 
 [node name="GetPawn" type="Node" parent="EngageEnemy/EnableInteraction"]
 script = ExtResource( 2 )
@@ -1022,7 +1023,7 @@ register = true
 script = ExtResource( 56 )
 
 [node name="DisableInteraction" type="Node" parent="Shop"]
-script = ExtResource( 30 )
+script = ExtResource( 24 )
 disabled = true
 
 [node name="GetPawn" type="Node" parent="Shop/DisableInteraction"]
@@ -1072,12 +1073,100 @@ script = ExtResource( 1 )
 script = ExtResource( 56 )
 
 [node name="EnableInteraction" type="Node" parent="Shop"]
-script = ExtResource( 30 )
+script = ExtResource( 24 )
 
 [node name="GetPawn" type="Node" parent="Shop/EnableInteraction"]
 script = ExtResource( 2 )
 
 [node name="Failer" type="Node" parent="Shop"]
+script = ExtResource( 11 )
+
+[node name="Revive" type="Node" parent="."]
+script = ExtResource( 61 )
+reset_on_exit_tree = true
+disable_on_water = true
+
+[node name="SetNPCControlsAction" type="Node" parent="Revive"]
+script = ExtResource( 14 )
+set_values = 478
+
+[node name="Register" type="Node" parent="Revive"]
+script = ExtResource( 1 )
+register = true
+
+[node name="GetEngagedTarget" type="Node" parent="Revive/Register"]
+script = ExtResource( 56 )
+
+[node name="DisableInteraction" type="Node" parent="Revive"]
+script = ExtResource( 24 )
+disabled = true
+
+[node name="GetPawn" type="Node" parent="Revive/DisableInteraction"]
+script = ExtResource( 2 )
+
+[node name="PlayEmote" type="Node" parent="Revive"]
+script = ExtResource( 69 )
+selection = 3
+
+[node name="FaceTowardsAction" type="Node" parent="Revive"]
+script = ExtResource( 8 )
+
+[node name="GetEngagedTarget" type="Node" parent="Revive/FaceTowardsAction"]
+script = ExtResource( 56 )
+
+[node name="FollowAction" type="Node" parent="Revive"]
+script = ExtResource( 17 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 3.0
+ignore_ending_y = false
+zbuffer_dist = 5.0
+
+[node name="GetEngagedTarget" type="Node" parent="Revive/FollowAction"]
+script = ExtResource( 56 )
+
+[node name="RepeatWhile" type="Node" parent="Revive"]
+script = ExtResource( 15 )
+
+[node name="PlayEmote" type="Node" parent="Revive/RepeatWhile"]
+script = ExtResource( 69 )
+selection = 1
+
+[node name="WaitAction2" type="Node" parent="Revive/RepeatWhile"]
+script = ExtResource( 7 )
+base_seconds = 3.0
+
+[node name="ConvertNPC" type="Node" parent="Revive"]
+script = ExtResource( 30 )
+
+[node name="GetEngagedTarget" type="Node" parent="Revive/ConvertNPC"]
+script = ExtResource( 56 )
+
+[node name="RemoveNodeAction" type="Node" parent="Revive"]
+script = ExtResource( 20 )
+animation = 0
+
+[node name="GetEngagedTarget" type="Node" parent="Revive/RemoveNodeAction"]
+script = ExtResource( 56 )
+
+[node name="PlayEmote2" type="Node" parent="Revive"]
+script = ExtResource( 69 )
+selection = 4
+
+[node name="EnableInteraction" type="Node" parent="Revive"]
+script = ExtResource( 24 )
+
+[node name="GetPawn" type="Node" parent="Revive/EnableInteraction"]
+script = ExtResource( 2 )
+
+[node name="Failer" type="Node" parent="Revive"]
 script = ExtResource( 11 )
 
 [node name="Flee" type="Node" parent="."]
