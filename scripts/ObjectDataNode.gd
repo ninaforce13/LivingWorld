@@ -80,7 +80,7 @@ func purge_slots(force_purge:bool = false):
 			if occupant_data:
 				if occupant_data.state != "FindCamp" and object_type == ObjectType.CAMP:
 					clear_slot(slot)
-				if occupant_data.state != "FindRogues" and object_type == ObjectType.ROGUEFUSION:
+				if (occupant_data.state != "FindRogues" and occupant_data.state != "Patrol") and object_type == ObjectType.ROGUEFUSION:
 					clear_slot(slot)
 				if occupant_data.state != "EngageEnemy" and object_type == ObjectType.WILD_ENCOUNTER:
 					clear_slot(slot)

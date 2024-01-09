@@ -109,6 +109,168 @@ script = ExtResource( 3 )
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 44 )
+monster_animations = {
+"Allseer": {
+"initial": "idle",
+"loop": "idle",
+"transition": "idle"
+},
+"Amphare": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Boltam": {
+"initial": "transition",
+"loop": "dash",
+"transition": "transition"
+},
+"Bulletino": {
+"initial": "transition",
+"loop": "dash",
+"transition": "transition"
+},
+"Busheye": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Carniviper": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Charlequin": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Cluckabilly": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Diveal": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Dominoth": {
+"initial": "idle",
+"loop": "run",
+"transition": "idle"
+},
+"Elfless": {
+"initial": "teleport",
+"loop": "run",
+"transition": "active"
+},
+"Faucetear": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Ferriclaw": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Hauntome": {
+"initial": "",
+"loop": "idle",
+"transition": ""
+},
+"Icepeck": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Jellyton": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Littlered": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Mascotoy": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Masquerattle": {
+"initial": "idle",
+"loop": "run",
+"transition": "idle"
+},
+"Minortom": {
+"initial": "transition",
+"loop": "dash",
+"transition": "transition"
+},
+"Nevermort": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Pawndead": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Pombomb": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Puppercut": {
+"initial": "",
+"loop": "run",
+"transition": "teleport"
+},
+"Queenyx": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Sanzatime": {
+"initial": "",
+"loop": "idle",
+"transition": ""
+},
+"Spooki-oona": {
+"initial": "",
+"loop": "idle",
+"transition": ""
+},
+"Springheel": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Squirey": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Terracooka": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Traffikrab": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Twirligig": {
+"initial": "",
+"loop": "run",
+"transition": ""
+}
+}
 
 [node name="Walking" type="Node" parent="StateMachine"]
 script = ExtResource( 39 )

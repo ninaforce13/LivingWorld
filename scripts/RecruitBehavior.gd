@@ -4,15 +4,18 @@ export (PERSONALITY) var personality
 export (String) var previous_state = "Idle"
 export (float) var time_limit = 15.0
 export (Array) var randomized_states
-
+export (bool) var never_pause = false
+export (bool) var quest_requirement
 var _timer:float = 0.0
 var random:Random = Random.new()
+
 func _ready():
 	_timer = time_limit
 	yield (get_parent(), "ready")
 	assert (get_parent() is NPC)
-	get_parent().connect("resumed", self, "set_paused", [false])
-	get_parent().connect("paused", self, "set_paused", [true])
+	if !never_pause:
+		get_parent().connect("resumed", self, "set_paused", [false])
+		get_parent().connect("paused", self, "set_paused", [true])
 	set_randomized_states()
 
 func set_randomized_states():

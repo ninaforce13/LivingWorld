@@ -1,7 +1,8 @@
 extends Node
 
+export (bool) var is_captain = false
 signal engaging
-const max_partners = 2
+var max_partners = 2
 const trade_generator = preload("res://mods/LivingWorld/scripts/StickerTradeGenerator.gd")
 var follow_target = null
 var engaged_target = null
@@ -15,7 +16,25 @@ var trade_offer = null
 func _ready():
 	WorldSystem.time.connect("date_changed", self, "_on_date_changed")
 	WorldSystem.time.connect("date_changed", self, "generate_trade")
-	generate_trade()
+	if !is_captain:
+		generate_trade()
+	if is_captain:
+		max_partners = 0
+	if !recruit:
+		generate_recruit_data()
+		call_deferred("add_emoteplayer")
+
+func add_emoteplayer():
+	var pawn = get_parent()
+	var emoteplayer = preload("res://mods/LivingWorld/nodes/emoteplayer.tscn").instance()
+	pawn.add_child(emoteplayer)
+	emoteplayer.transform = pawn.emote_player.transform
+	pawn.emote_player = emoteplayer
+
+func generate_recruit_data():
+	var rangerdataparser = preload("res://mods/LivingWorld/scripts/RangerDataParser.gd")
+	var pawn = get_parent()
+	recruit = rangerdataparser.get_npc_snapshot(pawn)
 
 func generate_trade():
 	trade_offer = trade_generator.generate()

@@ -13,6 +13,7 @@ var stickeritem_patch = preload("res://mods/LivingWorld/scripts/StickerItem_patc
 var gameplay_settings = preload("res://mods/LivingWorld/scripts/GameplaySettings_patch.gd")
 var playercontroller = preload("res://mods/LivingWorld/scripts/PlayerControllerPatch.gd")
 var interactor = preload("res://mods/LivingWorld/scripts/Interactor_patch.gd")
+var captainbehavior = preload("res://mods/LivingWorld/scripts/CaptainNPCBehavior_patch.gd")
 func _init():
 	add_debug_commands()
 	levelmap_patch.patch()
@@ -28,6 +29,7 @@ func _init():
 	gameplay_settings.patch()
 	playercontroller.patch()
 	interactor.patch()
+	captainbehavior.patch()
 
 func clear_recruit_tracker():
 	recruit_tracker.clear()

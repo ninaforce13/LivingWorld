@@ -71,6 +71,7 @@ static func get_code(block:String)->String:
 	code_blocks["add_spawner"] = """
 	if value:
 		call_deferred("setup_recruit_spawner",value.region_name)
+
 	"""
 	code_blocks["setup_recruit_spawner"] = """
 func setup_recruit_spawner(current_regionname):

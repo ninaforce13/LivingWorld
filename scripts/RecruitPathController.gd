@@ -102,12 +102,12 @@ func control_movement(delta):
 	var fly_height:bool = col_count > 7 or (col_count < 2 and not pawn.test_move(next_t, Vector3.DOWN * 1.5, pawn.infinite_inertia))
 	var jump_height:bool = col_count <= 1 and pawn.test_move(next_t, Vector3.DOWN * 1.5, pawn.infinite_inertia)
 	var height_cleared:bool = col_count <= 3
-	if collides_forwards and pawn.supress_abilities and not height_cleared:
+	if collides_forwards and pawn.get("supress_abilities") and not height_cleared:
 		_pause_controls()
 		arrive(true)
 		return
 	if (collides_forwards or ( not moving_xz and target_is_up) or avoid_down or (dist_y >= 10.0 and params.can_fly)):
-		if collides_forwards and climb_height and not pawn.supress_abilities:
+		if collides_forwards and climb_height and not pawn.get("supress_abilities"):
 			pawn.controls.climb = true
 		elif collides_forwards and fly_height:
 			pawn.controls.force_fly = true

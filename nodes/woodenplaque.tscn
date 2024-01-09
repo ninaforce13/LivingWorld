@@ -1,0 +1,70 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://nodes/actions/MessageDialogAction.gd" type="Script" id=1]
+[ext_resource path="res://world/core/Interaction.tscn" type="PackedScene" id=2]
+[ext_resource path="res://nodes/actions/Cutscene.gd" type="Script" id=3]
+[ext_resource path="res://world/objects/interior_props/wooden_plaque_1.mesh" type="ArrayMesh" id=4]
+[ext_resource path="res://nodes/actions/MenuDialogAction.gd" type="Script" id=5]
+[ext_resource path="res://addons/misc_utils/actions/DecoratorAction.gd" type="Script" id=6]
+[ext_resource path="res://nodes/actions/TransitionAction.gd" type="Script" id=7]
+[ext_resource path="res://nodes/actions/RemoveNodeAction.gd" type="Script" id=8]
+[ext_resource path="res://mods/LivingWorld/actions/CallBackCaptain.gd" type="Script" id=9]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 0.622854, 0.152733, 0.6366 )
+
+[sub_resource type="CapsuleShape" id=2]
+radius = 0.9
+height = 0.9
+
+[node name="LunchPost" type="StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5282, 6, 27.427 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 1.64426, 0 )
+shape = SubResource( 1 )
+
+[node name="wooden_plaque_1" type="MeshInstance" parent="."]
+mesh = ExtResource( 4 )
+
+[node name="Interaction" parent="." instance=ExtResource( 2 )]
+pawn_path = NodePath("..")
+
+[node name="CollisionShape" type="CollisionShape" parent="Interaction"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.325, 0 )
+shape = SubResource( 2 )
+
+[node name="InteractionBehavior" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior"]
+script = ExtResource( 1 )
+messages = [ "CAPTAIN_LUNCH_MENU" ]
+style = 3
+
+[node name="MessageDialogAction2" type="Node" parent="InteractionBehavior"]
+script = ExtResource( 1 )
+messages = [ "CAPTAIN_LUNCH_MENU2" ]
+wait_for_confirm = false
+close_after = false
+
+[node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
+script = ExtResource( 5 )
+menu_options = [ "CAPTAIN_LUNCH_OPTION1", "CAPTAIN_LUNCH_OPTION2" ]
+default_option = 1
+
+[node name="Yes" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 6 )
+
+[node name="TransitionAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Yes"]
+script = ExtResource( 7 )
+transition_kind = 5
+
+[node name="CallBackCaptain" type="Node" parent="InteractionBehavior/MenuDialogAction/Yes"]
+script = ExtResource( 9 )
+
+[node name="RemoveNodeAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Yes"]
+script = ExtResource( 8 )
+
+[node name="No" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 6 )

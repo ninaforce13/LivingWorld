@@ -1,0 +1,203 @@
+[gd_scene load_steps=25 format=2]
+
+[ext_resource path="res://mods/LivingWorld/scripts/RecruitBehavior.gd" type="Script" id=1]
+[ext_resource path="res://mods/LivingWorld/actions/WaitUntil.gd" type="Script" id=2]
+[ext_resource path="res://nodes/actions/SpawnPointReturnAction.gd" type="Script" id=3]
+[ext_resource path="res://addons/misc_utils/actions/decorators/RepeatWhile.gd" type="Script" id=4]
+[ext_resource path="res://mods/LivingWorld/actions/RegisterOccupant.gd" type="Script" id=5]
+[ext_resource path="res://addons/misc_utils/actions/decorators/Failer.gd" type="Script" id=6]
+[ext_resource path="res://mods/LivingWorld/actions/LeaveSignAction.gd" type="Script" id=7]
+[ext_resource path="res://mods/LivingWorld/actions/CheckDistanceFrom.gd" type="Script" id=8]
+[ext_resource path="res://nodes/actions/SetNPCControlsAction.gd" type="Script" id=9]
+[ext_resource path="res://nodes/actions/PassiveMessageAction.gd" type="Script" id=10]
+[ext_resource path="res://nodes/actions/WalkAction.gd" type="Script" id=11]
+[ext_resource path="res://nodes/actions/FaceDirectionAction.gd" type="Script" id=12]
+[ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=13]
+[ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=16]
+[ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=17]
+[ext_resource path="res://mods/LivingWorld/actions/GetGroupNodeCustom.gd" type="Script" id=18]
+[ext_resource path="res://mods/LivingWorld/actions/CheckNearbyRogueFusion.gd" type="Script" id=19]
+[ext_resource path="res://mods/LivingWorld/actions/CustomFollowAction.gd" type="Script" id=20]
+[ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=23]
+[ext_resource path="res://addons/misc_utils/actions/values/GetBlackboardValue.gd" type="Script" id=24]
+[ext_resource path="res://mods/LivingWorld/actions/GetNodeWithin.gd" type="Script" id=25]
+[ext_resource path="res://mods/LivingWorld/actions/IsNearby.gd" type="Script" id=26]
+[ext_resource path="res://mods/LivingWorld/actions/SetInteraction.gd" type="Script" id=27]
+[ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=28]
+
+[node name="RecruitBehavior" type="Node"]
+script = ExtResource( 1 )
+default_state = "Idle"
+time_limit = 5.0
+never_pause = true
+
+[node name="Idle" type="Node" parent="."]
+script = ExtResource( 23 )
+combative_weight = 0.9
+social_weight = 0.9
+loner_weight = 0.9
+
+[node name="SpawnPointReturnAction" type="Node" parent="Idle"]
+script = ExtResource( 3 )
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_warp = true
+can_wait = true
+max_wait = 0.5
+strafe = true
+wander_limit = 10.0
+kill_on_failure = false
+
+[node name="LeaveSign" type="Node" parent="Idle"]
+script = ExtResource( 7 )
+remove = true
+
+[node name="Patrol" type="Node" parent="."]
+script = ExtResource( 23 )
+combative_weight = 1.0
+social_weight = 1.0
+loner_weight = 1.0
+townie_weight = 1.0
+
+[node name="NearbyEncounter" type="Node" parent="Patrol"]
+script = ExtResource( 19 )
+within_distance = 128.0
+group = "RogueFusions"
+delay = 0.0
+
+[node name="IsNearby" type="Node" parent="Patrol/NearbyEncounter"]
+script = ExtResource( 26 )
+distance = 128.0
+bb_name = "Rogues"
+
+[node name="GetGroupNode" type="Node" parent="Patrol/NearbyEncounter/IsNearby"]
+script = ExtResource( 18 )
+group = "RogueFusions"
+mode = 4
+
+[node name="DisableInteraction" type="Node" parent="Patrol/NearbyEncounter"]
+script = ExtResource( 27 )
+disabled = true
+
+[node name="GetPawn" type="Node" parent="Patrol/NearbyEncounter/DisableInteraction"]
+script = ExtResource( 17 )
+
+[node name="PlayEmoteAction" type="Node" parent="Patrol/NearbyEncounter"]
+script = ExtResource( 13 )
+selection = 1
+
+[node name="WalkAction" type="Node" parent="Patrol/NearbyEncounter"]
+script = ExtResource( 11 )
+__meta__ = {
+"action_tree": true
+}
+direction_override = "left"
+distance = 3.0
+
+[node name="FaceDirectionAction" type="Node" parent="Patrol/NearbyEncounter"]
+script = ExtResource( 12 )
+direction = "right"
+
+[node name="LeaveSign" type="Node" parent="Patrol/NearbyEncounter"]
+script = ExtResource( 7 )
+
+[node name="WaitAction" type="Node" parent="Patrol/NearbyEncounter"]
+script = ExtResource( 16 )
+
+[node name="RepeatWhile2" type="Node" parent="Patrol/NearbyEncounter"]
+script = ExtResource( 4 )
+
+[node name="IsPlayerNearby" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile2"]
+script = ExtResource( 8 )
+always_succeed = true
+within_distance = 40.0
+
+[node name="PlayEmoteAction" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile2/IsPlayerNearby"]
+script = ExtResource( 13 )
+selection = 3
+
+[node name="PassiveMessageAction" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile2/IsPlayerNearby"]
+script = ExtResource( 10 )
+message = "RECRUIT_PASSIVE_ROGUE"
+
+[node name="FaceTowardsAction" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile2"]
+script = ExtResource( 28 )
+
+[node name="GetBlackboardValue" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile2/FaceTowardsAction"]
+script = ExtResource( 24 )
+key = "Rogues"
+
+[node name="FollowAction" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile2"]
+script = ExtResource( 20 )
+__meta__ = {
+"action_tree": true
+}
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 6.0
+
+[node name="GetBlackboardValue" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile2/FollowAction"]
+script = ExtResource( 24 )
+key = "Rogues"
+
+[node name="IsEncounterActive" type="Node" parent="Patrol/NearbyEncounter"]
+script = ExtResource( 19 )
+group = "RogueFusions"
+delay = 0.0
+
+[node name="PlayEmoteAction2" type="Node" parent="Patrol/NearbyEncounter/IsEncounterActive"]
+script = ExtResource( 13 )
+selection = 5
+
+[node name="RegisterOccupant" type="Node" parent="Patrol/NearbyEncounter/IsEncounterActive"]
+script = ExtResource( 5 )
+register = true
+
+[node name="GetBlackboardValue" type="Node" parent="Patrol/NearbyEncounter/IsEncounterActive/RegisterOccupant"]
+script = ExtResource( 24 )
+key = "Rogues"
+
+[node name="SetNPCControlsAction" type="Node" parent="Patrol/NearbyEncounter"]
+script = ExtResource( 9 )
+set_values = 478
+
+[node name="FaceTowardsAction" type="Node" parent="Patrol/NearbyEncounter"]
+script = ExtResource( 28 )
+
+[node name="GetBlackboardValue" type="Node" parent="Patrol/NearbyEncounter/FaceTowardsAction"]
+script = ExtResource( 24 )
+key = "Rogues"
+
+[node name="RepeatWhile" type="Node" parent="Patrol/NearbyEncounter"]
+script = ExtResource( 4 )
+
+[node name="PlayEmoteAction" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile"]
+script = ExtResource( 13 )
+selection = 18
+
+[node name="WaitUntil" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile"]
+script = ExtResource( 2 )
+base_seconds = 0.0
+disable_timer = true
+debug_message = true
+
+[node name="GetNodeWithinRange" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile/WaitUntil"]
+script = ExtResource( 25 )
+group = "RogueFusions"
+distance = 25.0
+inverted = true
+
+[node name="EnableInteractions" type="Node" parent="Patrol/NearbyEncounter"]
+script = ExtResource( 27 )
+
+[node name="GetPawn" type="Node" parent="Patrol/NearbyEncounter/EnableInteractions"]
+script = ExtResource( 17 )
+
+[node name="Failer" type="Node" parent="Patrol"]
+script = ExtResource( 6 )

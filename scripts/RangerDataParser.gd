@@ -212,6 +212,8 @@ static func set_char_config(char_config:CharacterConfig, ranger_data, tapes:Arra
 	char_config.human_part_names = ranger_data.human_part_names if typeof(ranger_data.human_part_names) == TYPE_DICTIONARY else JSON.parse(ranger_data.human_part_names).result
 	char_stats.name = ranger_data.name
 	char_config.base_character = char_stats
+	if ranger_data.has("custom_battle_sprite"):
+		char_config.custom_battle_sprite = ranger_data.custom_battle_sprite
 	if not ranger_data.has("stats"):
 		char_config.base_character.base_max_hp = 120
 	var index:int = 0
@@ -283,4 +285,32 @@ static func get_player_snapshot():
 		index+=1
 	snap["stats"] = player.get_snapshot()
 	snap["version"] = "1.1"
+	return snap
+
+static func get_npc_snapshot(npc):
+	var charconfig
+	if npc.has_node("RematchConfig"):
+		charconfig = npc.get_node("RematchConfig/CharacterConfig")
+	elif npc.has_node("EncounterConfig"):
+		charconfig = npc.get_node("EncounterConfig/CharacterConfig")
+	var snap:Dictionary = {
+		"name":npc.npc_name,
+		"human_colors":to_json(npc.sprite_colors),
+		"human_part_names":to_json(npc.sprite_part_names),
+		"pronouns":npc.pronouns,
+		"introdialog":"Hey!",
+		"defeatdialog":"Nooo!",
+		"biotext":"Ranger Captain",
+		"recruiter":"Ianthe",
+		"recruiter_id":"0000-0000",
+		"custom_battle_sprite":charconfig.custom_battle_sprite,
+		"sprite_body":npc.sprite_body
+							}
+	var index:int = 0
+	for tape in charconfig.get_children():
+		var newtape = tape._generate_tape(Random.new(),0)
+		snap["tape"+str(index)] = newtape.get_snapshot()
+		index+=1
+	snap["stats"] = {} if !charconfig.base_character else charconfig.base_character.get_snapshot()
+	snap["version"] = "1.2"
 	return snap

@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/heal.wav-64d028949296a21f5f34e56c27d937a1.sample"
+
+[deps]
+
+source_file="res://mods/LivingWorld/soundeffects/heal.wav"
+dest_files=[ "res://.import/heal.wav-64d028949296a21f5f34e56c27d937a1.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

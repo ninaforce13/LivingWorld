@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://mods/LivingWorld/actions/RegisterOccupant.gd" type="Script" id=1]
 [ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=2]
@@ -34,6 +34,8 @@
 [ext_resource path="res://mods/LivingWorld/scripts/ConversationBehavior.gd" type="Script" id=32]
 [ext_resource path="res://mods/LivingWorld/actions/GetConversationPartner.gd" type="Script" id=33]
 [ext_resource path="res://mods/LivingWorld/actions/ExitConversation.gd" type="Script" id=34]
+[ext_resource path="res://nodes/actions/PlayAudioAction.gd" type="Script" id=35]
+[ext_resource path="res://mods/LivingWorld/soundeffects/heal.wav" type="AudioStream" id=36]
 [ext_resource path="res://addons/misc_utils/actions/values/GetBlackboardValue.gd" type="Script" id=47]
 [ext_resource path="res://nodes/actions/FaceDirectionAction.gd" type="Script" id=48]
 [ext_resource path="res://mods/LivingWorld/actions/ChangeSpriteAction.gd" type="Script" id=49]
@@ -1142,6 +1144,18 @@ selection = 1
 [node name="WaitAction2" type="Node" parent="Revive/RepeatWhile"]
 script = ExtResource( 7 )
 base_seconds = 3.0
+
+[node name="PlayAudioAction" type="Node" parent="Revive"]
+script = ExtResource( 35 )
+stream = ExtResource( 36 )
+wait_for_finish = false
+
+[node name="ApplyRecordSuccess" type="Node" parent="Revive"]
+script = ExtResource( 60 )
+use_heal = true
+
+[node name="GetEngagedTarget" type="Node" parent="Revive/ApplyRecordSuccess"]
+script = ExtResource( 56 )
 
 [node name="ConvertNPC" type="Node" parent="Revive"]
 script = ExtResource( 30 )

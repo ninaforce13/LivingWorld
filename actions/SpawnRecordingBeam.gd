@@ -8,6 +8,8 @@ func _run():
 	var beam = RecordingBeam.instance()
 	set_bb("beam",beam)
 	beam.hold_duration = hold_duration
+	if !is_instance_valid(target):
+		return true
 	var dist = pawn.global_transform.origin.distance_to(target.global_transform.origin)
 	beam.target_length = dist
 	pawn.add_child(beam)
@@ -21,13 +23,3 @@ func free_beam(beam):
 	get_pawn().remove_child(beam)
 	beam.queue_free()
 
-#func _process(delta):
-#	if has_bb("beam"):
-#		var beam = get_bb("beam")
-#		var target = values[0]
-#		if target != null and is_instance_valid(target):
-#			beam.transform.origin = Vector3.ZERO
-#			var dist = get_pawn().global_transform.origin.distance_to(target.global_transform.origin)
-#			beam.target_length = dist
-#			beam.global_transform.looking_at(target.global_transform.origin,Vector3.UP)
-#			beam.rotate_object_local(Vector3.UP,PI)

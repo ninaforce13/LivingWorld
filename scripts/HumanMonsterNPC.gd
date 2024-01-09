@@ -15,6 +15,7 @@ export (Resource) var character:Resource setget set_character
 export (bool) var use_monster_form = false
 export (bool) var supress_abilities = false
 var previous_monster_form_index = 0
+var monster_index:Array = []
 var sfx:CharacterSfx
 func _ready():
 	if character != null:
@@ -22,6 +23,15 @@ func _ready():
 	else :
 		refresh_sprite()
 
+
+
+func set_transform_index():
+	monster_index = []
+	var monster_forms = get_node("MonsterForms")
+	for i in range (0,monster_forms.get_child_count()):
+		monster_index.push_back(i)
+	var random = Random.new()
+	random.shuffle(monster_index)
 func player_transform(value=-1):
 	if value == -1:
 		value = 0 if use_monster_form else 1
@@ -34,7 +44,9 @@ func swap_sprite(value:int):
 	use_monster_form = value == FORMS.MONSTER
 	var dominant_sprite
 	var monster_forms = get_node("MonsterForms")
-	var index = random.rand_int(monster_forms.get_child_count())
+	if monster_index.empty():
+		set_transform_index()
+	var index = monster_index.pop_front()
 	var selection = monster_forms.get_child(index)
 	var monster_sprite = selection.get_child(0)
 	var human_sprite = get_node("Sprite")
@@ -57,6 +69,7 @@ func swap_sprite(value:int):
 		dominant_sprite = human_sprite
 		monster_sprite.visible = false
 	sprite = dominant_sprite
+	state_machine.set_formname(selection.name)
 	state_machine.change_forms(use_monster_form)
 	sprite.visible = true
 	if previous_monster_form_index != index:

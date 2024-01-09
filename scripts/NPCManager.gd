@@ -41,7 +41,7 @@ static func initialize_savedata():
 static func get_setting(setting_name):
 	if !has_savedata():
 		initialize_savedata()
-	if SaveState.other_data.LivingWorldData.Settings.has("setting_name"):
+	if SaveState.other_data.LivingWorldData.Settings.has(setting_name):
 		return SaveState.other_data.LivingWorldData.Settings[setting_name]
 	return null
 
@@ -59,8 +59,8 @@ static func get_follower_config(other_recruit):
 	return new_config
 
 static func add_battle_slots(battlebackground):
-	if !SaveState.other_data.LivingWorldData.has("ExtraEncounterConfig"):
-		SaveState.other_data.LivingWorldData["ExtraEncounterConfig"] = {"extra_slots":0}
+	if !has_savedata():
+		initialize_savedata()
 	if SaveState.other_data.LivingWorldData.ExtraEncounterConfig.extra_slots <= 0:
 		return
 	if SaveState.other_data.LivingWorldData.ExtraEncounterConfig.extra_slots > 3:
@@ -164,6 +164,14 @@ static func get_data_from_npc(npc):
 				index+=1
 	return recruitdata
 
+static func get_unlocked_partners_id()->Array:
+	return SaveState.party.unlocked_partners
+
+static func build_partner_spawns()->Array:
+	var partners:Array = []
+
+	return partners
+
 static func get_npc(recruitdata=null):
 	var Mod = DLC.mods_by_id["LivingWorldMod"]
 	var settings = preload("res://mods/LivingWorld/settings.tres")
@@ -174,7 +182,9 @@ static func get_npc(recruitdata=null):
 	var custom_recruits:Array = rangerdata.read_json(files)
 	var recruit = rangerdata.get_empty_recruit() if recruitdata == null else recruitdata
 	var npc = load("res://mods/LivingWorld/nodes/RecruitTemplate.tscn").instance()
+
 	var filtered_recruits = Mod.filter_recruits(custom_recruits)
+
 	var use_custom:bool = recruitdata != null
 	if randf() <= settings.custom_recruit_rate and filtered_recruits.size() > 0 and not recruitdata:
 		recruit = filtered_recruits[randi()%filtered_recruits.size()]
@@ -255,7 +265,6 @@ static func add_spawner(region_name,level):
 	if settings.levelmap_spawners.has(region_name):
 		for location in settings.levelmap_spawners[region_name].locations:
 			if !level.has_node(location.name):
-				print("adding %s to %s"%[location.name, region_name])
 				var spawner = spawner_scene.instance()
 				level.add_child(spawner)
 				spawner.global_transform.origin = location.pos
@@ -263,6 +272,15 @@ static func add_spawner(region_name,level):
 				spawner.ignore_visibility = location.ignore_visibility
 				spawner.forced_personality = location.forced_personality
 				spawner.supress_abilities = location.supress_abilities
-#				yield(Co.wait(2),"completed")
+
+static func mod_pawns(pawn):
+	if !pawn.has_node("RecruitData") or !pawn.has_node("RecruitBehavior"):
+		var datanode = preload("res://mods/LivingWorld/nodes/RecruitData.tscn").instance()
+		var behaviornode = preload("res://mods/LivingWorld/behaviors/captain_behavior.tscn").instance()
+		pawn.add_child(datanode)
+		datanode.is_captain = true
+		pawn.add_child(behaviornode)
+		print("%s has been awakened."%Loc.tr(pawn.npc_name))
+
 
 

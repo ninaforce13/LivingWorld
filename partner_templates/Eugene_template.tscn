@@ -1,0 +1,64 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://data/characters/eugene.tres" type="Resource" id=1]
+[ext_resource path="res://world/npc/HumanNPC.tscn" type="PackedScene" id=2]
+
+[node name="Eugene" instance=ExtResource( 2 )]
+npc_name = "EUGENE_NAME"
+pronouns = 0
+sprite_colors = {
+"body_color_1": 9,
+"body_color_2": 14,
+"eye_color": 16,
+"face_accessory_color": 14,
+"favorite_color": 9,
+"hair_accessory_color": 12,
+"hair_color": 15,
+"legs_color": 6,
+"shoe_color": 3,
+"skin_color": 20
+}
+sprite_part_names = {
+"arms": "eugene",
+"body": "eugene",
+"hair": "eugene",
+"head": "",
+"legs": "",
+"wings": ""
+}
+character = ExtResource( 1 )
+human_colors/body_color_1 = 9
+human_colors/body_color_2 = 14
+human_colors/eye_color = 16
+human_colors/face_accessory_color = 14
+human_colors/favorite_color = 9
+human_colors/hair_accessory_color = 12
+human_colors/hair_color = 15
+human_colors/legs_color = 6
+human_colors/shoe_color = 3
+human_colors/skin_color = 20
+
+[node name="HumanSprite" parent="Sprite" index="0"]
+part_names = {
+"arms": "eugene",
+"body": "eugene",
+"hair": "eugene",
+"head": "generic",
+"legs": "generic",
+"wings": "generic"
+}
+colors = {
+"body_color_1": 9,
+"body_color_2": 14,
+"eye_color": 16,
+"face_accessory_color": 14,
+"favorite_color": 9,
+"hair_accessory_color": 12,
+"hair_color": 15,
+"legs_color": 6,
+"shoe_color": 3,
+"skin_color": 20
+}
+
+[node name="Interaction" parent="." index="4"]
+pawn_path = NodePath("../../Eugene")

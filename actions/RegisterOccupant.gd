@@ -1,7 +1,7 @@
 extends Action
 
 export(bool) var register=false
-
+export (bool) var debug_mode=false
 func _run():
 	var target = values[0]
 	if not target:
@@ -15,6 +15,8 @@ func _run():
 		if object_data.is_full():
 			return false
 		object_data.add_occupant(get_pawn())
+		if debug_mode:
+			print("registered")
 		set_bb("object_data", object_data)
 	else:
 		object_data.remove_occupant(get_pawn())
