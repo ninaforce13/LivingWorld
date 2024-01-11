@@ -1,0 +1,2421 @@
+[gd_scene load_steps=129 format=2]
+
+[ext_resource path="res://data/monster_forms/kirikuri.tres" type="Resource" id=1]
+[ext_resource path="res://data/monster_forms/shining_kuneko.tres" type="Resource" id=2]
+[ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/misc_utils/actions/composites/Sequence.gd" type="Script" id=4]
+[ext_resource path="res://mods/LivingWorld/actions/ConvertNPC.gd" type="Script" id=5]
+[ext_resource path="res://mods/LivingWorld/scripts/RecruitBehavior.gd" type="Script" id=6]
+[ext_resource path="res://mods/LivingWorld/actions/GetRandomNonCardinalDirection.gd" type="Script" id=7]
+[ext_resource path="res://mods/LivingWorld/actions/WaitUntil.gd" type="Script" id=8]
+[ext_resource path="res://nodes/actions/SpawnPointReturnAction.gd" type="Script" id=9]
+[ext_resource path="res://addons/misc_utils/actions/decorators/RepeatWhile.gd" type="Script" id=10]
+[ext_resource path="res://mods/LivingWorld/actions/RegisterOccupant.gd" type="Script" id=11]
+[ext_resource path="res://addons/misc_utils/actions/decorators/Failer.gd" type="Script" id=12]
+[ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=13]
+[ext_resource path="res://mods/LivingWorld/actions/SpawnRecordingBeam.gd" type="Script" id=14]
+[ext_resource path="res://mods/LivingWorld/actions/CheckDistanceFrom.gd" type="Script" id=15]
+[ext_resource path="res://nodes/actions/SetNPCControlsAction.gd" type="Script" id=16]
+[ext_resource path="res://mods/LivingWorld/actions/RandomSetBBFlag.gd" type="Script" id=17]
+[ext_resource path="res://nodes/actions/RemoveNodeAction.gd" type="Script" id=18]
+[ext_resource path="res://mods/LivingWorld/actions/PauseTarget.gd" type="Script" id=19]
+[ext_resource path="res://mods/LivingWorld/actions/SetStaticAction.gd" type="Script" id=20]
+[ext_resource path="res://nodes/actions/PlayAudioAction.gd" type="Script" id=21]
+[ext_resource path="res://mods/LivingWorld/actions/PlayAudioVolumeCtrl.gd" type="Script" id=22]
+[ext_resource path="res://mods/LivingWorld/scripts/DefeatedNPCDetector.gd" type="Script" id=23]
+[ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=24]
+[ext_resource path="res://mods/LivingWorld/actions/RecordSuccessAction.gd" type="Script" id=25]
+[ext_resource path="res://mods/LivingWorld/actions/SetTouchDetector.gd" type="Script" id=26]
+[ext_resource path="res://mods/LivingWorld/loot_tables/recruit_Table.tres" type="Resource" id=27]
+[ext_resource path="res://world/npc/SwimmingState.gd" type="Script" id=28]
+[ext_resource path="res://world/npc/PauseState.gd" type="Script" id=29]
+[ext_resource path="res://world/npc/DashingState.gd" type="Script" id=30]
+[ext_resource path="res://world/npc/WalkingState.gd" type="Script" id=31]
+[ext_resource path="res://world/npc/ClimbState.gd" type="Script" id=32]
+[ext_resource path="res://world/npc/IdleAnimationState.gd" type="Script" id=33]
+[ext_resource path="res://world/npc/AirState.gd" type="Script" id=34]
+[ext_resource path="res://sprites/monsters/traffikrab.json" type="PackedScene" id=35]
+[ext_resource path="res://nodes/encounter_config/EncounterConfig.gd" type="Script" id=36]
+[ext_resource path="res://nodes/sprite_container/SpriteContainer.gd" type="Script" id=37]
+[ext_resource path="res://menus/party/MonsterSpriteContainer.gd" type="Script" id=38]
+[ext_resource path="res://nodes/encounter_config/CharacterConfig.gd" type="Script" id=39]
+[ext_resource path="res://nodes/encounter_config/TapeConfig.gd" type="Script" id=40]
+[ext_resource path="res://nodes/battle_slot/BattleSlot.gd" type="Script" id=41]
+[ext_resource path="res://nodes/battle_slot/named_sounds.tres" type="Resource" id=42]
+[ext_resource path="res://sfx/transform.wav" type="AudioStream" id=43]
+[ext_resource path="res://world/npc/FloorRay.gd" type="Script" id=44]
+[ext_resource path="res://addons/misc_utils/StateMachine.gd" type="Script" id=45]
+[ext_resource path="res://world/npc/EmotePlayer.tscn" type="PackedScene" id=46]
+[ext_resource path="res://world/npc/Footsteps.tscn" type="PackedScene" id=47]
+[ext_resource path="res://world/core/Interaction.tscn" type="PackedScene" id=48]
+[ext_resource path="res://nodes/actions/BattleAction.gd" type="Script" id=49]
+[ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=50]
+[ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=51]
+[ext_resource path="res://addons/misc_utils/actions/DecoratorAction.gd" type="Script" id=52]
+[ext_resource path="res://nodes/actions/values/GetPlayer.gd" type="Script" id=53]
+[ext_resource path="res://world/npc/Controls.gd" type="Script" id=54]
+[ext_resource path="res://nodes/actions/FaceTowardsAction.gd" type="Script" id=55]
+[ext_resource path="res://sfx/recording.wav" type="AudioStream" id=56]
+[ext_resource path="res://sfx/ui/recorded.wav" type="AudioStream" id=57]
+[ext_resource path="res://nodes/actions/Cutscene.gd" type="Script" id=58]
+[ext_resource path="res://nodes/actions/CheckConditionAction.gd" type="Script" id=59]
+[ext_resource path="res://mods/LivingWorld/actions/GetSeat.gd" type="Script" id=60]
+[ext_resource path="res://mods/LivingWorld/actions/GetGroupNodeCustom.gd" type="Script" id=61]
+[ext_resource path="res://mods/LivingWorld/actions/CheckNearbyRogueFusion.gd" type="Script" id=62]
+[ext_resource path="res://mods/LivingWorld/actions/CustomFollowAction.gd" type="Script" id=63]
+[ext_resource path="res://mods/LivingWorld/actions/ChangeSpriteAction.gd" type="Script" id=64]
+[ext_resource path="res://mods/LivingWorld/actions/DropItemAction.gd" type="Script" id=65]
+[ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=66]
+[ext_resource path="res://addons/misc_utils/actions/values/GetBlackboardValue.gd" type="Script" id=67]
+[ext_resource path="res://mods/LivingWorld/actions/GetNodeWithin.gd" type="Script" id=68]
+[ext_resource path="res://nodes/encounter_config/RandomTapeConfig.gd" type="Script" id=69]
+[ext_resource path="res://mods/LivingWorld/actions/EngageEnemyBehavior.gd" type="Script" id=70]
+[ext_resource path="res://mods/LivingWorld/actions/CheckFlagValue.gd" type="Script" id=71]
+[ext_resource path="res://mods/LivingWorld/actions/CheckForOtherCampers.gd" type="Script" id=72]
+[ext_resource path="res://mods/LivingWorld/actions/GetEngagedTarget.gd" type="Script" id=73]
+[ext_resource path="res://mods/LivingWorld/actions/IsNearby.gd" type="Script" id=74]
+[ext_resource path="res://mods/LivingWorld/actions/MessageDialogRandom.gd" type="Script" id=75]
+[ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=76]
+[ext_resource path="res://mods/LivingWorld/scripts/MonsterDetector.gd" type="Script" id=77]
+[ext_resource path="res://data/monster_forms/fungogh.tres" type="Resource" id=78]
+[ext_resource path="res://mods/LivingWorld/nodes/MouseClick.tscn" type="PackedScene" id=79]
+[ext_resource path="res://mods/LivingWorld/soundeffects/heal.wav" type="AudioStream" id=80]
+[ext_resource path="res://mods/LivingWorld/scripts/BootlegDetector.gd" type="Script" id=81]
+[ext_resource path="res://mods/LivingWorld/scripts/TalkingNPCDetector.gd" type="Script" id=82]
+[ext_resource path="res://mods/LivingWorld/actions/SetInteraction.gd" type="Script" id=83]
+[ext_resource path="res://mods/LivingWorld/actions/CustomWalk.gd" type="Script" id=84]
+[ext_resource path="res://mods/LivingWorld/scripts/ConversationBehavior.gd" type="Script" id=85]
+[ext_resource path="res://mods/LivingWorld/actions/AddFollower.gd" type="Script" id=86]
+[ext_resource path="res://mods/LivingWorld/actions/CheckBattleCooldown.gd" type="Script" id=87]
+[ext_resource path="res://mods/LivingWorld/actions/MessageTradeDialog.gd" type="Script" id=88]
+[ext_resource path="res://mods/LivingWorld/actions/SetBattleCooldown.gd" type="Script" id=89]
+[ext_resource path="res://mods/LivingWorld/actions/IsConversationEnded.gd" type="Script" id=90]
+[ext_resource path="res://mods/LivingWorld/actions/SetRecruitBB.gd" type="Script" id=91]
+[ext_resource path="res://mods/LivingWorld/scripts/RogueFusionDetector.gd" type="Script" id=92]
+[ext_resource path="res://mods/LivingWorld/actions/ChooseSticker.gd" type="Script" id=93]
+[ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=94]
+[ext_resource path="res://mods/LivingWorld/actions/AdjustYAxis.gd" type="Script" id=95]
+[ext_resource path="res://mods/LivingWorld/actions/ExitConversation.gd" type="Script" id=96]
+[ext_resource path="res://mods/LivingWorld/actions/GetConversationPartner.gd" type="Script" id=97]
+[ext_resource path="res://data/character_sfx/felix_sfx.tres" type="Resource" id=98]
+[ext_resource path="res://sprites/characters/battle/felix.json" type="PackedScene" id=99]
+[ext_resource path="res://data/characters/felix.tres" type="Resource" id=100]
+[ext_resource path="res://nodes/layered_sprite/WorldHumanSprite3D.tscn" type="PackedScene" id=101]
+[ext_resource path="res://mods/LivingWorld/scripts/setbattlesprite.gd" type="Script" id=102]
+[ext_resource path="res://mods/LivingWorld/actions/MenuDialog.gd" type="Script" id=103]
+[ext_resource path="res://mods/LivingWorld/scripts/MerchantDetector.gd" type="Script" id=104]
+
+[sub_resource type="CapsuleShape" id=30]
+radius = 0.9
+height = 0.9
+
+[sub_resource type="BoxShape" id=31]
+extents = Vector3( 11.3643, 1.59925, 10.2657 )
+
+[sub_resource type="BoxShape" id=32]
+extents = Vector3( 11.3643, 1.59925, 10.2657 )
+
+[sub_resource type="Environment" id=9]
+ambient_light_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="Animation" id=33]
+resource_name = "bob"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0.9, 0.9, 0.9 ), Vector3( 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:sprite_rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 0.25 ), Vector3( 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=34]
+length = 0.5
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "battle_cry" ],
+"method": "play_form_sound"
+} ]
+}
+
+[sub_resource type="Animation" id=35]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation:y")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -10.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_form_defeat_cry"
+} ]
+}
+
+[sub_resource type="Animation" id=36]
+resource_name = "dodge"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:offset:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 2.0, -2.0, 2.0, -2.0, 2.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=37]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -20, 0, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_form_defeat_cry"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpriteContainer:albedo")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=38]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( -10, 0, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_form_defeat_cry"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpriteContainer:albedo")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=39]
+resource_name = "flee_incomplete"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( -4.85185, 0, 0 ), Vector3( -5, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:albedo")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.25098 ) ]
+}
+
+[sub_resource type="Animation" id=40]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0.75, 0.75, 0.75 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_form_defeat_cry"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpriteContainer:albedo")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.501961 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=41]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:offset")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( -0.5, 0, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "hurt", false ],
+"method": "play_sprite_animation"
+} ]
+}
+
+[sub_resource type="Animation" id=42]
+resource_name = "knockdown"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 1.25, 0.875, 1 ), Vector3( 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=43]
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation:y")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -10.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_form_defeat_cry"
+} ]
+}
+
+[sub_resource type="Animation" id=44]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0.9, 0.9, 0.9 ), Vector3( 1.1, 1.1, 1.1 ), Vector3( 0.9, 0.9, 0.9 ), Vector3( 1.1, 1.1, 1.1 ), Vector3( 1, 1, 1 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "battle_cry" ],
+"method": "play_form_sound"
+} ]
+}
+
+[sub_resource type="Animation" id=45]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, -10, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 1, 1, 1 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "battle_cry" ],
+"method": "play_form_sound"
+} ]
+}
+
+[sub_resource type="Animation" id=46]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:emission")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.5, 0.5, 0.5, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:wave_amplitude")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.1, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpriteContainer:wave_v_frequency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 20.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SpriteContainer:static_amount")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=47]
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:emission")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0.5, 0.5, 0.5, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:wave_amplitude")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.1 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpriteContainer:wave_v_frequency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 20.0 ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "transform_sound" ],
+"method": "play_named_sound"
+} ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SpriteContainer:static_amount")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.05, 1.0 ],
+"method": "vibrate"
+} ]
+}
+
+[sub_resource type="AudioStreamRandomPitch" id=25]
+
+[sub_resource type="AudioStreamRandomPitch" id=26]
+
+[sub_resource type="AudioStreamRandomPitch" id=27]
+
+[sub_resource type="BoxShape" id=28]
+extents = Vector3( 0.5, 0.5, 0.5 )
+
+[sub_resource type="CubeMesh" id=29]
+size = Vector3( 1, 1, 1 )
+
+[node name="Felix" type="KinematicBody" groups=["idle_partners"]]
+collision_layer = 128
+collision_mask = 32773
+script = ExtResource( 76 )
+direction = Vector2( 0, 1 )
+npc_name = "FELIX_NAME"
+pronouns = 0
+sprite_colors = {
+"body_color_1": 14,
+"body_color_2": 0,
+"eye_color": 16,
+"face_accessory_color": 14,
+"favorite_color": 12,
+"hair_accessory_color": 12,
+"hair_color": 12,
+"legs_color": 7,
+"shoe_color": 0,
+"skin_color": 22
+}
+sprite_part_names = {
+"arms": "tshirt1",
+"body": "felix",
+"hair": "felix",
+"head": "",
+"legs": "dark",
+"wings": ""
+}
+character = ExtResource( 100 )
+human_colors/body_color_1 = 14
+human_colors/body_color_2 = 0
+human_colors/eye_color = 16
+human_colors/face_accessory_color = 14
+human_colors/favorite_color = 12
+human_colors/hair_accessory_color = 12
+human_colors/hair_color = 12
+human_colors/legs_color = 7
+human_colors/shoe_color = 0
+human_colors/skin_color = 22
+
+[node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
+aabb = AABB( -2, -1, -2, 4, 4.7, 4 )
+max_distance = 100.0
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.325, 0 )
+shape = SubResource( 30 )
+
+[node name="Sprite" type="Spatial" parent="."]
+script = ExtResource( 37 )
+idle = "idle"
+direction = "down"
+billboard_depth_hack = true
+
+[node name="HumanSprite" parent="Sprite" instance=ExtResource( 101 )]
+part_names = {
+"arms": "tshirt1",
+"body": "felix",
+"hair": "felix",
+"head": "generic",
+"legs": "dark",
+"wings": "generic"
+}
+colors = {
+"body_color_1": 14,
+"body_color_2": 0,
+"eye_color": 16,
+"face_accessory_color": 14,
+"favorite_color": 12,
+"hair_accessory_color": 12,
+"hair_color": 12,
+"legs_color": 7,
+"shoe_color": 0,
+"skin_color": 22
+}
+
+[node name="EmotePlayer" parent="." instance=ExtResource( 46 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+
+[node name="Interaction" parent="." instance=ExtResource( 48 )]
+pawn_path = NodePath("..")
+
+[node name="CollisionShape" type="CollisionShape" parent="Interaction"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.325, 0 )
+shape = SubResource( 30 )
+
+[node name="Footsteps" parent="." instance=ExtResource( 47 )]
+
+[node name="Controls" type="Node" parent="."]
+script = ExtResource( 54 )
+
+[node name="FloorRay" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+enabled = true
+cast_to = Vector3( 0, -5, 0 )
+collision_mask = 8193
+collide_with_areas = true
+script = ExtResource( 44 )
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 45 )
+
+[node name="Walking" type="Node" parent="StateMachine"]
+script = ExtResource( 31 )
+
+[node name="Dashing" type="Node" parent="StateMachine"]
+script = ExtResource( 30 )
+
+[node name="Falling" type="Node" parent="StateMachine"]
+script = ExtResource( 34 )
+max_glide_speed = 8.0
+glide_acceleration = 48.0
+recovery_y_velocity_threshold = 32.0
+recovery_play_land_audio = true
+
+[node name="Climbing" type="Node" parent="StateMachine"]
+script = ExtResource( 32 )
+loop_animation = "climb"
+
+[node name="Gliding" type="Node" parent="StateMachine"]
+script = ExtResource( 34 )
+terminal_velocity = -5.0
+glide_acceleration = 48.0
+show_wings = true
+uses_stamina = true
+
+[node name="ForcedFlying" type="Node" parent="StateMachine"]
+script = ExtResource( 34 )
+terminal_velocity = -5.0
+glide_acceleration = 48.0
+show_wings = true
+enable_flight = true
+force_flight = true
+
+[node name="Recover" type="Node" parent="StateMachine"]
+script = ExtResource( 29 )
+animation = "land"
+
+[node name="DashingRecover" type="Node" parent="StateMachine"]
+script = ExtResource( 29 )
+animation = "land"
+
+[node name="Swimming" type="Node" parent="StateMachine"]
+script = ExtResource( 28 )
+uses_stamina = true
+loop_animation = "swim"
+
+[node name="Sitting" type="Node" parent="StateMachine"]
+script = ExtResource( 33 )
+
+[node name="Defeated" type="Node" parent="StateMachine"]
+script = ExtResource( 33 )
+animation_loop = "defeated"
+remove_collision = true
+
+[node name="Nothing" type="Node" parent="StateMachine"]
+
+[node name="EncounterConfig" type="Node" parent="."]
+script = ExtResource( 36 )
+can_flee = false
+enable_ai_fusion = true
+
+[node name="CharacterConfig" type="Node" parent="EncounterConfig"]
+script = ExtResource( 39 )
+character_name = "FELIX_NAME"
+pronouns = 0
+level_scale_override_key = "monster_miniboss_smart"
+base_character = ExtResource( 100 )
+character_sfx = ExtResource( 98 )
+character_kind = 1
+human_colors = {
+"body_color_1": -1,
+"body_color_2": -1,
+"eye_color": -1,
+"face_accessory_color": -1,
+"favorite_color": -1,
+"hair_accessory_color": -1,
+"hair_color": -1,
+"legs_color": -1,
+"shoe_color": -1,
+"skin_color": -1
+}
+custom_battle_sprite = ExtResource( 99 )
+human_colors/body_color_1 = -1
+human_colors/body_color_2 = -1
+human_colors/eye_color = -1
+human_colors/face_accessory_color = -1
+human_colors/favorite_color = -1
+human_colors/hair_accessory_color = -1
+human_colors/hair_color = -1
+human_colors/legs_color = -1
+human_colors/shoe_color = -1
+human_colors/skin_color = -1
+
+[node name="TapeConfig" type="Node" parent="EncounterConfig/CharacterConfig"]
+script = ExtResource( 40 )
+form = ExtResource( 78 )
+
+[node name="TapeConfig2" type="Node" parent="EncounterConfig/CharacterConfig"]
+script = ExtResource( 40 )
+form = ExtResource( 1 )
+
+[node name="TapeConfig3" type="Node" parent="EncounterConfig/CharacterConfig"]
+script = ExtResource( 40 )
+form = ExtResource( 2 )
+
+[node name="RandomTapeConfig" type="Node" parent="EncounterConfig/CharacterConfig"]
+script = ExtResource( 69 )
+
+[node name="RandomTapeConfig2" type="Node" parent="EncounterConfig/CharacterConfig"]
+script = ExtResource( 69 )
+
+[node name="Sidekick" type="Node" parent="EncounterConfig"]
+script = ExtResource( 39 )
+level_scale_override_key = "monster_miniboss_smart"
+character_kind = 1
+human_colors = {
+"body_color_1": -1,
+"body_color_2": -1,
+"eye_color": -1,
+"face_accessory_color": -1,
+"favorite_color": -1,
+"hair_accessory_color": -1,
+"hair_color": -1,
+"legs_color": -1,
+"shoe_color": -1,
+"skin_color": -1
+}
+randomize_human_sprite = true
+human_colors/body_color_1 = -1
+human_colors/body_color_2 = -1
+human_colors/eye_color = -1
+human_colors/face_accessory_color = -1
+human_colors/favorite_color = -1
+human_colors/hair_accessory_color = -1
+human_colors/hair_color = -1
+human_colors/legs_color = -1
+human_colors/shoe_color = -1
+human_colors/skin_color = -1
+
+[node name="Tape6" type="Node" parent="EncounterConfig/Sidekick"]
+script = ExtResource( 69 )
+
+[node name="RecruitData" parent="." instance=ExtResource( 3 )]
+is_partner = true
+
+[node name="RecruitBehavior" type="Node" parent="."]
+script = ExtResource( 6 )
+default_state = "Idle"
+
+[node name="Idle" type="Node" parent="RecruitBehavior"]
+script = ExtResource( 66 )
+interruptible = true
+combative_weight = 0.9
+social_weight = 0.9
+loner_weight = 0.9
+
+[node name="SpawnPointReturnAction" type="Node" parent="RecruitBehavior/Idle"]
+script = ExtResource( 9 )
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_warp = true
+can_wait = true
+max_wait = 0.5
+strafe = true
+wander_limit = 64.0
+kill_on_failure = false
+
+[node name="SetNPCControlsAction" type="Node" parent="RecruitBehavior/Idle"]
+script = ExtResource( 16 )
+set_values = 478
+
+[node name="WaitAction" type="Node" parent="RecruitBehavior/Idle"]
+script = ExtResource( 50 )
+base_seconds = 0.25
+random_seconds = 0.5
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/Idle"]
+script = ExtResource( 94 )
+__meta__ = {
+"action_tree": true
+}
+
+[node name="GetPawn" type="Node" parent="RecruitBehavior/Idle/FaceTowardsAction"]
+script = ExtResource( 51 )
+
+[node name="RandomDirectionValue" type="Node" parent="RecruitBehavior/Idle/FaceTowardsAction"]
+script = ExtResource( 7 )
+spawn_point_return_threshold = 45.0
+
+[node name="WaitAction2" type="Node" parent="RecruitBehavior/Idle"]
+script = ExtResource( 50 )
+random_seconds = 2.5
+
+[node name="WalkAction" type="Node" parent="RecruitBehavior/Idle"]
+script = ExtResource( 84 )
+__meta__ = {
+"action_tree": true
+}
+can_fly = true
+can_jump = true
+can_glide = true
+can_fall = true
+can_wait = true
+max_wait = 2.0
+use_random = true
+random_walk_distance = 25
+
+[node name="Sit" type="Node" parent="RecruitBehavior"]
+script = ExtResource( 66 )
+interruptible = true
+combative_weight = 0.2
+social_weight = 0.5
+loner_weight = 0.951
+townie_weight = 0.65
+
+[node name="SetNPCControlsAction" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 16 )
+set_values = 478
+
+[node name="SetNPCStateAction" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 13 )
+state = "Sitting"
+
+[node name="LowerHeight" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 95 )
+
+[node name="Sequence" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 4 )
+
+[node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/Sit/Sequence"]
+script = ExtResource( 24 )
+emotes = [ "singing_loop", "aggro_check", "annoyed", "content", "frustrated", "questioning", "Sad" ]
+use_random = true
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/Sit/Sequence"]
+script = ExtResource( 94 )
+__meta__ = {
+"action_tree": true
+}
+
+[node name="RandomDirectionValue" type="Node" parent="RecruitBehavior/Sit/Sequence/FaceTowardsAction"]
+script = ExtResource( 7 )
+spawn_point_return_threshold = 45.0
+
+[node name="WaitAction2" type="Node" parent="RecruitBehavior/Sit/Sequence"]
+script = ExtResource( 50 )
+random_seconds = 2.0
+
+[node name="WaitAction5" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 50 )
+base_seconds = 2.0
+random_seconds = 3.0
+
+[node name="RaiseHeight" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 95 )
+positive_move = true
+
+[node name="Failer" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 12 )
+
+[node name="Dash" type="Node" parent="RecruitBehavior"]
+script = ExtResource( 66 )
+combative_weight = 0.65
+social_weight = 0.65
+loner_weight = 0.65
+disable_on_water = true
+
+[node name="SetNPCControlsAction" type="Node" parent="RecruitBehavior/Dash"]
+script = ExtResource( 16 )
+set_values = 478
+
+[node name="RepeatWhile" type="Node" parent="RecruitBehavior/Dash"]
+script = ExtResource( 10 )
+
+[node name="SetNPCControlsAction" type="Node" parent="RecruitBehavior/Dash/RepeatWhile"]
+script = ExtResource( 16 )
+dash = true
+set_values = 8
+
+[node name="WalkAction" type="Node" parent="RecruitBehavior/Dash/RepeatWhile"]
+script = ExtResource( 84 )
+__meta__ = {
+"action_tree": true
+}
+can_jump = true
+can_fall = true
+can_wait = true
+max_wait = 2.0
+use_random = true
+random_walk_distance = 20
+
+[node name="SetNPCControlsAction2" type="Node" parent="RecruitBehavior/Dash"]
+script = ExtResource( 16 )
+set_values = 8
+
+[node name="Failer" type="Node" parent="RecruitBehavior/Dash"]
+script = ExtResource( 12 )
+
+[node name="FindCamp" type="Node" parent="RecruitBehavior"]
+script = ExtResource( 66 )
+combative_weight = 0.45
+social_weight = 0.85
+
+[node name="SetNPCControlsAction2" type="Node" parent="RecruitBehavior/FindCamp"]
+script = ExtResource( 16 )
+set_values = 478
+
+[node name="IsNearby" type="Node" parent="RecruitBehavior/FindCamp"]
+script = ExtResource( 74 )
+distance = 64.0
+bb_name = "Camp"
+
+[node name="GetGroupNode" type="Node" parent="RecruitBehavior/FindCamp/IsNearby"]
+script = ExtResource( 61 )
+group = "campfires"
+mode = 4
+
+[node name="RepeatWhile" type="Node" parent="RecruitBehavior/FindCamp"]
+script = ExtResource( 10 )
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/FindCamp/RepeatWhile"]
+script = ExtResource( 55 )
+
+[node name="GetBlackboardValue" type="Node" parent="RecruitBehavior/FindCamp/RepeatWhile/FaceTowardsAction"]
+script = ExtResource( 67 )
+key = "Camp"
+
+[node name="FollowAction" type="Node" parent="RecruitBehavior/FindCamp/RepeatWhile"]
+script = ExtResource( 63 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 4.0
+strafe = true
+
+[node name="GetBlackboardValue" type="Node" parent="RecruitBehavior/FindCamp/RepeatWhile/FollowAction"]
+script = ExtResource( 67 )
+key = "Camp"
+
+[node name="RegisterOccupant" type="Node" parent="RecruitBehavior/FindCamp"]
+script = ExtResource( 11 )
+register = true
+
+[node name="GetBlackboardValue" type="Node" parent="RecruitBehavior/FindCamp/RegisterOccupant"]
+script = ExtResource( 67 )
+key = "Camp"
+
+[node name="DisableInteraction" type="Node" parent="RecruitBehavior/FindCamp"]
+script = ExtResource( 83 )
+disabled = true
+
+[node name="GetPawn" type="Node" parent="RecruitBehavior/FindCamp/DisableInteraction"]
+script = ExtResource( 51 )
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/FindCamp"]
+script = ExtResource( 94 )
+
+[node name="GetBlackboardValue" type="Node" parent="RecruitBehavior/FindCamp/FaceTowardsAction"]
+script = ExtResource( 67 )
+key = "Camp"
+
+[node name="SetNPCControlsAction" type="Node" parent="RecruitBehavior/FindCamp"]
+script = ExtResource( 16 )
+set_values = 476
+
+[node name="FollowTarget" type="Node" parent="RecruitBehavior/FindCamp"]
+script = ExtResource( 63 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+hide_avatars_if_cutscene = false
+
+[node name="GetSeat" type="Node" parent="RecruitBehavior/FindCamp/FollowTarget"]
+script = ExtResource( 60 )
+bb_name = "Camp"
+
+[node name="FaceTowardsAction2" type="Node" parent="RecruitBehavior/FindCamp"]
+script = ExtResource( 94 )
+
+[node name="GetBlackboardValue" type="Node" parent="RecruitBehavior/FindCamp/FaceTowardsAction2"]
+script = ExtResource( 67 )
+key = "Camp"
+
+[node name="SetNPCStateAction" type="Node" parent="RecruitBehavior/FindCamp"]
+script = ExtResource( 13 )
+state = "Sitting"
+
+[node name="RepeatWhile2" type="Node" parent="RecruitBehavior/FindCamp"]
+script = ExtResource( 10 )
+
+[node name="OtherCampers" type="Node" parent="RecruitBehavior/FindCamp/RepeatWhile2"]
+script = ExtResource( 72 )
+always_succeed = true
+group = "campfires"
+
+[node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/FindCamp/RepeatWhile2/OtherCampers"]
+script = ExtResource( 24 )
+emotes = [ "singing_loop", "aggro_check", "Happy", "Angry", "annoyed", "content", "frustrated", "questioning", "Sad", "shocked", "silly", "Love", "tape", "convo" ]
+use_random = true
+
+[node name="WaitAction" type="Node" parent="RecruitBehavior/FindCamp/RepeatWhile2/OtherCampers"]
+script = ExtResource( 50 )
+base_seconds = 3.0
+random_seconds = 2.0
+
+[node name="WaitAction" type="Node" parent="RecruitBehavior/FindCamp/RepeatWhile2"]
+script = ExtResource( 50 )
+base_seconds = 45.0
+random_seconds = 15.0
+
+[node name="UnregisterOccupant" type="Node" parent="RecruitBehavior/FindCamp"]
+script = ExtResource( 11 )
+
+[node name="GetBlackboardValue" type="Node" parent="RecruitBehavior/FindCamp/UnregisterOccupant"]
+script = ExtResource( 67 )
+key = "Camp"
+
+[node name="DisableInteraction2" type="Node" parent="RecruitBehavior/FindCamp"]
+script = ExtResource( 83 )
+
+[node name="GetPawn" type="Node" parent="RecruitBehavior/FindCamp/DisableInteraction2"]
+script = ExtResource( 51 )
+
+[node name="Failer" type="Node" parent="RecruitBehavior/FindCamp"]
+script = ExtResource( 12 )
+
+[node name="FindRogues" type="Node" parent="RecruitBehavior"]
+script = ExtResource( 66 )
+combative_weight = 0.87
+social_weight = 0.6
+loner_weight = 0.45
+
+[node name="IsNearby" type="Node" parent="RecruitBehavior/FindRogues"]
+script = ExtResource( 74 )
+distance = 64.0
+bb_name = "Rogues"
+
+[node name="GetGroupNode" type="Node" parent="RecruitBehavior/FindRogues/IsNearby"]
+script = ExtResource( 61 )
+group = "RogueFusions"
+mode = 4
+
+[node name="DisableInteraction" type="Node" parent="RecruitBehavior/FindRogues"]
+script = ExtResource( 83 )
+disabled = true
+
+[node name="GetPawn" type="Node" parent="RecruitBehavior/FindRogues/DisableInteraction"]
+script = ExtResource( 51 )
+
+[node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/FindRogues"]
+script = ExtResource( 24 )
+selection = 1
+
+[node name="RepeatWhile2" type="Node" parent="RecruitBehavior/FindRogues"]
+script = ExtResource( 10 )
+
+[node name="IsPlayerNearby" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2"]
+script = ExtResource( 15 )
+always_succeed = true
+within_distance = 40.0
+
+[node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2/IsPlayerNearby"]
+script = ExtResource( 24 )
+selection = 3
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2"]
+script = ExtResource( 94 )
+
+[node name="GetBlackboardValue" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2/FaceTowardsAction"]
+script = ExtResource( 67 )
+key = "Rogues"
+
+[node name="FollowAction" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2"]
+script = ExtResource( 63 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 6.0
+
+[node name="GetBlackboardValue" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2/FollowAction"]
+script = ExtResource( 67 )
+key = "Rogues"
+
+[node name="IsEncounterActive" type="Node" parent="RecruitBehavior/FindRogues"]
+script = ExtResource( 62 )
+group = "RogueFusions"
+delay = 0.0
+
+[node name="PlayEmoteAction2" type="Node" parent="RecruitBehavior/FindRogues/IsEncounterActive"]
+script = ExtResource( 24 )
+selection = 5
+
+[node name="RegisterOccupant" type="Node" parent="RecruitBehavior/FindRogues/IsEncounterActive"]
+script = ExtResource( 11 )
+register = true
+
+[node name="GetBlackboardValue" type="Node" parent="RecruitBehavior/FindRogues/IsEncounterActive/RegisterOccupant"]
+script = ExtResource( 67 )
+key = "Rogues"
+
+[node name="SetNPCControlsAction" type="Node" parent="RecruitBehavior/FindRogues"]
+script = ExtResource( 16 )
+set_values = 478
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/FindRogues"]
+script = ExtResource( 94 )
+
+[node name="GetBlackboardValue" type="Node" parent="RecruitBehavior/FindRogues/FaceTowardsAction"]
+script = ExtResource( 67 )
+key = "Rogues"
+
+[node name="PlayAudioAction" type="Node" parent="RecruitBehavior/FindRogues"]
+script = ExtResource( 22 )
+stream = ExtResource( 43 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="RecruitBehavior/FindRogues"]
+script = ExtResource( 64 )
+sprite_form = 1
+
+[node name="WaitAction" type="Node" parent="RecruitBehavior/FindRogues"]
+script = ExtResource( 50 )
+
+[node name="SetNPCStateAction2" type="Node" parent="RecruitBehavior/FindRogues"]
+script = ExtResource( 13 )
+
+[node name="RepeatWhile" type="Node" parent="RecruitBehavior/FindRogues"]
+script = ExtResource( 10 )
+
+[node name="PlayEmoteAction2" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile"]
+script = ExtResource( 24 )
+selection = 18
+
+[node name="WaitUntil" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile"]
+script = ExtResource( 8 )
+base_seconds = 30.0
+
+[node name="GetNodeWithinRange" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile/WaitUntil"]
+script = ExtResource( 68 )
+group = "RogueFusions"
+inverted = true
+
+[node name="Victory" type="Node" parent="RecruitBehavior/FindRogues"]
+script = ExtResource( 62 )
+always_succeed = true
+inverted = true
+group = "RogueFusions"
+delay = 0.0
+
+[node name="SetNPCControlsAction" type="Node" parent="RecruitBehavior/FindRogues/Victory"]
+script = ExtResource( 16 )
+jump = true
+set_values = 478
+
+[node name="PlayAudioAction" type="Node" parent="RecruitBehavior/FindRogues/Victory"]
+script = ExtResource( 22 )
+stream = ExtResource( 43 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="RecruitBehavior/FindRogues/Victory"]
+script = ExtResource( 64 )
+
+[node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/FindRogues/Victory"]
+script = ExtResource( 24 )
+emotes = [ "singing_loop", "Happy", "Love" ]
+use_random = true
+
+[node name="DropItem" type="Node" parent="RecruitBehavior/FindRogues/Victory"]
+script = ExtResource( 65 )
+loot_table = ExtResource( 27 )
+max_value = 200
+max_num = 200
+
+[node name="SetNPCControlsAction2" type="Node" parent="RecruitBehavior/FindRogues/Victory"]
+script = ExtResource( 16 )
+set_values = 478
+
+[node name="Failer" type="Node" parent="RecruitBehavior/FindRogues/Victory"]
+script = ExtResource( 12 )
+
+[node name="FailedEncounter" type="Node" parent="RecruitBehavior/FindRogues"]
+script = ExtResource( 62 )
+always_succeed = true
+group = "RogueFusions"
+delay = 0.0
+
+[node name="UnregisterOccupant" type="Node" parent="RecruitBehavior/FindRogues/FailedEncounter"]
+script = ExtResource( 11 )
+
+[node name="GetBlackboardValue" type="Node" parent="RecruitBehavior/FindRogues/FailedEncounter/UnregisterOccupant"]
+script = ExtResource( 67 )
+key = "Rogues"
+
+[node name="PlayAudioAction" type="Node" parent="RecruitBehavior/FindRogues/FailedEncounter"]
+script = ExtResource( 22 )
+stream = ExtResource( 43 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="RecruitBehavior/FindRogues/FailedEncounter"]
+script = ExtResource( 64 )
+
+[node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/FindRogues/FailedEncounter"]
+script = ExtResource( 24 )
+selection = 1
+emotes = [ "Angry", "annoyed", "frustrated", "Sad" ]
+use_random = true
+
+[node name="SetNPCStateAction" type="Node" parent="RecruitBehavior/FindRogues/FailedEncounter"]
+script = ExtResource( 13 )
+state = "Defeated"
+
+[node name="WaitAction2" type="Node" parent="RecruitBehavior/FindRogues/FailedEncounter"]
+script = ExtResource( 50 )
+base_seconds = 3.0
+
+[node name="RemoveNodeAction" type="Node" parent="RecruitBehavior/FindRogues/FailedEncounter"]
+script = ExtResource( 18 )
+animation = 1
+fade_duration = 1.0
+
+[node name="EnableInteractions" type="Node" parent="RecruitBehavior/FindRogues"]
+script = ExtResource( 83 )
+
+[node name="GetPawn" type="Node" parent="RecruitBehavior/FindRogues/EnableInteractions"]
+script = ExtResource( 51 )
+
+[node name="FindPlayer" type="Node" parent="RecruitBehavior"]
+script = ExtResource( 66 )
+interruptible = true
+combative_weight = 0.5
+social_weight = 0.78
+townie_weight = 0.8
+
+[node name="IsPlayerNearby" type="Node" parent="RecruitBehavior/FindPlayer"]
+script = ExtResource( 15 )
+within_distance = 32.0
+
+[node name="RepeatWhile" type="Node" parent="RecruitBehavior/FindPlayer/IsPlayerNearby"]
+script = ExtResource( 10 )
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/FindPlayer/IsPlayerNearby/RepeatWhile"]
+script = ExtResource( 94 )
+
+[node name="GetPlayer" type="Node" parent="RecruitBehavior/FindPlayer/IsPlayerNearby/RepeatWhile/FaceTowardsAction"]
+script = ExtResource( 53 )
+which = 3
+
+[node name="FollowAction" type="Node" parent="RecruitBehavior/FindPlayer/IsPlayerNearby/RepeatWhile"]
+script = ExtResource( 63 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 6.0
+ignore_ending_y = false
+
+[node name="GetPlayer" type="Node" parent="RecruitBehavior/FindPlayer/IsPlayerNearby/RepeatWhile/FollowAction"]
+script = ExtResource( 53 )
+which = 3
+
+[node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/FindPlayer/IsPlayerNearby"]
+script = ExtResource( 24 )
+emotes = [ "singing_loop", "annoyed", "content", "questioning", "silly", "Traffikrab" ]
+use_random = true
+
+[node name="RepeatWhile2" type="Node" parent="RecruitBehavior/FindPlayer/IsPlayerNearby"]
+script = ExtResource( 10 )
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/FindPlayer/IsPlayerNearby/RepeatWhile2"]
+script = ExtResource( 94 )
+
+[node name="GetPlayer" type="Node" parent="RecruitBehavior/FindPlayer/IsPlayerNearby/RepeatWhile2/FaceTowardsAction"]
+script = ExtResource( 53 )
+which = 3
+
+[node name="WaitAction" type="Node" parent="RecruitBehavior/FindPlayer/IsPlayerNearby/RepeatWhile2"]
+script = ExtResource( 50 )
+base_seconds = 2.0
+random_seconds = 3.0
+
+[node name="Failer" type="Node" parent="RecruitBehavior/FindPlayer"]
+script = ExtResource( 12 )
+
+[node name="FindDoor" type="Node" parent="RecruitBehavior"]
+script = ExtResource( 66 )
+interruptible = true
+combative_weight = 0.1
+social_weight = 0.1
+loner_weight = 0.1
+townie_weight = 0.9
+
+[node name="IsNearby" type="Node" parent="RecruitBehavior/FindDoor"]
+script = ExtResource( 74 )
+distance = 32.0
+
+[node name="GetGroupNode" type="Node" parent="RecruitBehavior/FindDoor/IsNearby"]
+script = ExtResource( 61 )
+group = "warp_regions"
+mode = 4
+group_type = 2
+
+[node name="RepeatWhile2" type="Node" parent="RecruitBehavior/FindDoor"]
+script = ExtResource( 10 )
+early_exit_on_failure = true
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/FindDoor/RepeatWhile2"]
+script = ExtResource( 94 )
+
+[node name="GetGroupNode" type="Node" parent="RecruitBehavior/FindDoor/RepeatWhile2/FaceTowardsAction"]
+script = ExtResource( 61 )
+group = "warp_regions"
+mode = 4
+group_type = 2
+
+[node name="FollowAction" type="Node" parent="RecruitBehavior/FindDoor/RepeatWhile2"]
+script = ExtResource( 63 )
+__meta__ = {
+"action_tree": true
+}
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+ignore_ending_y = false
+strafe = true
+buffer = true
+zbuffer_dist = 4.0
+
+[node name="GetGroupNode" type="Node" parent="RecruitBehavior/FindDoor/RepeatWhile2/FollowAction"]
+script = ExtResource( 61 )
+group = "warp_regions"
+mode = 4
+group_type = 2
+
+[node name="RemoveNodeAction" type="Node" parent="RecruitBehavior/FindDoor"]
+script = ExtResource( 18 )
+animation = 1
+
+[node name="Shop" type="Node" parent="RecruitBehavior"]
+script = ExtResource( 70 )
+reset_on_exit_tree = true
+disable_on_water = true
+
+[node name="SetNPCControlsAction" type="Node" parent="RecruitBehavior/Shop"]
+script = ExtResource( 16 )
+set_values = 478
+
+[node name="Register" type="Node" parent="RecruitBehavior/Shop"]
+script = ExtResource( 11 )
+register = true
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/Shop/Register"]
+script = ExtResource( 73 )
+
+[node name="DisableInteraction" type="Node" parent="RecruitBehavior/Shop"]
+script = ExtResource( 83 )
+disabled = true
+
+[node name="GetPawn" type="Node" parent="RecruitBehavior/Shop/DisableInteraction"]
+script = ExtResource( 51 )
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/Shop"]
+script = ExtResource( 94 )
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/Shop/FaceTowardsAction"]
+script = ExtResource( 73 )
+
+[node name="FollowAction" type="Node" parent="RecruitBehavior/Shop"]
+script = ExtResource( 63 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 3.0
+ignore_ending_y = false
+buffer = true
+zbuffer_dist = 5.0
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/Shop/FollowAction"]
+script = ExtResource( 73 )
+
+[node name="RepeatWhile" type="Node" parent="RecruitBehavior/Shop"]
+script = ExtResource( 10 )
+
+[node name="PlayEmote" type="Node" parent="RecruitBehavior/Shop/RepeatWhile"]
+script = ExtResource( 24 )
+selection = 19
+
+[node name="WaitAction2" type="Node" parent="RecruitBehavior/Shop/RepeatWhile"]
+script = ExtResource( 50 )
+base_seconds = 5.0
+random_seconds = 5.0
+
+[node name="UnRegister" type="Node" parent="RecruitBehavior/Shop"]
+script = ExtResource( 11 )
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/Shop/UnRegister"]
+script = ExtResource( 73 )
+
+[node name="EnableInteraction" type="Node" parent="RecruitBehavior/Shop"]
+script = ExtResource( 83 )
+
+[node name="GetPawn" type="Node" parent="RecruitBehavior/Shop/EnableInteraction"]
+script = ExtResource( 51 )
+
+[node name="Failer" type="Node" parent="RecruitBehavior/Shop"]
+script = ExtResource( 12 )
+
+[node name="Revive" type="Node" parent="RecruitBehavior"]
+script = ExtResource( 70 )
+reset_on_exit_tree = true
+disable_on_water = true
+
+[node name="SetNPCControlsAction" type="Node" parent="RecruitBehavior/Revive"]
+script = ExtResource( 16 )
+set_values = 478
+
+[node name="Register" type="Node" parent="RecruitBehavior/Revive"]
+script = ExtResource( 11 )
+register = true
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/Revive/Register"]
+script = ExtResource( 73 )
+
+[node name="DisableInteraction" type="Node" parent="RecruitBehavior/Revive"]
+script = ExtResource( 83 )
+disabled = true
+
+[node name="GetPawn" type="Node" parent="RecruitBehavior/Revive/DisableInteraction"]
+script = ExtResource( 51 )
+
+[node name="PlayEmote" type="Node" parent="RecruitBehavior/Revive"]
+script = ExtResource( 24 )
+selection = 3
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/Revive"]
+script = ExtResource( 94 )
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/Revive/FaceTowardsAction"]
+script = ExtResource( 73 )
+
+[node name="FollowAction" type="Node" parent="RecruitBehavior/Revive"]
+script = ExtResource( 63 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 3.0
+ignore_ending_y = false
+zbuffer_dist = 5.0
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/Revive/FollowAction"]
+script = ExtResource( 73 )
+
+[node name="RepeatWhile" type="Node" parent="RecruitBehavior/Revive"]
+script = ExtResource( 10 )
+
+[node name="PlayEmote" type="Node" parent="RecruitBehavior/Revive/RepeatWhile"]
+script = ExtResource( 24 )
+selection = 1
+
+[node name="WaitAction2" type="Node" parent="RecruitBehavior/Revive/RepeatWhile"]
+script = ExtResource( 50 )
+base_seconds = 3.0
+
+[node name="PlayAudioAction" type="Node" parent="RecruitBehavior/Revive"]
+script = ExtResource( 21 )
+stream = ExtResource( 80 )
+wait_for_finish = false
+
+[node name="ApplyRecordSuccess" type="Node" parent="RecruitBehavior/Revive"]
+script = ExtResource( 25 )
+use_heal = true
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/Revive/ApplyRecordSuccess"]
+script = ExtResource( 73 )
+
+[node name="ConvertNPC" type="Node" parent="RecruitBehavior/Revive"]
+script = ExtResource( 5 )
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/Revive/ConvertNPC"]
+script = ExtResource( 73 )
+
+[node name="RemoveNodeAction" type="Node" parent="RecruitBehavior/Revive"]
+script = ExtResource( 18 )
+animation = 0
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/Revive/RemoveNodeAction"]
+script = ExtResource( 73 )
+
+[node name="PlayEmote2" type="Node" parent="RecruitBehavior/Revive"]
+script = ExtResource( 24 )
+selection = 4
+
+[node name="EnableInteraction" type="Node" parent="RecruitBehavior/Revive"]
+script = ExtResource( 83 )
+
+[node name="GetPawn" type="Node" parent="RecruitBehavior/Revive/EnableInteraction"]
+script = ExtResource( 51 )
+
+[node name="Failer" type="Node" parent="RecruitBehavior/Revive"]
+script = ExtResource( 12 )
+
+[node name="BootlegBehavior" type="Node" parent="RecruitBehavior"]
+script = ExtResource( 66 )
+interruptible = true
+
+[node name="RepeatWhile2" type="Node" parent="RecruitBehavior/BootlegBehavior"]
+script = ExtResource( 10 )
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/BootlegBehavior/RepeatWhile2"]
+script = ExtResource( 94 )
+__meta__ = {
+"action_tree": true
+}
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/BootlegBehavior/RepeatWhile2/FaceTowardsAction"]
+script = ExtResource( 73 )
+
+[node name="FollowAction" type="Node" parent="RecruitBehavior/BootlegBehavior/RepeatWhile2"]
+script = ExtResource( 63 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 3.0
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/BootlegBehavior/RepeatWhile2/FollowAction"]
+script = ExtResource( 73 )
+
+[node name="RepeatWhile" type="Node" parent="RecruitBehavior/BootlegBehavior"]
+script = ExtResource( 10 )
+
+[node name="Sequence" type="Node" parent="RecruitBehavior/BootlegBehavior/RepeatWhile"]
+script = ExtResource( 4 )
+
+[node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/BootlegBehavior/RepeatWhile/Sequence"]
+script = ExtResource( 24 )
+selection = 1
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/BootlegBehavior/RepeatWhile/Sequence"]
+script = ExtResource( 94 )
+__meta__ = {
+"action_tree": true
+}
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/BootlegBehavior/RepeatWhile/Sequence/FaceTowardsAction"]
+script = ExtResource( 73 )
+
+[node name="WaitAction2" type="Node" parent="RecruitBehavior/BootlegBehavior/RepeatWhile"]
+script = ExtResource( 50 )
+base_seconds = 10.0
+random_seconds = 5.0
+
+[node name="Failer" type="Node" parent="RecruitBehavior/BootlegBehavior"]
+script = ExtResource( 12 )
+
+[node name="Conversation" type="Node" parent="RecruitBehavior"]
+script = ExtResource( 85 )
+
+[node name="SetNPCControlsAction" type="Node" parent="RecruitBehavior/Conversation"]
+script = ExtResource( 16 )
+set_values = 478
+
+[node name="RepeatWhile2" type="Node" parent="RecruitBehavior/Conversation"]
+script = ExtResource( 10 )
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile2"]
+script = ExtResource( 94 )
+
+[node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile2/FaceTowardsAction"]
+script = ExtResource( 97 )
+
+[node name="FollowAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile2"]
+script = ExtResource( 63 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 4.0
+ignore_ending_y = false
+
+[node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile2/FollowAction"]
+script = ExtResource( 97 )
+
+[node name="RepeatWhile" type="Node" parent="RecruitBehavior/Conversation"]
+script = ExtResource( 10 )
+
+[node name="Sequence" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile"]
+script = ExtResource( 4 )
+
+[node name="SetRandomAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 17 )
+bb_name = "react"
+activation_chance = 0.4
+
+[node name="Reaction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 71 )
+always_succeed = true
+bb_name = "react"
+
+[node name="PlayEmoteAction3" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/Reaction"]
+script = ExtResource( 24 )
+selection = 15
+emotes = [ "aggro_check", "Happy", "Angry", "annoyed", "frustrated", "questioning", "Sad", "shocked", "silly", "Love", "scared" ]
+use_random = true
+
+[node name="Conversation" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 71 )
+always_succeed = true
+bb_name = "react"
+inverted = true
+
+[node name="PlayEmoteAction3" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/Conversation"]
+script = ExtResource( 24 )
+
+[node name="WaitAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 50 )
+base_seconds = 0.1
+random_seconds = 0.2
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 94 )
+
+[node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/FaceTowardsAction"]
+script = ExtResource( 97 )
+
+[node name="WaitUntil" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile"]
+script = ExtResource( 8 )
+base_seconds = 20.0
+random_seconds = 10.0
+
+[node name="EmptyConversation" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/WaitUntil"]
+script = ExtResource( 90 )
+
+[node name="ExitConversation" type="Node" parent="RecruitBehavior/Conversation"]
+script = ExtResource( 96 )
+
+[node name="Failer" type="Node" parent="RecruitBehavior/Conversation"]
+script = ExtResource( 12 )
+
+[node name="EngageEnemy" type="Node" parent="RecruitBehavior"]
+script = ExtResource( 70 )
+reset_on_exit_tree = true
+disable_on_water = true
+
+[node name="SetNPCControlsAction" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 16 )
+set_values = 478
+
+[node name="Register" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 11 )
+register = true
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/Register"]
+script = ExtResource( 73 )
+
+[node name="DisableInteraction" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 83 )
+disabled = true
+
+[node name="GetPawn" type="Node" parent="RecruitBehavior/EngageEnemy/DisableInteraction"]
+script = ExtResource( 51 )
+
+[node name="SetRecorded" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 17 )
+bb_name = "recorded"
+activation_chance = 0.8
+
+[node name="PauseEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 19 )
+pause = true
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/PauseEngagedTarget"]
+script = ExtResource( 73 )
+
+[node name="DisableTouchDetector" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 26 )
+disabled = true
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/DisableTouchDetector"]
+script = ExtResource( 73 )
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 94 )
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/FaceTowardsAction"]
+script = ExtResource( 73 )
+
+[node name="FollowAction" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 63 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 6.0
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/FollowAction"]
+script = ExtResource( 73 )
+
+[node name="PlayAudioAction" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 22 )
+stream = ExtResource( 56 )
+wait_for_finish = false
+
+[node name="RecordingBeam" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 14 )
+hold_duration = 3.0
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/RecordingBeam"]
+script = ExtResource( 73 )
+
+[node name="WaitAction3" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 50 )
+base_seconds = 0.5
+
+[node name="SetStatic" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 20 )
+static_amount = 1.0
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/SetStatic"]
+script = ExtResource( 73 )
+
+[node name="WaitAction2" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 50 )
+base_seconds = 3.0
+
+[node name="SetStatic2" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 20 )
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/SetStatic2"]
+script = ExtResource( 73 )
+
+[node name="SuccessRecording" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 71 )
+always_succeed = true
+bb_name = "recorded"
+
+[node name="PlayAudioAction" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording"]
+script = ExtResource( 22 )
+stream = ExtResource( 57 )
+wait_for_finish = false
+
+[node name="ApplyRecordSuccess" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording"]
+script = ExtResource( 25 )
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording/ApplyRecordSuccess"]
+script = ExtResource( 73 )
+
+[node name="WaitAction4" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording"]
+script = ExtResource( 50 )
+base_seconds = 0.5
+
+[node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording"]
+script = ExtResource( 24 )
+selection = 14
+
+[node name="PlayEmoteAction2" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording"]
+script = ExtResource( 24 )
+selection = 4
+
+[node name="WaitAction3" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording"]
+script = ExtResource( 50 )
+
+[node name="EnableTouchDetection" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording"]
+script = ExtResource( 26 )
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording/EnableTouchDetection"]
+script = ExtResource( 73 )
+
+[node name="FailedRecording" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 71 )
+always_succeed = true
+bb_name = "recorded"
+inverted = true
+
+[node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording"]
+script = ExtResource( 24 )
+selection = 11
+
+[node name="WaitAction3" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording"]
+script = ExtResource( 50 )
+base_seconds = 0.5
+
+[node name="EnableTouchDetection" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording"]
+script = ExtResource( 26 )
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording/EnableTouchDetection"]
+script = ExtResource( 73 )
+
+[node name="RepeatWhile" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording"]
+script = ExtResource( 10 )
+
+[node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording/RepeatWhile"]
+script = ExtResource( 24 )
+selection = 18
+
+[node name="WaitAction2" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording/RepeatWhile"]
+script = ExtResource( 50 )
+base_seconds = 15.0
+
+[node name="Unpause" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 19 )
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/Unpause"]
+script = ExtResource( 73 )
+
+[node name="UnRegister" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 11 )
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/UnRegister"]
+script = ExtResource( 73 )
+
+[node name="EnableInteraction" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 83 )
+
+[node name="GetPawn" type="Node" parent="RecruitBehavior/EngageEnemy/EnableInteraction"]
+script = ExtResource( 51 )
+
+[node name="Failer" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 12 )
+
+[node name="MouseClick" parent="." instance=ExtResource( 79 )]
+
+[node name="RogueFusionDetector" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 16384
+script = ExtResource( 92 )
+detection_cooldown = 5.0
+
+[node name="CollisionShape" type="CollisionShape" parent="RogueFusionDetector"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+shape = SubResource( 31 )
+
+[node name="BootlegDetector" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 16384
+script = ExtResource( 81 )
+
+[node name="CollisionShape" type="CollisionShape" parent="BootlegDetector"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+shape = SubResource( 31 )
+
+[node name="TalkingNPCDetector" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 128
+script = ExtResource( 82 )
+detection_bb_key = "conversation_partner"
+detection_cooldown = 60.0
+combative_chance = 0.3
+social_chance = 0.9
+loner_chance = 0.0
+townie_chance = 0.85
+
+[node name="CollisionShape" type="CollisionShape" parent="TalkingNPCDetector"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+shape = SubResource( 31 )
+
+[node name="MerchantDetector" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 128
+script = ExtResource( 104 )
+combative_chance = 1.0
+social_chance = 1.0
+loner_chance = 1.0
+townie_chance = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="MerchantDetector"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+shape = SubResource( 31 )
+
+[node name="DefeatedDetector" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 128
+script = ExtResource( 23 )
+combative_chance = 1.0
+social_chance = 1.0
+loner_chance = 1.0
+townie_chance = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="DefeatedDetector"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+shape = SubResource( 31 )
+
+[node name="MonsterDetector" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 16384
+script = ExtResource( 77 )
+detection_cooldown = 60.0
+combative_chance = 0.9
+social_chance = 0.4
+loner_chance = 0.4
+max_player_dist = 25.0
+
+[node name="CollisionShape" type="CollisionShape" parent="MonsterDetector"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+shape = SubResource( 32 )
+
+[node name="InteractionBehavior" type="Node" parent="."]
+script = ExtResource( 58 )
+
+[node name="SetBlackBoardValues" type="Node" parent="InteractionBehavior"]
+script = ExtResource( 91 )
+__meta__ = {
+"_editor_description_": "Sets values of \"has_trade\", \"has_follower\", and \"is_resting\" based on current recruitdata and savestate values"
+}
+
+[node name="FaceTowardsAction" type="Node" parent="InteractionBehavior"]
+script = ExtResource( 55 )
+
+[node name="GetPlayer" type="Node" parent="InteractionBehavior/FaceTowardsAction"]
+script = ExtResource( 53 )
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior"]
+script = ExtResource( 75 )
+title = "{pawn}"
+wait_for_confirm = false
+close_after = false
+use_random = true
+message_array = [ [ "KAYLEIGH_IDLE_RECRUIT_DIALOG1" ] ]
+
+[node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
+script = ExtResource( 103 )
+menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3", "RECRUIT_MENU_OPTION4" ]
+default_option = 3
+always_succeed = true
+
+[node name="PartyInvite" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 59 )
+require_blackboard_values = {
+"has_follower": false
+}
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
+script = ExtResource( 75 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_MENU_INVITE_ACCEPT1" ], [ "RECRUIT_MENU_INVITE_ACCEPT2" ], [ "RECRUIT_MENU_INVITE_ACCEPT3" ] ]
+
+[node name="AddToParty" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
+script = ExtResource( 86 )
+
+[node name="RemoveNodeAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
+script = ExtResource( 18 )
+animation = 0
+
+[node name="Challenge" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 52 )
+
+[node name="IsResting" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge"]
+script = ExtResource( 87 )
+always_succeed = true
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsResting"]
+script = ExtResource( 75 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "KAYLEIGH_MENU_CHALLENGE_REJECT1" ] ]
+
+[node name="IsReady" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge"]
+script = ExtResource( 87 )
+always_succeed = true
+invert = true
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 75 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "KAYLEIGH_MENU_CHALLENGE_ACCEPT1" ] ]
+
+[node name="BattleAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 49 )
+result_on_player_win = 1
+result_on_player_loss = 0
+result_on_flee = 0
+disable_fleeing = true
+
+[node name="SetCooldownFlag" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 89 )
+value = true
+
+[node name="MessageDialogAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 75 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "KAYLEIGH_CHALLENGE_WIN1" ] ]
+
+[node name="Trade" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 59 )
+require_blackboard_values = {
+"has_trade": true
+}
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade"]
+script = ExtResource( 88 )
+title = "{pawn}"
+wait_for_confirm = false
+close_after = false
+substitute_blackboard_keys = [ "trade_offer", "trade_request", "request_rarity", "offer_rarity" ]
+use_random = true
+message_array = [ [ "RECRUIT_TRADE_OFFER1" ], [ "RECRUIT_TRADE_OFFER2" ], [ "RECRUIT_TRADE_OFFER3" ], [ "RECRUIT_TRADE_OFFER4" ], [ "RECRUIT_TRADE_OFFER5" ] ]
+
+[node name="MenuDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade"]
+script = ExtResource( 103 )
+menu_options = [ "RECRUIT_TRADE_MENU_OPTION1", "RECRUIT_TRADE_MENU_OPTION2" ]
+default_option = 1
+always_succeed = true
+
+[node name="Trading" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction"]
+script = ExtResource( 52 )
+
+[node name="ChooseSticker" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading"]
+script = ExtResource( 93 )
+
+[node name="TradeAccepted" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading"]
+script = ExtResource( 59 )
+always_succeed = true
+require_blackboard_values = {
+"valid_trade": true
+}
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading/TradeAccepted"]
+script = ExtResource( 88 )
+title = "{pawn}"
+substitute_blackboard_keys = [ "trade_offer", "trade_request", "request_rarity", "offer_rarity" ]
+use_random = true
+message_array = [ [ "RECRUIT_TRADE_ACCEPTED1" ], [ "RECRUIT_TRADE_ACCEPTED2" ], [ "RECRUIT_TRADE_ACCEPTED3" ] ]
+
+[node name="TradeRejected" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading"]
+script = ExtResource( 59 )
+always_succeed = true
+require_blackboard_values = {
+"valid_trade": false
+}
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading/TradeRejected"]
+script = ExtResource( 88 )
+title = "{pawn}"
+substitute_blackboard_keys = [ "trade_offer", "trade_request", "request_rarity", "offer_rarity" ]
+use_random = true
+message_array = [ [ "RECRUIT_TRADE_REJECTED1" ], [ "RECRUIT_TRADE_REJECTED2" ], [ "RECRUIT_TRADE_REJECTED3" ] ]
+
+[node name="Cancel" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction"]
+script = ExtResource( 52 )
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Cancel"]
+script = ExtResource( 75 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_TRADE_CANCEL1" ], [ "RECRUIT_TRADE_CANCEL2" ], [ "RECRUIT_TRADE_CANCEL3" ] ]
+
+[node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 52 )
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Leave"]
+script = ExtResource( 75 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "KAYLEIGH_MENU_GOODBYE1" ] ]
+
+[node name="ConversationSprite" type="Control" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 102 )
+charconfig = NodePath("../EncounterConfig/CharacterConfig")
+
+[node name="MarginContainer" type="MarginContainer" parent="ConversationSprite"]
+margin_left = 201.0
+margin_top = 289.0
+
+[node name="MonsterSpriteContainer1" type="ViewportContainer" parent="ConversationSprite/MarginContainer"]
+margin_right = 400.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 400, 400 )
+mouse_filter = 2
+size_flags_vertical = 3
+stretch = true
+script = ExtResource( 38 )
+zoom_duration = 2.0
+
+[node name="Viewport" type="Viewport" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1"]
+size = Vector2( 400, 400 )
+own_world = true
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 0
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+gui_disable_input = true
+
+[node name="Camera" type="Camera" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.73156 )
+environment = SubResource( 9 )
+h_offset = 0.5
+v_offset = 1.3
+projection = 1
+current = true
+size = 5.0
+
+[node name="BattleSlot" type="Spatial" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport"]
+script = ExtResource( 41 )
+named_sounds = ExtResource( 42 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+anims/bob = SubResource( 33 )
+anims/character_battle_cry = SubResource( 34 )
+anims/death = SubResource( 35 )
+anims/dodge = SubResource( 36 )
+anims/fade_in = SubResource( 37 )
+anims/flee = SubResource( 38 )
+anims/flee_incomplete = SubResource( 39 )
+anims/ghostly_fade = SubResource( 40 )
+anims/hurt = SubResource( 41 )
+anims/knockdown = SubResource( 42 )
+anims/long_death = SubResource( 43 )
+anims/monster_battle_cry = SubResource( 44 )
+anims/spawn = SubResource( 45 )
+anims/transform_in = SubResource( 46 )
+anims/transform_out = SubResource( 47 )
+
+[node name="SpriteContainer" type="Spatial" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+script = ExtResource( 37 )
+idle = "inactive"
+albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
+wave_t_frequency = 5.0
+static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
+
+[node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 35 )]
+
+[node name="Node" type="Node" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer"]
+
+[node name="Tween" type="Tween" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer/Node"]
+
+[node name="Node2" type="Node" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer"]
+
+[node name="Tween" type="Tween" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer/Node2"]
+
+[node name="DecoyContainer" type="Spatial" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25 )
+script = ExtResource( 37 )
+emission = null
+wave_amplitude = null
+wave_t_frequency = null
+wave_v_frequency = null
+static_amount = null
+static_offset = null
+static_speed = null
+sparkle = null
+sprite_rotation = null
+
+[node name="Audio1" type="AudioStreamPlayer3D" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+stream = SubResource( 25 )
+unit_size = 100.0
+max_distance = 1000.0
+bus = "Battle"
+
+[node name="Audio2" type="AudioStreamPlayer3D" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+stream = SubResource( 26 )
+unit_size = 100.0
+max_distance = 1000.0
+bus = "Battle"
+
+[node name="Audio3" type="AudioStreamPlayer3D" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+stream = SubResource( 27 )
+unit_size = 100.0
+max_distance = 1000.0
+bus = "Battle"
+
+[node name="Voice" type="AudioStreamPlayer3D" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+unit_size = 100.0
+max_distance = 1000.0
+bus = "Voice"
+
+[node name="VCams" type="Spatial" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+
+[node name="StaticBody" type="StaticBody" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+transform = Transform( 5, 0, 0, 0, 5.82177, 0.241922, 0, -1.45153, 0.970296, 0, 3, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody"]
+shape = SubResource( 28 )
+
+[node name="MeshInstance" type="MeshInstance" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody"]
+visible = false
+mesh = SubResource( 29 )
+
+[connection signal="screen_entered" from="VisibilityNotifier" to="." method="set_paused" binds= [ false ]]
+[connection signal="screen_exited" from="VisibilityNotifier" to="." method="set_paused" binds= [ true ]]
+[connection signal="detected" from="RogueFusionDetector" to="RecruitBehavior" method="_on_RogueFusionDetector_detected"]
+[connection signal="detected" from="BootlegDetector" to="RecruitBehavior" method="_on_BootlegDetector_detected"]
+[connection signal="detected" from="TalkingNPCDetector" to="RecruitBehavior" method="_on_TalkingNPCDetector_detected"]
+[connection signal="detected" from="MerchantDetector" to="RecruitBehavior" method="_on_MerchantDetector_detected"]
+[connection signal="detected" from="DefeatedDetector" to="RecruitBehavior" method="_on_DefeatedDetector_detected"]
+[connection signal="detected" from="MonsterDetector" to="RecruitBehavior" method="_on_MonsterDetector_detected"]
+[connection signal="input_event" from="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_input_event"]
+[connection signal="mouse_entered" from="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_mouse_entered"]
+[connection signal="mouse_exited" from="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_mouse_exited"]

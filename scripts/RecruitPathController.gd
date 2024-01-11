@@ -24,6 +24,8 @@ func get_target()->Vector3:
 	return node.global_transform.origin
 
 func control_movement(delta):
+	pawn.set_collision_layer_bit(4,!pawn.controls.climb)
+
 	var cur_pos = pawn.global_transform.origin
 
 	var target = get_target()

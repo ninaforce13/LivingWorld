@@ -8,12 +8,12 @@ func _run():
 		var signpost = signpost_scene.instance()
 		level.add_child(signpost)
 		signpost.global_transform.origin = pawn.spawn_point
-		signpost.get_node("InteractionBehavior").set_bb("sign_owner",pawn)
+		if signpost.has_node("InteractionBehavior"):
+			var behavior = signpost.get_node("InteractionBehavior")
+			behavior.set_bb("sign_owner",pawn)
 	if remove:
 		if level.has_node("LunchPost"):
-			var signpost = pawn.get_node("LunchPost")
-			if signpost:
-				level.remove_child(signpost)
-			if signpost:
-				signpost.queue_free()
+			var signpost = level.get_node("LunchPost")
+			level.remove_child(signpost)
+			signpost.queue_free()
 	return true

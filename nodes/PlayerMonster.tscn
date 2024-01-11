@@ -156,9 +156,9 @@ monster_animations = {
 "transition": ""
 },
 "Dominoth": {
-"initial": "idle",
+"initial": "",
 "loop": "run",
-"transition": "idle"
+"transition": ""
 },
 "Elfless": {
 "initial": "teleport",

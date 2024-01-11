@@ -1,8 +1,15 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://mods/LivingWorld/scripts/RecruitSpawner.gd" type="Script" id=1]
+[ext_resource path="res://data/quests/story/TutorialQuest4.tscn" type="PackedScene" id=2]
+[ext_resource path="res://world/core/ConditionalLayer.gd" type="Script" id=3]
 
-[node name="RecruitSpawner" type="VisibilityNotifier"]
+[node name="ConditionalLayer" type="Spatial"]
+script = ExtResource( 3 )
+require_quest = ExtResource( 2 )
+require_quest_state = 8
+
+[node name="RecruitSpawner" type="VisibilityNotifier" parent="."]
 aabb = AABB( -5, 0, -5, 10, 2, 10 )
 max_distance = 100.0
 script = ExtResource( 1 )

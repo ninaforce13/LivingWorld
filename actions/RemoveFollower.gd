@@ -15,7 +15,9 @@ func remove_recruit():
 		recruit.add_child(behavior)
 
 	WorldSystem.get_level_map().add_child(recruit)
+	if npcmanager.is_follower_custom():
+		recruit.add_to_group("custom_recruits")
 	recruit.global_transform.origin = npc.global_transform.origin
 	recruit.direction = npc.direction
 	recruit.spawn_point = recruit.global_transform.origin
-	SaveState.other_data.LivingWorldData.CurrentFollower = {"recruit":{}, "active":false}
+	npcmanager.reset_follower()

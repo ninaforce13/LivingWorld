@@ -60,6 +60,9 @@ static func get_code(block:String)->String:
 
 	code_blocks["change_player"] = """
 	var npc = create_modded_player(player_index)
+	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
+	if npc_manager.is_player_transformed() and player_index == 0:
+		call_deferred("set_player_form",npc)
 	"""
 
 	code_blocks["respawn_recruit"] = """
@@ -77,6 +80,10 @@ static func get_code(block:String)->String:
 func setup_recruit_spawner(current_regionname):
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 	npc_manager.add_spawner(current_regionname,self)
+
+func set_player_form(npc):
+	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
+	npc_manager.set_player_form(npc)
 
 func create_modded_player(player_index:int):
 	var npc = preload("res://mods/LivingWorld/nodes/PlayerMonster.tscn").instance()

@@ -1,6 +1,7 @@
 extends Node
 
 export (bool) var is_captain = false
+export (bool) var is_partner = false
 signal engaging
 var max_partners = 2
 const trade_generator = preload("res://mods/LivingWorld/scripts/StickerTradeGenerator.gd")
@@ -20,7 +21,7 @@ func _ready():
 		generate_trade()
 	if is_captain:
 		max_partners = 0
-	if !recruit:
+	if !recruit and (is_captain or is_partner):
 		generate_recruit_data()
 		call_deferred("add_emoteplayer")
 

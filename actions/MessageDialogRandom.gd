@@ -6,7 +6,8 @@ var dialogsprite
 var tween:Tween
 func _ready():
 	var pawn = get_pawn()
-	dialogsprite = pawn.get_node("ConversationSprite")
+	if pawn.has_node("ConversationSprite"):
+		dialogsprite = pawn.get_node("ConversationSprite")
 	tween = Tween.new()
 	add_child(tween)
 func _enter_action():

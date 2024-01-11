@@ -7,12 +7,13 @@ func _run():
 func add_recruit():
 	var rangerdata = preload("res://mods/LivingWorld/scripts/RangerDataParser.gd")
 	var FollowerTemplate = preload("res://mods/LivingWorld/nodes/FollowerTemplate.tscn")
+	var npcmanager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 	var player = WorldSystem.get_level_map().get_node("Player")
 	var npc = get_pawn()
 	var template = FollowerTemplate.instance()
 	var tapes:Array = []
 	var recruitdata = template.get_node("RecruitData")
-
+	var custom:bool = npc.is_in_group("custom_recruits")
 	template.never_pause = true
 
 	copy_char_config(template,npc,tapes)
@@ -26,7 +27,7 @@ func add_recruit():
 
 	WorldSystem.get_level_map().add_child_below_node(player,template)
 	template.warp_near(player.global_transform.origin, false)
-	SaveState.other_data.LivingWorldData.CurrentFollower = {"recruit":npc.get_node("RecruitData").recruit, "active":true}
+	npcmanager.set_follower(recruitdata.recruit,custom)
 
 func set_appearance(template,npc):
 	template.npc_name = npc.npc_name

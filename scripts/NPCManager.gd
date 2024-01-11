@@ -6,11 +6,20 @@ static func has_active_follower()->bool:
 		return SaveState.other_data.LivingWorldData.CurrentFollower.active
 	return false
 
-static func is_current_follower(recruit)->bool:
-	return SaveState.other_data.LivingWorldData.CurrentFollower.recruit == recruit
-
 static func get_current_follower()->Dictionary:
 	return SaveState.other_data.LivingWorldData.CurrentFollower.recruit
+
+static func is_follower_custom()->bool:
+	return SaveState.other_data.LivingWorldData.CurrentFollower.custom
+
+static func set_follower_custom(value:bool):
+	SaveState.other_data.LivingWorldData.CurrentFollower.custom = value
+
+static func set_follower(data:Dictionary,custom:bool):
+	SaveState.other_data.LivingWorldData.CurrentFollower = {"recruit":data, "active":true,"custom":custom}
+
+static func reset_follower():
+	SaveState.other_data.LivingWorldData.CurrentFollower = {"recruit":{}, "active":false,"custom":false}
 
 static func has_savedata()->bool:
 	var result:int = 0
@@ -28,15 +37,20 @@ static func has_savedata()->bool:
 				result += 1
 			if SaveState.other_data.LivingWorldData.Settings.has("NPCPopulation"):
 				result += 1
+		if SaveState.other_data.LivingWorldData.has("Transformations"):
+			result += 1
+			if SaveState.other_data.LivingWorldData.Transformations.has("form_index"):
+				result += 1
 
-	return result == 7
+	return result == 9
 
 static func initialize_savedata():
 	SaveState.other_data["LivingWorldData"] = {"ExtraEncounterConfig":{"extra_slots":0},
-												"CurrentFollower":{"recruit":{}, "active":false},
+												"CurrentFollower":{"recruit":{}, "active":false,"custom":false},
 												"Settings":{"JoinEncounters":true,
 															"MagnetismEnabled":true,
-															"NPCPopulation":3}}
+															"NPCPopulation":3},
+												"Transformations":{"form_index":-1}}
 
 static func get_setting(setting_name):
 	if !has_savedata():
@@ -128,9 +142,64 @@ static func spawn_recruit(levelmap, current_recruit = null):
 	template.get_node("RecruitData").recruit = current_recruit
 	return template
 
+static func is_idle_partner_available()->bool:
+	var level = WorldSystem.get_level_map()
+	var idle_partners = level.get_tree().get_nodes_in_group("idle_partners")
+	if idle_partners.empty():
+		return true
+	var partner_names = get_partner_names()
+	partner_names = filter_partners(partner_names)
+	if partner_names.empty():
+		return false
+	return true
+
+static func get_partner_names()->Array:
+	var result:Array = []
+	result.push_back("kayleigh")
+#	result.push_back("meredith")
+#	result.push_back("viola")
+	result.push_back("eugene")
+	result.push_back("felix")
+	result.push_back("dog")
+
+	return result
+
+static func filter_partners(options:Array)->Array:
+	var result:Array = options.duplicate()
+	var level = WorldSystem.get_level_map()
+	var idle_partners = level.get_tree().get_nodes_in_group("idle_partners")
+	var partner_names = get_partner_names()
+	var current_partner = SaveState.party.get_partner()
+	result.erase(current_partner.partner_id)
+	for item in result:
+		if !SaveState.party.is_partner_unlocked(item):
+			result.erase(item)
+	for partner in idle_partners:
+		if options.has(partner.character.partner_id):
+			result.erase(partner.character.partner_id)
+	return result
+
+static func get_partner_dictionary()->Dictionary:
+	var partners:Dictionary = {}
+	partners["kayleigh"] = load("res://mods/LivingWorld/partner_templates/Kayleigh.tscn")
+	partners["dog"] = load("res://mods/LivingWorld/partner_templates/Barkley.tscn")
+	partners["felix"] = load("res://mods/LivingWorld/partner_templates/Felix.tscn")
+	partners["eugene"] = load("res://mods/LivingWorld/partner_templates/Eugene.tscn")
+	return partners
+
 static func create_npc(spawner, node, forced_personality,supress_abilities):
 	var random = Random.new()
-	var recruit = get_npc()
+	var level = WorldSystem.get_level_map()
+	var recruit
+	if is_idle_partner_available():
+		var options = filter_partners(get_partner_names())
+		var partners = get_partner_dictionary()
+		var selection = random.choice(options)
+		recruit = partners[selection].instance()
+	else:
+		recruit = get_npc()
+
+
 
 	if !recruit.has_node("RecruitBehavior"):
 		var new_behavior = preload("res://mods/LivingWorld/nodes/recruitbehavior.tscn").instance()
@@ -172,6 +241,54 @@ static func build_partner_spawns()->Array:
 
 	return partners
 
+static func filter_custom_recruits(recruits)->Array:
+	var result:Array = []
+	var current_follower:Dictionary = get_current_follower() if has_active_follower() else {}
+	var level = WorldSystem.get_level_map()
+	var grouped_recruits:Array = level.get_tree().get_nodes_in_group("custom_recruits")
+	result = recruits.duplicate()
+	var orig_count = result.size()
+	if !current_follower.empty():
+		for item in result:
+			if compare_dictionaries(item,current_follower):
+				result.erase(item)
+
+	for recruit in grouped_recruits:
+		var data = recruit.get_node("RecruitData").recruit
+		for item in result:
+			if compare_dictionaries(item,data):
+				result.erase(item)
+	var diff = orig_count - result.size()
+	return result
+
+static func compare_dictionaries(data_a:Dictionary,data_b:Dictionary)->bool:
+	for key in data_a:
+		if !data_b.has(key):
+			return false
+		if typeof(data_a[key]) == TYPE_DICTIONARY and typeof(data_b[key]) == TYPE_DICTIONARY:
+			if !compare_dictionaries(data_a[key],data_b[key]):
+				return false
+		elif typeof(data_a[key]) == TYPE_ARRAY and typeof(data_b[key]) == TYPE_ARRAY:
+			if !compare_arrays(data_a[key],data_b[key]):
+				return false
+		elif data_a[key] != data_b[key]:
+			return false
+	return true
+
+static func compare_arrays(array1:Array,array2:Array)->bool:
+	if array1.size() != array2.size():
+		return false
+	for i in range (0,array1.size()):
+		if typeof(array1[i]) == TYPE_DICTIONARY and typeof(array2[i]) == TYPE_DICTIONARY:
+			if !compare_dictionaries(array1[i],array2[i]):
+				return false
+		elif typeof(array1[i]) == TYPE_ARRAY and typeof(array2[i]) == TYPE_ARRAY:
+			if !compare_arrays(array1[i],array2[i]):
+				return false
+		elif array1[i] != array2[i]:
+			return false
+	return true
+
 static func get_npc(recruitdata=null):
 	var Mod = DLC.mods_by_id["LivingWorldMod"]
 	var settings = preload("res://mods/LivingWorld/settings.tres")
@@ -183,12 +300,12 @@ static func get_npc(recruitdata=null):
 	var recruit = rangerdata.get_empty_recruit() if recruitdata == null else recruitdata
 	var npc = load("res://mods/LivingWorld/nodes/RecruitTemplate.tscn").instance()
 
-	var filtered_recruits = Mod.filter_recruits(custom_recruits)
+	var filtered_recruits = filter_custom_recruits(custom_recruits)
 
 	var use_custom:bool = recruitdata != null
 	if randf() <= settings.custom_recruit_rate and filtered_recruits.size() > 0 and not recruitdata:
 		recruit = filtered_recruits[randi()%filtered_recruits.size()]
-		Mod.add_recruit_spawn(recruit)
+		npc.add_to_group("custom_recruits")
 		use_custom = true
 
 	var recruitdata_node = npc.get_node("RecruitData")
@@ -266,12 +383,13 @@ static func add_spawner(region_name,level):
 		for location in settings.levelmap_spawners[region_name].locations:
 			if !level.has_node(location.name):
 				var spawner = spawner_scene.instance()
+				spawner.get_child(0).ignore_visibility = location.ignore_visibility
+				spawner.get_child(0).forced_personality = location.forced_personality
+				spawner.get_child(0).supress_abilities = location.supress_abilities
 				level.add_child(spawner)
 				spawner.global_transform.origin = location.pos
 				spawner.name = location.name
-				spawner.ignore_visibility = location.ignore_visibility
-				spawner.forced_personality = location.forced_personality
-				spawner.supress_abilities = location.supress_abilities
+
 
 static func mod_pawns(pawn):
 	if !pawn.has_node("RecruitData") or !pawn.has_node("RecruitBehavior"):
@@ -281,6 +399,19 @@ static func mod_pawns(pawn):
 		datanode.is_captain = true
 		pawn.add_child(behaviornode)
 		print("%s has been awakened."%Loc.tr(pawn.npc_name))
+
+static func is_player_transformed()->bool:
+	if !has_savedata():
+		initialize_savedata()
+	return SaveState.other_data.LivingWorldData.Transformations.form_index != -1
+
+static func set_player_form(npc):
+	npc.swap_sprite(1,SaveState.other_data.LivingWorldData.Transformations.form_index)
+
+static func set_transformation_index(index):
+	if !has_savedata():
+		initialize_savedata()
+	SaveState.other_data.LivingWorldData.Transformations.form_index = index
 
 
 

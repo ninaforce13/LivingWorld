@@ -303,7 +303,7 @@ static func get_npc_snapshot(npc):
 		"biotext":"Ranger Captain",
 		"recruiter":"Ianthe",
 		"recruiter_id":"0000-0000",
-		"custom_battle_sprite":charconfig.custom_battle_sprite,
+		"custom_battle_sprite":charconfig.custom_battle_sprite if charconfig != null else "",
 		"sprite_body":npc.sprite_body
 							}
 	var index:int = 0
