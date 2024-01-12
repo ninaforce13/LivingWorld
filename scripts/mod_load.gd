@@ -10,10 +10,10 @@ var roguefusions = preload("res://mods/LivingWorld/scripts/RogueFusions_patch.gd
 var campsite = preload("res://mods/LivingWorld/scripts/Camping_patch.gd")
 var inventorydetail = preload("res://mods/LivingWorld/scripts/inventorydetail_patch.gd")
 var stickeritem_patch = preload("res://mods/LivingWorld/scripts/StickerItem_patch.gd")
-var gameplay_settings = preload("res://mods/LivingWorld/scripts/GameplaySettings_patch.gd")
 var playercontroller = preload("res://mods/LivingWorld/scripts/PlayerControllerPatch.gd")
 var interactor = preload("res://mods/LivingWorld/scripts/Interactor_patch.gd")
 var captainbehavior = preload("res://mods/LivingWorld/scripts/CaptainNPCBehavior_patch.gd")
+var usersettings = preload("res://mods/LivingWorld/scripts/UserSettings_patch.gd")
 func _init():
 	add_debug_commands()
 	levelmap_patch.patch()
@@ -26,10 +26,10 @@ func _init():
 	roguefusions.patch()
 	inventorydetail.patch()
 	stickeritem_patch.patch()
-	gameplay_settings.patch()
 	playercontroller.patch()
 	interactor.patch()
 	captainbehavior.patch()
+	usersettings.patch()
 
 func clear_recruit_tracker():
 	recruit_tracker.clear()

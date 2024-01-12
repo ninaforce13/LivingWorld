@@ -1,75 +1,75 @@
 [gd_scene load_steps=80 format=2]
 
-[ext_resource path="res://data/monster_forms/spitzfyre.tres" type="Resource" id=1]
-[ext_resource path="res://data/monster_forms/fortiwinx.tres" type="Resource" id=2]
-[ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=3]
-[ext_resource path="res://data/monster_forms/southpaw.tres" type="Resource" id=4]
-[ext_resource path="res://mods/LivingWorld/behaviors/partner_behavior.tscn" type="PackedScene" id=5]
-[ext_resource path="res://nodes/actions/RemoveNodeAction.gd" type="Script" id=20]
-[ext_resource path="res://mods/LivingWorld/scripts/DefeatedNPCDetector.gd" type="Script" id=25]
-[ext_resource path="res://world/npc/SwimmingState.gd" type="Script" id=34]
-[ext_resource path="res://world/npc/PauseState.gd" type="Script" id=35]
-[ext_resource path="res://world/npc/DashingState.gd" type="Script" id=36]
-[ext_resource path="res://world/npc/WalkingState.gd" type="Script" id=37]
-[ext_resource path="res://world/npc/ClimbState.gd" type="Script" id=38]
-[ext_resource path="res://world/npc/IdleAnimationState.gd" type="Script" id=39]
-[ext_resource path="res://world/npc/AirState.gd" type="Script" id=40]
-[ext_resource path="res://nodes/encounter_config/EncounterConfig.gd" type="Script" id=41]
-[ext_resource path="res://nodes/sprite_container/SpriteContainer.gd" type="Script" id=42]
-[ext_resource path="res://nodes/encounter_config/CharacterConfig.gd" type="Script" id=43]
-[ext_resource path="res://nodes/encounter_config/TapeConfig.gd" type="Script" id=44]
-[ext_resource path="res://data/characters/dog.tres" type="Resource" id=45]
-[ext_resource path="res://sprites/monsters/traffikrab.json" type="PackedScene" id=46]
-[ext_resource path="res://world/npc/FloorRay.gd" type="Script" id=48]
-[ext_resource path="res://addons/misc_utils/StateMachine.gd" type="Script" id=49]
-[ext_resource path="res://world/npc/EmotePlayer.tscn" type="PackedScene" id=50]
-[ext_resource path="res://world/npc/Footsteps.tscn" type="PackedScene" id=51]
-[ext_resource path="res://world/core/Interaction.tscn" type="PackedScene" id=52]
-[ext_resource path="res://nodes/actions/BattleAction.gd" type="Script" id=53]
-[ext_resource path="res://addons/misc_utils/actions/DecoratorAction.gd" type="Script" id=56]
-[ext_resource path="res://nodes/actions/values/GetPlayer.gd" type="Script" id=57]
-[ext_resource path="res://world/npc/Controls.gd" type="Script" id=58]
-[ext_resource path="res://nodes/actions/FaceTowardsAction.gd" type="Script" id=59]
-[ext_resource path="res://nodes/actions/Cutscene.gd" type="Script" id=62]
-[ext_resource path="res://nodes/actions/CheckConditionAction.gd" type="Script" id=63]
-[ext_resource path="res://nodes/encounter_config/RandomTapeConfig.gd" type="Script" id=73]
-[ext_resource path="res://mods/LivingWorld/actions/MessageDialogRandom.gd" type="Script" id=79]
-[ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=80]
-[ext_resource path="res://mods/LivingWorld/scripts/MonsterDetector.gd" type="Script" id=81]
-[ext_resource path="res://mods/LivingWorld/nodes/MouseClick.tscn" type="PackedScene" id=82]
-[ext_resource path="res://mods/LivingWorld/scripts/BootlegDetector.gd" type="Script" id=84]
-[ext_resource path="res://mods/LivingWorld/scripts/TalkingNPCDetector.gd" type="Script" id=85]
-[ext_resource path="res://mods/LivingWorld/actions/AddFollower.gd" type="Script" id=89]
-[ext_resource path="res://mods/LivingWorld/actions/CheckBattleCooldown.gd" type="Script" id=90]
-[ext_resource path="res://mods/LivingWorld/actions/MessageTradeDialog.gd" type="Script" id=91]
-[ext_resource path="res://mods/LivingWorld/actions/SetBattleCooldown.gd" type="Script" id=92]
-[ext_resource path="res://mods/LivingWorld/actions/SetRecruitBB.gd" type="Script" id=94]
-[ext_resource path="res://mods/LivingWorld/scripts/RogueFusionDetector.gd" type="Script" id=95]
-[ext_resource path="res://mods/LivingWorld/actions/ChooseSticker.gd" type="Script" id=96]
-[ext_resource path="res://data/character_sfx/dog_sfx.tres" type="Resource" id=101]
-[ext_resource path="res://sprites/characters/battle/dog.json" type="PackedScene" id=102]
-[ext_resource path="res://menus/party/MonsterSpriteContainer.gd" type="Script" id=103]
-[ext_resource path="res://mods/LivingWorld/actions/MenuDialog.gd" type="Script" id=104]
-[ext_resource path="res://mods/LivingWorld/scripts/MerchantDetector.gd" type="Script" id=105]
-[ext_resource path="res://nodes/battle_slot/BattleSlot.gd" type="Script" id=106]
-[ext_resource path="res://nodes/battle_slot/named_sounds.tres" type="Resource" id=107]
-[ext_resource path="res://mods/LivingWorld/scripts/setbattlesprite.gd" type="Script" id=108]
-[ext_resource path="res://sprites/characters/world/dog.json" type="PackedScene" id=111]
+[ext_resource path="res://data/monster_forms/spooki-onna.tres" type="Resource" id=1]
+[ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
+[ext_resource path="res://mods/LivingWorld/behaviors/partner_behavior.tscn" type="PackedScene" id=3]
+[ext_resource path="res://nodes/actions/RemoveNodeAction.gd" type="Script" id=17]
+[ext_resource path="res://mods/LivingWorld/scripts/DefeatedNPCDetector.gd" type="Script" id=22]
+[ext_resource path="res://world/npc/SwimmingState.gd" type="Script" id=27]
+[ext_resource path="res://world/npc/PauseState.gd" type="Script" id=28]
+[ext_resource path="res://world/npc/DashingState.gd" type="Script" id=29]
+[ext_resource path="res://world/npc/WalkingState.gd" type="Script" id=30]
+[ext_resource path="res://world/npc/ClimbState.gd" type="Script" id=31]
+[ext_resource path="res://world/npc/IdleAnimationState.gd" type="Script" id=32]
+[ext_resource path="res://world/npc/AirState.gd" type="Script" id=33]
+[ext_resource path="res://sprites/monsters/traffikrab.json" type="PackedScene" id=34]
+[ext_resource path="res://nodes/encounter_config/EncounterConfig.gd" type="Script" id=35]
+[ext_resource path="res://nodes/sprite_container/SpriteContainer.gd" type="Script" id=36]
+[ext_resource path="res://menus/party/MonsterSpriteContainer.gd" type="Script" id=37]
+[ext_resource path="res://nodes/encounter_config/CharacterConfig.gd" type="Script" id=38]
+[ext_resource path="res://nodes/encounter_config/TapeConfig.gd" type="Script" id=39]
+[ext_resource path="res://nodes/battle_slot/BattleSlot.gd" type="Script" id=40]
+[ext_resource path="res://nodes/layered_sprite/WorldHumanSprite3D.tscn" type="PackedScene" id=41]
+[ext_resource path="res://nodes/battle_slot/named_sounds.tres" type="Resource" id=42]
+[ext_resource path="res://world/npc/FloorRay.gd" type="Script" id=44]
+[ext_resource path="res://addons/misc_utils/StateMachine.gd" type="Script" id=45]
+[ext_resource path="res://world/npc/EmotePlayer.tscn" type="PackedScene" id=46]
+[ext_resource path="res://world/npc/Footsteps.tscn" type="PackedScene" id=47]
+[ext_resource path="res://world/core/Interaction.tscn" type="PackedScene" id=48]
+[ext_resource path="res://nodes/actions/BattleAction.gd" type="Script" id=49]
+[ext_resource path="res://addons/misc_utils/actions/DecoratorAction.gd" type="Script" id=52]
+[ext_resource path="res://nodes/actions/values/GetPlayer.gd" type="Script" id=53]
+[ext_resource path="res://world/npc/Controls.gd" type="Script" id=54]
+[ext_resource path="res://nodes/actions/FaceTowardsAction.gd" type="Script" id=55]
+[ext_resource path="res://nodes/actions/Cutscene.gd" type="Script" id=58]
+[ext_resource path="res://nodes/actions/CheckConditionAction.gd" type="Script" id=59]
+[ext_resource path="res://nodes/encounter_config/RandomTapeConfig.gd" type="Script" id=69]
+[ext_resource path="res://mods/LivingWorld/actions/MessageDialogRandom.gd" type="Script" id=75]
+[ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=76]
+[ext_resource path="res://mods/LivingWorld/scripts/MonsterDetector.gd" type="Script" id=77]
+[ext_resource path="res://data/monster_forms/regensea.tres" type="Resource" id=78]
+[ext_resource path="res://data/monster_forms/zeustrike.tres" type="Resource" id=79]
+[ext_resource path="res://mods/LivingWorld/nodes/MouseClick.tscn" type="PackedScene" id=80]
+[ext_resource path="res://mods/LivingWorld/scripts/BootlegDetector.gd" type="Script" id=82]
+[ext_resource path="res://mods/LivingWorld/scripts/TalkingNPCDetector.gd" type="Script" id=83]
+[ext_resource path="res://mods/LivingWorld/actions/AddFollower.gd" type="Script" id=87]
+[ext_resource path="res://mods/LivingWorld/actions/CheckBattleCooldown.gd" type="Script" id=88]
+[ext_resource path="res://mods/LivingWorld/actions/MessageTradeDialog.gd" type="Script" id=89]
+[ext_resource path="res://mods/LivingWorld/actions/SetBattleCooldown.gd" type="Script" id=90]
+[ext_resource path="res://mods/LivingWorld/actions/SetRecruitBB.gd" type="Script" id=92]
+[ext_resource path="res://mods/LivingWorld/scripts/RogueFusionDetector.gd" type="Script" id=93]
+[ext_resource path="res://mods/LivingWorld/actions/ChooseSticker.gd" type="Script" id=94]
+[ext_resource path="res://data/character_sfx/viola_sfx.tres" type="Resource" id=99]
+[ext_resource path="res://sprites/characters/battle/viola.json" type="PackedScene" id=100]
+[ext_resource path="res://mods/LivingWorld/scripts/setbattlesprite.gd" type="Script" id=102]
+[ext_resource path="res://mods/LivingWorld/actions/MenuDialog.gd" type="Script" id=103]
+[ext_resource path="res://mods/LivingWorld/scripts/MerchantDetector.gd" type="Script" id=104]
+[ext_resource path="res://data/characters/viola.tres" type="Resource" id=105]
 
-[sub_resource type="CapsuleShape" id=6]
+[sub_resource type="CapsuleShape" id=30]
 radius = 0.9
 height = 0.9
 
-[sub_resource type="BoxShape" id=7]
+[sub_resource type="BoxShape" id=31]
 extents = Vector3( 11.3643, 1.59925, 10.2657 )
 
-[sub_resource type="BoxShape" id=8]
+[sub_resource type="BoxShape" id=32]
 extents = Vector3( 11.3643, 1.59925, 10.2657 )
 
 [sub_resource type="Environment" id=9]
 ambient_light_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=33]
 resource_name = "bob"
 length = 0.3
 step = 0.05
@@ -98,7 +98,7 @@ tracks/1/keys = {
 "values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 0.25 ), Vector3( 0, 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=34]
 length = 0.5
 tracks/0/type = "method"
 tracks/0/path = NodePath(".")
@@ -115,7 +115,7 @@ tracks/0/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=35]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteContainer:translation:y")
@@ -156,7 +156,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=36]
 resource_name = "dodge"
 length = 0.5
 step = 0.05
@@ -173,7 +173,7 @@ tracks/0/keys = {
 "values": [ 2.0, -2.0, 2.0, -2.0, 2.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=37]
 resource_name = "fade_in"
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteContainer:translation")
@@ -214,7 +214,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=38]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteContainer:translation")
@@ -255,7 +255,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=39]
 resource_name = "flee_incomplete"
 length = 0.5
 tracks/0/type = "value"
@@ -283,7 +283,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.25098 ) ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=40]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteContainer:scale")
@@ -324,7 +324,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 0.501961 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=41]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteContainer:offset")
@@ -353,7 +353,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=42]
 resource_name = "knockdown"
 length = 0.5
 tracks/0/type = "value"
@@ -369,7 +369,7 @@ tracks/0/keys = {
 "values": [ Vector3( 1, 1, 1 ), Vector3( 1.25, 0.875, 1 ), Vector3( 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=43]
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteContainer:translation:y")
 tracks/0/interp = 2
@@ -409,7 +409,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=44]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteContainer:scale")
@@ -438,7 +438,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=45]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteContainer:translation")
@@ -479,7 +479,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=46]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteContainer:emission")
@@ -530,7 +530,7 @@ tracks/3/keys = {
 "values": [ 1.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=47]
 tracks/0/type = "value"
 tracks/0/path = NodePath("SpriteContainer:emission")
 tracks/0/interp = 1
@@ -620,45 +620,44 @@ extents = Vector3( 0.5, 0.5, 0.5 )
 [sub_resource type="CubeMesh" id=29]
 size = Vector3( 1, 1, 1 )
 
-[node name="Dog" type="KinematicBody" groups=["idle_partners"]]
-collision_layer = 128
-collision_mask = 40965
-script = ExtResource( 80 )
+[node name="Viola" type="KinematicBody" groups=["idle_partners"]]
+collision_layer = 8320
+collision_mask = 32773
+script = ExtResource( 76 )
 direction = Vector2( 0, 1 )
-npc_name = "DOG_NAME"
-pronouns = 0
+npc_name = "VIOLA_NAME"
+pronouns = 1
 sprite_colors = {
-"body_color_1": 16,
-"body_color_2": 16,
+"body_color_1": 0,
+"body_color_2": 15,
 "eye_color": 16,
-"face_accessory_color": 16,
-"favorite_color": 7,
-"hair_accessory_color": 16,
-"hair_color": 16,
-"legs_color": 16,
+"face_accessory_color": 14,
+"favorite_color": 5,
+"hair_accessory_color": 12,
+"hair_color": 12,
+"legs_color": 12,
 "shoe_color": 16,
-"skin_color": 16
+"skin_color": 22
 }
 sprite_part_names = {
-"arms": "sweater1",
-"body": "sweater1",
-"hair": "short",
+"arms": "viola",
+"body": "viola",
+"hair": "viola",
 "head": "generic",
 "legs": "",
-"wings": "dog"
+"wings": ""
 }
-sprite_body = ExtResource( 111 )
-character = ExtResource( 45 )
-human_colors/body_color_1 = 16
-human_colors/body_color_2 = 16
+character = ExtResource( 105 )
+human_colors/body_color_1 = 0
+human_colors/body_color_2 = 15
 human_colors/eye_color = 16
-human_colors/face_accessory_color = 16
-human_colors/favorite_color = 7
-human_colors/hair_accessory_color = 16
-human_colors/hair_color = 16
-human_colors/legs_color = 16
+human_colors/face_accessory_color = 14
+human_colors/favorite_color = 5
+human_colors/hair_accessory_color = 12
+human_colors/hair_color = 12
+human_colors/legs_color = 12
 human_colors/shoe_color = 16
-human_colors/skin_color = 16
+human_colors/skin_color = 22
 
 [node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
 aabb = AABB( -2, -1, -2, 4, 4.7, 4 )
@@ -666,29 +665,51 @@ max_distance = 100.0
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.325, 0 )
-shape = SubResource( 6 )
+shape = SubResource( 30 )
+
+[node name="EmotePlayer" parent="." instance=ExtResource( 46 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
 
 [node name="Sprite" type="Spatial" parent="."]
-script = ExtResource( 42 )
+script = ExtResource( 36 )
 idle = "idle"
 direction = "down"
 billboard_depth_hack = true
 wave_t_frequency = 5.0
 
-[node name="EmotePlayer" parent="." instance=ExtResource( 50 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+[node name="HumanSprite" parent="Sprite" instance=ExtResource( 41 )]
+part_names = {
+"arms": "viola",
+"body": "viola",
+"hair": "viola",
+"head": "generic",
+"legs": "generic",
+"wings": "generic"
+}
+colors = {
+"body_color_1": 0,
+"body_color_2": 15,
+"eye_color": 16,
+"face_accessory_color": 14,
+"favorite_color": 5,
+"hair_accessory_color": 12,
+"hair_color": 12,
+"legs_color": 12,
+"shoe_color": 16,
+"skin_color": 22
+}
 
-[node name="Interaction" parent="." instance=ExtResource( 52 )]
+[node name="Interaction" parent="." instance=ExtResource( 48 )]
 pawn_path = NodePath("..")
 
 [node name="CollisionShape" type="CollisionShape" parent="Interaction"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.325, 0 )
-shape = SubResource( 6 )
+shape = SubResource( 30 )
 
-[node name="Footsteps" parent="." instance=ExtResource( 51 )]
+[node name="Footsteps" parent="." instance=ExtResource( 47 )]
 
 [node name="Controls" type="Node" parent="."]
-script = ExtResource( 58 )
+script = ExtResource( 54 )
 
 [node name="FloorRay" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
@@ -696,37 +717,37 @@ enabled = true
 cast_to = Vector3( 0, -5, 0 )
 collision_mask = 8193
 collide_with_areas = true
-script = ExtResource( 48 )
+script = ExtResource( 44 )
 
 [node name="StateMachine" type="Node" parent="."]
-script = ExtResource( 49 )
+script = ExtResource( 45 )
 
 [node name="Walking" type="Node" parent="StateMachine"]
-script = ExtResource( 37 )
+script = ExtResource( 30 )
 
 [node name="Dashing" type="Node" parent="StateMachine"]
-script = ExtResource( 36 )
+script = ExtResource( 29 )
 
 [node name="Falling" type="Node" parent="StateMachine"]
-script = ExtResource( 40 )
+script = ExtResource( 33 )
 max_glide_speed = 8.0
 glide_acceleration = 48.0
 recovery_y_velocity_threshold = 32.0
 recovery_play_land_audio = true
 
 [node name="Climbing" type="Node" parent="StateMachine"]
-script = ExtResource( 38 )
+script = ExtResource( 31 )
 loop_animation = "climb"
 
 [node name="Gliding" type="Node" parent="StateMachine"]
-script = ExtResource( 40 )
+script = ExtResource( 33 )
 terminal_velocity = -5.0
 glide_acceleration = 48.0
 show_wings = true
 uses_stamina = true
 
 [node name="ForcedFlying" type="Node" parent="StateMachine"]
-script = ExtResource( 40 )
+script = ExtResource( 33 )
 terminal_velocity = -5.0
 glide_acceleration = 48.0
 show_wings = true
@@ -734,40 +755,40 @@ enable_flight = true
 force_flight = true
 
 [node name="Recover" type="Node" parent="StateMachine"]
-script = ExtResource( 35 )
+script = ExtResource( 28 )
 animation = "land"
 
 [node name="DashingRecover" type="Node" parent="StateMachine"]
-script = ExtResource( 35 )
+script = ExtResource( 28 )
 animation = "land"
 
 [node name="Swimming" type="Node" parent="StateMachine"]
-script = ExtResource( 34 )
+script = ExtResource( 27 )
 uses_stamina = true
 loop_animation = "swim"
 
 [node name="Sitting" type="Node" parent="StateMachine"]
-script = ExtResource( 39 )
+script = ExtResource( 32 )
 
 [node name="Defeated" type="Node" parent="StateMachine"]
-script = ExtResource( 39 )
+script = ExtResource( 32 )
 animation_loop = "defeated"
 remove_collision = true
 
 [node name="Nothing" type="Node" parent="StateMachine"]
 
 [node name="EncounterConfig" type="Node" parent="."]
-script = ExtResource( 41 )
+script = ExtResource( 35 )
 can_flee = false
 enable_ai_fusion = true
 
 [node name="CharacterConfig" type="Node" parent="EncounterConfig"]
-script = ExtResource( 43 )
-character_name = "DOG_NAME"
-pronouns = 0
+script = ExtResource( 38 )
+character_name = "VIOLA_NAME"
+pronouns = 1
 level_scale_override_key = "monster_miniboss_smart"
-base_character = ExtResource( 45 )
-character_sfx = ExtResource( 101 )
+base_character = ExtResource( 105 )
+character_sfx = ExtResource( 99 )
 character_kind = 1
 human_colors = {
 "body_color_1": -1,
@@ -781,7 +802,7 @@ human_colors = {
 "shoe_color": -1,
 "skin_color": -1
 }
-custom_battle_sprite = ExtResource( 102 )
+custom_battle_sprite = ExtResource( 100 )
 human_colors/body_color_1 = -1
 human_colors/body_color_2 = -1
 human_colors/eye_color = -1
@@ -794,25 +815,25 @@ human_colors/shoe_color = -1
 human_colors/skin_color = -1
 
 [node name="TapeConfig" type="Node" parent="EncounterConfig/CharacterConfig"]
-script = ExtResource( 44 )
-form = ExtResource( 1 )
+script = ExtResource( 39 )
+form = ExtResource( 78 )
 
 [node name="TapeConfig2" type="Node" parent="EncounterConfig/CharacterConfig"]
-script = ExtResource( 44 )
-form = ExtResource( 4 )
+script = ExtResource( 39 )
+form = ExtResource( 1 )
 
 [node name="TapeConfig3" type="Node" parent="EncounterConfig/CharacterConfig"]
-script = ExtResource( 44 )
-form = ExtResource( 2 )
+script = ExtResource( 39 )
+form = ExtResource( 79 )
 
 [node name="RandomTapeConfig" type="Node" parent="EncounterConfig/CharacterConfig"]
-script = ExtResource( 73 )
+script = ExtResource( 69 )
 
 [node name="RandomTapeConfig2" type="Node" parent="EncounterConfig/CharacterConfig"]
-script = ExtResource( 73 )
+script = ExtResource( 69 )
 
 [node name="Sidekick" type="Node" parent="EncounterConfig"]
-script = ExtResource( 43 )
+script = ExtResource( 38 )
 level_scale_override_key = "monster_miniboss_smart"
 character_kind = 1
 human_colors = {
@@ -840,38 +861,38 @@ human_colors/shoe_color = -1
 human_colors/skin_color = -1
 
 [node name="Tape6" type="Node" parent="EncounterConfig/Sidekick"]
-script = ExtResource( 73 )
+script = ExtResource( 69 )
 
-[node name="RecruitData" parent="." instance=ExtResource( 3 )]
+[node name="RecruitData" parent="." instance=ExtResource( 2 )]
 is_partner = true
 
-[node name="RecruitBehavior" parent="." instance=ExtResource( 5 )]
+[node name="RecruitBehavior" parent="." instance=ExtResource( 3 )]
 
-[node name="MouseClick" parent="." instance=ExtResource( 82 )]
+[node name="MouseClick" parent="." instance=ExtResource( 80 )]
 
 [node name="RogueFusionDetector" type="Area" parent="."]
 collision_layer = 0
 collision_mask = 16384
-script = ExtResource( 95 )
+script = ExtResource( 93 )
 detection_cooldown = 5.0
 
 [node name="CollisionShape" type="CollisionShape" parent="RogueFusionDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-shape = SubResource( 7 )
+shape = SubResource( 31 )
 
 [node name="BootlegDetector" type="Area" parent="."]
 collision_layer = 0
 collision_mask = 16384
-script = ExtResource( 84 )
+script = ExtResource( 82 )
 
 [node name="CollisionShape" type="CollisionShape" parent="BootlegDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-shape = SubResource( 7 )
+shape = SubResource( 31 )
 
 [node name="TalkingNPCDetector" type="Area" parent="."]
 collision_layer = 0
 collision_mask = 128
-script = ExtResource( 85 )
+script = ExtResource( 83 )
 detection_bb_key = "conversation_partner"
 detection_cooldown = 60.0
 combative_chance = 0.3
@@ -881,12 +902,12 @@ townie_chance = 0.85
 
 [node name="CollisionShape" type="CollisionShape" parent="TalkingNPCDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-shape = SubResource( 7 )
+shape = SubResource( 31 )
 
 [node name="MerchantDetector" type="Area" parent="."]
 collision_layer = 0
 collision_mask = 128
-script = ExtResource( 105 )
+script = ExtResource( 104 )
 combative_chance = 1.0
 social_chance = 1.0
 loner_chance = 1.0
@@ -894,12 +915,12 @@ townie_chance = 1.0
 
 [node name="CollisionShape" type="CollisionShape" parent="MerchantDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-shape = SubResource( 7 )
+shape = SubResource( 31 )
 
 [node name="DefeatedDetector" type="Area" parent="."]
 collision_layer = 0
 collision_mask = 128
-script = ExtResource( 25 )
+script = ExtResource( 22 )
 combative_chance = 1.0
 social_chance = 1.0
 loner_chance = 1.0
@@ -907,12 +928,12 @@ townie_chance = 1.0
 
 [node name="CollisionShape" type="CollisionShape" parent="DefeatedDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-shape = SubResource( 7 )
+shape = SubResource( 31 )
 
 [node name="MonsterDetector" type="Area" parent="."]
 collision_layer = 0
 collision_mask = 16384
-script = ExtResource( 81 )
+script = ExtResource( 77 )
 detection_cooldown = 60.0
 combative_chance = 0.9
 social_chance = 0.4
@@ -921,25 +942,25 @@ max_player_dist = 25.0
 
 [node name="CollisionShape" type="CollisionShape" parent="MonsterDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-shape = SubResource( 8 )
+shape = SubResource( 32 )
 
 [node name="InteractionBehavior" type="Node" parent="."]
-script = ExtResource( 62 )
+script = ExtResource( 58 )
 
 [node name="SetBlackBoardValues" type="Node" parent="InteractionBehavior"]
-script = ExtResource( 94 )
+script = ExtResource( 92 )
 __meta__ = {
 "_editor_description_": "Sets values of \"has_trade\", \"has_follower\", and \"is_resting\" based on current recruitdata and savestate values"
 }
 
 [node name="FaceTowardsAction" type="Node" parent="InteractionBehavior"]
-script = ExtResource( 59 )
+script = ExtResource( 55 )
 
 [node name="GetPlayer" type="Node" parent="InteractionBehavior/FaceTowardsAction"]
-script = ExtResource( 57 )
+script = ExtResource( 53 )
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior"]
-script = ExtResource( 79 )
+script = ExtResource( 75 )
 title = "{pawn}"
 wait_for_confirm = false
 close_after = false
@@ -947,79 +968,79 @@ use_random = true
 message_array = [ [ "KAYLEIGH_IDLE_RECRUIT_DIALOG1" ] ]
 
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
-script = ExtResource( 104 )
+script = ExtResource( 103 )
 menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3", "RECRUIT_MENU_OPTION4" ]
 default_option = 3
 always_succeed = true
 
 [node name="PartyInvite" type="Node" parent="InteractionBehavior/MenuDialogAction"]
-script = ExtResource( 63 )
+script = ExtResource( 59 )
 require_blackboard_values = {
 "has_follower": false
 }
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
-script = ExtResource( 79 )
+script = ExtResource( 75 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "RECRUIT_MENU_INVITE_ACCEPT1" ], [ "RECRUIT_MENU_INVITE_ACCEPT2" ], [ "RECRUIT_MENU_INVITE_ACCEPT3" ] ]
 
 [node name="AddToParty" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
-script = ExtResource( 89 )
+script = ExtResource( 87 )
 
 [node name="RemoveNodeAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
-script = ExtResource( 20 )
+script = ExtResource( 17 )
 animation = 0
 
 [node name="Challenge" type="Node" parent="InteractionBehavior/MenuDialogAction"]
-script = ExtResource( 56 )
+script = ExtResource( 52 )
 
 [node name="IsResting" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge"]
-script = ExtResource( 90 )
+script = ExtResource( 88 )
 always_succeed = true
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsResting"]
-script = ExtResource( 79 )
+script = ExtResource( 75 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "KAYLEIGH_MENU_CHALLENGE_REJECT1" ] ]
 
 [node name="IsReady" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge"]
-script = ExtResource( 90 )
+script = ExtResource( 88 )
 always_succeed = true
 invert = true
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
-script = ExtResource( 79 )
+script = ExtResource( 75 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "KAYLEIGH_MENU_CHALLENGE_ACCEPT1" ] ]
 
 [node name="BattleAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
-script = ExtResource( 53 )
+script = ExtResource( 49 )
 result_on_player_win = 1
 result_on_player_loss = 0
 result_on_flee = 0
 disable_fleeing = true
 
 [node name="SetCooldownFlag" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
-script = ExtResource( 92 )
+script = ExtResource( 90 )
 value = true
 
 [node name="MessageDialogAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
-script = ExtResource( 79 )
+script = ExtResource( 75 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "KAYLEIGH_CHALLENGE_WIN1" ] ]
 
 [node name="Trade" type="Node" parent="InteractionBehavior/MenuDialogAction"]
-script = ExtResource( 63 )
+script = ExtResource( 59 )
 require_blackboard_values = {
 "has_trade": true
 }
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade"]
-script = ExtResource( 91 )
+script = ExtResource( 89 )
 title = "{pawn}"
 wait_for_confirm = false
 close_after = false
@@ -1028,69 +1049,68 @@ use_random = true
 message_array = [ [ "RECRUIT_TRADE_OFFER1" ], [ "RECRUIT_TRADE_OFFER2" ], [ "RECRUIT_TRADE_OFFER3" ], [ "RECRUIT_TRADE_OFFER4" ], [ "RECRUIT_TRADE_OFFER5" ] ]
 
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade"]
-script = ExtResource( 104 )
+script = ExtResource( 103 )
 menu_options = [ "RECRUIT_TRADE_MENU_OPTION1", "RECRUIT_TRADE_MENU_OPTION2" ]
 default_option = 1
 always_succeed = true
 
 [node name="Trading" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction"]
-script = ExtResource( 56 )
+script = ExtResource( 52 )
 
 [node name="ChooseSticker" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading"]
-script = ExtResource( 96 )
+script = ExtResource( 94 )
 
 [node name="TradeAccepted" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading"]
-script = ExtResource( 63 )
+script = ExtResource( 59 )
 always_succeed = true
 require_blackboard_values = {
 "valid_trade": true
 }
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading/TradeAccepted"]
-script = ExtResource( 91 )
+script = ExtResource( 89 )
 title = "{pawn}"
 substitute_blackboard_keys = [ "trade_offer", "trade_request", "request_rarity", "offer_rarity" ]
 use_random = true
 message_array = [ [ "RECRUIT_TRADE_ACCEPTED1" ], [ "RECRUIT_TRADE_ACCEPTED2" ], [ "RECRUIT_TRADE_ACCEPTED3" ] ]
 
 [node name="TradeRejected" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading"]
-script = ExtResource( 63 )
+script = ExtResource( 59 )
 always_succeed = true
 require_blackboard_values = {
 "valid_trade": false
 }
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading/TradeRejected"]
-script = ExtResource( 91 )
+script = ExtResource( 89 )
 title = "{pawn}"
 substitute_blackboard_keys = [ "trade_offer", "trade_request", "request_rarity", "offer_rarity" ]
 use_random = true
 message_array = [ [ "RECRUIT_TRADE_REJECTED1" ], [ "RECRUIT_TRADE_REJECTED2" ], [ "RECRUIT_TRADE_REJECTED3" ] ]
 
 [node name="Cancel" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction"]
-script = ExtResource( 56 )
+script = ExtResource( 52 )
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Cancel"]
-script = ExtResource( 79 )
+script = ExtResource( 75 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "RECRUIT_TRADE_CANCEL1" ], [ "RECRUIT_TRADE_CANCEL2" ], [ "RECRUIT_TRADE_CANCEL3" ] ]
 
 [node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
-script = ExtResource( 56 )
+script = ExtResource( 52 )
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Leave"]
-script = ExtResource( 79 )
+script = ExtResource( 75 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "KAYLEIGH_MENU_GOODBYE1" ] ]
 
 [node name="ConversationSprite" type="Control" parent="."]
-unique_name_in_owner = true
 visible = false
 margin_right = 40.0
 margin_bottom = 40.0
-script = ExtResource( 108 )
+script = ExtResource( 102 )
 charconfig = NodePath("../EncounterConfig/CharacterConfig")
 
 [node name="MarginContainer" type="MarginContainer" parent="ConversationSprite"]
@@ -1098,14 +1118,13 @@ margin_left = 201.0
 margin_top = 289.0
 
 [node name="MonsterSpriteContainer1" type="ViewportContainer" parent="ConversationSprite/MarginContainer"]
-unique_name_in_owner = true
 margin_right = 400.0
 margin_bottom = 400.0
 rect_min_size = Vector2( 400, 400 )
 mouse_filter = 2
 size_flags_vertical = 3
 stretch = true
-script = ExtResource( 103 )
+script = ExtResource( 37 )
 zoom_duration = 2.0
 
 [node name="Viewport" type="Viewport" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1"]
@@ -1128,42 +1147,58 @@ current = true
 size = 5.0
 
 [node name="BattleSlot" type="Spatial" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport"]
-script = ExtResource( 106 )
-named_sounds = ExtResource( 107 )
+script = ExtResource( 40 )
+named_sounds = ExtResource( 42 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
-anims/bob = SubResource( 10 )
-anims/character_battle_cry = SubResource( 11 )
-anims/death = SubResource( 12 )
-anims/dodge = SubResource( 13 )
-anims/fade_in = SubResource( 14 )
-anims/flee = SubResource( 15 )
-anims/flee_incomplete = SubResource( 16 )
-anims/ghostly_fade = SubResource( 17 )
-anims/hurt = SubResource( 18 )
-anims/knockdown = SubResource( 19 )
-anims/long_death = SubResource( 20 )
-anims/monster_battle_cry = SubResource( 21 )
-anims/spawn = SubResource( 22 )
-anims/transform_in = SubResource( 23 )
-anims/transform_out = SubResource( 24 )
+anims/bob = SubResource( 33 )
+anims/character_battle_cry = SubResource( 34 )
+anims/death = SubResource( 35 )
+anims/dodge = SubResource( 36 )
+anims/fade_in = SubResource( 37 )
+anims/flee = SubResource( 38 )
+anims/flee_incomplete = SubResource( 39 )
+anims/ghostly_fade = SubResource( 40 )
+anims/hurt = SubResource( 41 )
+anims/knockdown = SubResource( 42 )
+anims/long_death = SubResource( 43 )
+anims/monster_battle_cry = SubResource( 44 )
+anims/spawn = SubResource( 45 )
+anims/transform_in = SubResource( 46 )
+anims/transform_out = SubResource( 47 )
 
 [node name="SpriteContainer" type="Spatial" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
-script = ExtResource( 42 )
+script = ExtResource( 36 )
 idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
 
-[node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 46 )]
+[node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 34 )]
 
 [node name="Node" type="Node" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer"]
 
 [node name="Tween" type="Tween" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer/Node"]
 
+[node name="Node2" type="Node" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer"]
+
+[node name="Tween" type="Tween" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer/Node2"]
+
+[node name="Node3" type="Node" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer"]
+
+[node name="Tween" type="Tween" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer/Node3"]
+
+[node name="Node4" type="Node" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer"]
+
+[node name="Tween" type="Tween" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer/Node4"]
+
+[node name="Node5" type="Node" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer"]
+
+[node name="Tween" type="Tween" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer/Node5"]
+
 [node name="DecoyContainer" type="Spatial" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25 )
-script = ExtResource( 42 )
+script = ExtResource( 36 )
 emission = null
 wave_amplitude = null
 wave_t_frequency = null

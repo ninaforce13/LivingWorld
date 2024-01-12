@@ -5,7 +5,10 @@ export (float) var social_chance = 0.7
 export (float) var loner_chance = 0.7
 export (float) var townie_chance = 0.7
 var random = Random.new()
+var npcmanager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 func is_valid_detection(_detection)->bool:
+	if !npcmanager.get_setting("MagnetismEnabled"):
+		return false
 	if _detection == get_parent():
 		return false
 	if !_detection.has_node("RecruitBehavior"):

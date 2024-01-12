@@ -745,10 +745,11 @@ can_jump = true
 can_fall = true
 can_glide = true
 can_wait = true
+max_wait = 4.0
 ignore_ending_y = false
 strafe = true
 buffer = true
-zbuffer_dist = 4.0
+zbuffer_dist = 8.0
 
 [node name="GetGroupNode" type="Node" parent="FindDoor/RepeatWhile2/FollowAction"]
 script = ExtResource( 18 )
@@ -1292,6 +1293,7 @@ set_values = 478
 
 [node name="RepeatWhile2" type="Node" parent="Conversation"]
 script = ExtResource( 15 )
+early_exit_on_failure = true
 
 [node name="FaceTowardsAction" type="Node" parent="Conversation/RepeatWhile2"]
 script = ExtResource( 8 )
@@ -1304,7 +1306,6 @@ script = ExtResource( 17 )
 __meta__ = {
 "action_tree": true
 }
-always_succeed = true
 can_fly = true
 can_jump = true
 can_fall = true
@@ -1318,6 +1319,7 @@ script = ExtResource( 33 )
 
 [node name="RepeatWhile" type="Node" parent="Conversation"]
 script = ExtResource( 15 )
+early_exit_on_failure = true
 
 [node name="Sequence" type="Node" parent="Conversation/RepeatWhile"]
 script = ExtResource( 29 )

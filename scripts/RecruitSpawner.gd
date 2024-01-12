@@ -29,7 +29,7 @@ func _ready():
 	_update_population()
 
 func _update_population():
-	var population = SaveState.other_data.LivingWorldData.Settings.NPCPopulation
+	var population = npcmanager.get_setting("NPCPopulation")
 	day_max_spawns = clamp(population,1,5)
 	night_max_spawns = clamp(population-2,1,5)
 
@@ -119,8 +119,8 @@ func _do_initial_spawns():
 func _timed_spawn():
 	var player = WorldSystem.get_player()
 	if WorldSystem.is_ai_enabled() and is_inside_tree():
+		_cull_freed_spawns()
 		if ignore_visibility or not is_on_screen() and self.global_transform.origin.distance_to(player.global_transform.origin) < MAX_SPAWN_DISTANCE:
-			_cull_freed_spawns()
 			try_spawn()
 
 

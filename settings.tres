@@ -4,7 +4,8 @@
 
 [resource]
 script = ExtResource( 1 )
-custom_recruit_rate = 1.0
+custom_recruit_rate = 0.1
+partner_rate = 0.1
 levelmap_spawners = {
 "REGION_NAME_EASTHAM_WOODS": {
 "locations": [ {

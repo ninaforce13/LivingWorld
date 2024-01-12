@@ -14,6 +14,8 @@ func add_recruit():
 	var tapes:Array = []
 	var recruitdata = template.get_node("RecruitData")
 	var custom:bool = npc.is_in_group("custom_recruits")
+	var partner:bool = npc.is_in_group("idle_partners")
+	var partner_id:String = ""
 	template.never_pause = true
 
 	copy_char_config(template,npc,tapes)
@@ -27,7 +29,9 @@ func add_recruit():
 
 	WorldSystem.get_level_map().add_child_below_node(player,template)
 	template.warp_near(player.global_transform.origin, false)
-	npcmanager.set_follower(recruitdata.recruit,custom)
+	if partner:
+		partner_id = npc.character.partner_id
+	npcmanager.set_follower(recruitdata.recruit,custom,partner_id)
 
 func set_appearance(template,npc):
 	template.npc_name = npc.npc_name

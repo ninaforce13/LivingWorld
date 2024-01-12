@@ -6,20 +6,30 @@ static func has_active_follower()->bool:
 		return SaveState.other_data.LivingWorldData.CurrentFollower.active
 	return false
 
+static func get_partner_by_id(partner_id):
+	var partners = get_partner_dictionary()
+	return partners[partner_id]
+
+static func get_follower_partner_id()->String:
+	return SaveState.other_data.LivingWorldData.CurrentFollower.partner_id
+
 static func get_current_follower()->Dictionary:
 	return SaveState.other_data.LivingWorldData.CurrentFollower.recruit
 
 static func is_follower_custom()->bool:
 	return SaveState.other_data.LivingWorldData.CurrentFollower.custom
 
+static func is_follower_partner()->bool:
+	return SaveState.other_data.LivingWorldData.CurrentFollower.partner_id != ""
+
 static func set_follower_custom(value:bool):
 	SaveState.other_data.LivingWorldData.CurrentFollower.custom = value
 
-static func set_follower(data:Dictionary,custom:bool):
-	SaveState.other_data.LivingWorldData.CurrentFollower = {"recruit":data, "active":true,"custom":custom}
+static func set_follower(data:Dictionary,custom:bool,partner_id=""):
+	SaveState.other_data.LivingWorldData.CurrentFollower = {"recruit":data, "active":true,"custom":custom, "partner_id":partner_id}
 
 static func reset_follower():
-	SaveState.other_data.LivingWorldData.CurrentFollower = {"recruit":{}, "active":false,"custom":false}
+	SaveState.other_data.LivingWorldData.CurrentFollower = {"recruit":{}, "active":false,"custom":false,"partner_id":""}
 
 static func has_savedata()->bool:
 	var result:int = 0
@@ -29,35 +39,55 @@ static func has_savedata()->bool:
 			result += 1
 		if SaveState.other_data.LivingWorldData.has("CurrentFollower"):
 			result += 1
-		if SaveState.other_data.LivingWorldData.has("Settings"):
-			result += 1
-			if SaveState.other_data.LivingWorldData.Settings.has("JoinEncounters"):
-				result += 1
-			if SaveState.other_data.LivingWorldData.Settings.has("MagnetismEnabled"):
-				result += 1
-			if SaveState.other_data.LivingWorldData.Settings.has("NPCPopulation"):
-				result += 1
+			if SaveState.other_data.LivingWorldData.CurrentFollower.has("recruit"):
+				result+=1
+			if SaveState.other_data.LivingWorldData.CurrentFollower.has("active"):
+				result+=1
+			if SaveState.other_data.LivingWorldData.CurrentFollower.has("custom"):
+				result+=1
+			if SaveState.other_data.LivingWorldData.CurrentFollower.has("partner_id"):
+				result+=1
 		if SaveState.other_data.LivingWorldData.has("Transformations"):
 			result += 1
 			if SaveState.other_data.LivingWorldData.Transformations.has("form_index"):
 				result += 1
 
-	return result == 9
+	return result == 13
 
 static func initialize_savedata():
 	SaveState.other_data["LivingWorldData"] = {"ExtraEncounterConfig":{"extra_slots":0},
-												"CurrentFollower":{"recruit":{}, "active":false,"custom":false},
-												"Settings":{"JoinEncounters":true,
-															"MagnetismEnabled":true,
-															"NPCPopulation":3},
+												"CurrentFollower":{"recruit":{}, "active":false,"custom":false,"partner_id":""},
 												"Transformations":{"form_index":-1}}
 
 static func get_setting(setting_name):
-	if !has_savedata():
-		initialize_savedata()
-	if SaveState.other_data.LivingWorldData.Settings.has(setting_name):
-		return SaveState.other_data.LivingWorldData.Settings[setting_name]
-	return null
+	var config:ConfigFile = _load_settings_file()
+	var value
+	if setting_name == "JoinEncounters":
+		value = config.get_value("battle","join_raids",true)
+	if setting_name == "MagnetismEnabled":
+		value = config.get_value("behavior","magnetism",true)
+	if setting_name == "NPCPopulation":
+		value = config.get_value("world","population",1)
+	return value
+
+static func _load_settings_file()->ConfigFile:
+	var settings_path = "user://LivingWorldSettings.cfg"
+	var config = ConfigFile.new()
+	var file = File.new()
+	if !file.file_exists(settings_path):
+		initialize_settings()
+	if config.load(settings_path) != OK:
+		push_error("Unable to load settings file " + settings_path)
+	return config
+
+static func initialize_settings():
+	var settings_path = "user://LivingWorldSettings.cfg"
+	var config = ConfigFile.new()
+	config.set_value("battle", "join_raids", true)
+	config.set_value("world", "population", 1)
+	config.set_value("behavior", "magnetism", true)
+	if config.save(settings_path) != OK:
+		push_error("Unable to save settings file " + settings_path)
 
 static func get_follower_config(other_recruit):
 	var recruit = other_recruit
@@ -156,13 +186,22 @@ static func is_idle_partner_available()->bool:
 static func get_partner_names()->Array:
 	var result:Array = []
 	result.push_back("kayleigh")
-#	result.push_back("meredith")
-#	result.push_back("viola")
+	result.push_back("meredith")
+	result.push_back("viola")
 	result.push_back("eugene")
 	result.push_back("felix")
 	result.push_back("dog")
 
 	return result
+
+static func remove_duplicate_partner():
+	var level = WorldSystem.get_level_map()
+	var idle_partners = level.get_tree().get_nodes_in_group("idle_partners")
+	var current_partner = SaveState.party.get_partner()
+	for npc in idle_partners:
+		if npc.character.partner_id == current_partner.partner_id:
+			npc.get_parent().remove_child(npc)
+			npc.queue_free()
 
 static func filter_partners(options:Array)->Array:
 	var result:Array = options.duplicate()
@@ -171,6 +210,8 @@ static func filter_partners(options:Array)->Array:
 	var partner_names = get_partner_names()
 	var current_partner = SaveState.party.get_partner()
 	result.erase(current_partner.partner_id)
+	if is_follower_partner():
+		result.erase(get_follower_partner_id())
 	for item in result:
 		if !SaveState.party.is_partner_unlocked(item):
 			result.erase(item)
@@ -185,15 +226,18 @@ static func get_partner_dictionary()->Dictionary:
 	partners["dog"] = load("res://mods/LivingWorld/partner_templates/Barkley.tscn")
 	partners["felix"] = load("res://mods/LivingWorld/partner_templates/Felix.tscn")
 	partners["eugene"] = load("res://mods/LivingWorld/partner_templates/Eugene.tscn")
+	partners["meredith"] = load("res://mods/LivingWorld/partner_templates/Meredith.tscn")
+	partners["viola"] = load("res://mods/LivingWorld/partner_templates/Viola.tscn")
 	return partners
 
 static func create_npc(spawner, node, forced_personality,supress_abilities):
 	var random = Random.new()
 	var level = WorldSystem.get_level_map()
 	var recruit
-	if is_idle_partner_available():
+	if partner_can_spawn():
 		var options = filter_partners(get_partner_names())
 		var partners = get_partner_dictionary()
+		random.shuffle(options)
 		var selection = random.choice(options)
 		recruit = partners[selection].instance()
 	else:
@@ -289,9 +333,26 @@ static func compare_arrays(array1:Array,array2:Array)->bool:
 			return false
 	return true
 
-static func get_npc(recruitdata=null):
-	var Mod = DLC.mods_by_id["LivingWorldMod"]
+static func recruit_can_spawn()->bool:
+	var random = Random.new()
 	var settings = preload("res://mods/LivingWorld/settings.tres")
+	var result:bool = random.rand_bool(settings.custom_recruit_rate)
+	return result
+
+static func partner_can_spawn()->bool:
+	if not is_idle_partner_available():
+		return false
+	var random = Random.new()
+	var settings = preload("res://mods/LivingWorld/settings.tres")
+	var result:bool = random.rand_bool(settings.partner_rate)
+	return result
+
+static func is_custom_recruit_available()->bool:
+
+	return false
+
+
+static func get_npc(recruitdata=null):
 	var name_generator = preload("res://mods/LivingWorld/scripts/NameGenerator.gd")
 	var rangerdata = load("res://mods/LivingWorld/scripts/RangerDataParser.gd")
 	var datapath = rangerdata.get_directory()
@@ -303,7 +364,7 @@ static func get_npc(recruitdata=null):
 	var filtered_recruits = filter_custom_recruits(custom_recruits)
 
 	var use_custom:bool = recruitdata != null
-	if randf() <= settings.custom_recruit_rate and filtered_recruits.size() > 0 and not recruitdata:
+	if recruit_can_spawn() and not filtered_recruits.empty() and not recruitdata:
 		recruit = filtered_recruits[randi()%filtered_recruits.size()]
 		npc.add_to_group("custom_recruits")
 		use_custom = true

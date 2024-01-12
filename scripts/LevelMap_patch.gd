@@ -61,6 +61,7 @@ static func get_code(block:String)->String:
 	code_blocks["change_player"] = """
 	var npc = create_modded_player(player_index)
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
+	npc_manager.remove_duplicate_partner()
 	if npc_manager.is_player_transformed() and player_index == 0:
 		call_deferred("set_player_form",npc)
 	"""
