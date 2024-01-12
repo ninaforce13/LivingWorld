@@ -17,7 +17,12 @@ export (bool) var supress_abilities = false
 var previous_monster_form_index = 0
 var monster_index:Array = []
 var sfx:CharacterSfx
+var player_index = -1
 func _ready():
+	if name == "Player":
+		player_index = 0
+	if name == "Partner":
+		player_index = 1
 	if character != null:
 		set_character(character)
 	else :
@@ -38,7 +43,6 @@ func player_transform(value=-1):
 		cutscene.set_bb("mode",value)
 		cutscene.run()
 func swap_sprite(value:int, forced_index:int = -1):
-	var random = Random.new()
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 	use_monster_form = value == FORMS.MONSTER
 	var dominant_sprite
@@ -60,7 +64,7 @@ func swap_sprite(value:int, forced_index:int = -1):
 			monster_sprite.direction = sprite.direction
 		dominant_sprite = monster_sprite
 		human_sprite.visible = false
-		npc_manager.set_transformation_index(index)
+		npc_manager.set_transformation_index(index,player_index)
 	else:
 		if sprite:
 			human_sprite.set_static_amount(sprite.static_amount)
@@ -70,7 +74,7 @@ func swap_sprite(value:int, forced_index:int = -1):
 			human_sprite.direction = sprite.direction
 		dominant_sprite = human_sprite
 		monster_sprite.visible = false
-		npc_manager.set_transformation_index(-1)
+		npc_manager.set_transformation_index(-1,player_index)
 	sprite = dominant_sprite
 	state_machine.set_formname(selection.name)
 	state_machine.change_forms(use_monster_form)

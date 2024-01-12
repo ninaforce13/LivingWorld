@@ -46,7 +46,6 @@ static func patch():
 		push_error("Failed to patch %s." % script_path)
 		return
 
-
 static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
 	code_blocks["warp_recruit"] = """
@@ -62,8 +61,8 @@ static func get_code(block:String)->String:
 	var npc = create_modded_player(player_index)
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 	npc_manager.remove_duplicate_partner()
-	if npc_manager.is_player_transformed() and player_index == 0:
-		call_deferred("set_player_form",npc)
+	if npc_manager.is_player_transformed(player_index):
+		call_deferred("set_player_form",npc,player_index)
 	"""
 
 	code_blocks["respawn_recruit"] = """
@@ -82,9 +81,9 @@ func setup_recruit_spawner(current_regionname):
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 	npc_manager.add_spawner(current_regionname,self)
 
-func set_player_form(npc):
+func set_player_form(npc,playerindex):
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
-	npc_manager.set_player_form(npc)
+	npc_manager.set_player_form(npc,playerindex)
 
 func create_modded_player(player_index:int):
 	var npc = preload("res://mods/LivingWorld/nodes/PlayerMonster.tscn").instance()

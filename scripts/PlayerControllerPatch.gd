@@ -19,7 +19,6 @@ static func patch():
 
 	var code_index = code_lines.find("	if event.is_action_pressed(\"interact\"):")
 	if code_index > 0:
-#		code_lines.insert(code_index+1,get_code("untransform"))
 		code_lines.insert(code_index,get_code("add_key"))
 
 
@@ -35,12 +34,9 @@ static func patch():
 static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
 	code_blocks["add_key"] = """
-	if Input.is_key_pressed(KEY_T):
-		pawn.player_transform()
-	"""
-	code_blocks["untransform"] = """
-		if pawn.use_monster_form:
-			pawn.swap_sprite(0)
+	if event.is_action_pressed("livingworldmod_transform"):
+		if pawn.has_method("player_transform"):
+			pawn.player_transform()
 	"""
 	return code_blocks[block]
 

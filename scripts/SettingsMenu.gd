@@ -4,6 +4,8 @@ onready var inputs = find_node("Inputs")
 onready var JoinEncountersInput = find_node("JoinEncountersInput")
 onready var UseMagnetismInput = find_node("UseMagnetismInput")
 onready var PopulationInput = find_node("PopulationInput")
+onready var UseCustomRecruitsInput = find_node("UseCustomRecruitsInput")
+onready var CaptainPatrolInput = find_node("CaptainPatrolInput")
 const settings_path = "user://LivingWorldSettings.cfg"
 
 func _ready():
@@ -20,6 +22,12 @@ func is_dirty()->bool:
 	if PopulationInput.selected_value != get_config_value("population"):
 		return true
 
+	if UseCustomRecruitsInput.selected_value != get_config_value("custom_trainee"):
+		return true
+
+	if CaptainPatrolInput.selected_value != get_config_value("captain_patrol"):
+		return true
+
 	return false
 
 func apply():
@@ -30,6 +38,8 @@ func save_settings():
 	config.set_value("battle", "join_raids", JoinEncountersInput.selected_value)
 	config.set_value("world", "population", PopulationInput.selected_value)
 	config.set_value("behavior", "magnetism", UseMagnetismInput.selected_value)
+	config.set_value("behavior", "captain_patrol", CaptainPatrolInput.selected_value)
+	config.set_value("world", "custom_trainee", UseCustomRecruitsInput.selected_value)
 
 	_save_settings_file(config)
 
@@ -42,6 +52,8 @@ func reset():
 	JoinEncountersInput.selected_value = get_config_value("join_raids")
 	UseMagnetismInput.selected_value = get_config_value("use_magnetism")
 	PopulationInput.selected_value = get_config_value("population")
+	UseCustomRecruitsInput.selected_value = get_config_value("custom_trainee")
+	CaptainPatrolInput.selected_value = get_config_value("captain_patrol")
 
 	inputs.setup_focus()
 
@@ -54,6 +66,10 @@ func get_config_value(setting_name:String):
 		value = config.get_value("behavior","magnetism",UseMagnetismInput.values[0])
 	if setting_name == "population":
 		value = config.get_value("world","population",PopulationInput.values[0])
+	if setting_name == "custom_trainee":
+		value = config.get_value("world","custom_trainee",UseCustomRecruitsInput.values[0])
+	if setting_name == "captain_patrol":
+		value = config.get_value("world","custom_trainee",CaptainPatrolInput.values[0])
 	return value
 
 func grab_focus():

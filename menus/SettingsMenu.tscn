@@ -23,8 +23,8 @@ custom_styles/panel = SubResource( 1 )
 script = ExtResource( 4 )
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-margin_left = 540.0
-margin_right = 1380.0
+margin_left = 518.0
+margin_right = 1401.0
 margin_bottom = 1080.0
 rect_min_size = Vector2( 840, 0 )
 rect_clip_content = true
@@ -33,7 +33,7 @@ custom_styles/panel = SubResource( 2 )
 
 [node name="Control" type="Control" parent="PanelContainer"]
 margin_left = 20.0
-margin_right = 820.0
+margin_right = 863.0
 size_flags_vertical = 0
 
 [node name="RowFocusIndicator" parent="PanelContainer/Control" instance=ExtResource( 1 )]
@@ -42,14 +42,14 @@ hide_when_focus_lost = false
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
 margin_left = 20.0
-margin_right = 820.0
+margin_right = 863.0
 margin_bottom = 1080.0
 custom_constants/margin_right = 20
 custom_constants/margin_left = 20
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer"]
 margin_left = 20.0
-margin_right = 780.0
+margin_right = 823.0
 margin_bottom = 1080.0
 scroll_horizontal_enabled = false
 script = ExtResource( 6 )
@@ -69,7 +69,7 @@ page = 1080.0
 [node name="_v_scroll3" type="VScrollBar" parent="PanelContainer/MarginContainer/ScrollContainer"]
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/ScrollContainer"]
-margin_right = 760.0
+margin_right = 803.0
 margin_bottom = 1080.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -78,12 +78,12 @@ custom_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer"]
 margin_top = 20.0
-margin_right = 760.0
+margin_right = 803.0
 margin_bottom = 1060.0
 
 [node name="Inputs" type="GridContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer"]
-margin_right = 760.0
-margin_bottom = 212.0
+margin_right = 803.0
+margin_bottom = 364.0
 custom_constants/vseparation = 16
 custom_constants/hseparation = 16
 columns = 2
@@ -94,50 +94,84 @@ handle_page_up = false
 handle_page_down = false
 
 [node name="JoinEncountersLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
-margin_right = 572.0
+margin_right = 655.0
 margin_bottom = 60.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "LIVINGWORLD_SETTINGS_UI_ENCOUNTERS"
 
 [node name="JoinEncountersInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
-margin_left = 588.0
-margin_right = 760.0
+margin_left = 671.0
+margin_right = 803.0
 margin_bottom = 60.0
 size_flags_horizontal = 3
 values = [ true, false ]
 value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
 
-[node name="UseMagnetismLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
+[node name="UseCustomRecruitsLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
 margin_top = 76.0
-margin_right = 572.0
+margin_right = 655.0
 margin_bottom = 136.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "LIVINGWORLD_SETTINGS_UI_MAGNETISM"
+text = "LIVINGWORLD_SETTINGS_UI_CUSTOM_RECRUITS"
 
-[node name="UseMagnetismInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
-margin_left = 588.0
+[node name="UseCustomRecruitsInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
+margin_left = 671.0
 margin_top = 76.0
-margin_right = 760.0
+margin_right = 803.0
 margin_bottom = 136.0
 size_flags_horizontal = 3
 values = [ true, false ]
 value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
 
-[node name="PopulationLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
+[node name="UseMagnetismLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
 margin_top = 152.0
-margin_right = 572.0
+margin_right = 655.0
 margin_bottom = 212.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "LIVINGWORLD_SETTINGS_UI_MAGNETISM"
+
+[node name="UseMagnetismInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
+margin_left = 671.0
+margin_top = 152.0
+margin_right = 803.0
+margin_bottom = 212.0
+size_flags_horizontal = 3
+values = [ true, false ]
+value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
+
+[node name="CaptainPatrolLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
+margin_top = 228.0
+margin_right = 655.0
+margin_bottom = 288.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "LIVINGWORLD_SETTINGS_UI_CAPTAIN_PATROL"
+
+[node name="CaptainPatrolInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
+margin_left = 671.0
+margin_top = 228.0
+margin_right = 803.0
+margin_bottom = 288.0
+size_flags_horizontal = 3
+values = [ true, false ]
+value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
+
+[node name="PopulationLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
+margin_top = 304.0
+margin_right = 655.0
+margin_bottom = 364.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "LIVINGWORLD_SETTINGS_UI_POPULATION"
 
 [node name="PopulationInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
-margin_left = 588.0
-margin_top = 152.0
-margin_right = 760.0
-margin_bottom = 212.0
+margin_left = 671.0
+margin_top = 304.0
+margin_right = 803.0
+margin_bottom = 364.0
 size_flags_horizontal = 3
 values = [ 1, 3, 5 ]
 value_labels = [ "Low", "Medium", "High" ]

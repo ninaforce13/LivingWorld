@@ -13,6 +13,6 @@ author = "NCrafters"
 save_file_format_tag = ""
 save_file_format_tag_version = 0
 network_protocol_tag = ""
-modified_files = [ "res://nodes/warp_region/WarpRegion.gd", "res://nodes/warp_region/WarpTarget.gd", "res://world/core/LevelMap.gd", "res://nodes/encounter_config/EncounterConfig.gd", "res://battle/backgrounds/BattleBackground.gd", "res://world/objects/spawner/Spawner.gd", "res://world/quest_scenes/passive/RogueFusion.gd", "res://world/objects/campsite/Camping.gd", "res://data/item_scripts/StickerItem.gd", "res://menus/inventory/InventoryDetailPanel.gd", "res://world/player/PlayerController.gd", "res://models/titlescreen/TitleScreenCampsite.tscn", "res://menus/settings/SettingsMenu.gd" ]
+modified_files = [ "res://nodes/warp_region/WarpRegion.gd", "res://nodes/warp_region/WarpTarget.gd", "res://world/core/LevelMap.gd", "res://nodes/encounter_config/EncounterConfig.gd", "res://battle/backgrounds/BattleBackground.gd", "res://world/objects/spawner/Spawner.gd", "res://world/quest_scenes/passive/RogueFusion.gd", "res://world/objects/campsite/Camping.gd", "res://data/item_scripts/StickerItem.gd", "res://menus/inventory/InventoryDetailPanel.gd", "res://world/player/PlayerController.gd", "res://models/titlescreen/TitleScreenCampsite.tscn", "res://menus/settings/SettingsMenu.gd", "res://world/player/Interactor.gd", "res://world/behaviors/generic_npc/CaptainNPCBehavior.gd" ]
 modified_dirs = [  ]
 translations = [ ExtResource( 2 ) ]

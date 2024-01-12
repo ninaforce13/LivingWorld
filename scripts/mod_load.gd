@@ -1,4 +1,5 @@
 extends ContentInfo
+const settings_path = "user://LivingWorldSettings.cfg"
 var recruit_tracker:Array = []
 var levelmap_patch = preload("LevelMap_patch.gd")
 var encounterconfig_patch = preload("encounter_config_patch.gd")
@@ -15,7 +16,6 @@ var interactor = preload("res://mods/LivingWorld/scripts/Interactor_patch.gd")
 var captainbehavior = preload("res://mods/LivingWorld/scripts/CaptainNPCBehavior_patch.gd")
 var usersettings = preload("res://mods/LivingWorld/scripts/UserSettings_patch.gd")
 func _init():
-	add_debug_commands()
 	levelmap_patch.patch()
 	encounterconfig_patch.patch()
 	warpregion_patch.patch()
@@ -30,6 +30,19 @@ func _init():
 	interactor.patch()
 	captainbehavior.patch()
 	usersettings.patch()
+
+	yield(SceneManager.preloader,"singleton_setup_completed")
+	add_keyboard_shortcuts()
+	add_debug_commands()
+
+func add_keyboard_shortcuts():
+	var inputeventkey = InputEventKey.new()
+	var inputeventjoy = InputEventJoypadButton.new()
+	inputeventkey.scancode = KEY_T
+	inputeventjoy.button_index = JOY_R3
+	InputMap.add_action("livingworldmod_transform")
+	InputMap.action_add_event("livingworldmod_transform",inputeventkey)
+	InputMap.action_add_event("livingworldmod_transform",inputeventjoy)
 
 func clear_recruit_tracker():
 	recruit_tracker.clear()

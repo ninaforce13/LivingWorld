@@ -49,15 +49,17 @@ static func has_savedata()->bool:
 				result+=1
 		if SaveState.other_data.LivingWorldData.has("Transformations"):
 			result += 1
-			if SaveState.other_data.LivingWorldData.Transformations.has("form_index"):
+			if SaveState.other_data.LivingWorldData.Transformations.has("player1"):
+				result += 1
+			if SaveState.other_data.LivingWorldData.Transformations.has("player2"):
 				result += 1
 
-	return result == 13
+	return result == 10
 
 static func initialize_savedata():
 	SaveState.other_data["LivingWorldData"] = {"ExtraEncounterConfig":{"extra_slots":0},
 												"CurrentFollower":{"recruit":{}, "active":false,"custom":false,"partner_id":""},
-												"Transformations":{"form_index":-1}}
+												"Transformations":{"player1":{"form_index":-1},"player2":{"form_index":-1}}}
 
 static func get_setting(setting_name):
 	var config:ConfigFile = _load_settings_file()
@@ -461,18 +463,26 @@ static func mod_pawns(pawn):
 		pawn.add_child(behaviornode)
 		print("%s has been awakened."%Loc.tr(pawn.npc_name))
 
-static func is_player_transformed()->bool:
+static func is_player_transformed(playerindex=0)->bool:
 	if !has_savedata():
 		initialize_savedata()
-	return SaveState.other_data.LivingWorldData.Transformations.form_index != -1
+	if playerindex == 1:
+		return SaveState.other_data.LivingWorldData.Transformations.player2.form_index != -1
 
-static func set_player_form(npc):
-	npc.swap_sprite(1,SaveState.other_data.LivingWorldData.Transformations.form_index)
+	return SaveState.other_data.LivingWorldData.Transformations.player1.form_index != -1
+static func set_player_form(npc,playerindex = 0):
+	if playerindex == 0:
+		npc.swap_sprite(1,SaveState.other_data.LivingWorldData.Transformations.player1.form_index)
+	if playerindex == 1:
+		npc.swap_sprite(1,SaveState.other_data.LivingWorldData.Transformations.player2.form_index)
 
-static func set_transformation_index(index):
+static func set_transformation_index(index,playerindex = 0):
 	if !has_savedata():
 		initialize_savedata()
-	SaveState.other_data.LivingWorldData.Transformations.form_index = index
+	if playerindex == 0:
+		SaveState.other_data.LivingWorldData.Transformations.player1.form_index = index
+	if playerindex == 1:
+		SaveState.other_data.LivingWorldData.Transformations.player2.form_index = index
 
 
 

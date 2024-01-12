@@ -66,6 +66,10 @@ RECRUIT_TRADE_CANCEL3,I guess I'll have to keep checking the sticker merchantsâ€
 TRADE_STICKER_UI_USE,Trade Sticker
 LIVINGWORLD_SETTINGS_UI_ENCOUNTERS,Wandering NPCs Join Raids:
 LIVINGWORLD_SETTINGS_UI_MAGNETISM,Wandering NPCs Use Magnetism:
+LIVINGWORLD_SETTINGS_UI_CAPTAIN_PATROL,Captains Engage Nearby Fusions
+UI_SETTINGS_KEYBOARD_livingworldmod_transform,Overworld Transform
+LIVINGWORLD_SETTINGS_UI_KEYBOARD_SECTION,[Mod] Living World Actions
+LIVINGWORLD_SETTINGS_UI_CUSTOM_RECRUITS,Spawn Custom Trainees (Cassette Arenas)
 LIVINGWORLD_SETTINGS_UI_POPULATION,Wandering NPC Population:
 CAPTAIN_LUNCH_MENU_CLEEO,Out To Lunch.
 CAPTAIN_LUNCH_MENU2,Wait for the captain to return?
