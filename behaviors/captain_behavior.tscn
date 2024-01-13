@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://mods/LivingWorld/scripts/RecruitBehavior.gd" type="Script" id=1]
 [ext_resource path="res://mods/LivingWorld/actions/WaitUntil.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://nodes/actions/WalkAction.gd" type="Script" id=11]
 [ext_resource path="res://nodes/actions/FaceDirectionAction.gd" type="Script" id=12]
 [ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=13]
+[ext_resource path="res://mods/LivingWorld/actions/CaptainBehaviorState.gd" type="Script" id=14]
 [ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=16]
 [ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=17]
 [ext_resource path="res://mods/LivingWorld/actions/GetGroupNodeCustom.gd" type="Script" id=18]
@@ -56,11 +57,7 @@ script = ExtResource( 7 )
 remove = true
 
 [node name="Patrol" type="Node" parent="."]
-script = ExtResource( 23 )
-combative_weight = 1.0
-social_weight = 1.0
-loner_weight = 1.0
-townie_weight = 1.0
+script = ExtResource( 14 )
 
 [node name="NearbyEncounter" type="Node" parent="Patrol"]
 script = ExtResource( 19 )

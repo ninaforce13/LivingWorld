@@ -70,28 +70,26 @@ static func get_setting(setting_name):
 		value = config.get_value("behavior","magnetism",true)
 	if setting_name == "NPCPopulation":
 		value = config.get_value("world","population",1)
+	if setting_name == "CaptainPatrol":
+		value = config.get_value("behavior","captain_patrol",true)
+	if setting_name == "CustomTrainees":
+		value = config.get_value("world","custom_trainee",true)
+	if setting_name == "BackupStatus":
+		value = config.get_value("battle","backup_status",true)
 	return value
 
 static func _load_settings_file()->ConfigFile:
 	var settings_path = "user://LivingWorldSettings.cfg"
 	var config = ConfigFile.new()
 	var file = File.new()
-	if !file.file_exists(settings_path):
-		initialize_settings()
-	if config.load(settings_path) != OK:
-		push_error("Unable to load settings file " + settings_path)
+	if file.file_exists(settings_path):
+		if config.load(settings_path) != OK:
+			push_error("Unable to load settings file " + settings_path)
 	return config
 
-static func initialize_settings():
-	var settings_path = "user://LivingWorldSettings.cfg"
-	var config = ConfigFile.new()
-	config.set_value("battle", "join_raids", true)
-	config.set_value("world", "population", 1)
-	config.set_value("behavior", "magnetism", true)
-	if config.save(settings_path) != OK:
-		push_error("Unable to save settings file " + settings_path)
-
 static func get_follower_config(other_recruit):
+	var ai_nostatus = preload("res://mods/LivingWorld/nodes/RecruitAINoStatus.tscn")
+	var ai_status = preload("res://mods/LivingWorld/nodes/RecruitAI.tscn")
 	var recruit = other_recruit
 	var new_config = load("res://mods/LivingWorld/nodes/empty_charconfig.tscn").instance()
 	var rangerdata = load("res://mods/LivingWorld/scripts/RangerDataParser.gd")
@@ -101,7 +99,8 @@ static func get_follower_config(other_recruit):
 		tape_nodes.push_back(tape)
 	rangerdata.set_char_config(new_config,recruit,tape_nodes)
 	new_config.name = "FollowerConfig"
-	new_config.ai = preload("res://mods/LivingWorld/nodes/RecruitAINoStatus.tscn")
+	var status:bool = get_setting("BackupStatus")
+	new_config.ai = ai_status if status else ai_nostatus
 	return new_config
 
 static func add_battle_slots(battlebackground):
@@ -336,6 +335,8 @@ static func compare_arrays(array1:Array,array2:Array)->bool:
 	return true
 
 static func recruit_can_spawn()->bool:
+	if !get_setting("CustomTrainees"):
+		return false
 	var random = Random.new()
 	var settings = preload("res://mods/LivingWorld/settings.tres")
 	var result:bool = random.rand_bool(settings.custom_recruit_rate)
@@ -348,11 +349,6 @@ static func partner_can_spawn()->bool:
 	var settings = preload("res://mods/LivingWorld/settings.tres")
 	var result:bool = random.rand_bool(settings.partner_rate)
 	return result
-
-static func is_custom_recruit_available()->bool:
-
-	return false
-
 
 static func get_npc(recruitdata=null):
 	var name_generator = preload("res://mods/LivingWorld/scripts/NameGenerator.gd")
@@ -415,6 +411,7 @@ static func add_extra_fighters(encounter):
 			encounter.add_child(newconfig)
 			newconfig.add_to_group("trainee_allies")
 			SaveState.other_data.LivingWorldData.ExtraEncounterConfig.extra_slots += 1
+
 static func add_follower_to_encounter(encounter):
 	if has_active_follower():
 		var newconfig = get_follower_config(get_current_follower())
@@ -458,9 +455,11 @@ static func mod_pawns(pawn):
 	if !pawn.has_node("RecruitData") or !pawn.has_node("RecruitBehavior"):
 		var datanode = preload("res://mods/LivingWorld/nodes/RecruitData.tscn").instance()
 		var behaviornode = preload("res://mods/LivingWorld/behaviors/captain_behavior.tscn").instance()
-		pawn.add_child(datanode)
+#		var emoteplayer = preload("res://mods/LivingWorld/nodes/emoteplayer.tscn").instance()
 		datanode.is_captain = true
+		pawn.add_child(datanode)
 		pawn.add_child(behaviornode)
+
 		print("%s has been awakened."%Loc.tr(pawn.npc_name))
 
 static func is_player_transformed(playerindex=0)->bool:

@@ -23,6 +23,7 @@ func _ready():
 		max_partners = 0
 	if !recruit and (is_captain or is_partner):
 		generate_recruit_data()
+	if is_captain or is_partner:
 		call_deferred("add_emoteplayer")
 
 func add_emoteplayer():

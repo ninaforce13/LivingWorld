@@ -6,6 +6,7 @@ onready var UseMagnetismInput = find_node("UseMagnetismInput")
 onready var PopulationInput = find_node("PopulationInput")
 onready var UseCustomRecruitsInput = find_node("UseCustomRecruitsInput")
 onready var CaptainPatrolInput = find_node("CaptainPatrolInput")
+onready var BackupStatusInput = find_node("BackupStatusInput")
 const settings_path = "user://LivingWorldSettings.cfg"
 
 func _ready():
@@ -28,6 +29,9 @@ func is_dirty()->bool:
 	if CaptainPatrolInput.selected_value != get_config_value("captain_patrol"):
 		return true
 
+	if BackupStatusInput.selected_value != get_config_value("backup_status"):
+		return true
+
 	return false
 
 func apply():
@@ -36,6 +40,7 @@ func apply():
 func save_settings():
 	var config = ConfigFile.new()
 	config.set_value("battle", "join_raids", JoinEncountersInput.selected_value)
+	config.set_value("battle", "backup_status", BackupStatusInput.selected_value)
 	config.set_value("world", "population", PopulationInput.selected_value)
 	config.set_value("behavior", "magnetism", UseMagnetismInput.selected_value)
 	config.set_value("behavior", "captain_patrol", CaptainPatrolInput.selected_value)
@@ -54,6 +59,7 @@ func reset():
 	PopulationInput.selected_value = get_config_value("population")
 	UseCustomRecruitsInput.selected_value = get_config_value("custom_trainee")
 	CaptainPatrolInput.selected_value = get_config_value("captain_patrol")
+	BackupStatusInput.selected_value = get_config_value("backup_status")
 
 	inputs.setup_focus()
 
@@ -69,7 +75,9 @@ func get_config_value(setting_name:String):
 	if setting_name == "custom_trainee":
 		value = config.get_value("world","custom_trainee",UseCustomRecruitsInput.values[0])
 	if setting_name == "captain_patrol":
-		value = config.get_value("world","custom_trainee",CaptainPatrolInput.values[0])
+		value = config.get_value("behavior","captain_patrol",CaptainPatrolInput.values[0])
+	if setting_name == "backup_status":
+		value = config.get_value("battle","backup_status",BackupStatusInput.values[0])
 	return value
 
 func grab_focus():

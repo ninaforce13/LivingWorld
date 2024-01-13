@@ -31,6 +31,8 @@ func _run():
 		else :
 			if !is_instance_valid(target):
 				return null
+			if !target.is_inside_tree() or !who.is_inside_tree():
+				return null
 			var dir3 = target.global_transform.origin - who.global_transform.origin
 			dir = Vector2(dir3.x, dir3.z).normalized()
 

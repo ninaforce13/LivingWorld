@@ -30,8 +30,8 @@ func _ready():
 
 func _update_population():
 	var population = npcmanager.get_setting("NPCPopulation")
-	day_max_spawns = clamp(population,1,5)
-	night_max_spawns = clamp(population-2,1,5)
+	day_max_spawns = population
+	night_max_spawns = clamp(day_max_spawns - 1,1,3)
 
 
 #func _enter_tree():
