@@ -76,6 +76,8 @@ static func get_setting(setting_name):
 		value = config.get_value("world","custom_trainee",true)
 	if setting_name == "BackupStatus":
 		value = config.get_value("battle","backup_status",true)
+	if setting_name == "BattleSprite":
+		value = config.get_value("world","battle_sprite",false)
 	return value
 
 static func _load_settings_file()->ConfigFile:

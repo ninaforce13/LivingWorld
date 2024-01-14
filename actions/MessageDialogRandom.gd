@@ -4,6 +4,8 @@ export (bool) var use_random = false
 export (Array,Array,String) var message_array
 var dialogsprite
 var tween:Tween
+var npcmanager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
+var use_battlesprite:bool = false
 func _ready():
 	var pawn = get_pawn()
 	if pawn.has_node("ConversationSprite"):
@@ -11,12 +13,15 @@ func _ready():
 	tween = Tween.new()
 	add_child(tween)
 func _enter_action():
+	var pawn = get_pawn()
+	var data = pawn.get_node("RecruitData")
+	use_battlesprite = npcmanager.get_setting("BattleSprite") or !data.is_partner
 	if use_random:
 		messages = []
 		var index:int = randi()%message_array.size()
 		for message in message_array[index]:
 			messages.push_back(message)
-	if dialogsprite:
+	if dialogsprite and use_battlesprite:
 		var spritecont = dialogsprite.get_node("MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer")
 		spritecont.idle = "inactive"
 		if dialogsprite.visible:
@@ -33,7 +38,7 @@ func _run():
 				audio = sfx[randi() % sfx.size()]
 
 	var dlg = GlobalMessageDialog.message_dialog
-	dlg.portrait = portrait
+	dlg.portrait = portrait if !use_battlesprite else null
 	dlg.portrait_position = portrait_position
 	dlg.audio = audio
 	dlg.type_sounds = type_sounds
@@ -79,7 +84,7 @@ func _run():
 
 
 		text = Loc.substitute_mfn(text, SaveState.party.player.pronouns)
-		if dialogsprite:
+		if dialogsprite and use_battlesprite:
 			dialogsprite.visible = true
 			tween.interpolate_property(dialogsprite,"rect_position",Vector2(-550,0),Vector2(0,0),0.2,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
 			tween.start()
@@ -90,7 +95,7 @@ func _run():
 
 		dlg.audio = null
 	if close_after:
-		if dialogsprite:
+		if dialogsprite and use_battlesprite:
 			tween.interpolate_property(dialogsprite,"rect_position",Vector2(0,0),Vector2(1800,0),0.05,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
 			tween.start()
 			dialogsprite.visible = false

@@ -84,7 +84,7 @@ margin_bottom = 1060.0
 
 [node name="Inputs" type="GridContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 margin_right = 976.0
-margin_bottom = 758.0
+margin_bottom = 834.0
 custom_constants/vseparation = 16
 custom_constants/hseparation = 16
 columns = 2
@@ -200,10 +200,27 @@ size_flags_horizontal = 3
 values = [ true, false ]
 value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
 
-[node name="MarginContainer3" type="MarginContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
+[node name="UseBattleSpriteLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
 margin_top = 516.0
 margin_right = 828.0
-margin_bottom = 606.0
+margin_bottom = 576.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "LIVINGWORLD_SETTINGS_UI_BATTLESPRITES"
+
+[node name="UseBattleSpriteInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
+margin_left = 844.0
+margin_top = 516.0
+margin_right = 976.0
+margin_bottom = 576.0
+size_flags_horizontal = 3
+values = [ false, true ]
+value_labels = [ "LIVINGWORLD_SETTINGS_UI_BATTLESPRITE_OPTION1", "LIVINGWORLD_SETTINGS_UI_BATTLESPRITE_OPTION2" ]
+
+[node name="MarginContainer3" type="MarginContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
+margin_top = 592.0
+margin_right = 828.0
+margin_bottom = 682.0
 custom_constants/margin_top = 20
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs/MarginContainer3"]
@@ -216,40 +233,40 @@ text = "LIVINGWORLD_SETTINGS_UI_BEHAVIOR_SECTION"
 
 [node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
 margin_left = 844.0
-margin_top = 516.0
+margin_top = 592.0
 margin_right = 976.0
-margin_bottom = 606.0
+margin_bottom = 682.0
 
 [node name="UseMagnetismLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
-margin_top = 622.0
+margin_top = 698.0
 margin_right = 828.0
-margin_bottom = 682.0
+margin_bottom = 758.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "LIVINGWORLD_SETTINGS_UI_MAGNETISM"
 
 [node name="UseMagnetismInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
 margin_left = 844.0
-margin_top = 622.0
+margin_top = 698.0
 margin_right = 976.0
-margin_bottom = 682.0
+margin_bottom = 758.0
 size_flags_horizontal = 3
 values = [ true, false ]
 value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
 
 [node name="CaptainPatrolLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
-margin_top = 698.0
+margin_top = 774.0
 margin_right = 828.0
-margin_bottom = 758.0
+margin_bottom = 834.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "LIVINGWORLD_SETTINGS_UI_CAPTAIN_PATROL"
 
 [node name="CaptainPatrolInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
 margin_left = 844.0
-margin_top = 698.0
+margin_top = 774.0
 margin_right = 976.0
-margin_bottom = 758.0
+margin_bottom = 834.0
 size_flags_horizontal = 3
 values = [ true, false ]
 value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]

@@ -4,6 +4,8 @@ export (bool) var use_random = false
 export (Array,Array,String) var message_array
 var dialogsprite
 var tween:Tween
+var npcmanager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
+var use_battlesprite:bool = false
 func _ready():
 	var pawn = get_pawn()
 	if pawn.has_node("ConversationSprite"):
@@ -21,7 +23,7 @@ func _run():
 				audio = sfx[randi() % sfx.size()]
 
 	var dlg = GlobalMessageDialog.message_dialog
-	dlg.portrait = portrait
+	dlg.portrait = portrait if !use_battlesprite else null
 	dlg.portrait_position = portrait_position
 	dlg.audio = audio
 	dlg.type_sounds = type_sounds
@@ -67,8 +69,7 @@ func _run():
 
 
 		text = Loc.substitute_mfn(text, SaveState.party.player.pronouns)
-		if dialogsprite:
-			print("tweening")
+		if dialogsprite and use_battlesprite:
 			dialogsprite.visible = true
 			tween.interpolate_property(dialogsprite,"rect_position",Vector2(-550,0),Vector2(0,0),0.2,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
 			tween.start()
@@ -83,12 +84,15 @@ func _run():
 
 func _exit_action(_result):
 	if close_after:
-		if dialogsprite:
+		if dialogsprite and use_battlesprite:
 			tween.interpolate_property(dialogsprite,"rect_position",Vector2(0,0),Vector2(1800,0),0.1,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
 			tween.start()
 			dialogsprite.visible = false
 		return GlobalMessageDialog.hide()
 func _enter_action():
+	var pawn = get_pawn()
+	var data = pawn.get_node("RecruitData")
+	use_battlesprite = npcmanager.get_setting("BattleSprite") or !data.is_partner
 	assign_bb_values()
 	if use_random:
 		messages = []
