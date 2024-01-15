@@ -1,0 +1,247 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://mods/LivingWorld/cardgame/CardTemplate.tscn" type="PackedScene" id=1]
+[ext_resource path="res://mods/LivingWorld/cardgame/EmptyCardTemplate.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/monster_stickers/southpaw.png" type="Texture" id=3]
+[ext_resource path="res://data/monster_forms/malchemy.tres" type="Resource" id=6]
+[ext_resource path="res://data/monster_forms/ramtasm.tres" type="Resource" id=10]
+[ext_resource path="res://data/monster_forms/miasmodeus.tres" type="Resource" id=16]
+[ext_resource path="res://data/monster_forms/candevil.tres" type="Resource" id=17]
+[ext_resource path="res://menus/menu_bg_fade.shader" type="Shader" id=18]
+[ext_resource path="res://menus/background.png" type="Texture" id=19]
+[ext_resource path="res://data/monster_forms/bansheep.tres" type="Resource" id=20]
+[ext_resource path="res://mods/LivingWorld/cardgame/GameSetup.gd" type="Script" id=21]
+
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = ExtResource( 18 )
+shader_param/progress = 1.0
+shader_param/max_alpha = 1.0
+shader_param/base_color = Color( 0.109804, 0.152941, 0.223529, 1 )
+shader_param/hi_color = Color( 0.6706, 0.4588, 0.9098, 0.0625 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 1, 0.584314, 0, 1 )
+border_width_bottom = 5
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_bottom_right = 150
+corner_radius_bottom_left = 150
+corner_detail = 1
+expand_margin_right = 8.0
+expand_margin_top = 30.0
+expand_margin_bottom = 32.0
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.670588, 0.458824, 0.909804, 1 )
+border_width_top = 5
+border_color = Color( 0.231373, 0.0392157, 0.258824, 1 )
+corner_radius_top_left = 150
+corner_radius_top_right = 150
+corner_detail = 1
+expand_margin_right = 10.0
+expand_margin_top = 22.0
+expand_margin_bottom = 32.0
+
+[node name="StickerMiniGame" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 21 )
+player_setup = {
+"bandcolor": Color( 0.670588, 0.458824, 0.909804, 1 ),
+"bordercolor": Color( 0.247059, 0.113725, 0.282353, 1 ),
+"offscreen_pos": 2200
+}
+enemy_setup = {
+"bandcolor": Color( 1, 0.584314, 0, 1 ),
+"bordercolor": Color( 0.329412, 0.215686, 0.0588235, 1 ),
+"offscreen_pos": -1000
+}
+
+[node name="Blur" type="TextureRect" parent="."]
+material = SubResource( 4 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 19 )
+expand = true
+
+[node name="GridContainer" type="GridContainer" parent="."]
+anchor_left = 0.25
+anchor_top = 0.23
+anchor_right = 0.25
+anchor_bottom = 0.23
+rect_scale = Vector2( 0.9, 0.9 )
+rect_pivot_offset = Vector2( 437.5, 142 )
+custom_constants/vseparation = 25
+custom_constants/hseparation = 100
+columns = 3
+
+[node name="Card4" parent="GridContainer" instance=ExtResource( 1 )]
+rect_min_size = Vector2( 225, 284 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+card_info = {
+"attack": 4,
+"defense": 2,
+"name": "Southpaw",
+"texture": ExtResource( 3 )
+}
+form = ExtResource( 20 )
+bandcolor = Color( 1, 0.584314, 0, 1 )
+bordercolor = Color( 0.329412, 0.215686, 0.0588235, 1 )
+
+[node name="EmptyCardSlot3" parent="GridContainer" instance=ExtResource( 2 )]
+
+[node name="Card3" parent="GridContainer" instance=ExtResource( 1 )]
+margin_left = 650.0
+margin_right = 875.0
+rect_min_size = Vector2( 225, 284 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+card_info = {
+"attack": 4,
+"defense": 2,
+"name": "Southpaw",
+"texture": ExtResource( 3 )
+}
+form = ExtResource( 10 )
+bandcolor = Color( 1, 0.584314, 0, 1 )
+bordercolor = Color( 0.329412, 0.215686, 0.0588235, 1 )
+
+[node name="GridContainer2" type="GridContainer" parent="."]
+anchor_left = 0.25
+anchor_top = 0.5
+anchor_right = 0.25
+anchor_bottom = 0.5
+rect_scale = Vector2( 0.9, 0.9 )
+rect_pivot_offset = Vector2( 437.5, 142 )
+custom_constants/vseparation = 25
+custom_constants/hseparation = 100
+columns = 3
+
+[node name="Card2" parent="GridContainer2" instance=ExtResource( 1 )]
+rect_min_size = Vector2( 225, 284 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+card_info = {
+"attack": 4,
+"defense": 2,
+"name": "Southpaw",
+"texture": ExtResource( 3 )
+}
+form = ExtResource( 17 )
+
+[node name="Card" parent="GridContainer2" instance=ExtResource( 1 )]
+margin_left = 325.0
+margin_right = 550.0
+rect_min_size = Vector2( 225, 284 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+card_info = {
+"attack": 4,
+"defense": 2,
+"name": "Southpaw",
+"texture": ExtResource( 3 )
+}
+form = ExtResource( 6 )
+
+[node name="Card3" parent="GridContainer2" instance=ExtResource( 1 )]
+margin_left = 650.0
+margin_right = 875.0
+rect_min_size = Vector2( 225, 284 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+card_info = {
+"attack": 4,
+"defense": 2,
+"name": "Southpaw",
+"texture": ExtResource( 3 )
+}
+form = ExtResource( 16 )
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchor_bottom = 0.055
+margin_top = 16.2
+margin_bottom = 16.2
+rect_min_size = Vector2( 2733, 289 )
+rect_scale = Vector2( 0.7, 0.7 )
+size_flags_horizontal = 6
+size_flags_vertical = 6
+custom_styles/panel = SubResource( 2 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_top = 16.2
+margin_right = 2733.0
+margin_bottom = 300.2
+rect_scale = Vector2( 0.7, 0.7 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+margin_right = 908.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 600, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="OpponentHandGrid" type="GridContainer" parent="HBoxContainer"]
+margin_left = 912.0
+margin_right = 1820.0
+margin_bottom = 284.0
+rect_pivot_offset = Vector2( 437.5, 142 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/hseparation = 100
+columns = 5
+
+[node name="Control2" type="Control" parent="HBoxContainer"]
+margin_left = 1824.0
+margin_right = 2733.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 600, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PanelContainer2" type="PanelContainer" parent="."]
+anchor_top = 0.78
+anchor_right = 0.007
+anchor_bottom = 0.78
+margin_top = 16.2
+margin_bottom = 21.2
+rect_min_size = Vector2( 2733, 289 )
+rect_scale = Vector2( 0.7, 0.7 )
+size_flags_horizontal = 6
+size_flags_vertical = 6
+custom_styles/panel = SubResource( 3 )
+
+[node name="HboxContainer" type="HBoxContainer" parent="."]
+margin_top = 862.1
+margin_right = 2733.0
+margin_bottom = 1146.1
+rect_scale = Vector2( 0.7, 0.7 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control" type="Control" parent="HboxContainer"]
+margin_right = 908.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 600, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PlayerHandGrid" type="GridContainer" parent="HboxContainer"]
+margin_left = 912.0
+margin_right = 1820.0
+margin_bottom = 284.0
+rect_pivot_offset = Vector2( 437.5, 142 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/hseparation = 100
+columns = 5
+
+[node name="Control2" type="Control" parent="HboxContainer"]
+margin_left = 1824.0
+margin_right = 2733.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 600, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
