@@ -9,7 +9,7 @@ export (Dictionary) var card_info:Dictionary = {"name":"name","texture":null,"at
 export (Resource) var form
 export (Color) var bandcolor
 export (Color) var bordercolor
-
+var origin
 var tween:Tween
 func _ready():
 	set_card()
@@ -17,11 +17,22 @@ func _ready():
 	tween = Tween.new()
 	tween.name = "Tween"
 	add_child(tween)
-
+	origin = rect_position
 func animate_playcard(endposition,duration=0.5):
-	tween.interpolate_property(self,"rect_global_position",rect_global_position,endposition,duration,Tween.TRANS_SINE,Tween.EASE_IN_OUT)
+	tween.stop_all()
+	tween.interpolate_property(self,"rect_global_position",rect_global_position,endposition,duration,Tween.TRANS_BOUNCE,Tween.EASE_OUT)
 	tween.start()
 
+func animate_hover_enter():
+	if tween.is_active():
+		yield(tween,"tween_completed")
+	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(1.2,1.2),.3,Tween.TRANS_CIRC,Tween.EASE_IN)
+	tween.start()
+func animate_hover_exit():
+	if tween.is_active():
+		yield(tween,"tween_completed")
+	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2.ONE,.3,Tween.TRANS_BOUNCE,Tween.EASE_OUT)
+	tween.start()
 
 func set_colors():
 	var new_styleboxflat = cardband.get_stylebox("panel").duplicate()

@@ -1,6 +1,6 @@
-extends Control
+extends "res://menus/BaseMenu.gd"
 signal enemyturn
-
+signal gameover
 const card_template = preload("res://mods/LivingWorld/cardgame/CardTemplate.tscn")
 
 onready var OpponentHandGrid = find_node("OpponentHandGrid")
@@ -28,6 +28,7 @@ var player_entry_point
 var enemy_entry_point
 var player_stats:Dictionary = {"max_hp":3,"hp":3,"state":State.NEUTRAL,"attack":0,"defense":0}
 var enemy_stats:Dictionary = {"max_hp":3,"hp":3,"state":State.NEUTRAL,"attack":0,"defense":0}
+var winner_name:String
 
 func _ready():
 	if deck_seed != 0:
@@ -44,8 +45,20 @@ func _ready():
 		yield(Co.wrap(draw_card(Team.ENEMY)),"completed")
 
 	connect("enemyturn",self,"enemy_move")
+	connect("gameover",self,"end_game",[winner_name])
+	if PlayerHandGrid.get_child_count() < 5:
+		yield(Co.wait(5),"completed")
 	GlobalMessageDialog.passive_message.show_message("Your Turn")
+	set_focus_buttons()
 	set_player_turn(true)
+
+func end_game(winner):
+	player_turn = false
+	GlobalMessageDialog.passive_message.show_message("This Game's Winner is: %s"%winner)
+
+
+func is_game_ended()->bool:
+	return player_stats.hp == 0 or enemy_stats.hp == 0
 
 func set_card_colors(card,team):
 	var setup = player_setup if team == Team.PLAYER else enemy_setup
@@ -86,16 +99,17 @@ func resolve_field():
 
 func clear_battlefield():
 	for slot in EnemyField.get_children():
-		slot.clear_slot()
+		var movepos = EnemyDeck.rect_global_position
+		yield(Co.wrap(slot.clear_slot(true,movepos)),"completed")
 	for slot in PlayerField.get_children():
-		slot.clear_slot()
+		var movepos = PlayerDeck.rect_global_position
+		yield(Co.wrap(slot.clear_slot(true,movepos)),"completed")
 
 func reset_stats():
 	player_stats.attack = 0
 	player_stats.defense = 0
 	enemy_stats.attack = 0
 	enemy_stats.defense = 0
-
 
 func get_wield_stat(stats):
 	var result = null
@@ -106,14 +120,71 @@ func get_wield_stat(stats):
 	if stats.state == State.NEUTRAL:
 		result = null
 	return result
+
 func setup_button(card):
 	var card_button = Button.new()
+	var child_index = card.get_parent().get_index()
+	card_button.name = "Button"
+	card_button.focus_mode = Control.FOCUS_ALL
 	card_button.connect("pressed",self,"player_card_picked",[card])
+	card_button.connect("mouse_entered",card_button,"grab_focus")
+	card_button.connect("mouse_entered",card,"animate_hover_enter")
+	card_button.connect("focus_entered",card,"animate_hover_enter")
+	card_button.connect("focus_exited",card,"animate_hover_exit")
+	card_button.connect("mouse_exited",card,"animate_hover_exit")
 	card_button.add_stylebox_override("normal",StyleBoxEmpty.new())
 	card_button.add_stylebox_override("pressed",StyleBoxEmpty.new())
 	card_button.add_stylebox_override("hover",StyleBoxEmpty.new())
+	card_button.add_stylebox_override("focus",StyleBoxEmpty.new())
 	card.add_child(card_button)
 
+func set_focus_buttons():
+	var focus_index:int = 5
+	var focus_button = null
+	for slot in PlayerHandGrid.get_children():
+		if slot.occupied():
+			var next_index = get_next_occupied_slot(slot)
+			var prev_index = get_previous_occupied_slot(slot)
+			var right_neighbor = PlayerHandGrid.get_child(next_index).get_card() if next_index > -1 else null
+			var left_neighbor = PlayerHandGrid.get_child(prev_index).get_card() if prev_index > -1 else null
+			var cardbutton = slot.get_card().get_node("Button")
+
+			if left_neighbor:
+				cardbutton.focus_neighbour_left = left_neighbor.get_node("Button").get_path()
+			if right_neighbor:
+				cardbutton.focus_neighbour_right = right_neighbor.get_node("Button").get_path()
+			if slot.get_index() < focus_index:
+				focus_index = slot.get_index()
+				focus_button = cardbutton
+
+	if focus_button:
+		focus_button.grab_focus()
+
+func get_previous_occupied_slot(current_slot):
+	var prev_index = -1
+	for i in range (current_slot.get_index()-1,-1,-1):
+		if PlayerHandGrid.get_child(i).occupied():
+			prev_index = i
+			break
+	if prev_index < 0:
+		for i in range (4,current_slot.get_index(),-1):
+			if PlayerHandGrid.get_child(i).occupied():
+				prev_index = i
+				break
+	return prev_index
+
+func get_next_occupied_slot(current_slot):
+	var next_index = -1
+	for i in range (current_slot.get_index()+1,5):
+		if PlayerHandGrid.get_child(i).occupied():
+			next_index = i
+			break
+	if next_index < 0:
+		for i in range (0,current_slot.get_index()):
+			if PlayerHandGrid.get_child(i).occupied():
+				next_index = i
+				break
+	return next_index
 func player_card_picked(card):
 	if !player_turn:
 		return
@@ -121,11 +192,14 @@ func player_card_picked(card):
 	var move_pos = empty_slot.get_global_rect().position
 	card.animate_playcard(move_pos)
 	yield(Co.wait(.3),"completed")
-
+	if card.has_node("Button"):
+		var button = card.get_node("Button")
+		card.remove_child(button)
 	empty_slot.set_card(card)
 	if active_field(Team.PLAYER):
 		player_stats = evaluate_state(Team.PLAYER)
 		set_state(player_stats.state,Team.PLAYER)
+	set_focus_buttons()
 	set_player_turn(false)
 	emit_signal("enemyturn")
 
@@ -159,14 +233,14 @@ func draw_card(team):
 	if hand_slot == null:
 		return
 
-	if team == Team.PLAYER:
-		setup_button(card)
 	set_card_colors(card, team)
 	draw_point.set_card(card)
 	card.rect_position = Vector2.ZERO
 	card.animate_playcard(hand_slot.rect_global_position,.3)
 	yield(Co.wait(0.3),"completed")
 	hand_slot.set_card(card)
+	if team == Team.PLAYER:
+		setup_button(card)
 
 func enemy_move():
 	var co = GlobalMessageDialog.passive_message.show_message("Enemy Turn")
@@ -194,8 +268,6 @@ func enemy_move():
 		enemy_stats = evaluate_state(Team.ENEMY)
 		set_state(enemy_stats.state,Team.ENEMY)
 	set_player_turn(true)
-	co = GlobalMessageDialog.passive_message.show_message("Your Turn")
-	yield (Co.safe_yield(self, co), "completed")
 
 func active_field(team:int)->bool:
 	var result:bool = false
@@ -255,12 +327,27 @@ func get_random():
 
 func set_player_turn(value:bool):
 	if ready_to_resolve():
-		resolve_field()
+		yield(Co.wrap(resolve_field()),"completed")
+		yield(Co.wait(0.5),"completed")
+		if is_game_ended():
+			emit_signal("gameover", get_winner_name())
+			return
+
 	if value:
+		GlobalMessageDialog.passive_message.show_message("Your Turn")
 		if can_draw_card(Team.PLAYER):
 			yield(Co.wrap(draw_card(Team.PLAYER)),"completed")
 			yield(Co.wait(0.3),"completed")
+			set_focus_buttons()
 	player_turn = value
+
+func get_winner_name()->String:
+	var result:String =  ""
+	if player_stats.hp > 0:
+		result = WorldSystem.get_player().name
+	else:
+		result = "Ranger"
+	return result
 
 func can_draw_card(team):
 	var grid = PlayerHandGrid if team == Team.PLAYER else OpponentHandGrid

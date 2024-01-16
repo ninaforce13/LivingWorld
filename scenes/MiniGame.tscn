@@ -1,6 +1,6 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=19 format=2]
 
-[ext_resource path="res://nodes/menus/AutoFocusConnector.gd" type="Script" id=1]
+[ext_resource path="res://addons/misc_utils/OverscanMarginContainer.gd" type="Script" id=1]
 [ext_resource path="res://mods/LivingWorld/cardgame/EmptyCardTemplate.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/battle_theme.tres" type="Theme" id=3]
 [ext_resource path="res://menus/relationship_up/heart_filled.png" type="Texture" id=4]
@@ -42,6 +42,279 @@ expand_margin_right = 10.0
 expand_margin_top = 22.0
 expand_margin_bottom = 32.0
 
+[sub_resource type="Animation" id=6]
+resource_name = "default"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Blur:material:shader_param/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "menu_to_map"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("MenuVScroller:margin_top")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1080, 1080 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("MenuHScroller:margin_left")
+tracks/1/interp = 2
+tracks/1/loop_wrap = false
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 1920 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Scroller:margin_top")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Scroller:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Blur:material:shader_param/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Scroller:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Scroller:margin_top")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 540, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Scroller:margin_bottom")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 540, 0.0 ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "show_map"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Blur:material:shader_param/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Scroller:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Scroller:margin_top")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1080, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("MenuHScroller:margin_left")
+tracks/3/interp = 2
+tracks/3/loop_wrap = false
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1920, 1920.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("MenuVScroller:margin_top")
+tracks/4/interp = 2
+tracks/4/loop_wrap = false
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1080.0, 1080 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Scroller:margin_bottom")
+tracks/5/interp = 1
+tracks/5/loop_wrap = false
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1080.0, 0 ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Blur:material:shader_param/progress")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Scroller:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Scroller:margin_top")
+tracks/2/interp = 1
+tracks/2/loop_wrap = false
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.15, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ -1080, 0.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("MenuHScroller:margin_left")
+tracks/3/interp = 2
+tracks/3/loop_wrap = false
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.15, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1920, 1920.0, 0, 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("MenuVScroller:margin_top")
+tracks/4/interp = 2
+tracks/4/loop_wrap = false
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.25, 0.35, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1080.0, 1080, 0, 0.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Scroller:margin_bottom")
+tracks/5/interp = 1
+tracks/5/loop_wrap = false
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.15, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ -1080, 0, 0.0 ]
+}
+
 [node name="StickerMiniGame" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -63,6 +336,25 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 19 )
 expand = true
+
+[node name="Scroller" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OverscanMarginContainer" type="MarginContainer" parent="Scroller"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 172
+custom_constants/margin_top = 97
+custom_constants/margin_left = 172
+custom_constants/margin_bottom = 97
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="EnemyField" type="GridContainer" parent="."]
 anchor_left = 0.25
@@ -271,7 +563,6 @@ size_flags_horizontal = 6
 size_flags_vertical = 6
 custom_constants/hseparation = 100
 columns = 5
-script = ExtResource( 1 )
 
 [node name="EmptyCardSlot2" parent="HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
 margin_left = 0.0
@@ -332,3 +623,11 @@ anchor_bottom = 0.773
 margin_left = 0.0
 margin_right = 225.0
 rect_scale = Vector2( 0.7, 0.7 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "default"
+anims/default = SubResource( 6 )
+anims/menu_to_map = SubResource( 7 )
+anims/show = SubResource( 8 )
+anims/show_map = SubResource( 9 )
+anims/show_menu = SubResource( 10 )
