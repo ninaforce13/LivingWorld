@@ -9,18 +9,19 @@ export (Dictionary) var card_info:Dictionary = {"name":"name","texture":null,"at
 export (Resource) var form
 export (Color) var bandcolor
 export (Color) var bordercolor
-export (int) var offscreen_pos = -1000
-var tween:Tween = Tween.new()
+
+var tween:Tween
 func _ready():
 	set_card()
 	set_colors()
+	tween = Tween.new()
+	tween.name = "Tween"
 	add_child(tween)
-#	call_deferred("animate_entry")
 
-func animate_entry():
-#	yield(Co.wait(.5),"completed")
-	tween.interpolate_property(self,"rect_position:x",offscreen_pos,rect_position.x,1)
+func animate_playcard(endposition,duration=0.5):
+	tween.interpolate_property(self,"rect_global_position",rect_global_position,endposition,duration,Tween.TRANS_SINE,Tween.EASE_IN_OUT)
 	tween.start()
+
 
 func set_colors():
 	var new_styleboxflat = cardband.get_stylebox("panel").duplicate()
@@ -34,6 +35,7 @@ func set_colors():
 func set_card():
 	if form:
 		set_card_info(form)
+
 	card_name.text = card_info.name
 	card_image.texture = card_info.texture
 	var count:int = 0
@@ -63,13 +65,12 @@ func calculate_grade(type,form:MonsterForm)->int:
 		result += get_stat_value(form.ranged_attack)
 		result += get_stat_value(form.speed)
 		result += get_stat_value(form.accuracy)
-#		result = int(attack / 160)
 	if type == "defense":
 		result += get_stat_value(form.melee_defense)
 		result += get_stat_value(form.ranged_defense)
 		result += get_stat_value(form.evasion)
 		result += get_stat_value(form.max_hp)
-	return result
+	return int(clamp(result,1,5))
 
 func get_stat_value(stat:int)->int:
 	if stat > 160:
