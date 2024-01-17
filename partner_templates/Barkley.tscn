@@ -1,4 +1,4 @@
-[gd_scene load_steps=133 format=2]
+[gd_scene load_steps=136 format=2]
 
 [ext_resource path="res://data/monster_forms/spitzfyre.tres" type="Resource" id=1]
 [ext_resource path="res://data/monster_forms/fortiwinx.tres" type="Resource" id=2]
@@ -29,7 +29,7 @@
 [ext_resource path="res://mods/LivingWorld/actions/RecordSuccessAction.gd" type="Script" id=27]
 [ext_resource path="res://mods/LivingWorld/actions/SetTouchDetector.gd" type="Script" id=28]
 [ext_resource path="res://sfx/voices/dog/dog_bark_2.wav" type="AudioStream" id=29]
-[ext_resource path="res://sfx/voices/dog/dog_bark_1.wav" type="AudioStream" id=30]
+[ext_resource path="res://sfx/voices/kayleigh/kayleigh_greeting.wav" type="AudioStream" id=30]
 [ext_resource path="res://sprites/portraits/dog_angry.png" type="Texture" id=31]
 [ext_resource path="res://sfx/voices/dog/dog_whine.wav" type="AudioStream" id=32]
 [ext_resource path="res://sprites/portraits/dog_sad.png" type="Texture" id=33]
@@ -68,6 +68,7 @@
 [ext_resource path="res://mods/LivingWorld/actions/CheckNearbyRogueFusion.gd" type="Script" id=66]
 [ext_resource path="res://mods/LivingWorld/actions/CustomFollowAction.gd" type="Script" id=67]
 [ext_resource path="res://sprites/portraits/dog_happy.png" type="Texture" id=68]
+[ext_resource path="res://sfx/voices/dog/dog_bark_1.wav" type="AudioStream" id=69]
 [ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=70]
 [ext_resource path="res://addons/misc_utils/actions/values/GetBlackboardValue.gd" type="Script" id=71]
 [ext_resource path="res://mods/LivingWorld/actions/GetNodeWithin.gd" type="Script" id=72]
@@ -107,6 +108,8 @@
 [ext_resource path="res://nodes/battle_slot/BattleSlot.gd" type="Script" id=106]
 [ext_resource path="res://nodes/battle_slot/named_sounds.tres" type="Resource" id=107]
 [ext_resource path="res://mods/LivingWorld/scripts/setbattlesprite.gd" type="Script" id=108]
+[ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=109]
+[ext_resource path="res://sprites/portraits/kayleigh_happy.png" type="Texture" id=110]
 [ext_resource path="res://sprites/characters/world/dog.json" type="PackedScene" id=111]
 
 [sub_resource type="CapsuleShape" id=6]
@@ -2043,7 +2046,7 @@ script = ExtResource( 57 )
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 79 )
 portrait = ExtResource( 47 )
-audio = ExtResource( 30 )
+audio = ExtResource( 69 )
 title = "{pawn}"
 wait_for_confirm = false
 close_after = false
@@ -2052,7 +2055,7 @@ message_array = [ [ "BARKLEY_IDLE_RECRUIT_DIALOG1", "BARKLEY_IDLE_RECRUIT_DIALOG
 
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 104 )
-menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3", "RECRUIT_MENU_OPTION4" ]
+menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3", "RECRUIT_MENU_OPTION5", "RECRUIT_MENU_OPTION4" ]
 default_option = 3
 always_succeed = true
 
@@ -2192,6 +2195,46 @@ title = "{pawn}"
 use_random = true
 message_array = [ [ "BARKLEY_TRADE_CANCEL" ] ]
 
+[node name="PlayCards" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 56 )
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+script = ExtResource( 79 )
+portrait = ExtResource( 110 )
+audio = ExtResource( 30 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECREUIT_MENU_PLAYCARDS1" ] ]
+
+[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+script = ExtResource( 109 )
+
+[node name="CheckConditionAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+script = ExtResource( 63 )
+always_succeed = true
+require_blackboard_values = {
+"win_game": true
+}
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 79 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_PLAYCARDS_LOSE1" ] ]
+
+[node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+script = ExtResource( 63 )
+always_succeed = true
+require_blackboard_values = {
+"win_game": false
+}
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction2"]
+script = ExtResource( 79 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_PLAYCARDS_WIN1" ] ]
+
 [node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 56 )
 
@@ -2271,7 +2314,6 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 46 )]
 

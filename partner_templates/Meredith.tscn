@@ -1,4 +1,4 @@
-[gd_scene load_steps=140 format=2]
+[gd_scene load_steps=143 format=2]
 
 [ext_resource path="res://data/monster_forms/cat-5.tres" type="Resource" id=1]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
@@ -115,6 +115,9 @@
 [ext_resource path="res://sfx/voices/meredith/meredith_laugh_1.wav" type="AudioStream" id=113]
 [ext_resource path="res://sfx/voices/meredith/meredith_greeting.wav" type="AudioStream" id=114]
 [ext_resource path="res://sfx/voices/meredith/meredith_sigh_2.wav" type="AudioStream" id=115]
+[ext_resource path="res://sprites/portraits/kayleigh_happy.png" type="Texture" id=116]
+[ext_resource path="res://sfx/voices/kayleigh/kayleigh_greeting.wav" type="AudioStream" id=117]
+[ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=118]
 
 [sub_resource type="CapsuleShape" id=30]
 radius = 0.9
@@ -2080,7 +2083,7 @@ message_array = [ [ "MEREDITH_IDLE_RECRUIT_DIALOG1" ], [ "MEREDITH_IDLE_RECRUIT_
 
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 103 )
-menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3", "RECRUIT_MENU_OPTION4" ]
+menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3", "RECRUIT_MENU_OPTION5", "RECRUIT_MENU_OPTION4" ]
 default_option = 3
 always_succeed = true
 
@@ -2223,6 +2226,46 @@ audio = ExtResource( 115 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "MEREDITH_TRADE_CANCEL1" ] ]
+
+[node name="PlayCards" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 52 )
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+script = ExtResource( 75 )
+portrait = ExtResource( 116 )
+audio = ExtResource( 117 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECREUIT_MENU_PLAYCARDS1" ] ]
+
+[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+script = ExtResource( 118 )
+
+[node name="CheckConditionAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+script = ExtResource( 59 )
+always_succeed = true
+require_blackboard_values = {
+"win_game": true
+}
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 75 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_PLAYCARDS_LOSE1" ] ]
+
+[node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+script = ExtResource( 59 )
+always_succeed = true
+require_blackboard_values = {
+"win_game": false
+}
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction2"]
+script = ExtResource( 75 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_PLAYCARDS_WIN1" ] ]
 
 [node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 52 )

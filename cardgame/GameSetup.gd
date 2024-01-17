@@ -13,10 +13,17 @@ onready var EnemyState = find_node("EnemyState")
 onready var PlayerState = find_node("PlayerState")
 onready var PlayerDeck = find_node("PlayerDeck")
 onready var EnemyDeck = find_node("EnemyDeck")
+onready var EnemySprite = find_node("EnemySprite")
+onready var PlayerSprite = find_node("PlayerSprite")
+onready var PlayerHeartGauge = find_node("PlayerHeartGauge")
+onready var EnemyHeartGauge = find_node("EnemyHeartGauge")
 
 export (Dictionary) var player_setup
 export (Dictionary) var enemy_setup
 export (int) var deck_seed
+export (Dictionary) var player_data
+export (Dictionary) var enemy_data
+
 
 enum State {ATTACK,DEFENSE,NEUTRAL}
 enum Team  {PLAYER,ENEMY}
@@ -29,8 +36,18 @@ var enemy_entry_point
 var player_stats:Dictionary = {"max_hp":3,"hp":3,"state":State.NEUTRAL,"attack":0,"defense":0}
 var enemy_stats:Dictionary = {"max_hp":3,"hp":3,"state":State.NEUTRAL,"attack":0,"defense":0}
 var winner_name:String
+var enemy_tween:Tween
+var player_tween:Tween
+
 
 func _ready():
+	PlayerSprite.animate_turn_end()
+	EnemySprite.animate_turn_end()
+	set_heartgauge_tween()
+	if player_data:
+		PlayerSprite.set_sprite(player_data)
+	if enemy_data:
+		EnemySprite.set_sprite(enemy_data)
 	if deck_seed != 0:
 		random = Random.new(deck_seed)
 	else:
@@ -45,17 +62,31 @@ func _ready():
 		yield(Co.wrap(draw_card(Team.ENEMY)),"completed")
 
 	connect("enemyturn",self,"enemy_move")
-	connect("gameover",self,"end_game",[winner_name])
+	connect("gameover",self,"end_game")
 	if PlayerHandGrid.get_child_count() < 5:
 		yield(Co.wait(5),"completed")
-	GlobalMessageDialog.passive_message.show_message("Your Turn")
 	set_focus_buttons()
 	set_player_turn(true)
 
-func end_game(winner):
-	player_turn = false
-	GlobalMessageDialog.passive_message.show_message("This Game's Winner is: %s"%winner)
+func set_heartgauge_tween():
+	if !PlayerHeartGauge.has_node("Tween"):
+		player_tween = Tween.new()
+		PlayerHeartGauge.add_child(player_tween)
+	if !EnemyHeartGauge.has_node("Tween"):
+		enemy_tween = Tween.new()
+		EnemyHeartGauge.add_child(enemy_tween)
 
+func end_game():
+	var winner = get_winner_name()
+	var player_wins:bool = winner == WorldSystem.get_player().name
+	player_turn = false
+	if player_wins:
+		EnemySprite.animate_defeat()
+	else:
+		PlayerSprite.animate_defeat()
+	var co = GlobalMessageDialog.passive_message.show_message("This Game's Winner is: %s"%winner)
+	yield (Co.safe_yield(self, co), "completed")
+	choose_option(winner == WorldSystem.get_player().name)
 
 func is_game_ended()->bool:
 	return player_stats.hp == 0 or enemy_stats.hp == 0
@@ -83,20 +114,26 @@ func resolve_field():
 	var chosen_enemy_stat = get_wield_stat(enemy_stats)
 
 	if chosen_player_stat > chosen_enemy_stat:
+		EnemySprite.animate_damage()
+		animate_heart_damage(Team.ENEMY)
 		enemy_stats.hp -= 1
 		EnemyHealth.text = str(enemy_stats.hp)
 		GlobalMessageDialog.passive_message.show_message("Round Winner: Player")
 
 	if chosen_player_stat < chosen_enemy_stat:
+		PlayerSprite.animate_damage()
+		animate_heart_damage(Team.PLAYER)
 		player_stats.hp -= 1
 		PlayerHealth.text = str(player_stats.hp)
 		GlobalMessageDialog.passive_message.show_message("Round Winner: Enemy")
 	if chosen_player_stat == chosen_enemy_stat:
 		GlobalMessageDialog.passive_message.show_message("Draw")
-
+	yield(Co.wait(2),"completed")
 	clear_battlefield()
 	reset_stats()
-
+	set_state(enemy_stats.state,Team.ENEMY)
+	set_state(player_stats.state,Team.PLAYER)
+	yield(Co.wait(3),"completed")
 func clear_battlefield():
 	for slot in EnemyField.get_children():
 		var movepos = EnemyDeck.rect_global_position
@@ -110,6 +147,8 @@ func reset_stats():
 	player_stats.defense = 0
 	enemy_stats.attack = 0
 	enemy_stats.defense = 0
+	player_stats.state = State.NEUTRAL
+	enemy_stats.state = State.NEUTRAL
 
 func get_wield_stat(stats):
 	var result = null
@@ -118,7 +157,7 @@ func get_wield_stat(stats):
 	if stats.state == State.DEFENSE:
 		result = stats.defense
 	if stats.state == State.NEUTRAL:
-		result = null
+		result = stats.attack
 	return result
 
 func setup_button(card):
@@ -185,6 +224,7 @@ func get_next_occupied_slot(current_slot):
 				next_index = i
 				break
 	return next_index
+
 func player_card_picked(card):
 	if !player_turn:
 		return
@@ -202,7 +242,7 @@ func player_card_picked(card):
 	set_focus_buttons()
 	set_player_turn(false)
 	emit_signal("enemyturn")
-
+	PlayerSprite.animate_turn_end()
 
 func set_state(state,team):
 	var label = PlayerState if team == Team.PLAYER else EnemyState
@@ -243,6 +283,7 @@ func draw_card(team):
 		setup_button(card)
 
 func enemy_move():
+	EnemySprite.animate_turn()
 	var co = GlobalMessageDialog.passive_message.show_message("Enemy Turn")
 	yield (Co.safe_yield(self, co), "completed")
 	if can_draw_card(Team.ENEMY):
@@ -267,6 +308,7 @@ func enemy_move():
 	if active_field(Team.ENEMY):
 		enemy_stats = evaluate_state(Team.ENEMY)
 		set_state(enemy_stats.state,Team.ENEMY)
+	EnemySprite.animate_turn_end()
 	set_player_turn(true)
 
 func active_field(team:int)->bool:
@@ -330,11 +372,12 @@ func set_player_turn(value:bool):
 		yield(Co.wrap(resolve_field()),"completed")
 		yield(Co.wait(0.5),"completed")
 		if is_game_ended():
-			emit_signal("gameover", get_winner_name())
+			emit_signal("gameover")
 			return
 
 	if value:
 		GlobalMessageDialog.passive_message.show_message("Your Turn")
+		PlayerSprite.animate_turn()
 		if can_draw_card(Team.PLAYER):
 			yield(Co.wrap(draw_card(Team.PLAYER)),"completed")
 			yield(Co.wait(0.3),"completed")
@@ -355,9 +398,9 @@ func can_draw_card(team):
 		if !slot.occupied():
 			return true
 
-func build_demo_deck(team:int)->Array:
+func build_demo_deck(_team:int)->Array:
 	var deck:Array = []
-	for _i in range (0,15):
+	for _i in range (0,25):
 		var form = random.choice(MonsterForms.basic_forms.values())
 		var card = card_template.instance()
 		card.form = form
@@ -365,3 +408,21 @@ func build_demo_deck(team:int)->Array:
 	deck.shuffle()
 	return deck
 
+func animate_heart_damage(team):
+	var duration = 0.3
+	if team == Team.PLAYER:
+		var origin = PlayerHeartGauge.rect_position
+		player_tween.interpolate_property(PlayerHeartGauge,"rect_position",origin,origin + Vector2(50,0),duration,Tween.TRANS_BOUNCE,Tween.EASE_IN)
+		player_tween.start()
+		yield(player_tween,"tween_completed")
+		player_tween.interpolate_property(PlayerHeartGauge,"rect_position",origin + Vector2(50,0),origin,duration,Tween.TRANS_BOUNCE,Tween.EASE_OUT)
+		player_tween.start()
+		yield(player_tween,"tween_completed")
+	if team == Team.ENEMY:
+		var origin = EnemyHeartGauge.rect_position
+		enemy_tween.interpolate_property(EnemyHeartGauge,"rect_position",origin,origin + Vector2(50,0),duration,Tween.TRANS_BOUNCE,Tween.EASE_IN)
+		enemy_tween.start()
+		yield(enemy_tween,"tween_completed")
+		enemy_tween.interpolate_property(EnemyHeartGauge,"rect_position",origin + Vector2(50,0),origin,duration,Tween.TRANS_BOUNCE,Tween.EASE_OUT)
+		enemy_tween.start()
+		yield(enemy_tween,"tween_completed")

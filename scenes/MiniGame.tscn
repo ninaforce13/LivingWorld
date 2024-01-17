@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=63 format=2]
 
 [ext_resource path="res://addons/misc_utils/OverscanMarginContainer.gd" type="Script" id=1]
 [ext_resource path="res://mods/LivingWorld/cardgame/EmptyCardTemplate.tscn" type="PackedScene" id=2]
@@ -6,6 +6,12 @@
 [ext_resource path="res://menus/relationship_up/heart_filled.png" type="Texture" id=4]
 [ext_resource path="res://ui/fonts/archangel/archangel_100.tres" type="DynamicFont" id=5]
 [ext_resource path="res://ui/fonts/regular/regular_140.tres" type="DynamicFont" id=6]
+[ext_resource path="res://sprites/monsters/traffikrab.json" type="PackedScene" id=7]
+[ext_resource path="res://nodes/sprite_container/SpriteContainer.gd" type="Script" id=8]
+[ext_resource path="res://menus/party/MonsterSpriteContainer.gd" type="Script" id=9]
+[ext_resource path="res://nodes/battle_slot/BattleSlot.gd" type="Script" id=10]
+[ext_resource path="res://nodes/battle_slot/named_sounds.tres" type="Resource" id=11]
+[ext_resource path="res://mods/LivingWorld/scripts/setbattlesprite.gd" type="Script" id=12]
 [ext_resource path="res://menus/menu_bg_fade.shader" type="Shader" id=18]
 [ext_resource path="res://menus/background.png" type="Texture" id=19]
 [ext_resource path="res://mods/LivingWorld/cardgame/GameSetup.gd" type="Script" id=21]
@@ -17,30 +23,6 @@ shader_param/progress = 1.0
 shader_param/max_alpha = 1.0
 shader_param/base_color = Color( 0.109804, 0.152941, 0.223529, 1 )
 shader_param/hi_color = Color( 0.6706, 0.4588, 0.9098, 0.0625 )
-
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 1, 0.584314, 0, 1 )
-border_width_bottom = 5
-border_color = Color( 0, 0, 0, 1 )
-corner_radius_bottom_right = 150
-corner_radius_bottom_left = 150
-corner_detail = 1
-expand_margin_right = 8.0
-expand_margin_top = 30.0
-expand_margin_bottom = 32.0
-
-[sub_resource type="StyleBoxEmpty" id=5]
-
-[sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0.670588, 0.458824, 0.909804, 1 )
-border_width_top = 5
-border_color = Color( 0.231373, 0.0392157, 0.258824, 1 )
-corner_radius_top_left = 150
-corner_radius_top_right = 150
-corner_detail = 1
-expand_margin_right = 10.0
-expand_margin_top = 22.0
-expand_margin_bottom = 32.0
 
 [sub_resource type="Animation" id=6]
 resource_name = "default"
@@ -315,10 +297,1146 @@ tracks/5/keys = {
 "values": [ -1080, 0, 0.0 ]
 }
 
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 1, 0.584314, 0, 1 )
+border_width_bottom = 5
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_bottom_left = 150
+corner_detail = 1
+expand_margin_right = 8.0
+expand_margin_top = 30.0
+expand_margin_bottom = 32.0
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.670588, 0.458824, 0.909804, 1 )
+border_width_top = 5
+border_color = Color( 0.231373, 0.0392157, 0.258824, 1 )
+corner_radius_top_right = 150
+corner_detail = 1
+expand_margin_right = 10.0
+expand_margin_top = 22.0
+expand_margin_bottom = 32.0
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[sub_resource type="StyleBoxFlat" id=47]
+bg_color = Color( 0.87451, 0.4, 0.0392157, 0.329412 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 1, 0.584314, 0, 1 )
+corner_radius_bottom_left = 100
+corner_detail = 1
+
+[sub_resource type="Environment" id=11]
+ambient_light_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="Animation" id=12]
+resource_name = "bob"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0.9, 0.9, 0.9 ), Vector3( 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:sprite_rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 0.25 ), Vector3( 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=13]
+length = 0.5
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "battle_cry" ],
+"method": "play_form_sound"
+} ]
+}
+
+[sub_resource type="Animation" id=14]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation:y")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -10.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_form_defeat_cry"
+} ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "dodge"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:offset:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 2.0, -2.0, 2.0, -2.0, 2.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -20, 0, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_form_defeat_cry"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpriteContainer:albedo")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=17]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( -10, 0, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_form_defeat_cry"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpriteContainer:albedo")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "flee_incomplete"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( -4.85185, 0, 0 ), Vector3( -5, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:albedo")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.25098 ) ]
+}
+
+[sub_resource type="Animation" id=19]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0.75, 0.75, 0.75 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_form_defeat_cry"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpriteContainer:albedo")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.501961 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=20]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:offset")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( -0.5, 0, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "hurt", false ],
+"method": "play_sprite_animation"
+} ]
+}
+
+[sub_resource type="Animation" id=21]
+resource_name = "knockdown"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 1.25, 0.875, 1 ), Vector3( 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=22]
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation:y")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -10.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_form_defeat_cry"
+} ]
+}
+
+[sub_resource type="Animation" id=23]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0.9, 0.9, 0.9 ), Vector3( 1.1, 1.1, 1.1 ), Vector3( 0.9, 0.9, 0.9 ), Vector3( 1.1, 1.1, 1.1 ), Vector3( 1, 1, 1 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "battle_cry" ],
+"method": "play_form_sound"
+} ]
+}
+
+[sub_resource type="Animation" id=24]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, -10, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 1, 1, 1 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "battle_cry" ],
+"method": "play_form_sound"
+} ]
+}
+
+[sub_resource type="Animation" id=25]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:emission")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.5, 0.5, 0.5, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:wave_amplitude")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.1, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpriteContainer:wave_v_frequency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 20.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SpriteContainer:static_amount")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=26]
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:emission")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0.5, 0.5, 0.5, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:wave_amplitude")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.1 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpriteContainer:wave_v_frequency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 20.0 ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "transform_sound" ],
+"method": "play_named_sound"
+} ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SpriteContainer:static_amount")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.05, 1.0 ],
+"method": "vibrate"
+} ]
+}
+
+[sub_resource type="AudioStreamRandomPitch" id=27]
+
+[sub_resource type="AudioStreamRandomPitch" id=28]
+
+[sub_resource type="AudioStreamRandomPitch" id=29]
+
+[sub_resource type="BoxShape" id=30]
+extents = Vector3( 0.5, 0.5, 0.5 )
+
+[sub_resource type="CubeMesh" id=31]
+size = Vector3( 1, 1, 1 )
+
+[sub_resource type="StyleBoxFlat" id=48]
+bg_color = Color( 0.435294, 0.0588235, 0.862745, 0.364706 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.670588, 0.458824, 0.909804, 1 )
+corner_radius_top_right = 100
+corner_detail = 1
+
+[sub_resource type="Animation" id=32]
+resource_name = "bob"
+length = 0.3
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0.9, 0.9, 0.9 ), Vector3( 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:sprite_rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 0.25 ), Vector3( 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=33]
+length = 0.5
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "battle_cry" ],
+"method": "play_form_sound"
+} ]
+}
+
+[sub_resource type="Animation" id=34]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation:y")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -10.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_form_defeat_cry"
+} ]
+}
+
+[sub_resource type="Animation" id=35]
+resource_name = "dodge"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:offset:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 2.0, -2.0, 2.0, -2.0, 2.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=36]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -20, 0, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_form_defeat_cry"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpriteContainer:albedo")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=37]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( -10, 0, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_form_defeat_cry"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpriteContainer:albedo")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=38]
+resource_name = "flee_incomplete"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( -4.85185, 0, 0 ), Vector3( -5, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:albedo")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.25098 ) ]
+}
+
+[sub_resource type="Animation" id=39]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0.75, 0.75, 0.75 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_form_defeat_cry"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpriteContainer:albedo")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.501961 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=40]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:offset")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( -0.5, 0, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "hurt", false ],
+"method": "play_sprite_animation"
+} ]
+}
+
+[sub_resource type="Animation" id=41]
+resource_name = "knockdown"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 1.25, 0.875, 1 ), Vector3( 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=42]
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation:y")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -10.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "play_form_defeat_cry"
+} ]
+}
+
+[sub_resource type="Animation" id=43]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 1, 1, 1 ), Vector3( 0.9, 0.9, 0.9 ), Vector3( 1.1, 1.1, 1.1 ), Vector3( 0.9, 0.9, 0.9 ), Vector3( 1.1, 1.1, 1.1 ), Vector3( 1, 1, 1 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "battle_cry" ],
+"method": "play_form_sound"
+} ]
+}
+
+[sub_resource type="Animation" id=44]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:translation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, -10, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 1, 1, 1 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "battle_cry" ],
+"method": "play_form_sound"
+} ]
+}
+
+[sub_resource type="Animation" id=45]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:emission")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.5, 0.5, 0.5, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:wave_amplitude")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.1, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpriteContainer:wave_v_frequency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 20.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SpriteContainer:static_amount")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=46]
+tracks/0/type = "value"
+tracks/0/path = NodePath("SpriteContainer:emission")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0.5, 0.5, 0.5, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("SpriteContainer:wave_amplitude")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.1 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SpriteContainer:wave_v_frequency")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 20.0 ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "transform_sound" ],
+"method": "play_named_sound"
+} ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SpriteContainer:static_amount")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.05, 1.0 ],
+"method": "vibrate"
+} ]
+}
+
 [node name="StickerMiniGame" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 21 )
+cancelable = false
 player_setup = {
 "bandcolor": Color( 0.670588, 0.458824, 0.909804, 1 ),
 "bordercolor": Color( 0.247059, 0.113725, 0.282353, 1 ),
@@ -337,6 +1455,14 @@ anchor_bottom = 1.0
 texture = ExtResource( 19 )
 expand = true
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "default"
+anims/default = SubResource( 6 )
+anims/menu_to_map = SubResource( 7 )
+anims/show = SubResource( 8 )
+anims/show_map = SubResource( 9 )
+anims/show_menu = SubResource( 10 )
+
 [node name="Scroller" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -352,78 +1478,98 @@ custom_constants/margin_top = 97
 custom_constants/margin_left = 172
 custom_constants/margin_bottom = 97
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="EnemyField" type="GridContainer" parent="."]
-anchor_left = 0.25
-anchor_top = 0.23
-anchor_right = 0.25
-anchor_bottom = 0.23
-rect_scale = Vector2( 0.9, 0.9 )
-rect_pivot_offset = Vector2( 437.5, 142 )
-custom_constants/vseparation = 25
-custom_constants/hseparation = 100
-columns = 3
+[node name="Control" type="Control" parent="Scroller/OverscanMarginContainer"]
+margin_left = 172.0
+margin_top = 97.0
+margin_right = 1748.0
+margin_bottom = 983.0
 
-[node name="EmptyCardSlot3" parent="EnemyField" instance=ExtResource( 2 )]
-margin_left = 0.0
-margin_right = 225.0
-
-[node name="EmptyCardSlot4" parent="EnemyField" instance=ExtResource( 2 )]
-
-[node name="EmptyCardSlot5" parent="EnemyField" instance=ExtResource( 2 )]
-margin_left = 650.0
-margin_right = 875.0
-
-[node name="PlayerField" type="GridContainer" parent="."]
-anchor_left = 0.25
-anchor_top = 0.5
-anchor_right = 0.25
-anchor_bottom = 0.5
-rect_scale = Vector2( 0.9, 0.9 )
-rect_pivot_offset = Vector2( 437.5, 142 )
-custom_constants/vseparation = 25
-custom_constants/hseparation = 100
-columns = 3
-
-[node name="EmptyCardSlot3" parent="PlayerField" instance=ExtResource( 2 )]
-margin_left = 0.0
-margin_right = 225.0
-
-[node name="EmptyCardSlot4" parent="PlayerField" instance=ExtResource( 2 )]
-
-[node name="EmptyCardSlot5" parent="PlayerField" instance=ExtResource( 2 )]
-margin_left = 650.0
-margin_right = 875.0
-
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
 anchor_bottom = 0.055
-margin_top = 16.2
-margin_bottom = 16.2
+margin_left = -172.0
+margin_top = -80.8
+margin_right = 2561.0
+margin_bottom = 159.47
 rect_min_size = Vector2( 2733, 289 )
 rect_scale = Vector2( 0.7, 0.7 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
 custom_styles/panel = SubResource( 2 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_top = 16.2
-margin_right = 2733.0
-margin_bottom = 300.2
+[node name="PanelContainer2" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
+anchor_top = 0.78
+anchor_right = 0.007
+anchor_bottom = 0.78
+margin_left = -172.0
+margin_top = 70.52
+margin_right = 2549.97
+margin_bottom = 359.52
+rect_min_size = Vector2( 2733, 289 )
+rect_scale = Vector2( 0.7, 0.7 )
+size_flags_horizontal = 6
+size_flags_vertical = 6
+custom_styles/panel = SubResource( 3 )
+
+[node name="EnemyField" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control"]
+margin_left = 308.0
+margin_top = 151.4
+margin_right = 1712.0
+margin_bottom = 940.4
+rect_pivot_offset = Vector2( 437.5, 142 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 25
+custom_constants/hseparation = 100
+columns = 3
+
+[node name="EmptyCardSlot3" parent="Scroller/OverscanMarginContainer/Control/EnemyField" instance=ExtResource( 2 )]
+margin_left = 0.0
+margin_right = 225.0
+
+[node name="EmptyCardSlot4" parent="Scroller/OverscanMarginContainer/Control/EnemyField" instance=ExtResource( 2 )]
+
+[node name="EmptyCardSlot5" parent="Scroller/OverscanMarginContainer/Control/EnemyField" instance=ExtResource( 2 )]
+margin_left = 650.0
+margin_right = 875.0
+
+[node name="PlayerField" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control"]
+margin_left = 308.0
+margin_top = 443.0
+margin_right = 1884.0
+margin_bottom = 1329.0
+rect_pivot_offset = Vector2( 437.5, 142 )
+custom_constants/vseparation = 25
+custom_constants/hseparation = 100
+columns = 3
+
+[node name="EmptyCardSlot3" parent="Scroller/OverscanMarginContainer/Control/PlayerField" instance=ExtResource( 2 )]
+margin_left = 0.0
+margin_right = 225.0
+
+[node name="EmptyCardSlot4" parent="Scroller/OverscanMarginContainer/Control/PlayerField" instance=ExtResource( 2 )]
+
+[node name="EmptyCardSlot5" parent="Scroller/OverscanMarginContainer/Control/PlayerField" instance=ExtResource( 2 )]
+margin_left = 650.0
+margin_right = 875.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/Control"]
+margin_left = -172.0
+margin_top = -80.8
+margin_right = 2561.0
+margin_bottom = 203.2
 rect_scale = Vector2( 0.7, 0.7 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Control" type="Control" parent="HBoxContainer"]
+[node name="Control" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
 margin_right = 600.0
 margin_bottom = 284.0
 rect_min_size = Vector2( 600, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="EnemyState" type="Label" parent="HBoxContainer/Control"]
+[node name="EnemyState" type="Label" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/Control"]
 anchor_left = 0.234
 anchor_top = 0.234
 anchor_right = 0.234
@@ -436,7 +1582,7 @@ text = "Neutral"
 align = 1
 valign = 1
 
-[node name="OpponentHandGrid" type="GridContainer" parent="HBoxContainer"]
+[node name="OpponentHandGrid" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
 margin_left = 604.0
 margin_right = 2129.0
 margin_bottom = 284.0
@@ -446,30 +1592,30 @@ size_flags_vertical = 3
 custom_constants/hseparation = 100
 columns = 5
 
-[node name="EmptyCardSlot2" parent="HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
+[node name="EmptyCardSlot2" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
 margin_left = 0.0
 margin_right = 225.0
 custom_styles/panel = SubResource( 5 )
 
-[node name="EmptyCardSlot3" parent="HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
+[node name="EmptyCardSlot3" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
 custom_styles/panel = SubResource( 5 )
 
-[node name="EmptyCardSlot4" parent="HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
+[node name="EmptyCardSlot4" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
 margin_left = 650.0
 margin_right = 875.0
 custom_styles/panel = SubResource( 5 )
 
-[node name="EmptyCardSlot5" parent="HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
+[node name="EmptyCardSlot5" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
 margin_left = 975.0
 margin_right = 1200.0
 custom_styles/panel = SubResource( 5 )
 
-[node name="EmptyCardSlot6" parent="HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
+[node name="EmptyCardSlot6" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
 margin_left = 1300.0
 margin_right = 1525.0
 custom_styles/panel = SubResource( 5 )
 
-[node name="Control2" type="Control" parent="HBoxContainer"]
+[node name="Control2" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
 margin_left = 2133.0
 margin_right = 2733.0
 margin_bottom = 284.0
@@ -477,7 +1623,7 @@ rect_min_size = Vector2( 600, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/Control2"]
+[node name="EnemyHeartGauge" type="TextureRect" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/Control2"]
 anchor_left = 0.18
 anchor_top = 0.092
 anchor_right = 0.18
@@ -489,7 +1635,7 @@ texture = ExtResource( 4 )
 expand = true
 stretch_mode = 5
 
-[node name="EnemyHealth" type="Label" parent="HBoxContainer/Control2/TextureRect"]
+[node name="EnemyHealth" type="Label" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/Control2/EnemyHeartGauge"]
 anchor_left = 0.344
 anchor_top = 0.242
 anchor_right = 0.367
@@ -502,34 +1648,23 @@ text = "3"
 align = 1
 valign = 1
 
-[node name="PanelContainer2" type="PanelContainer" parent="."]
-anchor_top = 0.78
-anchor_right = 0.007
-anchor_bottom = 0.78
-margin_top = 16.2
-margin_bottom = 21.2
-rect_min_size = Vector2( 2733, 289 )
-rect_scale = Vector2( 0.7, 0.7 )
-size_flags_horizontal = 6
-size_flags_vertical = 6
-custom_styles/panel = SubResource( 3 )
-
-[node name="HboxContainer" type="HBoxContainer" parent="."]
-margin_top = 862.1
-margin_right = 2733.0
-margin_bottom = 1146.1
+[node name="HboxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/Control"]
+margin_left = -172.0
+margin_top = 765.1
+margin_right = 2561.0
+margin_bottom = 1049.1
 rect_scale = Vector2( 0.7, 0.7 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Control" type="Control" parent="HboxContainer"]
+[node name="Control" type="Control" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
 margin_right = 600.0
 margin_bottom = 284.0
 rect_min_size = Vector2( 600, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="TextureRect" type="TextureRect" parent="HboxContainer/Control"]
+[node name="PlayerHeartGauge" type="TextureRect" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/Control"]
 anchor_left = 0.399
 anchor_top = 0.078
 anchor_right = 0.399
@@ -541,7 +1676,7 @@ texture = ExtResource( 4 )
 expand = true
 stretch_mode = 5
 
-[node name="PlayerHealth" type="Label" parent="HboxContainer/Control/TextureRect"]
+[node name="PlayerHealth" type="Label" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/Control/PlayerHeartGauge"]
 anchor_left = 0.367
 anchor_top = 0.242
 anchor_right = 0.367
@@ -554,7 +1689,7 @@ text = "3"
 align = 1
 valign = 1
 
-[node name="PlayerHandGrid" type="GridContainer" parent="HboxContainer"]
+[node name="PlayerHandGrid" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
 margin_left = 604.0
 margin_right = 2129.0
 margin_bottom = 284.0
@@ -564,30 +1699,30 @@ size_flags_vertical = 6
 custom_constants/hseparation = 100
 columns = 5
 
-[node name="EmptyCardSlot2" parent="HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
+[node name="EmptyCardSlot2" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
 margin_left = 0.0
 margin_right = 225.0
 custom_styles/panel = SubResource( 5 )
 
-[node name="EmptyCardSlot3" parent="HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
+[node name="EmptyCardSlot3" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
 custom_styles/panel = SubResource( 5 )
 
-[node name="EmptyCardSlot4" parent="HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
+[node name="EmptyCardSlot4" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
 margin_left = 650.0
 margin_right = 875.0
 custom_styles/panel = SubResource( 5 )
 
-[node name="EmptyCardSlot5" parent="HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
+[node name="EmptyCardSlot5" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
 margin_left = 975.0
 margin_right = 1200.0
 custom_styles/panel = SubResource( 5 )
 
-[node name="EmptyCardSlot6" parent="HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
+[node name="EmptyCardSlot6" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
 margin_left = 1300.0
 margin_right = 1525.0
 custom_styles/panel = SubResource( 5 )
 
-[node name="Control2" type="Control" parent="HboxContainer"]
+[node name="Control2" type="Control" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
 margin_left = 2133.0
 margin_right = 2733.0
 margin_bottom = 284.0
@@ -595,7 +1730,7 @@ rect_min_size = Vector2( 600, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PlayerState" type="Label" parent="HboxContainer/Control2"]
+[node name="PlayerState" type="Label" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/Control2"]
 anchor_left = 0.102
 anchor_top = 0.203
 anchor_right = 0.102
@@ -608,26 +1743,284 @@ text = "Neutral"
 align = 1
 valign = 1
 
-[node name="EnemyDeck" parent="." instance=ExtResource( 2 )]
-margin_left = -300.0
-margin_top = -30.0
-margin_right = -75.0
-margin_bottom = 254.0
+[node name="EnemyDeck" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 2 )]
+margin_left = -434.5
+margin_top = -89.5
+margin_right = -209.5
+margin_bottom = 194.5
 rect_scale = Vector2( 0.7, 0.7 )
 
-[node name="PlayerDeck" parent="." instance=ExtResource( 2 )]
+[node name="PlayerDeck" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 2 )]
 anchor_left = 1.0
 anchor_top = 0.773
 anchor_right = 1.0
 anchor_bottom = 0.773
-margin_left = 0.0
-margin_right = 225.0
+margin_left = 209.5
+margin_top = 90.462
+margin_right = 434.5
+margin_bottom = 374.462
 rect_scale = Vector2( 0.7, 0.7 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "default"
-anims/default = SubResource( 6 )
-anims/menu_to_map = SubResource( 7 )
-anims/show = SubResource( 8 )
-anims/show_map = SubResource( 9 )
-anims/show_menu = SubResource( 10 )
+[node name="EnemySprite" type="Control" parent="Scroller/OverscanMarginContainer/Control"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -180.0
+margin_right = -140.0
+margin_bottom = 40.0
+script = ExtResource( 12 )
+
+[node name="SpriteBackground" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control/EnemySprite"]
+margin_left = -50.0
+margin_top = 140.0
+margin_right = 350.0
+margin_bottom = 440.0
+custom_styles/panel = SubResource( 47 )
+
+[node name="MarginContainer" type="MarginContainer" parent="Scroller/OverscanMarginContainer/Control/EnemySprite"]
+margin_top = 30.0
+margin_right = 400.0
+margin_bottom = 430.0
+
+[node name="MonsterSpriteContainer1" type="ViewportContainer" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer"]
+margin_right = 400.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 400, 400 )
+mouse_filter = 2
+size_flags_vertical = 3
+stretch = true
+script = ExtResource( 9 )
+flip_h = true
+zoom_duration = 2.0
+
+[node name="Viewport" type="Viewport" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1"]
+size = Vector2( 400, 400 )
+own_world = true
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 3
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+gui_disable_input = true
+
+[node name="Camera" type="Camera" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.73156 )
+environment = SubResource( 11 )
+h_offset = 0.5
+v_offset = 1.5
+projection = 1
+current = true
+size = 8.0
+
+[node name="BattleSlot" type="Spatial" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport"]
+script = ExtResource( 10 )
+named_sounds = ExtResource( 11 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+anims/bob = SubResource( 12 )
+anims/character_battle_cry = SubResource( 13 )
+anims/death = SubResource( 14 )
+anims/dodge = SubResource( 15 )
+anims/fade_in = SubResource( 16 )
+anims/flee = SubResource( 17 )
+anims/flee_incomplete = SubResource( 18 )
+anims/ghostly_fade = SubResource( 19 )
+anims/hurt = SubResource( 20 )
+anims/knockdown = SubResource( 21 )
+anims/long_death = SubResource( 22 )
+anims/monster_battle_cry = SubResource( 23 )
+anims/spawn = SubResource( 24 )
+anims/transform_in = SubResource( 25 )
+anims/transform_out = SubResource( 26 )
+
+[node name="SpriteContainer" type="Spatial" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+script = ExtResource( 8 )
+idle = "inactive"
+albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
+wave_t_frequency = 5.0
+static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
+
+[node name="Sprite" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 7 )]
+
+[node name="DecoyContainer" type="Spatial" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25 )
+script = ExtResource( 8 )
+emission = null
+wave_amplitude = null
+wave_t_frequency = null
+wave_v_frequency = null
+static_amount = null
+static_offset = null
+static_speed = null
+sparkle = null
+sprite_rotation = null
+
+[node name="Audio1" type="AudioStreamPlayer3D" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+stream = SubResource( 27 )
+unit_size = 100.0
+max_distance = 1000.0
+bus = "Battle"
+
+[node name="Audio2" type="AudioStreamPlayer3D" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+stream = SubResource( 28 )
+unit_size = 100.0
+max_distance = 1000.0
+bus = "Battle"
+
+[node name="Audio3" type="AudioStreamPlayer3D" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+stream = SubResource( 29 )
+unit_size = 100.0
+max_distance = 1000.0
+bus = "Battle"
+
+[node name="Voice" type="AudioStreamPlayer3D" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+unit_size = 100.0
+max_distance = 1000.0
+bus = "Voice"
+
+[node name="VCams" type="Spatial" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+
+[node name="StaticBody" type="StaticBody" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+transform = Transform( 5, 0, 0, 0, 5.82177, 0.241922, 0, -1.45153, 0.970296, 0, 3, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody"]
+shape = SubResource( 30 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody"]
+visible = false
+mesh = SubResource( 31 )
+
+[node name="PlayerSprite" type="Control" parent="Scroller/OverscanMarginContainer/Control"]
+anchor_left = 0.017
+anchor_top = 0.39
+anchor_right = 0.017
+anchor_bottom = 0.39
+margin_left = -180.0
+margin_right = -140.0
+margin_bottom = 40.0
+script = ExtResource( 12 )
+
+[node name="SpriteBackground" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite"]
+margin_left = -20.0
+margin_top = 110.0
+margin_right = 380.0
+margin_bottom = 410.0
+custom_styles/panel = SubResource( 48 )
+
+[node name="MarginContainer" type="MarginContainer" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite"]
+margin_right = 400.0
+margin_bottom = 400.0
+
+[node name="MonsterSpriteContainer1" type="ViewportContainer" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer"]
+margin_right = 400.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 400, 400 )
+mouse_filter = 2
+size_flags_vertical = 3
+stretch = true
+script = ExtResource( 9 )
+zoom_duration = 2.0
+
+[node name="Viewport" type="Viewport" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1"]
+size = Vector2( 400, 400 )
+own_world = true
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 3
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+gui_disable_input = true
+
+[node name="Camera" type="Camera" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.73156 )
+environment = SubResource( 11 )
+h_offset = 0.257
+v_offset = 1.5
+projection = 1
+current = true
+size = 8.0
+
+[node name="BattleSlot" type="Spatial" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport"]
+script = ExtResource( 10 )
+named_sounds = ExtResource( 11 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+anims/bob = SubResource( 32 )
+anims/character_battle_cry = SubResource( 33 )
+anims/death = SubResource( 34 )
+anims/dodge = SubResource( 35 )
+anims/fade_in = SubResource( 36 )
+anims/flee = SubResource( 37 )
+anims/flee_incomplete = SubResource( 38 )
+anims/ghostly_fade = SubResource( 39 )
+anims/hurt = SubResource( 40 )
+anims/knockdown = SubResource( 41 )
+anims/long_death = SubResource( 42 )
+anims/monster_battle_cry = SubResource( 43 )
+anims/spawn = SubResource( 44 )
+anims/transform_in = SubResource( 45 )
+anims/transform_out = SubResource( 46 )
+
+[node name="SpriteContainer" type="Spatial" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+script = ExtResource( 8 )
+idle = "inactive"
+wave_t_frequency = 5.0
+static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
+
+[node name="Sprite" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 7 )]
+
+[node name="DecoyContainer" type="Spatial" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.25 )
+script = ExtResource( 8 )
+emission = null
+wave_amplitude = null
+wave_t_frequency = null
+wave_v_frequency = null
+static_amount = null
+static_offset = null
+static_speed = null
+sparkle = null
+sprite_rotation = null
+
+[node name="Audio1" type="AudioStreamPlayer3D" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+stream = SubResource( 27 )
+unit_size = 100.0
+max_distance = 1000.0
+bus = "Battle"
+
+[node name="Audio2" type="AudioStreamPlayer3D" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+stream = SubResource( 28 )
+unit_size = 100.0
+max_distance = 1000.0
+bus = "Battle"
+
+[node name="Audio3" type="AudioStreamPlayer3D" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+stream = SubResource( 29 )
+unit_size = 100.0
+max_distance = 1000.0
+bus = "Battle"
+
+[node name="Voice" type="AudioStreamPlayer3D" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+unit_size = 100.0
+max_distance = 1000.0
+bus = "Voice"
+
+[node name="VCams" type="Spatial" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+
+[node name="StaticBody" type="StaticBody" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot"]
+transform = Transform( 5, 0, 0, 0, 5.82177, 0.241922, 0, -1.45153, 0.970296, 0, 3, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody"]
+shape = SubResource( 30 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody"]
+visible = false
+mesh = SubResource( 31 )
+
+[connection signal="input_event" from="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_input_event"]
+[connection signal="mouse_entered" from="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_mouse_entered"]
+[connection signal="mouse_exited" from="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_mouse_exited"]
+[connection signal="input_event" from="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_input_event"]
+[connection signal="mouse_entered" from="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_mouse_entered"]
+[connection signal="mouse_exited" from="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_mouse_exited"]

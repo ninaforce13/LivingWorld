@@ -17,7 +17,11 @@ RECRUIT_PASSIVE_ROGUE,There's been another rogue sighting![pause] We need all av
 RECRUIT_MENU_OPTION1,Invite {pawn} to hang out.
 RECRUIT_MENU_OPTION2,Challenge {pawn} to a friendly battle.
 RECRUIT_MENU_OPTION3,[color=#1fba33]Trade stickers with {pawn}.[/color]
+RECRUIT_MENU_OPTION5,Play Card Game
 RECRUIT_MENU_OPTION4,Goodbye!
+RECREUIT_MENU_PLAYCARDS1,A card game on a weird interdimensional island filled with dangerous monsters?[pause][pause] Of course I'll play!
+RECRUIT_PLAYCARDS_LOSE1,"Aw, dang it. I gotta find better cards."
+RECRUIT_PLAYCARDS_WIN1,"It's all in the heart of the cards, you know?"
 RECRUIT_MENU_INVITE_ACCEPT1,"Sure, I've got some free time!"
 RECRUIT_MENU_INVITE_ACCEPT2,"I guess I can lend a hand, if you [wave amp=30 freq=10]really[/wave] need it."
 RECRUIT_MENU_INVITE_ACCEPT3,"We're not doing anything too dangerous[pause], are we?"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=2]
+[gd_scene load_steps=81 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/emoteplayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=2]
@@ -36,6 +36,8 @@
 [ext_resource path="res://mods/LivingWorld/scripts/setbattlesprite.gd" type="Script" id=34]
 [ext_resource path="res://mods/LivingWorld/actions/MenuDialog.gd" type="Script" id=35]
 [ext_resource path="res://mods/LivingWorld/scripts/DefeatedNPCDetector.gd" type="Script" id=36]
+[ext_resource path="res://mods/LivingWorld/actions/SetRecruitBB.gd" type="Script" id=37]
+[ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=38]
 [ext_resource path="res://mods/LivingWorld/scripts/MonsterDetector.gd" type="Script" id=61]
 [ext_resource path="res://nodes/actions/values/GetPlayer.gd" type="Script" id=62]
 [ext_resource path="res://nodes/actions/FaceTowardsAction.gd" type="Script" id=63]
@@ -45,7 +47,6 @@
 [ext_resource path="res://addons/misc_utils/actions/DecoratorAction.gd" type="Script" id=68]
 [ext_resource path="res://nodes/actions/BattleAction.gd" type="Script" id=69]
 [ext_resource path="res://mods/LivingWorld/scripts/BootlegDetector.gd" type="Script" id=70]
-[ext_resource path="res://mods/LivingWorld/actions/SetRecruitBB.gd" type="Script" id=71]
 [ext_resource path="res://mods/LivingWorld/actions/CheckBattleCooldown.gd" type="Script" id=72]
 [ext_resource path="res://mods/LivingWorld/actions/AddFollower.gd" type="Script" id=73]
 [ext_resource path="res://nodes/actions/RemoveNodeAction.gd" type="Script" id=74]
@@ -946,7 +947,7 @@ shape = SubResource( 5 )
 script = ExtResource( 64 )
 
 [node name="SetBlackBoardValues" type="Node" parent="InteractionBehavior"]
-script = ExtResource( 71 )
+script = ExtResource( 37 )
 __meta__ = {
 "_editor_description_": "Sets values of \"has_trade\", \"has_follower\", and \"is_resting\" based on current recruitdata and savestate values"
 }
@@ -967,7 +968,7 @@ message_array = [ [ "RECRUIT_IDLE_DIALOG_1" ], [ "RECRUIT_IDLE_DIALOG_2", "RECRU
 
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 35 )
-menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3", "RECRUIT_MENU_OPTION4" ]
+menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3", "RECRUIT_MENU_OPTION5", "RECRUIT_MENU_OPTION4" ]
 default_option = 3
 always_succeed = true
 
@@ -1094,6 +1095,44 @@ script = ExtResource( 66 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "RECRUIT_TRADE_CANCEL1" ], [ "RECRUIT_TRADE_CANCEL2" ], [ "RECRUIT_TRADE_CANCEL3" ] ]
+
+[node name="PlayCards" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 68 )
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+script = ExtResource( 66 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECREUIT_MENU_PLAYCARDS1" ] ]
+
+[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+script = ExtResource( 38 )
+
+[node name="CheckConditionAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+script = ExtResource( 79 )
+always_succeed = true
+require_blackboard_values = {
+"win_game": true
+}
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 66 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_PLAYCARDS_LOSE1" ] ]
+
+[node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+script = ExtResource( 79 )
+always_succeed = true
+require_blackboard_values = {
+"win_game": false
+}
+
+[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction2"]
+script = ExtResource( 66 )
+title = "{pawn}"
+use_random = true
+message_array = [ [ "RECRUIT_PLAYCARDS_WIN1" ] ]
 
 [node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 68 )

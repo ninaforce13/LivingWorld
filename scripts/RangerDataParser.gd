@@ -217,6 +217,8 @@ static func set_char_config(char_config:CharacterConfig, ranger_data, tapes:Arra
 	if not ranger_data.has("stats"):
 		char_config.base_character.base_max_hp = 120
 	var index:int = 0
+	if tapes.size() <= 0:
+		return
 	for key in ranger_data:
 		if str(key) == "tape"+str(index):
 			if ranger_data[key].get("favorite"):
