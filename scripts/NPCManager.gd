@@ -188,6 +188,10 @@ static func is_idle_partner_available()->bool:
 
 static func get_partner_names()->Array:
 	var result:Array = []
+	var frankie_quest = preload("res://data/quests/noticeboard/FrankieAndVinQuest.tscn")
+	if SaveState.quests.is_completed(frankie_quest):
+		result.push_back("vin")
+		result.push_back("frankie")
 	result.push_back("kayleigh")
 	result.push_back("meredith")
 	result.push_back("viola")
@@ -206,6 +210,13 @@ static func remove_duplicate_partner():
 			npc.get_parent().remove_child(npc)
 			npc.queue_free()
 
+static func is_true_partner(partner_id)->bool:
+	if partner_id == "vin":
+		return false
+	if partner_id == "frankie":
+		return false
+	return true
+
 static func filter_partners(options:Array)->Array:
 	var result:Array = options.duplicate()
 	var level = WorldSystem.get_level_map()
@@ -216,7 +227,7 @@ static func filter_partners(options:Array)->Array:
 	if is_follower_partner():
 		result.erase(get_follower_partner_id())
 	for item in result:
-		if !SaveState.party.is_partner_unlocked(item):
+		if is_true_partner(item) and !SaveState.party.is_partner_unlocked(item):
 			result.erase(item)
 	for partner in idle_partners:
 		if options.has(partner.character.partner_id):
@@ -225,12 +236,15 @@ static func filter_partners(options:Array)->Array:
 
 static func get_partner_dictionary()->Dictionary:
 	var partners:Dictionary = {}
+	partners["vin"] = load("res://mods/LivingWorld/partner_templates/Vin.tscn")
+	partners["frankie"] = load("res://mods/LivingWorld/partner_templates/Frankie.tscn")
 	partners["kayleigh"] = load("res://mods/LivingWorld/partner_templates/Kayleigh.tscn")
 	partners["dog"] = load("res://mods/LivingWorld/partner_templates/Barkley.tscn")
 	partners["felix"] = load("res://mods/LivingWorld/partner_templates/Felix.tscn")
 	partners["eugene"] = load("res://mods/LivingWorld/partner_templates/Eugene.tscn")
 	partners["meredith"] = load("res://mods/LivingWorld/partner_templates/Meredith.tscn")
 	partners["viola"] = load("res://mods/LivingWorld/partner_templates/Viola.tscn")
+
 	return partners
 
 static func create_npc(spawner, node, forced_personality,supress_abilities):
@@ -245,8 +259,6 @@ static func create_npc(spawner, node, forced_personality,supress_abilities):
 		recruit = partners[selection].instance()
 	else:
 		recruit = get_npc()
-
-
 
 	if !recruit.has_node("RecruitBehavior"):
 		var new_behavior = preload("res://mods/LivingWorld/nodes/recruitbehavior.tscn").instance()

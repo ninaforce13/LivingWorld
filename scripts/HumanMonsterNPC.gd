@@ -14,6 +14,7 @@ export (PackedScene) var sprite_body:PackedScene setget set_sprite_body
 export (Resource) var character:Resource setget set_character
 export (bool) var use_monster_form = false
 export (bool) var supress_abilities = false
+
 var previous_monster_form_index = 0
 var monster_index:Array = []
 var sfx:CharacterSfx
@@ -35,6 +36,7 @@ func set_transform_index():
 		monster_index.push_back(i)
 	var random = Random.new()
 	random.shuffle(monster_index)
+
 func player_transform(value=-1):
 	if value == -1:
 		value = 0 if use_monster_form else 1
@@ -42,6 +44,7 @@ func player_transform(value=-1):
 	if cutscene:
 		cutscene.set_bb("mode",value)
 		cutscene.run()
+
 func swap_sprite(value:int, forced_index:int = -1):
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 	use_monster_form = value == FORMS.MONSTER
@@ -166,5 +169,3 @@ func _get(property:String):
 
 func get_aabb()->AABB:
 	return Spatials.get_collision_aabb(self)
-
-

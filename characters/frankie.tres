@@ -1,0 +1,67 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://data/Character.gd" type="Script" id=1]
+[ext_resource path="res://data/character_sfx/frankie_sfx.tres" type="Resource" id=2]
+
+[resource]
+resource_name = "frankie.tres"
+script = ExtResource( 1 )
+name = "FRANKIE_NAME"
+swap_colors = [  ]
+default_palette = [  ]
+emission_palette = [  ]
+named_positions = {
+}
+elemental_types = [  ]
+exp_yield = 40
+require_dlc = ""
+character_kind = 1
+force_unrecordable = false
+human_colors = {
+"body_color_1": 16,
+"body_color_2": 12,
+"eye_color": 10,
+"face_accessory_color": 14,
+"favorite_color": 9,
+"hair_accessory_color": 12,
+"hair_color": 9,
+"legs_color": 16,
+"shoe_color": 12,
+"skin_color": -1
+}
+human_part_names = {
+"arms": "jacket",
+"body": "jacket",
+"hair": "cat1",
+"head": "glasses_1",
+"legs": "skirt1",
+"wings": "generic"
+}
+level = 1
+pronouns = 2
+max_ap = 5
+base_ap_regen = 2
+base_max_hp = 120
+base_melee_attack = 120
+base_melee_defense = 100
+base_ranged_attack = 120
+base_ranged_defense = 100
+base_speed = 100
+base_accuracy = 100
+base_evasion = 100
+tapes = [  ]
+team_name_override = ""
+exp_gradient = 5
+exp_base_level = 0
+partner_id = "frankie"
+sfx = ExtResource( 2 )
+human_colors/body_color_1 = 16
+human_colors/body_color_2 = 12
+human_colors/eye_color = 10
+human_colors/face_accessory_color = 14
+human_colors/favorite_color = 9
+human_colors/hair_accessory_color = 12
+human_colors/hair_color = 9
+human_colors/legs_color = 16
+human_colors/shoe_color = 12
+human_colors/skin_color = -1

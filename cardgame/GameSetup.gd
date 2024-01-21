@@ -112,7 +112,7 @@ func resolve_field():
 	var loser
 	var chosen_player_stat = get_wield_stat(player_stats)
 	var chosen_enemy_stat = get_wield_stat(enemy_stats)
-
+	print("player value: %s vs enemy value: %s"%[str(chosen_player_stat),str(chosen_enemy_stat)])
 	if chosen_player_stat > chosen_enemy_stat:
 		EnemySprite.animate_damage()
 		animate_heart_damage(Team.ENEMY)
@@ -126,14 +126,16 @@ func resolve_field():
 		player_stats.hp -= 1
 		PlayerHealth.text = str(player_stats.hp)
 		GlobalMessageDialog.passive_message.show_message("Round Winner: Enemy")
+
 	if chosen_player_stat == chosen_enemy_stat:
 		GlobalMessageDialog.passive_message.show_message("Draw")
+	reset_stats()
 	yield(Co.wait(2),"completed")
 	clear_battlefield()
-	reset_stats()
 	set_state(enemy_stats.state,Team.ENEMY)
 	set_state(player_stats.state,Team.PLAYER)
 	yield(Co.wait(3),"completed")
+
 func clear_battlefield():
 	for slot in EnemyField.get_children():
 		var movepos = EnemyDeck.rect_global_position
@@ -237,7 +239,7 @@ func player_card_picked(card):
 		card.remove_child(button)
 	empty_slot.set_card(card)
 	if active_field(Team.PLAYER):
-		player_stats = evaluate_state(Team.PLAYER)
+		player_stats = evaluate_state(Team.PLAYER, card)
 		set_state(player_stats.state,Team.PLAYER)
 	set_focus_buttons()
 	set_player_turn(false)
@@ -306,7 +308,7 @@ func enemy_move():
 	empty_slot.set_card(card)
 
 	if active_field(Team.ENEMY):
-		enemy_stats = evaluate_state(Team.ENEMY)
+		enemy_stats = evaluate_state(Team.ENEMY,card)
 		set_state(enemy_stats.state,Team.ENEMY)
 	EnemySprite.animate_turn_end()
 	set_player_turn(true)
@@ -320,14 +322,10 @@ func active_field(team:int)->bool:
 			break
 	return result
 
-func evaluate_state(team:int):
-	var teamfield = PlayerField if team == Team.PLAYER else EnemyField
+func evaluate_state(team:int, card):
 	var stats = player_stats if team == Team.PLAYER else enemy_stats
-	for slot in teamfield.get_children():
-		if !slot.occupied():
-			continue
-		stats.attack += slot.card_info.attack
-		stats.defense += slot.card_info.defense
+	stats.attack += card.card_info.attack
+	stats.defense += card.card_info.defense
 	if stats.attack > stats.defense:
 		stats.state = State.ATTACK
 	if stats.defense > stats.attack:
@@ -392,11 +390,12 @@ func get_winner_name()->String:
 		result = "Ranger"
 	return result
 
-func can_draw_card(team):
+func can_draw_card(team)->bool:
 	var grid = PlayerHandGrid if team == Team.PLAYER else OpponentHandGrid
 	for slot in grid.get_children():
 		if !slot.occupied():
 			return true
+	return false
 
 func build_demo_deck(_team:int)->Array:
 	var deck:Array = []

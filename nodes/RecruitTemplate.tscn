@@ -969,7 +969,7 @@ message_array = [ [ "RECRUIT_IDLE_DIALOG_1" ], [ "RECRUIT_IDLE_DIALOG_2", "RECRU
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 35 )
 menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3", "RECRUIT_MENU_OPTION5", "RECRUIT_MENU_OPTION4" ]
-default_option = 3
+default_option = 4
 always_succeed = true
 
 [node name="PartyInvite" type="Node" parent="InteractionBehavior/MenuDialogAction"]
@@ -1214,6 +1214,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 30 )]
 
