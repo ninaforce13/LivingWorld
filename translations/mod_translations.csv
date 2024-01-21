@@ -101,28 +101,28 @@ KAYLEIGH_TRADE_CANCEL1,"Aw, alright. I'll keep looking then!"
 KAYLEIGH_PASSIVES_ROGUES_MESSAGE1,Oh no… It's another rogue! I need a hand with this!
 KAYLEIGH_MENU_GOODBYE1,See ya!
 BARKLEY_IDLE_RECRUIT_DIALOG1,Arf!
-BARKLEY_IDLE_RECRUIT_DIALOG2,Barkley seems happy to see you!
-BARKLEY_IDLE_RECRUIT_DIALOG3,Barkley is curiously sniffing his cassette player.
+BARKLEY_IDLE_RECRUIT_DIALOG2,[i]Barkley seems happy to see you![/i]
+BARKLEY_IDLE_RECRUIT_DIALOG3,[i]Barkley is curiously sniffing his cassette player.[/i]
 BARKLEY_IDLE_RECRUIT_DIALOG4,Arf?
-BARKLEY_IDLE_RECRUIT_DIALOG5,Barkley is enjoying the weather in {region_name}.
-BARKLEY_IDLE_RECRUIT_DIALOG6,There's a glint in Barkley's eye. He's filled with determination!
-BARKLEY_IDLE_RECRUIT_DIALOG7,You happily pet Barkley. He's been a good boy!
+BARKLEY_IDLE_RECRUIT_DIALOG5,[i]Barkley is enjoying the weather in {region_name}.[/i]
+BARKLEY_IDLE_RECRUIT_DIALOG6,[i]There's a glint in Barkley's eye. He's filled with determination![/i]
+BARKLEY_IDLE_RECRUIT_DIALOG7,[i]You happily pet Barkley. He's been a good boy![/i]
 BARKLEY_PARTY_INVITE_ACCEPT1,Arf Arf!
-BARKLEY_PARTY_INVITE_ACCEPT2,Barkley is excited to play with you!
-BARKLEY_CHALLENGE_REJECT1,Awoo...
-BARKLEY_CHALLENGE_REJECT2,He appears too tired for another match.
+BARKLEY_PARTY_INVITE_ACCEPT2,[i]Barkley is excited to play with you![/i]
+BARKLEY_CHALLENGE_REJECT1,[wave amp=30 freq=10]Awoo…[/wave]
+BARKLEY_CHALLENGE_REJECT2,[i]He appears too tired for another match.[/i]
 BARKLEY_CHALLNEGE_ACCEPTED1,Arf! Arf!
-BARKLEY_CHALLNEGE_ACCEPTED2,His tail wags back and forth with vigor and excitement!
+BARKLEY_CHALLNEGE_ACCEPTED2,[i]His tail wags back and forth with vigor and excitement![/i]
 BARKLEY_CHALLENGE_WIN1,Arf! Pant Pant.
-BARKLEY_CHALLENGE_WIN2,Looks like Barkley enjoyed the exercise! Such a good boy!
+BARKLEY_CHALLENGE_WIN2,[i]Looks like Barkley enjoyed the exercise! Such a good boy![/i]
 BARKLEY_TRADE_OFFER1,Arf?
-BARKLEY_TRADE_OFFER2,Barkley paws intently at a [color=#{request_rarity}][{trade_request}][/color] sticker.[pause] He places a [color=#{offer_rarity}][{trade_offer}][/color] sticker at your feet. Is this a trade request?
+BARKLEY_TRADE_OFFER2,[i]Barkley paws intently at a [color=#{request_rarity}][{trade_request}][/color] sticker.[pause] He places a [color=#{offer_rarity}][{trade_offer}][/color] sticker at your feet. Is this a trade request?[/i]
 BARKLEY_TRADE_ACCEPTED1,Arf Arf!
-BARKLEY_TRADE_ACCEPTED2,He wags his tail happily as he attempts to place the sticker on a tape.[pause] It seems he's satisfied with this exchange!
-BARKLEY_TRADE_REJECTED1,Grr… Arf!
-BARKLEY_TRADE_REJECTED2,He looks frustrated. Maybe you misunderstood his request?
-BARKLEY_TRADE_CANCEL,He seems dissapointed. 
-BARKLEY_PASSIVE_ROGUES_MESSAGE1,Arf Arf! Grr…!
+BARKLEY_TRADE_ACCEPTED2,[i]He wags his tail happily as he attempts to place the sticker on a tape.[pause] It seems he's satisfied with this exchange![/i]
+BARKLEY_TRADE_REJECTED1,[wave amp=30 freq=10]Grr…[/wave] Arf!
+BARKLEY_TRADE_REJECTED2,[i]He looks frustrated. Maybe you misunderstood his request?[/i]
+BARKLEY_TRADE_CANCEL,[i]He seems dissapointed.[/i]
+BARKLEY_PASSIVE_ROGUES_MESSAGE1,Arf Arf! [wave amp=30 freq=10]Grr…[/wave]!
 BARKLEY_LEAVE1,Arf!
 EUGENE_IDLE_RECRUIT_DIALOG1,"Hey {player}, you out on patrol too? "
 EUGENE_IDLE_RECRUIT_DIALOG2,It's pretty wild out here! There's always people to help out.
@@ -154,7 +154,7 @@ FELIX_PASSIVE_ROGUES_MESSAGE1,Looks like another rogue on the loose. I can help!
 FELIX_LEAVE1,Take care.
 MEREDITH_IDLE_RECRUIT_DIALOG1,"Uh, hey there. You keeping busy?"
 MEREDITH_IDLE_RECRUIT_DIALOG2,So.[pause] Is it just me or…[pause] are there a lot more people than usual?
-MEREDITH_IDLE_RECRUIT_DIALOG3,"Hey, {player}. Uh, what's up?"
+MEREDITH_IDLE_RECRUIT_DIALOG3,"Hey, {player}. Did you need something?"
 MEREDITH_IDLE_RECRUIT_DIALOG4,"Some[pause], uh[pause], odd stuff has been washing up on the beach lately."
 MEREDITH_IDLE_RECRUIT_DIALOG5,I really wanted a new tape today.
 MEREDITH_CHALLENGE_ACCEPTED1,"Urgh. Fine. I'll humor you this one time, mate."
@@ -180,3 +180,35 @@ VIOLA_TRADE_REJECTED1,"Alas, dear friend. This does not resemble the item I requ
 VIOLA_TRADE_CANCEL1,"Fear not, I am resourceful enough to procure one through other means!"
 VIOLA_LEAVE1,Fare thee well!
 VIOLA_PASSIVE_ROGUES_MESSAGE1,Rogues have been sighted upon the horizon! Let us show thy fiends our true mettle!
+FRANKIE_CARDS_ACCEPT1,
+FRANKIE_CARDS_WIN1,
+FRANKIE_CARDS_LOSE1,
+FRANKIE_PARTY_INVITE1,Joining the hero's party?! I'm another step closer to legendary status!
+FRANKIE_IDLE_RECRUIT_DIALOG1,"I accept all quests, no matter [wave amp=30 freq=10]how[/wave] small![pause] You never know which one will move the plot forward!"
+FRANKIE_IDLE_RECRUIT_DIALOG2,"You know[pause], usually in these kinds of Isekai I would have some unique ability or abnormally high stat![pause] Vin didn't seem to get it either…"
+FRANKIE_IDLE_RECRUIT_DIALOG3,"In another world as {frankie_tape}! It's a pretty catchy title, right?!"
+FRANKIE_IDLE_RECRUIT_DIALOG4,"We should write our own theme song![pause][pause] Something catchy like Card Captors![pause]…You had Card Captors on your world[pause], right?"
+FRANKIE_IDLE_RECRUIT_DIALOG5,"I tried rewinding my tape with my pinkie[pause], but for some reason it still didn't work… [pause]It's like there's some weird [wave amp=30 freq=10]game logic[/wave] that forces me to use pencils!"
+FRANKIE_CHALLENGE_ACCEPTED1,I've had a lot of time to train [wave amp=30 freq=10]off screen[/wave]![pause] That means it's time to show off my new special attack![pause][wave amp=30 freq=10] {frankie_attack}![/wave]
+FRANKIE_CHALLENGE_REJECTED1,I need to finish my training montage first!
+FRANKIE_CHALLENGE_WIN1,Ow…[pause] I think I bit my tongue. 
+FRANKIE_TRADE_OFFER1,"If I could just get my hands on 1 more [color=#{request_rarity}][{trade_request}][/color] sticker, my PvP build would be [wave amp=30 freq=10]so broken[/wave]! I've got an extra [color=#{offer_rarity}][{trade_offer}][/color] I can trade for it!"
+FRANKIE_TRADE_ACCEPTED1,Yes! Finally! I'm completely unstoppable now! [pause]You don't know what PvP is do you...?
+FRANKIE_TRADE_REJECTED1,"{player}[pause], I know[pause] that you know[pause] that's not the right sticker…[pause] It's like you're just testing dialog options in a Visual Novel."
+FRANKIE_TRADE_CANCEL1,Back to the grind then.
+FRANKIE_LEAVE1,See ya!
+FRANKIE_PASSIVE_ROGUES_MESSAGE1,[wave amp=30 freq=10]Ahhhh!!![/wave] I'm making a heroic entrance! 
+VIN_IDLE_RECRUIT_DIALOG1,
+VIN_IDLE_RECRUIT_DIALOG2,
+VIN_IDLE_RECRUIT_DIALOG3,
+VIN_IDLE_RECRUIT_DIALOG4,
+VIN_IDLE_RECRUIT_DIALOG5,
+VIN_CHALLENGE_ACCEPTED1,
+VIN_CHALLENGE_REJECTED1,
+VIN_CHALLENGE_WIN1,
+VIN_TRADE_OFFER1,
+VIN_TRADE_ACCEPTED1,
+VIN_TRADE_REJECTED1,
+VIN_TRADE_CANCEL1,
+VIN_LEAVE1,
+VIN_PASSIVE_ROGUES_MESSAGE1,

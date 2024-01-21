@@ -13,6 +13,7 @@ func _ready():
 	tween = Tween.new()
 	add_child(tween)
 func _enter_action():
+	generate_frankie_values()
 	var pawn = get_pawn()
 	var data = pawn.get_node("RecruitData")
 	use_battlesprite = npcmanager.get_setting("BattleSprite") or !data.is_partner
@@ -104,4 +105,56 @@ func _run():
 func _exit_action(_result):
 	if close_after:
 		return GlobalMessageDialog.hide()
+
+func generate_frankie_values():
+	var first_word:Array = [
+		"Super",
+		"Ultimate",
+		"Fantasmical",
+		"Plus",
+		"Extreme",
+		"Isekai",
+		"Grand",
+		"Cassette"]
+	var second_word:Array = [
+		"Smash",
+		"Slam",
+		"Crash",
+		"Power",
+		"Crush",
+		"Zaap",
+		"Fusion",
+		"Grid",
+		"Protagonist"]
+	var third_word:Array = [
+		"Ultra",
+		"Mod",
+		"Attack",
+		"Stance",
+		"Pose",
+		"Special"]
+	var snap = SaveState.other_data.get("frankie_starter")
+	var form
+	if snap:
+		if snap.has("custom_form") and snap.custom_form != "":
+			form = load(snap.custom_form) as MonsterForm
+			if !form:
+				form = load(snap.form) as MonsterForm
+		else:
+			form = load(snap.form) as MonsterForm
+	if form:
+		set_bb("frankie_tape",Loc.tr(form.description))
+
+	var space:String = " "
+	var random = Random.new()
+	var name_length = random.rand_range_int(2,3)
+	var attack_name:String
+	for i in range (name_length):
+		if i == 0:
+			attack_name = random.choice(first_word)
+		if i == 1:
+			attack_name = attack_name + space + random.choice(second_word)
+		if i == 2:
+			attack_name = attack_name + space + random.choice(third_word)
+	set_bb("frankie_attack",attack_name)
 
