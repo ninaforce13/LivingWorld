@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://mods/LivingWorld/icons/AttackCard.png" type="Texture" id=1]
 [ext_resource path="res://mods/LivingWorld/icons/DefenseCard.png" type="Texture" id=2]
@@ -42,38 +42,84 @@ expand_margin_bottom = 5.0
 shadow_color = Color( 0.137255, 0.137255, 0.137255, 0.6 )
 shadow_size = 5
 
-[node name="Card" type="PanelContainer"]
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.470588, 0.25098, 0.713726, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.247059, 0.113725, 0.282353, 1 )
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 50
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 1
+expand_margin_left = 5.0
+expand_margin_right = 15.0
+expand_margin_top = 5.0
+expand_margin_bottom = 15.0
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.670588, 0.458824, 0.909804, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.247059, 0.113725, 0.282353, 1 )
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 15.0
+expand_margin_right = 25.0
+expand_margin_top = 4.0
+expand_margin_bottom = 15.0
+shadow_color = Color( 0.137255, 0.137255, 0.137255, 0.6 )
+shadow_size = 5
+
+[node name="Control" type="Control"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 221.0
+margin_bottom = 280.0
+rect_pivot_offset = Vector2( 108.5, 138 )
+script = ExtResource( 7 )
+bandcolor = Color( 0.670588, 0.458824, 0.909804, 1 )
+bordercolor = Color( 0.247059, 0.113725, 0.282353, 1 )
+backcolor = Color( 0.470588, 0.25098, 0.713726, 1 )
+
+[node name="Card" type="PanelContainer" parent="."]
+visible = false
 margin_right = 225.0
 margin_bottom = 284.0
 rect_pivot_offset = Vector2( 125, 125 )
 size_flags_horizontal = 6
 size_flags_vertical = 6
 custom_styles/panel = SubResource( 1 )
-script = ExtResource( 7 )
-bandcolor = Color( 0.670588, 0.458824, 0.909804, 1 )
-bordercolor = Color( 0.247059, 0.113725, 0.282353, 1 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="Card"]
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 221.0
 margin_bottom = 280.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Card/VBoxContainer"]
 margin_right = 217.0
 margin_bottom = 192.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Card/VBoxContainer/VBoxContainer"]
 margin_right = 217.0
 margin_bottom = 38.0
 
-[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="Card/VBoxContainer/VBoxContainer/HBoxContainer"]
 margin_right = 53.0
 margin_bottom = 38.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Name" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Name" type="Label" parent="Card/VBoxContainer/VBoxContainer/HBoxContainer"]
 margin_left = 57.0
 margin_right = 217.0
 margin_bottom = 38.0
@@ -91,18 +137,18 @@ align = 1
 valign = 1
 clip_text = true
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Card/VBoxContainer/VBoxContainer"]
 margin_top = 42.0
 margin_right = 217.0
 margin_bottom = 192.0
 
-[node name="Control2" type="Control" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="Control2" type="Control" parent="Card/VBoxContainer/VBoxContainer/HBoxContainer2"]
 margin_right = 29.0
 margin_bottom = 150.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="CardTexture" type="TextureRect" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="CardTexture" type="TextureRect" parent="Card/VBoxContainer/VBoxContainer/HBoxContainer2"]
 margin_left = 33.0
 margin_right = 183.0
 margin_bottom = 150.0
@@ -113,37 +159,37 @@ size_flags_stretch_ratio = 2.0
 expand = true
 stretch_mode = 6
 
-[node name="Control" type="Control" parent="VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="Control" type="Control" parent="Card/VBoxContainer/VBoxContainer/HBoxContainer2"]
 margin_left = 187.0
 margin_right = 217.0
 margin_bottom = 150.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="CardBand" type="PanelContainer" parent="VBoxContainer"]
+[node name="CardBand" type="PanelContainer" parent="Card/VBoxContainer"]
 margin_top = 196.0
 margin_right = 217.0
 margin_bottom = 268.0
 custom_styles/panel = SubResource( 2 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/CardBand"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Card/VBoxContainer/CardBand"]
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 213.0
 margin_bottom = 68.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/CardBand/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Card/VBoxContainer/CardBand/VBoxContainer"]
 margin_right = 209.0
 margin_bottom = 29.0
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer"]
 margin_right = 25.0
 margin_bottom = 29.0
 custom_constants/margin_right = -7
 custom_constants/margin_top = 4
 custom_constants/margin_left = 7
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer/MarginContainer"]
 margin_left = 7.0
 margin_top = 4.0
 margin_right = 32.0
@@ -155,25 +201,25 @@ texture = ExtResource( 1 )
 expand = true
 stretch_mode = 6
 
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer"]
 margin_left = 29.0
 margin_right = 54.0
 margin_bottom = 29.0
 custom_constants/separation = 25
 
-[node name="AttackGrid" type="HBoxContainer" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer"]
+[node name="AttackGrid" type="HBoxContainer" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer"]
 margin_left = 58.0
 margin_right = 199.0
 margin_bottom = 29.0
 
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer/AttackGrid"]
+[node name="TextureRect2" type="TextureRect" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer/AttackGrid"]
 margin_right = 25.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 25, 25 )
 expand = true
 stretch_mode = 6
 
-[node name="TextureRect3" type="TextureRect" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer/AttackGrid"]
+[node name="TextureRect3" type="TextureRect" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer/AttackGrid"]
 margin_left = 29.0
 margin_right = 54.0
 margin_bottom = 29.0
@@ -181,7 +227,7 @@ rect_min_size = Vector2( 25, 25 )
 expand = true
 stretch_mode = 6
 
-[node name="TextureRect4" type="TextureRect" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer/AttackGrid"]
+[node name="TextureRect4" type="TextureRect" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer/AttackGrid"]
 margin_left = 58.0
 margin_right = 83.0
 margin_bottom = 29.0
@@ -189,7 +235,7 @@ rect_min_size = Vector2( 25, 25 )
 expand = true
 stretch_mode = 6
 
-[node name="TextureRect5" type="TextureRect" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer/AttackGrid"]
+[node name="TextureRect5" type="TextureRect" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer/AttackGrid"]
 margin_left = 87.0
 margin_right = 112.0
 margin_bottom = 29.0
@@ -197,7 +243,7 @@ rect_min_size = Vector2( 25, 25 )
 expand = true
 stretch_mode = 6
 
-[node name="TextureRect6" type="TextureRect" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer/AttackGrid"]
+[node name="TextureRect6" type="TextureRect" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer/AttackGrid"]
 margin_left = 116.0
 margin_right = 141.0
 margin_bottom = 29.0
@@ -205,25 +251,25 @@ rect_min_size = Vector2( 25, 25 )
 expand = true
 stretch_mode = 6
 
-[node name="HSeparator" type="HSeparator" parent="VBoxContainer/CardBand/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="Card/VBoxContainer/CardBand/VBoxContainer"]
 margin_top = 33.0
 margin_right = 209.0
 margin_bottom = 33.0
 custom_constants/separation = 0
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/CardBand/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Card/VBoxContainer/CardBand/VBoxContainer"]
 margin_top = 37.0
 margin_right = 209.0
 margin_bottom = 64.0
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer2"]
 margin_right = 25.0
 margin_bottom = 27.0
 custom_constants/margin_right = -7
 custom_constants/margin_left = 7
 custom_constants/margin_bottom = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer2/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer2/MarginContainer"]
 margin_left = 7.0
 margin_right = 32.0
 margin_bottom = 25.0
@@ -232,25 +278,25 @@ texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
 
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer2"]
+[node name="VSeparator" type="VSeparator" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer2"]
 margin_left = 29.0
 margin_right = 54.0
 margin_bottom = 27.0
 custom_constants/separation = 25
 
-[node name="DefenseGrid" type="HBoxContainer" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer2"]
+[node name="DefenseGrid" type="HBoxContainer" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer2"]
 margin_left = 58.0
 margin_right = 199.0
 margin_bottom = 27.0
 
-[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer2/DefenseGrid"]
+[node name="TextureRect2" type="TextureRect" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer2/DefenseGrid"]
 margin_right = 25.0
 margin_bottom = 27.0
 rect_min_size = Vector2( 25, 25 )
 expand = true
 stretch_mode = 6
 
-[node name="TextureRect3" type="TextureRect" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer2/DefenseGrid"]
+[node name="TextureRect3" type="TextureRect" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer2/DefenseGrid"]
 margin_left = 29.0
 margin_right = 54.0
 margin_bottom = 27.0
@@ -258,7 +304,7 @@ rect_min_size = Vector2( 25, 25 )
 expand = true
 stretch_mode = 6
 
-[node name="TextureRect4" type="TextureRect" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer2/DefenseGrid"]
+[node name="TextureRect4" type="TextureRect" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer2/DefenseGrid"]
 margin_left = 58.0
 margin_right = 83.0
 margin_bottom = 27.0
@@ -266,7 +312,7 @@ rect_min_size = Vector2( 25, 25 )
 expand = true
 stretch_mode = 6
 
-[node name="TextureRect5" type="TextureRect" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer2/DefenseGrid"]
+[node name="TextureRect5" type="TextureRect" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer2/DefenseGrid"]
 margin_left = 87.0
 margin_right = 112.0
 margin_bottom = 27.0
@@ -274,10 +320,189 @@ rect_min_size = Vector2( 25, 25 )
 expand = true
 stretch_mode = 6
 
-[node name="TextureRect6" type="TextureRect" parent="VBoxContainer/CardBand/VBoxContainer/HBoxContainer2/DefenseGrid"]
+[node name="TextureRect6" type="TextureRect" parent="Card/VBoxContainer/CardBand/VBoxContainer/HBoxContainer2/DefenseGrid"]
 margin_left = 116.0
 margin_right = 141.0
 margin_bottom = 27.0
+rect_min_size = Vector2( 25, 25 )
+expand = true
+stretch_mode = 6
+
+[node name="CardBack" type="PanelContainer" parent="."]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 221.0
+margin_bottom = 280.0
+rect_pivot_offset = Vector2( 125, 125 )
+custom_styles/panel = SubResource( 3 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CardBack"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 213.0
+margin_bottom = 272.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CardBack/VBoxContainer"]
+margin_right = 209.0
+margin_bottom = 192.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CardBack/VBoxContainer/VBoxContainer"]
+margin_right = 209.0
+margin_bottom = 38.0
+
+[node name="Control" type="Control" parent="CardBack/VBoxContainer/VBoxContainer/HBoxContainer"]
+margin_right = 209.0
+margin_bottom = 38.0
+rect_min_size = Vector2( 55, 38 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CardBack/VBoxContainer/VBoxContainer"]
+margin_top = 42.0
+margin_right = 209.0
+margin_bottom = 192.0
+
+[node name="Control2" type="Control" parent="CardBack/VBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_right = 25.0
+margin_bottom = 150.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CardTexture" type="TextureRect" parent="CardBack/VBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 29.0
+margin_right = 179.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 150, 150 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+expand = true
+stretch_mode = 6
+
+[node name="Control" type="Control" parent="CardBack/VBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 183.0
+margin_right = 209.0
+margin_bottom = 150.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CardBackBand" type="PanelContainer" parent="CardBack/VBoxContainer"]
+margin_top = 196.0
+margin_right = 209.0
+margin_bottom = 254.0
+custom_styles/panel = SubResource( 4 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CardBack/VBoxContainer/CardBackBand"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 207.0
+margin_bottom = 56.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer"]
+margin_right = 205.0
+margin_bottom = 25.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer/HBoxContainer"]
+margin_bottom = 25.0
+custom_constants/margin_right = -7
+custom_constants/margin_top = 4
+custom_constants/margin_left = 7
+
+[node name="AttackGrid" type="HBoxContainer" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer/HBoxContainer"]
+margin_left = 4.0
+margin_right = 145.0
+margin_bottom = 25.0
+
+[node name="TextureRect2" type="TextureRect" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer/HBoxContainer/AttackGrid"]
+margin_right = 25.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 25, 25 )
+expand = true
+stretch_mode = 6
+
+[node name="TextureRect3" type="TextureRect" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer/HBoxContainer/AttackGrid"]
+margin_left = 29.0
+margin_right = 54.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 25, 25 )
+expand = true
+stretch_mode = 6
+
+[node name="TextureRect4" type="TextureRect" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer/HBoxContainer/AttackGrid"]
+margin_left = 58.0
+margin_right = 83.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 25, 25 )
+expand = true
+stretch_mode = 6
+
+[node name="TextureRect5" type="TextureRect" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer/HBoxContainer/AttackGrid"]
+margin_left = 87.0
+margin_right = 112.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 25, 25 )
+expand = true
+stretch_mode = 6
+
+[node name="TextureRect6" type="TextureRect" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer/HBoxContainer/AttackGrid"]
+margin_left = 116.0
+margin_right = 141.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 25, 25 )
+expand = true
+stretch_mode = 6
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer"]
+margin_top = 29.0
+margin_right = 205.0
+margin_bottom = 54.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer/HBoxContainer2"]
+margin_bottom = 25.0
+custom_constants/margin_right = -7
+custom_constants/margin_left = 7
+custom_constants/margin_bottom = 2
+
+[node name="DefenseGrid" type="HBoxContainer" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer/HBoxContainer2"]
+margin_left = 4.0
+margin_right = 145.0
+margin_bottom = 25.0
+
+[node name="TextureRect2" type="TextureRect" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer/HBoxContainer2/DefenseGrid"]
+margin_right = 25.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 25, 25 )
+expand = true
+stretch_mode = 6
+
+[node name="TextureRect3" type="TextureRect" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer/HBoxContainer2/DefenseGrid"]
+margin_left = 29.0
+margin_right = 54.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 25, 25 )
+expand = true
+stretch_mode = 6
+
+[node name="TextureRect4" type="TextureRect" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer/HBoxContainer2/DefenseGrid"]
+margin_left = 58.0
+margin_right = 83.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 25, 25 )
+expand = true
+stretch_mode = 6
+
+[node name="TextureRect5" type="TextureRect" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer/HBoxContainer2/DefenseGrid"]
+margin_left = 87.0
+margin_right = 112.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 25, 25 )
+expand = true
+stretch_mode = 6
+
+[node name="TextureRect6" type="TextureRect" parent="CardBack/VBoxContainer/CardBackBand/VBoxContainer/HBoxContainer2/DefenseGrid"]
+margin_left = 116.0
+margin_right = 141.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 25, 25 )
 expand = true
 stretch_mode = 6

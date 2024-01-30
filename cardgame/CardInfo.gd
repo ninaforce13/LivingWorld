@@ -1,16 +1,21 @@
-extends PanelContainer
+extends Control
 const gradestar:Texture = preload("res://ui/party/grade.png")
 onready var card_name:Label = find_node("Name")
 onready var card_image:TextureRect = find_node("CardTexture")
 onready var card_attack_grid:HBoxContainer = find_node("AttackGrid")
 onready var card_defense_grid:HBoxContainer = find_node("DefenseGrid")
 onready var cardband:PanelContainer = find_node("CardBand")
-export (Dictionary) var card_info:Dictionary = {"name":"name","texture":null,"attack":3,"defense":3}
-export (Resource) var form
+onready var card:PanelContainer = find_node("Card")
+onready var cardback:PanelContainer = find_node("CardBack")
+onready var cardbackband:PanelContainer = find_node("CardBackBand")
+export (Dictionary) var card_info:Dictionary = {"name":"name","texture":null,"attack":3,"defense":3,"remastered":false}
+export (String) var form
 export (Color) var bandcolor
 export (Color) var bordercolor
+export (Color) var backcolor
 var origin
 var tween:Tween
+
 func _ready():
 	set_card()
 	set_colors()
@@ -22,7 +27,8 @@ func animate_playcard(endposition,duration=0.5):
 	tween.stop_all()
 	tween.interpolate_property(self,"rect_global_position",rect_global_position,endposition,duration,Tween.TRANS_BOUNCE,Tween.EASE_OUT)
 	tween.start()
-
+	yield(tween,"tween_completed")
+	rect_global_position = rect_global_position
 func animate_hover_enter():
 	if tween.is_active():
 		yield(tween,"tween_completed")
@@ -39,9 +45,18 @@ func set_colors():
 	new_styleboxflat.bg_color = bandcolor
 	new_styleboxflat.border_color = bordercolor
 	cardband.add_stylebox_override("panel",new_styleboxflat)
-	var mainstylebox = get_stylebox("panel").duplicate()
+	var mainstylebox = card.get_stylebox("panel").duplicate()
 	mainstylebox.border_color = bordercolor
-	add_stylebox_override("panel",mainstylebox)
+	card.add_stylebox_override("panel",mainstylebox)
+
+	var cardback_bandstylebox = cardbackband.get_stylebox("panel").duplicate()
+	cardback_bandstylebox.bg_color = bandcolor
+	cardback_bandstylebox.border_color = bordercolor
+	cardbackband.add_stylebox_override("panel",cardback_bandstylebox)
+	var cardback_mainstylebox = cardback.get_stylebox("panel").duplicate()
+	cardback_mainstylebox.bg_color = backcolor
+	cardback_mainstylebox.border_color = bordercolor
+	cardback.add_stylebox_override("panel",cardback_mainstylebox)
 
 func set_card():
 	if form:
@@ -63,11 +78,11 @@ func set_card():
 		count +=1
 
 func set_card_info(form):
-	var monster_form:MonsterForm = load(form.resource_path)
+	var monster_form:MonsterForm = load(form)
 	card_info.name = Loc.tr(monster_form.name)
 	card_info.texture = monster_form.tape_sticker_texture
-	card_info.attack = calculate_grade("attack",form)
-	card_info.defense = calculate_grade("defense",form)
+	card_info.attack = calculate_grade("attack",monster_form)
+	card_info.defense = calculate_grade("defense",monster_form)
 
 func calculate_grade(type,form:MonsterForm)->int:
 	var result:int = 0
@@ -89,3 +104,17 @@ func get_stat_value(stat:int)->int:
 	if stat > 100:
 		return 1
 	return 0
+
+func flip_card(duration):
+	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(0,1),duration,Tween.TRANS_LINEAR,Tween.EASE_OUT)
+	tween.start()
+	yield(tween,"tween_completed")
+	cardback.visible = !cardback.visible
+	card.visible = !card.visible
+	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(1,1),duration,Tween.TRANS_LINEAR,Tween.EASE_OUT)
+	tween.start()
+
+func flip_card_instant():
+	cardback.visible = !cardback.visible
+	card.visible = !card.visible
+

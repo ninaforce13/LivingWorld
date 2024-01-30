@@ -2,6 +2,7 @@ extends "res://menus/BaseMenu.gd"
 signal enemyturn
 signal gameover
 const card_template = preload("res://mods/LivingWorld/cardgame/CardTemplate.tscn")
+const resolve_value:int = 3
 
 onready var OpponentHandGrid = find_node("OpponentHandGrid")
 onready var PlayerHandGrid = find_node("PlayerHandGrid")
@@ -17,6 +18,13 @@ onready var EnemySprite = find_node("EnemySprite")
 onready var PlayerSprite = find_node("PlayerSprite")
 onready var PlayerHeartGauge = find_node("PlayerHeartGauge")
 onready var EnemyHeartGauge = find_node("EnemyHeartGauge")
+onready var EnemyAttackLabel = find_node("EnemyAttackValue")
+onready var EnemyDefenseLabel = find_node("EnemyDefenseValue")
+onready var PlayerAttackLabel = find_node("AttackValue")
+onready var PlayerDefenseLabel = find_node("DefenseValue")
+onready var Banner = find_node("Banner")
+onready var BannerStart = find_node("BannerStart")
+onready var BannerEnd = find_node("BannerEnd")
 
 export (Dictionary) var player_setup
 export (Dictionary) var enemy_setup
@@ -29,32 +37,40 @@ enum State {ATTACK,DEFENSE,NEUTRAL}
 enum Team  {PLAYER,ENEMY}
 var random:Random
 var player_deck:Array = []
+var player_discard:Array = []
 var enemy_deck:Array = []
+var enemy_discard:Array = []
 var player_turn:bool = false
 var player_entry_point
 var enemy_entry_point
-var player_stats:Dictionary = {"max_hp":3,"hp":3,"state":State.NEUTRAL,"attack":0,"defense":0}
-var enemy_stats:Dictionary = {"max_hp":3,"hp":3,"state":State.NEUTRAL,"attack":0,"defense":0}
+var player_stats:Dictionary = {"max_hp":6,"hp":6,"state":State.NEUTRAL,"attack":0,"defense":0,"attack_value":0,"defense_value":0}
+var enemy_stats:Dictionary = {"max_hp":6,"hp":6,"state":State.NEUTRAL,"attack":0,"defense":0,"attack_value":0,"defense_value":0}
 var winner_name:String
 var enemy_tween:Tween
 var player_tween:Tween
-
 
 func _ready():
 	PlayerSprite.animate_turn_end()
 	EnemySprite.animate_turn_end()
 	set_heartgauge_tween()
+
 	if player_data:
 		PlayerSprite.set_sprite(player_data)
 	if enemy_data:
 		EnemySprite.set_sprite(enemy_data)
+
 	if deck_seed != 0:
 		random = Random.new(deck_seed)
 	else:
 		random = Random.new()
 
-	player_deck = build_demo_deck(0)
-	enemy_deck = build_demo_deck(1)
+	if player_deck.empty():
+		player_deck = get_player_deck()
+		random.shuffle(player_deck)
+	if enemy_deck.empty():
+		enemy_deck = build_demo_deck(1)
+		random.shuffle(enemy_deck)
+
 	yield(Co.wait(1),"completed")
 	for _i in range (0,5):
 		yield(Co.wrap(draw_card(Team.PLAYER)),"completed")
@@ -63,8 +79,10 @@ func _ready():
 
 	connect("enemyturn",self,"enemy_move")
 	connect("gameover",self,"end_game")
+
 	if PlayerHandGrid.get_child_count() < 5:
 		yield(Co.wait(5),"completed")
+
 	set_focus_buttons()
 	set_player_turn(true)
 
@@ -84,8 +102,9 @@ func end_game():
 		EnemySprite.animate_defeat()
 	else:
 		PlayerSprite.animate_defeat()
-	var co = GlobalMessageDialog.passive_message.show_message("This Game's Winner is: %s"%winner)
-	yield (Co.safe_yield(self, co), "completed")
+		Banner.set_colors(Team.PLAYER)
+		Banner.set_text("Player Turn")
+		yield(Co.wrap(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5)),"completed")
 	choose_option(winner == WorldSystem.get_player().name)
 
 func is_game_ended()->bool:
@@ -95,6 +114,7 @@ func set_card_colors(card,team):
 	var setup = player_setup if team == Team.PLAYER else enemy_setup
 	card.bordercolor = setup.bordercolor
 	card.bandcolor = setup.bandcolor
+	card.backcolor = setup.backcolor
 
 func ready_to_resolve()->bool:
 	var result:bool = true
@@ -107,64 +127,89 @@ func ready_to_resolve()->bool:
 			result = false
 	return result
 
+func resolve_stats(stats:Dictionary)->Dictionary:
+	var result:Dictionary = {"attack":0,"defense":0}
+	result.attack = int(stats.attack / resolve_value) if stats.state != State.DEFENSE else 0
+	result.defense = int(stats.defense / resolve_value) if stats.state != State.ATTACK else 0
+	return result
+
+func update_value_labels():
+	var player_result = resolve_stats(player_stats)
+	PlayerAttackLabel.text = str(player_result.attack)
+	PlayerDefenseLabel.text = str(player_result.defense)
+
+	var enemy_result = resolve_stats(enemy_stats)
+	EnemyAttackLabel.text = str(enemy_result.attack)
+	EnemyDefenseLabel.text = str(enemy_result.defense)
+
 func resolve_field():
-	var winner
-	var loser
-	var chosen_player_stat = get_wield_stat(player_stats)
-	var chosen_enemy_stat = get_wield_stat(enemy_stats)
-	print("player value: %s vs enemy value: %s"%[str(chosen_player_stat),str(chosen_enemy_stat)])
-	if chosen_player_stat > chosen_enemy_stat:
+	var player_result:Dictionary = resolve_stats(player_stats)
+	var enemy_result:Dictionary = resolve_stats(enemy_stats)
+
+	if player_result.attack > enemy_result.defense:
 		EnemySprite.animate_damage()
 		animate_heart_damage(Team.ENEMY)
-		enemy_stats.hp -= 1
+		enemy_stats.hp -= (player_result.attack - enemy_result.defense)
+		enemy_stats.hp = clamp(enemy_stats.hp,0,enemy_stats.max_hp)
 		EnemyHealth.text = str(enemy_stats.hp)
-		GlobalMessageDialog.passive_message.show_message("Round Winner: Player")
 
-	if chosen_player_stat < chosen_enemy_stat:
+	if player_result.defense > enemy_result.attack:
+#		animate_heal
+		player_stats.hp += (player_result.defense - enemy_result.attack)
+		player_stats.hp = clamp(player_stats.hp, 0, player_stats.max_hp)
+		PlayerHealth.text = str(player_stats.hp)
+
+	if enemy_result.attack > player_result.defense:
 		PlayerSprite.animate_damage()
 		animate_heart_damage(Team.PLAYER)
-		player_stats.hp -= 1
+		player_stats.hp -= (enemy_result.attack - player_result.defense)
 		PlayerHealth.text = str(player_stats.hp)
-		GlobalMessageDialog.passive_message.show_message("Round Winner: Enemy")
+	if enemy_result.defense > player_result.attack:
+		enemy_stats.hp += (enemy_result.defense - player_result.attack)
+		enemy_stats.hp = clamp(enemy_stats.hp,0,enemy_stats.max_hp)
+		EnemyHealth.text = str(enemy_stats.hp)
 
-	if chosen_player_stat == chosen_enemy_stat:
-		GlobalMessageDialog.passive_message.show_message("Draw")
 	reset_stats()
 	yield(Co.wait(2),"completed")
 	clear_battlefield()
+	update_value_labels()
 	set_state(enemy_stats.state,Team.ENEMY)
 	set_state(player_stats.state,Team.PLAYER)
 	yield(Co.wait(3),"completed")
 
 func clear_battlefield():
 	for slot in EnemyField.get_children():
+		slot.get_card().flip_card(0.1)
+		yield(Co.wait(0.2),"completed")
+	for slot in PlayerField.get_children():
+		slot.get_card().flip_card(0.1)
+		yield(Co.wait(0.2),"completed")
+	yield(Co.wait(0.5),"completed")
+	for slot in EnemyField.get_children():
 		var movepos = EnemyDeck.rect_global_position
+		enemy_discard.push_back(slot.get_card().duplicate())
 		yield(Co.wrap(slot.clear_slot(true,movepos)),"completed")
+
 	for slot in PlayerField.get_children():
 		var movepos = PlayerDeck.rect_global_position
+		player_discard.push_back(slot.get_card().duplicate())
 		yield(Co.wrap(slot.clear_slot(true,movepos)),"completed")
 
 func reset_stats():
 	player_stats.attack = 0
 	player_stats.defense = 0
+	player_stats.defense_value = 0
+	player_stats.attack_value = 0
 	enemy_stats.attack = 0
 	enemy_stats.defense = 0
+	enemy_stats.defense_value = 0
+	enemy_stats.attack_value = 0
+
 	player_stats.state = State.NEUTRAL
 	enemy_stats.state = State.NEUTRAL
 
-func get_wield_stat(stats):
-	var result = null
-	if stats.state == State.ATTACK:
-		result = stats.attack
-	if stats.state == State.DEFENSE:
-		result = stats.defense
-	if stats.state == State.NEUTRAL:
-		result = stats.attack
-	return result
-
 func setup_button(card):
 	var card_button = Button.new()
-	var child_index = card.get_parent().get_index()
 	card_button.name = "Button"
 	card_button.focus_mode = Control.FOCUS_ALL
 	card_button.connect("pressed",self,"player_card_picked",[card])
@@ -233,27 +278,35 @@ func player_card_picked(card):
 	var empty_slot = get_empty_slot(PlayerField)
 	var move_pos = empty_slot.get_global_rect().position
 	card.animate_playcard(move_pos)
+	var remaster_bonus:bool = check_remasters(PlayerField,card)
 	yield(Co.wait(.3),"completed")
 	if card.has_node("Button"):
 		var button = card.get_node("Button")
 		card.remove_child(button)
 	empty_slot.set_card(card)
+	if remaster_bonus:
+		Banner.set_colors(Team.PLAYER)
+		Banner.set_text("Remaster Bonus!")
+		yield(Co.wrap(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5)),"completed")
+		yield(Banner.tween,"tween_completed")
 	if active_field(Team.PLAYER):
-		player_stats = evaluate_state(Team.PLAYER, card)
+		player_stats = evaluate_state(Team.PLAYER, card, remaster_bonus)
 		set_state(player_stats.state,Team.PLAYER)
+		update_value_labels()
 	set_focus_buttons()
 	set_player_turn(false)
+	yield(Co.wait(0.5),"completed")
 	emit_signal("enemyturn")
 	PlayerSprite.animate_turn_end()
 
 func set_state(state,team):
 	var label = PlayerState if team == Team.PLAYER else EnemyState
 	if state == State.NEUTRAL:
-		label.text = "Neutral"
+		label.text = "LIVINGWORLD_CARDS_UI_NEUTRAL"
 	if state == State.ATTACK:
-		label.text = "Attacking"
+		label.text = "LIVINGWORLD_CARDS_UI_ATTACK"
 	if state == State.DEFENSE:
-		label.text = "Defending"
+		label.text = "LIVINGWORLD_CARDS_UI_DEFENSE"
 
 func get_empty_slot(container):
 	var result = null
@@ -266,7 +319,8 @@ func get_empty_slot(container):
 func draw_card(team):
 	var hand = PlayerHandGrid if team == Team.PLAYER else OpponentHandGrid
 	var deck:Array = player_deck if team == Team.PLAYER else enemy_deck
-	var card = deck.pop_front()
+	var discard:Array = player_discard if team == Team.PLAYER else enemy_discard
+	var card = deck.pop_front() if !deck.empty() else refresh_deck(deck,discard)
 	var hand_slot = null
 	var draw_point = PlayerDeck if team == Team.PLAYER else EnemyDeck
 	if card == null:
@@ -279,18 +333,30 @@ func draw_card(team):
 	draw_point.set_card(card)
 	card.rect_position = Vector2.ZERO
 	card.animate_playcard(hand_slot.rect_global_position,.3)
-	yield(Co.wait(0.3),"completed")
+	yield(Co.wait(0.4),"completed")
 	hand_slot.set_card(card)
 	if team == Team.PLAYER:
 		setup_button(card)
+		card.flip_card(0.1)
+		yield(Co.wait(0.3),"completed")
+
+func refresh_deck(deck,discard):
+	var card
+	for _i in range(discard.size()):
+		deck.push_back(discard.pop_front())
+		random.shuffle(deck)
+	card = deck.pop_front()
+	return card
 
 func enemy_move():
 	EnemySprite.animate_turn()
-	var co = GlobalMessageDialog.passive_message.show_message("Enemy Turn")
-	yield (Co.safe_yield(self, co), "completed")
+	Banner.set_colors(Team.ENEMY)
+	Banner.set_text("Enemy Turn")
+	yield(Co.wrap(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5)),"completed")
+	yield(Banner.tween,"tween_completed")
 	if can_draw_card(Team.ENEMY):
 		yield(Co.wrap(draw_card(Team.ENEMY)),"completed")
-		yield(Co.wait(1),"completed")
+		yield(Co.wait(0.3),"completed")
 	var card
 
 	if enemy_stats.state == State.NEUTRAL:
@@ -299,19 +365,43 @@ func enemy_move():
 		card = get_card(State.ATTACK)
 	if enemy_stats.state == State.DEFENSE:
 		card = get_card(State.DEFENSE)
-
+	card.flip_card(0.1)
+	yield(Co.wait(0.3),"completed")
 	var empty_slot = get_empty_slot(EnemyField)
 	var move_pos = empty_slot.get_global_rect().position
+	var remaster_bonus:bool = check_remasters(EnemyField,card)
 	card.animate_playcard(move_pos)
-	yield(Co.wait(.5),"completed")
-
+	yield(Co.wait(0.3),"completed")
 	empty_slot.set_card(card)
-
+	if remaster_bonus:
+		Banner.set_colors(Team.ENEMY)
+		Banner.set_text("Remaster Bonus!")
+		yield(Co.wrap(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5)),"completed")
+		yield(Banner.tween,"tween_completed")
 	if active_field(Team.ENEMY):
-		enemy_stats = evaluate_state(Team.ENEMY,card)
+		enemy_stats = evaluate_state(Team.ENEMY,card,remaster_bonus)
 		set_state(enemy_stats.state,Team.ENEMY)
+		update_value_labels()
+	yield(Co.wait(0.5),"completed")
 	EnemySprite.animate_turn_end()
 	set_player_turn(true)
+
+func check_remasters(field, new_card)->bool:
+	var result:bool = false
+	for card_slot in field.get_children():
+		if !card_slot.occupied():
+			continue
+		var card = card_slot.get_card()
+		var form = load(card.form)
+		var new_card_form = load(new_card.form)
+		if form.evolutions.size() > 0:
+			for evo in form.evolutions:
+				if evo.evolved_form == new_card_form and !card.card_info.remastered:
+					result = true
+					card.card_info.remastered = true
+					break
+
+	return result
 
 func active_field(team:int)->bool:
 	var result:bool = false
@@ -322,16 +412,22 @@ func active_field(team:int)->bool:
 			break
 	return result
 
-func evaluate_state(team:int, card):
+func evaluate_state(team:int, card, bonus:bool):
 	var stats = player_stats if team == Team.PLAYER else enemy_stats
 	stats.attack += card.card_info.attack
 	stats.defense += card.card_info.defense
 	if stats.attack > stats.defense:
 		stats.state = State.ATTACK
+
 	if stats.defense > stats.attack:
 		stats.state = State.DEFENSE
+
 	if stats.defense == stats.attack:
 		stats.state = State.NEUTRAL
+
+	if bonus:
+		stats.attack += resolve_value
+		stats.defense += resolve_value
 	return stats
 
 func get_card(state):
@@ -374,8 +470,12 @@ func set_player_turn(value:bool):
 			return
 
 	if value:
-		GlobalMessageDialog.passive_message.show_message("Your Turn")
+		Banner.set_colors(Team.PLAYER)
+		Banner.set_text("Player Turn")
+		yield(Co.wrap(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5)),"completed")
+		yield(Banner.tween,"tween_completed")
 		PlayerSprite.animate_turn()
+
 		if can_draw_card(Team.PLAYER):
 			yield(Co.wrap(draw_card(Team.PLAYER)),"completed")
 			yield(Co.wait(0.3),"completed")
@@ -399,12 +499,13 @@ func can_draw_card(team)->bool:
 
 func build_demo_deck(_team:int)->Array:
 	var deck:Array = []
+	var forms = MonsterForms.by_index
 	for _i in range (0,25):
-		var form = random.choice(MonsterForms.basic_forms.values())
+		var form = forms.pop_front()
 		var card = card_template.instance()
-		card.form = form
+		card.form = form.resource_path
 		deck.push_back(card.duplicate())
-	deck.shuffle()
+#	deck.shuffle()
 	return deck
 
 func animate_heart_damage(team):
@@ -425,3 +526,19 @@ func animate_heart_damage(team):
 		enemy_tween.interpolate_property(EnemyHeartGauge,"rect_position",origin + Vector2(50,0),origin,duration,Tween.TRANS_BOUNCE,Tween.EASE_OUT)
 		enemy_tween.start()
 		yield(enemy_tween,"tween_completed")
+
+func get_player_deck()->Array:
+	var result:Array = []
+	var manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
+	if !manager.has_savedata():
+		manager.initialize_savedata()
+	var collection = manager.get_card_collection()
+	for item in collection.values():
+		if item.deck > 0:
+			for _i in range(0,item.deck):
+				var card = card_template.instance()
+				card.form = item.path
+				result.push_back(card.duplicate())
+	return result
+
+

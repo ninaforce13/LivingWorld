@@ -1777,6 +1777,23 @@ script = ExtResource( 94 )
 [node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/FaceTowardsAction"]
 script = ExtResource( 97 )
 
+[node name="FollowAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 63 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 4.0
+ignore_ending_y = false
+
+[node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/FollowAction"]
+script = ExtResource( 97 )
+
 [node name="WaitUntil" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile"]
 script = ExtResource( 8 )
 base_seconds = 20.0

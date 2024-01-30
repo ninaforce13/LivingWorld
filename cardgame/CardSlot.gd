@@ -2,6 +2,11 @@ extends PanelContainer
 
 var current_card = null
 var card_info:Dictionary = {}
+var tween:Tween
+
+func _ready():
+	tween = Tween.new()
+	add_child(tween)
 
 func set_card(card):
 	var old_slot = card.get_parent()
@@ -29,8 +34,6 @@ func clear_slot(animate:bool = false,movepos = Vector2.ZERO):
 
 func get_card():
 	return current_card
-
-
 
 
 

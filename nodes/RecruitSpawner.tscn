@@ -13,7 +13,3 @@ require_quest_state = 8
 aabb = AABB( -5, 0, -5, 10, 2, 10 )
 max_distance = 100.0
 script = ExtResource( 1 )
-spawn_period = 5.0
-initial_spawns = 0
-day_max_spawns = 0
-night_max_spawns = 0

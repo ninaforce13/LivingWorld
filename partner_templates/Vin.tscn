@@ -1,4 +1,4 @@
-[gd_scene load_steps=142 format=2]
+[gd_scene load_steps=139 format=2]
 
 [ext_resource path="res://data/monster_forms/artillerex.tres" type="Resource" id=1]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
@@ -26,7 +26,7 @@
 [ext_resource path="res://mods/LivingWorld/actions/RecordSuccessAction.gd" type="Script" id=24]
 [ext_resource path="res://mods/LivingWorld/actions/SetTouchDetector.gd" type="Script" id=25]
 [ext_resource path="res://sfx/voices/eugene/eugene_recording_success.wav" type="AudioStream" id=26]
-[ext_resource path="res://sfx/voices/kayleigh/kayleigh_greeting.wav" type="AudioStream" id=27]
+[ext_resource path="res://sprites/portraits/vin_happy.png" type="Texture" id=27]
 [ext_resource path="res://world/npc/SwimmingState.gd" type="Script" id=28]
 [ext_resource path="res://world/npc/PauseState.gd" type="Script" id=29]
 [ext_resource path="res://world/npc/DashingState.gd" type="Script" id=30]
@@ -98,19 +98,16 @@
 [ext_resource path="res://data/character_sfx/vin_sfx.tres" type="Resource" id=96]
 [ext_resource path="res://mods/LivingWorld/characters/vin.tres" type="Resource" id=97]
 [ext_resource path="res://mods/LivingWorld/nodes/MouseClick.tscn" type="PackedScene" id=98]
+[ext_resource path="res://sprites/portraits/vin.png" type="Texture" id=99]
 [ext_resource path="res://mods/LivingWorld/scripts/setbattlesprite.gd" type="Script" id=100]
 [ext_resource path="res://mods/LivingWorld/actions/MenuDialog.gd" type="Script" id=101]
 [ext_resource path="res://sfx/voices/eugene/eugene_story_1.wav" type="AudioStream" id=102]
 [ext_resource path="res://sfx/voices/eugene/eugene_awkward.wav" type="AudioStream" id=103]
-[ext_resource path="res://sprites/portraits/kayleigh_happy.png" type="Texture" id=104]
+[ext_resource path="res://sprites/portraits/vin_angry.png" type="Texture" id=104]
 [ext_resource path="res://sfx/voices/eugene/eugene_sigh_4.wav" type="AudioStream" id=105]
-[ext_resource path="res://sfx/voices/eugene/eugene_farewell.wav" type="AudioStream" id=106]
+[ext_resource path="res://sprites/portraits/vin_sad.png" type="Texture" id=106]
 [ext_resource path="res://sfx/voices/eugene/eugene_motivated_3.wav" type="AudioStream" id=107]
-[ext_resource path="res://sprites/portraits/eugene_happy.png" type="Texture" id=108]
-[ext_resource path="res://sprites/portraits/eugene_sad.png" type="Texture" id=109]
-[ext_resource path="res://sprites/portraits/eugene_angry_smile.png" type="Texture" id=110]
-[ext_resource path="res://sprites/portraits/eugene_angry.png" type="Texture" id=111]
-[ext_resource path="res://sprites/portraits/eugene_awkward.png" type="Texture" id=112]
+[ext_resource path="res://sprites/portraits/vin_thinking.png" type="Texture" id=108]
 [ext_resource path="res://sfx/voices/eugene/eugene_sigh_3.wav" type="AudioStream" id=113]
 [ext_resource path="res://sfx/voices/eugene/eugene_greeting.wav" type="AudioStream" id=114]
 [ext_resource path="res://sfx/voices/eugene/eugene_sigh_1.wav" type="AudioStream" id=115]
@@ -1276,7 +1273,7 @@ selection = 3
 
 [node name="PassiveMessageAction" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2/IsPlayerNearby"]
 script = ExtResource( 16 )
-message = "EUGENE_PASSIVE_ROGUES_MESSAGE1"
+message = "VIN_PASSIVE_ROGUES_MESSAGE1"
 
 [node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2"]
 script = ExtResource( 92 )
@@ -1787,6 +1784,23 @@ script = ExtResource( 92 )
 [node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/FaceTowardsAction"]
 script = ExtResource( 95 )
 
+[node name="FollowAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 63 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 4.0
+ignore_ending_y = false
+
+[node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/FollowAction"]
+script = ExtResource( 95 )
+
 [node name="WaitUntil" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile"]
 script = ExtResource( 7 )
 base_seconds = 20.0
@@ -2080,13 +2094,13 @@ script = ExtResource( 53 )
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 73 )
-portrait = ExtResource( 108 )
+portrait = ExtResource( 99 )
 audio = ExtResource( 114 )
 title = "{pawn}"
 wait_for_confirm = false
 close_after = false
 use_random = true
-message_array = [ [ "EUGENE_IDLE_RECRUIT_DIALOG1" ], [ "EUGENE_IDLE_RECRUIT_DIALOG2" ], [ "EUGENE_IDLE_RECRUIT_DIALOG3" ], [ "EUGENE_IDLE_RECRUIT_DIALOG4" ], [ "EUGENE_IDLE_RECRUIT_DIALOG5" ] ]
+message_array = [ [ "VIN_IDLE_RECRUIT_DIALOG1" ], [ "VIN_IDLE_RECRUIT_DIALOG2" ], [ "VIN_IDLE_RECRUIT_DIALOG3" ], [ "VIN_IDLE_RECRUIT_DIALOG4" ], [ "VIN_IDLE_RECRUIT_DIALOG5" ] ]
 
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 101 )
@@ -2102,10 +2116,10 @@ require_blackboard_values = {
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
 script = ExtResource( 73 )
-portrait = ExtResource( 108 )
+portrait = ExtResource( 27 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_MENU_INVITE_ACCEPT1" ], [ "RECRUIT_MENU_INVITE_ACCEPT2" ], [ "RECRUIT_MENU_INVITE_ACCEPT3" ] ]
+message_array = [ [ "VIN_PARTY_INVITE1" ] ]
 
 [node name="AddToParty" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
 script = ExtResource( 84 )
@@ -2123,11 +2137,11 @@ always_succeed = true
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsResting"]
 script = ExtResource( 73 )
-portrait = ExtResource( 112 )
+portrait = ExtResource( 108 )
 audio = ExtResource( 105 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "EUGENE_CHALLENGE_REJECTED1" ] ]
+message_array = [ [ "VIN_CHALLENGE_REJECTED1" ] ]
 
 [node name="IsReady" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge"]
 script = ExtResource( 85 )
@@ -2136,11 +2150,11 @@ invert = true
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
 script = ExtResource( 73 )
-portrait = ExtResource( 110 )
+portrait = ExtResource( 104 )
 audio = ExtResource( 107 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "EUGENE_CHALLENGE_ACCEPTED1" ] ]
+message_array = [ [ "VIN_CHALLENGE_ACCEPTED1" ] ]
 
 [node name="BattleAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
 script = ExtResource( 49 )
@@ -2155,11 +2169,11 @@ value = true
 
 [node name="MessageDialogAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
 script = ExtResource( 73 )
-portrait = ExtResource( 108 )
+portrait = ExtResource( 104 )
 audio = ExtResource( 26 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "EUGENE_CHALLENGE_WIN1" ] ]
+message_array = [ [ "VIN_CHALLENGE_WIN1" ] ]
 
 [node name="Trade" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 59 )
@@ -2176,7 +2190,7 @@ wait_for_confirm = false
 close_after = false
 substitute_blackboard_keys = [ "trade_offer", "trade_request", "request_rarity", "offer_rarity" ]
 use_random = true
-message_array = [ [ "EUGENE_TRADE_OFFER1" ] ]
+message_array = [ [ "VIN_TRADE_OFFER1" ] ]
 
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade"]
 script = ExtResource( 101 )
@@ -2199,12 +2213,12 @@ require_blackboard_values = {
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading/TradeAccepted"]
 script = ExtResource( 86 )
-portrait = ExtResource( 108 )
+portrait = ExtResource( 27 )
 audio = ExtResource( 102 )
 title = "{pawn}"
 substitute_blackboard_keys = [ "trade_offer", "trade_request", "request_rarity", "offer_rarity" ]
 use_random = true
-message_array = [ [ "EUGENE_TRADE_ACCEPTED1" ] ]
+message_array = [ [ "VIN_TRADE_ACCEPTED1" ] ]
 
 [node name="TradeRejected" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading"]
 script = ExtResource( 59 )
@@ -2215,34 +2229,33 @@ require_blackboard_values = {
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading/TradeRejected"]
 script = ExtResource( 86 )
-portrait = ExtResource( 111 )
+portrait = ExtResource( 104 )
 audio = ExtResource( 113 )
 title = "{pawn}"
 substitute_blackboard_keys = [ "trade_offer", "trade_request", "request_rarity", "offer_rarity" ]
 use_random = true
-message_array = [ [ "EUGENE_TRADE_REJECTED1" ] ]
+message_array = [ [ "VIN_TRADE_REJECTED1" ] ]
 
 [node name="Cancel" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction"]
 script = ExtResource( 52 )
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Cancel"]
 script = ExtResource( 73 )
-portrait = ExtResource( 109 )
+portrait = ExtResource( 106 )
 audio = ExtResource( 115 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "EUGENE_TRADE_CANCEL1" ] ]
+message_array = [ [ "VIN_TRADE_CANCEL1" ] ]
 
 [node name="PlayCards" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 52 )
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 73 )
-portrait = ExtResource( 104 )
-audio = ExtResource( 27 )
+portrait = ExtResource( 108 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECREUIT_MENU_PLAYCARDS1" ] ]
+message_array = [ [ "VIN_CARDS_ACCEPT1" ] ]
 
 [node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 116 )
@@ -2256,9 +2269,10 @@ require_blackboard_values = {
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 73 )
+portrait = ExtResource( 106 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_PLAYCARDS_LOSE1" ] ]
+message_array = [ [ "VIN_CARDS_LOSE1" ] ]
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 59 )
@@ -2269,20 +2283,20 @@ require_blackboard_values = {
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction2"]
 script = ExtResource( 73 )
+portrait = ExtResource( 27 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_PLAYCARDS_WIN1" ] ]
+message_array = [ [ "VIN_CARDS_WIN1" ] ]
 
 [node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 52 )
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Leave"]
 script = ExtResource( 73 )
-portrait = ExtResource( 108 )
-audio = ExtResource( 106 )
+portrait = ExtResource( 99 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "EUGENE_LEAVE1" ] ]
+message_array = [ [ "VIN_LEAVE1" ] ]
 
 [node name="ConversationSprite" type="Control" parent="."]
 visible = false

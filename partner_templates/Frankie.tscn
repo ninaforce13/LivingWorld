@@ -1791,6 +1791,23 @@ script = ExtResource( 92 )
 [node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/FaceTowardsAction"]
 script = ExtResource( 95 )
 
+[node name="FollowAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 62 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 4.0
+ignore_ending_y = false
+
+[node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/FollowAction"]
+script = ExtResource( 95 )
+
 [node name="WaitUntil" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile"]
 script = ExtResource( 6 )
 base_seconds = 20.0
@@ -2249,7 +2266,7 @@ portrait = ExtResource( 108 )
 audio = ExtResource( 101 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECREUIT_MENU_PLAYCARDS1" ] ]
+message_array = [ [ "FRANKIE_CARDS_ACCEPT1" ] ]
 
 [node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 115 )
@@ -2267,7 +2284,7 @@ portrait = ExtResource( 109 )
 audio = ExtResource( 111 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_PLAYCARDS_LOSE1" ] ]
+message_array = [ [ "FRANKIE_CARDS_WIN1" ] ]
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 58 )
@@ -2282,7 +2299,7 @@ portrait = ExtResource( 103 )
 audio = ExtResource( 114 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_PLAYCARDS_WIN1" ] ]
+message_array = [ [ "FRANKIE_CARDS_LOSE1" ] ]
 
 [node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 51 )
@@ -2362,7 +2379,6 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 34 )]
 

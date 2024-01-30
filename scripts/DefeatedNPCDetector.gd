@@ -13,7 +13,7 @@ func is_valid_detection(_detection)->bool:
 	if !_detection.has_node("StateMachine"):
 		return false
 	var statemachine = _detection.get_node("StateMachine")
-	if statemachine.state != "Defeated":
+	if statemachine.state != "Defeated" and _detection.npc_name != "SUNNY_NAME":
 		return false
 	if _detection.has_node("RecruitData"):
 		return false

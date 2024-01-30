@@ -180,9 +180,9 @@ VIOLA_TRADE_REJECTED1,"Alas, dear friend. This does not resemble the item I requ
 VIOLA_TRADE_CANCEL1,"Fear not, I am resourceful enough to procure one through other means!"
 VIOLA_LEAVE1,Fare thee well!
 VIOLA_PASSIVE_ROGUES_MESSAGE1,Rogues have been sighted upon the horizon! Let us show thy fiends our true mettle!
-FRANKIE_CARDS_ACCEPT1,
-FRANKIE_CARDS_WIN1,
-FRANKIE_CARDS_LOSE1,
+FRANKIE_CARDS_ACCEPT1,Oh oh oh! I've played tons of these back home! 
+FRANKIE_CARDS_WIN1,Yes! Ha ha! I've still got it!
+FRANKIE_CARDS_LOSE1,"Ok, I'm going to spend some time deck building! "
 FRANKIE_PARTY_INVITE1,Joining the hero's party?! I'm another step closer to legendary status!
 FRANKIE_IDLE_RECRUIT_DIALOG1,"I accept all quests, no matter [wave amp=30 freq=10]how[/wave] small![pause] You never know which one will move the plot forward!"
 FRANKIE_IDLE_RECRUIT_DIALOG2,"You know[pause], usually in these kinds of Isekai I would have some unique ability or abnormally high stat![pause] Vin didn't seem to get it either…"
@@ -197,18 +197,26 @@ FRANKIE_TRADE_ACCEPTED1,Yes! Finally! I'm completely unstoppable now! [pause]You
 FRANKIE_TRADE_REJECTED1,"{player}[pause], I know[pause] that you know[pause] that's not the right sticker…[pause] It's like you're just testing dialog options in a Visual Novel."
 FRANKIE_TRADE_CANCEL1,Back to the grind then.
 FRANKIE_LEAVE1,See ya!
-FRANKIE_PASSIVE_ROGUES_MESSAGE1,[wave amp=30 freq=10]Ahhhh!!![/wave] I'm making a heroic entrance! 
-VIN_IDLE_RECRUIT_DIALOG1,
-VIN_IDLE_RECRUIT_DIALOG2,
-VIN_IDLE_RECRUIT_DIALOG3,
-VIN_IDLE_RECRUIT_DIALOG4,
-VIN_IDLE_RECRUIT_DIALOG5,
-VIN_CHALLENGE_ACCEPTED1,
-VIN_CHALLENGE_REJECTED1,
-VIN_CHALLENGE_WIN1,
-VIN_TRADE_OFFER1,
-VIN_TRADE_ACCEPTED1,
-VIN_TRADE_REJECTED1,
-VIN_TRADE_CANCEL1,
-VIN_LEAVE1,
-VIN_PASSIVE_ROGUES_MESSAGE1,
+FRANKIE_PASSIVE_ROGUES_MESSAGE1,[wave amp=30 freq=10]Ahhhh!!![/wave] I'm making a big heroic entrance! 
+VIN_IDLE_RECRUIT_DIALOG1,I can't decide between Headshot and Last Rites…
+VIN_IDLE_RECRUIT_DIALOG2,Mourningtown has been trying to get more involved in day to day Ranger activities. [pause]I'm going to keep doing my part!
+VIN_IDLE_RECRUIT_DIALOG3,Training has been so hard lately![pause] I don't know where Frankie gets all that energy from.
+VIN_IDLE_RECRUIT_DIALOG4,"I'm going to get stronger! I'll make sure Mourningtown can hold their heads up high again, one day."
+VIN_IDLE_RECRUIT_DIALOG5,"Hey {player}, did you need something?"
+VIN_CHALLENGE_ACCEPTED1,I'll show you how strong I've become!
+VIN_CHALLENGE_REJECTED1,I think I sprained something. Let's pick this up again later.
+VIN_CHALLENGE_WIN1,Dang it. I was so sure I had you that time!
+VIN_TRADE_OFFER1,The [color=#{request_rarity}][{trade_request}][/color] sticker would go well in my setup. I'll give you [color=#{offer_rarity}][{trade_offer}][/color] for one if you've got any.
+VIN_TRADE_ACCEPTED1,Great! I'll be taking down Rogues solo in no time with this setup!
+VIN_TRADE_REJECTED1,That's not it. I'll just get it myself.
+VIN_TRADE_CANCEL1,"Alright, thanks for checking. "
+VIN_LEAVE1,"Alright, see ya around."
+VIN_PASSIVE_ROGUES_MESSAGE1,I'll put this Rogue down in no time!
+VIN_CARDS_ACCEPT1,"I uh..[pause] What?[pause][pause] Alright, I guess I'll play."
+VIN_CARDS_WIN1,"Hey, I'm not half bad at this!"
+VIN_CARDS_LOSE1,"Well[pause], I didn't really know what I was doing there."
+VIN_PARTY_INVITE1,You need my help on an important quest?[pause] Of course I can lend you my strength!
+LIVINGWORLD_CARDS_UI_ATTACK,Attacking
+LIVINGWORLD_CARDS_UI_DEFENSE,Defending
+LIVINGWORLD_CARDS_UI_NEUTRAL,Balanced
+LIVINGWORLD_UI_CARDCOLLECTION,Card Collection

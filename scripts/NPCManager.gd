@@ -2,6 +2,13 @@
 static func has_active_follower()->bool:
 	if not has_savedata():
 		initialize_savedata()
+	if DLC.mods_by_id.has("Ap7Dungeon"):
+		var dungeondata = DLC.get_node("Ap7Dungeon/DungeonData")
+		if dungeondata:
+			var dungeon = dungeondata.get_current_dungeon()
+			if dungeon != null:
+				return false
+
 	if SaveState.other_data.LivingWorldData.get("CurrentFollower"):
 		return SaveState.other_data.LivingWorldData.CurrentFollower.active
 	return false
@@ -53,13 +60,98 @@ static func has_savedata()->bool:
 				result += 1
 			if SaveState.other_data.LivingWorldData.Transformations.has("player2"):
 				result += 1
+		if SaveState.other_data.LivingWorldData.has("CardGame"):
+			result+=1
 
-	return result == 10
+	return result == 11
 
 static func initialize_savedata():
+	var collection = initialize_card_collection()
 	SaveState.other_data["LivingWorldData"] = {"ExtraEncounterConfig":{"extra_slots":0},
 												"CurrentFollower":{"recruit":{}, "active":false,"custom":false,"partner_id":""},
-												"Transformations":{"player1":{"form_index":-1},"player2":{"form_index":-1}}}
+												"Transformations":{"player1":{"form_index":-1},"player2":{"form_index":-1}},
+												"CardGame":{"collection":collection}}
+
+static func initialize_card_collection()->Dictionary:
+	var result:Dictionary = {}
+	var item:Dictionary = {"path":"","amount":0,"deck":0}
+
+	item.path = "res://data/monster_forms/traffikrab.tres"
+	item.amount = 1
+	item.deck = 2
+	result["traffikrab"] = item.duplicate()
+
+	item.path = "res://data/monster_forms/bansheep.tres"
+	item.amount = 0
+	item.deck = 1
+	result["bansheep"] = item.duplicate()
+
+	item.path = "res://data/monster_forms/candevil.tres"
+	item.amount = 0
+	item.deck = 1
+	result["candevil"] = item.duplicate()
+
+	item.path = "res://data/monster_forms/carniviper.tres"
+	item.amount = 1
+	item.deck = 1
+	result["carniviper"] = item.duplicate()
+
+	item.path = "res://data/monster_forms/bulletino.tres"
+	item.amount = 1
+	item.deck = 1
+	result["bulletino"] = item.duplicate()
+
+	item.path = "res://data/monster_forms/dandylion.tres"
+	item.amount = 0
+	item.deck = 1
+	result["dandylion"] = item.duplicate()
+
+	item.path = "res://data/monster_forms/dominoth.tres"
+	item.amount = 1
+	item.deck = 1
+	result["dominoth"] = item.duplicate()
+
+	item.path = "res://data/monster_forms/springheel.tres"
+	item.amount = 1
+	item.deck = 1
+	result["springheel"] = item.duplicate()
+
+	item.path = "res://data/monster_forms/macabra.tres"
+	item.amount = 1
+	item.deck = 1
+	result["macabra"] = item.duplicate()
+
+	return result
+
+static func get_card_collection()->Dictionary:
+	var result:Dictionary
+	return SaveState.other_data.LivingWorldData.CardGame.collection
+
+static func add_card_to_collection(card):
+	var key = get_card_key(card)
+	var collection = get_card_collection()
+	if has_card(card):
+		collection[key].amount += 1
+	else:
+		collection[key] = set_card_data(card)
+
+static func has_card(card_data)->bool:
+	var key = get_card_key(card_data)
+	var collection = get_card_collection()
+	return collection.has(key)
+
+static func get_card_key(card_data)->String:
+	var form = load(card_data.form)
+	var key = str(form.name).to_lower()
+	return key
+
+static func set_card_data(card_data)->Dictionary:
+	var result:Dictionary = {
+		"path":card_data.form,
+		"amount":1,
+		"deck":0
+		}
+	return result
 
 static func get_setting(setting_name):
 	var config:ConfigFile = _load_settings_file()

@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://ui/fonts/regular/regular_24_bold.tres" type="DynamicFont" id=1]
+[ext_resource path="res://ui/battle_theme.tres" type="Theme" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.592157, 0.290196, 0.847059, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0, 0, 0, 1 )
+border_blend = true
+corner_radius_bottom_right = 30
+corner_detail = 1
+shadow_size = 2
+shadow_offset = Vector2( 2, 4 )
+
+[node name="CardCount" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1920.0
+margin_bottom = -1080.0
+mouse_filter = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_right = 14.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 50, 50 )
+mouse_filter = 1
+custom_styles/panel = SubResource( 1 )
+
+[node name="Control" type="Control" parent="PanelContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 45.0
+margin_bottom = 45.0
+mouse_filter = 1
+
+[node name="AmountLabel" type="Label" parent="PanelContainer/Control"]
+anchor_left = 0.082
+anchor_top = 0.098
+anchor_right = 0.082
+anchor_bottom = 0.098
+margin_left = -15.0
+margin_top = 15.0
+margin_right = 25.0
+margin_bottom = 55.0
+rect_rotation = -45.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+custom_fonts/font = ExtResource( 1 )
+text = "999"
+align = 1

@@ -15,6 +15,7 @@ var playercontroller = preload("res://mods/LivingWorld/scripts/PlayerControllerP
 var interactor = preload("res://mods/LivingWorld/scripts/Interactor_patch.gd")
 var captainbehavior = preload("res://mods/LivingWorld/scripts/CaptainNPCBehavior_patch.gd")
 var usersettings = preload("res://mods/LivingWorld/scripts/UserSettings_patch.gd")
+var mappausemenu = preload("res://mods/LivingWorld/scripts/MapPauseMenu_patch.gd")
 func _init():
 	levelmap_patch.patch()
 	encounterconfig_patch.patch()
@@ -30,6 +31,7 @@ func _init():
 	interactor.patch()
 	captainbehavior.patch()
 	usersettings.patch()
+	mappausemenu.patch()
 
 	yield(SceneManager.preloader,"singleton_setup_completed")
 	add_keyboard_shortcuts()

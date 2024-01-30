@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ui/battle_theme.tres" type="Theme" id=1]
+[ext_resource path="res://ui/fonts/archangel/archangel_70.tres" type="DynamicFont" id=2]
+[ext_resource path="res://mods/LivingWorld/cardgame/BannerHandler.gd" type="Script" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.054902, 0.0823529, 0.258824, 0.427451 )
+border_width_top = 20
+border_width_bottom = 20
+border_color = Color( 0.498039, 0.835294, 0.964706, 0.427451 )
+corner_radius_top_left = 100
+corner_radius_bottom_right = 100
+corner_detail = 1
+shadow_size = 10
+shadow_offset = Vector2( 10, 10 )
+
+[node name="Banner" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+player_colors = {
+"bordercolor": Color( 0.247059, 0.113725, 0.282353, 0.427451 ),
+"primarycolor": Color( 0.670588, 0.458824, 0.909804, 0.427451 )
+}
+enemy_colors = {
+"bordercolor": Color( 0.329412, 0.215686, 0.0588235, 0.427451 ),
+"primarycolor": Color( 1, 0.584314, 0, 0.427451 )
+}
+
+[node name="BannerPanel" type="PanelContainer" parent="."]
+margin_right = 14.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 1920, 250 )
+custom_styles/panel = SubResource( 1 )
+
+[node name="BannerLabel" type="Label" parent="BannerPanel"]
+margin_top = 84.0
+margin_right = 1920.0
+margin_bottom = 166.0
+theme = ExtResource( 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 10
+custom_constants/shadow_offset_y = 10
+custom_fonts/font = ExtResource( 2 )
+text = "REMASTER BONUS"
+align = 1
+valign = 1

@@ -5,6 +5,7 @@ export (bool) var is_partner = false
 signal engaging
 var max_partners = 2
 const trade_generator = preload("res://mods/LivingWorld/scripts/StickerTradeGenerator.gd")
+const card_template = preload("res://mods/LivingWorld/cardgame/CardTemplate.tscn")
 var follow_target = null
 var engaged_target = null
 var conversation_partners:Array = []
@@ -13,7 +14,8 @@ var engaged:bool = false setget set_engage
 var recruit
 var on_battle_cooldown:bool = false
 var trade_offer = null
-
+var card_deck:Array = []
+var random:Random
 func _ready():
 	WorldSystem.time.connect("date_changed", self, "_on_date_changed")
 	WorldSystem.time.connect("date_changed", self, "generate_trade")
@@ -25,6 +27,19 @@ func _ready():
 		generate_recruit_data()
 	if is_captain or is_partner:
 		call_deferred("add_emoteplayer")
+	random = Random.new(recruit.name)
+
+func build_deck():
+	card_deck = []
+	var forms = MonsterForms.basic_forms.values() + MonsterForms.secret_forms.values()
+	random.shuffle(forms)
+	for _i in range (0,30):
+		var form = random.choice(forms)
+		var card = card_template.instance()
+		card.form = form.resource_path
+		card_deck.push_back(card.duplicate())
+	random.shuffle(card_deck)
+
 
 func add_emoteplayer():
 	var pawn = get_parent()

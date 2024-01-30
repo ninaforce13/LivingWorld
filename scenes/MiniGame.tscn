@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=2]
+[gd_scene load_steps=67 format=2]
 
 [ext_resource path="res://addons/misc_utils/OverscanMarginContainer.gd" type="Script" id=1]
 [ext_resource path="res://mods/LivingWorld/cardgame/EmptyCardTemplate.tscn" type="PackedScene" id=2]
@@ -12,6 +12,10 @@
 [ext_resource path="res://nodes/battle_slot/BattleSlot.gd" type="Script" id=10]
 [ext_resource path="res://nodes/battle_slot/named_sounds.tres" type="Resource" id=11]
 [ext_resource path="res://mods/LivingWorld/scripts/setbattlesprite.gd" type="Script" id=12]
+[ext_resource path="res://mods/LivingWorld/icons/AttackCard.png" type="Texture" id=13]
+[ext_resource path="res://mods/LivingWorld/icons/DefenseCard.png" type="Texture" id=14]
+[ext_resource path="res://ui/fonts/regular/regular_100.tres" type="DynamicFont" id=15]
+[ext_resource path="res://mods/LivingWorld/cardgame/banner.tscn" type="PackedScene" id=16]
 [ext_resource path="res://menus/menu_bg_fade.shader" type="Shader" id=18]
 [ext_resource path="res://menus/background.png" type="Texture" id=19]
 [ext_resource path="res://mods/LivingWorld/cardgame/GameSetup.gd" type="Script" id=21]
@@ -299,8 +303,12 @@ tracks/5/keys = {
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 1, 0.584314, 0, 1 )
-border_width_bottom = 5
-border_color = Color( 0, 0, 0, 1 )
+border_width_left = 15
+border_width_top = 15
+border_width_right = 15
+border_width_bottom = 15
+border_color = Color( 0.45098, 0.262745, 0, 1 )
+border_blend = true
 corner_radius_bottom_left = 150
 corner_detail = 1
 expand_margin_right = 8.0
@@ -309,8 +317,12 @@ expand_margin_bottom = 32.0
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.670588, 0.458824, 0.909804, 1 )
-border_width_top = 5
+border_width_left = 15
+border_width_top = 15
+border_width_right = 15
+border_width_bottom = 15
 border_color = Color( 0.231373, 0.0392157, 0.258824, 1 )
+border_blend = true
 corner_radius_top_right = 150
 corner_detail = 1
 expand_margin_right = 10.0
@@ -325,7 +337,8 @@ border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 1, 0.584314, 0, 1 )
+border_color = Color( 0.45098, 0.262745, 0, 1 )
+border_blend = true
 corner_radius_bottom_left = 100
 corner_detail = 1
 
@@ -889,7 +902,8 @@ border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.670588, 0.458824, 0.909804, 1 )
+border_color = Color( 0.231373, 0.0392157, 0.258824, 1 )
+border_blend = true
 corner_radius_top_right = 100
 corner_detail = 1
 
@@ -1438,11 +1452,13 @@ anchor_bottom = 1.0
 script = ExtResource( 21 )
 cancelable = false
 player_setup = {
+"backcolor": Color( 0.470588, 0.25098, 0.713726, 1 ),
 "bandcolor": Color( 0.670588, 0.458824, 0.909804, 1 ),
 "bordercolor": Color( 0.247059, 0.113725, 0.282353, 1 ),
 "offscreen_pos": 2200
 }
 enemy_setup = {
+"backcolor": Color( 0.815686, 0.513726, 0.0392157, 1 ),
 "bandcolor": Color( 1, 0.584314, 0, 1 ),
 "bordercolor": Color( 0.329412, 0.215686, 0.0588235, 1 ),
 "offscreen_pos": -1000
@@ -1562,25 +1578,98 @@ rect_scale = Vector2( 0.7, 0.7 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Control" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
-margin_right = 600.0
+[node name="Spacer" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
+margin_right = 146.0
 margin_bottom = 284.0
-rect_min_size = Vector2( 600, 0 )
+rect_min_size = Vector2( 130, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="EnemyState" type="Label" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/Control"]
-anchor_left = 0.234
-anchor_top = 0.234
-anchor_right = 0.234
-anchor_bottom = 0.234
+[node name="EnemyStatus" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
+margin_left = 150.0
+margin_right = 600.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 450, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus"]
 margin_right = 40.0
-margin_bottom = 14.0
+margin_bottom = 40.0
+
+[node name="EnemyState" type="Label" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer"]
+margin_right = 1695.0
+margin_bottom = 160.0
 theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
 custom_fonts/font = ExtResource( 6 )
-text = "Neutral"
-align = 1
+text = "LIVINGWORLD_CARDS_UI_NEUTRAL"
 valign = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer"]
+margin_top = 164.0
+margin_right = 1695.0
+margin_bottom = 292.0
+
+[node name="EnemyAttackValue" type="Label" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
+margin_top = 4.0
+margin_right = 53.0
+margin_bottom = 124.0
+size_flags_horizontal = 0
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 15 )
+text = "0"
+uppercase = true
+
+[node name="TextureRect" type="TextureRect" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
+margin_left = 57.0
+margin_right = 185.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 100, 100 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 13 )
+
+[node name="Label" type="Label" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
+margin_left = 189.0
+margin_right = 234.0
+margin_bottom = 120.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 15 )
+text = "/"
+
+[node name="EnemyDefenseValue" type="Label" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
+margin_left = 238.0
+margin_top = 4.0
+margin_right = 291.0
+margin_bottom = 124.0
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 15 )
+text = "0"
+uppercase = true
+
+[node name="TextureRect2" type="TextureRect" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
+margin_left = 295.0
+margin_right = 423.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 100, 100 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 14 )
+stretch_mode = 6
 
 [node name="OpponentHandGrid" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
 margin_left = 604.0
@@ -1644,7 +1733,7 @@ margin_right = 40.0
 margin_bottom = 14.0
 theme = ExtResource( 3 )
 custom_fonts/font = ExtResource( 5 )
-text = "3"
+text = "6"
 align = 1
 valign = 1
 
@@ -1685,7 +1774,7 @@ margin_right = 40.0
 margin_bottom = 14.0
 theme = ExtResource( 3 )
 custom_fonts/font = ExtResource( 5 )
-text = "3"
+text = "6"
 align = 1
 valign = 1
 
@@ -1722,25 +1811,97 @@ margin_left = 1300.0
 margin_right = 1525.0
 custom_styles/panel = SubResource( 5 )
 
-[node name="Control2" type="Control" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
+[node name="Spacer" type="Control" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
 margin_left = 2133.0
-margin_right = 2733.0
+margin_right = 2183.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 50, 0 )
+
+[node name="PlayerStatus" type="Control" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
+margin_left = 2187.0
+margin_right = 2787.0
 margin_bottom = 284.0
 rect_min_size = Vector2( 600, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PlayerState" type="Label" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/Control2"]
-anchor_left = 0.102
-anchor_top = 0.203
-anchor_right = 0.102
-anchor_bottom = 0.203
+[node name="VBoxContainer" type="VBoxContainer" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus"]
 margin_right = 40.0
-margin_bottom = 14.0
+margin_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer"]
+margin_right = 1695.0
+margin_bottom = 128.0
+
+[node name="AttackValue" type="Label" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer"]
+margin_top = 4.0
+margin_right = 53.0
+margin_bottom = 124.0
+size_flags_horizontal = 0
 theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 15 )
+text = "0"
+uppercase = true
+
+[node name="TextureRect" type="TextureRect" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer"]
+margin_left = 57.0
+margin_right = 185.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 100, 100 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 13 )
+
+[node name="Label" type="Label" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer"]
+margin_left = 189.0
+margin_right = 234.0
+margin_bottom = 120.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 15 )
+text = "/"
+
+[node name="DefenseValue" type="Label" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer"]
+margin_left = 238.0
+margin_top = 4.0
+margin_right = 291.0
+margin_bottom = 124.0
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 15 )
+text = "0"
+uppercase = true
+
+[node name="TextureRect2" type="TextureRect" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer"]
+margin_left = 295.0
+margin_right = 423.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 100, 100 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 14 )
+stretch_mode = 6
+
+[node name="PlayerState" type="Label" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer"]
+margin_top = 132.0
+margin_right = 1695.0
+margin_bottom = 292.0
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
 custom_fonts/font = ExtResource( 6 )
-text = "Neutral"
-align = 1
+text = "LIVINGWORLD_CARDS_UI_NEUTRAL"
+align = 2
 valign = 1
 
 [node name="EnemyDeck" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 2 )]
@@ -1771,9 +1932,9 @@ script = ExtResource( 12 )
 
 [node name="SpriteBackground" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control/EnemySprite"]
 margin_left = -50.0
-margin_top = 140.0
+margin_top = 144.0
 margin_right = 350.0
-margin_bottom = 440.0
+margin_bottom = 444.0
 custom_styles/panel = SubResource( 47 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Scroller/OverscanMarginContainer/Control/EnemySprite"]
@@ -1838,6 +1999,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 7 )]
 
@@ -1901,9 +2063,9 @@ script = ExtResource( 12 )
 
 [node name="SpriteBackground" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite"]
 margin_left = -20.0
-margin_top = 110.0
+margin_top = 100.0
 margin_right = 380.0
-margin_bottom = 410.0
+margin_bottom = 400.0
 custom_styles/panel = SubResource( 48 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite"]
@@ -1965,6 +2127,7 @@ script = ExtResource( 8 )
 idle = "inactive"
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 7 )]
 
@@ -2015,6 +2178,18 @@ shape = SubResource( 30 )
 [node name="MeshInstance" type="MeshInstance" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody"]
 visible = false
 mesh = SubResource( 31 )
+
+[node name="Banner" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 16 )]
+anchor_top = 0.336
+margin_left = -2200.0
+margin_top = 3.05176e-05
+margin_right = -2200.0
+
+[node name="BannerStart" type="Position2D" parent="Scroller/OverscanMarginContainer/Control"]
+position = Vector2( -2200, 297.696 )
+
+[node name="BannerEnd" type="Position2D" parent="Scroller/OverscanMarginContainer/Control"]
+position = Vector2( 1800, 297.696 )
 
 [connection signal="input_event" from="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_input_event"]
 [connection signal="mouse_entered" from="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_mouse_entered"]
