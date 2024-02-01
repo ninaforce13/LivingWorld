@@ -19,5 +19,5 @@ func _run():
 	if result:
 		var reward_card = random.choice(recruit_data.card_deck)
 		manager.add_card_to_collection(reward_card)
-		#Play Animation for Reward here
+		set_bb("reward",reward_card.form)
 	return true

@@ -181,8 +181,8 @@ VIOLA_TRADE_CANCEL1,"Fear not, I am resourceful enough to procure one through ot
 VIOLA_LEAVE1,Fare thee well!
 VIOLA_PASSIVE_ROGUES_MESSAGE1,Rogues have been sighted upon the horizon! Let us show thy fiends our true mettle!
 FRANKIE_CARDS_ACCEPT1,Oh oh oh! I've played tons of these back home! 
-FRANKIE_CARDS_WIN1,Yes! Ha ha! I've still got it!
-FRANKIE_CARDS_LOSE1,"Ok, I'm going to spend some time deck building! "
+FRANKIE_CARDS_LOSE1,Yes! Ha ha! I've still got it!
+FRANKIE_CARDS_WIN1,"You were amazing![pause][pause]Ok ok, [wave amp=30 freq=10]Duelist Kingdom[/wave] rules apply so here's one of my cards! "
 FRANKIE_PARTY_INVITE1,Joining the hero's party?! I'm another step closer to legendary status!
 FRANKIE_IDLE_RECRUIT_DIALOG1,"I accept all quests, no matter [wave amp=30 freq=10]how[/wave] small![pause] You never know which one will move the plot forward!"
 FRANKIE_IDLE_RECRUIT_DIALOG2,"You know[pause], usually in these kinds of Isekai I would have some unique ability or abnormally high stat![pause] Vin didn't seem to get it either…"

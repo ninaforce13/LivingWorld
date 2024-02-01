@@ -1,10 +1,15 @@
 extends "res://menus/BaseMenu.gd"
 signal enemyturn
 signal gameover
+signal field_cleared
+signal hand_drawn
+signal card_drawn
+signal thinking_complete
 const card_template = preload("res://mods/LivingWorld/cardgame/CardTemplate.tscn")
+const manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 const resolve_value:int = 3
 
-onready var OpponentHandGrid = find_node("OpponentHandGrid")
+onready var EnemyHandGrid = find_node("OpponentHandGrid")
 onready var PlayerHandGrid = find_node("PlayerHandGrid")
 onready var PlayerField = find_node("PlayerField")
 onready var EnemyField = find_node("EnemyField")
@@ -31,8 +36,7 @@ export (Dictionary) var enemy_setup
 export (int) var deck_seed
 export (Dictionary) var player_data
 export (Dictionary) var enemy_data
-
-
+export (bool) var demo = false
 enum State {ATTACK,DEFENSE,NEUTRAL}
 enum Team  {PLAYER,ENEMY}
 var random:Random
@@ -50,20 +54,33 @@ var enemy_tween:Tween
 var player_tween:Tween
 
 func _ready():
+	random = Random.new()
+
 	PlayerSprite.animate_turn_end()
 	EnemySprite.animate_turn_end()
-	set_heartgauge_tween()
 
+	set_heartgauge_tween()
+	set_sprites()
+	initialize_decks()
+
+	connect("enemyturn",self,"enemy_move")
+	connect("gameover",self,"end_game")
+
+	draw_initial_hand()
+	yield(self,"hand_drawn")
+#
+	set_focus_buttons()
+	set_player_turn(true)
+
+func set_sprites():
+	if demo:
+		return
 	if player_data:
 		PlayerSprite.set_sprite(player_data)
 	if enemy_data:
 		EnemySprite.set_sprite(enemy_data)
 
-	if deck_seed != 0:
-		random = Random.new(deck_seed)
-	else:
-		random = Random.new()
-
+func initialize_decks():
 	if player_deck.empty():
 		player_deck = get_player_deck()
 		random.shuffle(player_deck)
@@ -71,20 +88,16 @@ func _ready():
 		enemy_deck = build_demo_deck(1)
 		random.shuffle(enemy_deck)
 
-	yield(Co.wait(1),"completed")
+func draw_initial_hand():
 	for _i in range (0,5):
-		yield(Co.wrap(draw_card(Team.PLAYER)),"completed")
+#		yield(Co.wrap(draw_card(Team.PLAYER)),"completed")
+		draw_card(Team.PLAYER)
+		yield(self,"card_drawn")
 	for _i in range (0,5):
-		yield(Co.wrap(draw_card(Team.ENEMY)),"completed")
-
-	connect("enemyturn",self,"enemy_move")
-	connect("gameover",self,"end_game")
-
-	if PlayerHandGrid.get_child_count() < 5:
-		yield(Co.wait(5),"completed")
-
-	set_focus_buttons()
-	set_player_turn(true)
+#		yield(Co.wrap(draw_card(Team.ENEMY)),"completed")
+		draw_card(Team.ENEMY)
+		yield(self,"card_drawn")
+	emit_signal("hand_drawn")
 
 func set_heartgauge_tween():
 	if !PlayerHeartGauge.has_node("Tween"):
@@ -103,8 +116,9 @@ func end_game():
 	else:
 		PlayerSprite.animate_defeat()
 		Banner.set_colors(Team.PLAYER)
-		Banner.set_text("Player Turn")
-		yield(Co.wrap(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5)),"completed")
+		Banner.set_text("%'s Turn"%player_data.name)
+		Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5)
+		yield(Banner.tween,"tween_all_completed")
 	choose_option(winner == WorldSystem.get_player().name)
 
 func is_game_ended()->bool:
@@ -163,7 +177,9 @@ func resolve_field():
 		PlayerSprite.animate_damage()
 		animate_heart_damage(Team.PLAYER)
 		player_stats.hp -= (enemy_result.attack - player_result.defense)
+		player_stats.hp = clamp(player_stats.hp,0,player_stats.max_hp)
 		PlayerHealth.text = str(player_stats.hp)
+
 	if enemy_result.defense > player_result.attack:
 		enemy_stats.hp += (enemy_result.defense - player_result.attack)
 		enemy_stats.hp = clamp(enemy_stats.hp,0,enemy_stats.max_hp)
@@ -172,28 +188,33 @@ func resolve_field():
 	reset_stats()
 	yield(Co.wait(2),"completed")
 	clear_battlefield()
+	yield(self,"field_cleared")
 	update_value_labels()
 	set_state(enemy_stats.state,Team.ENEMY)
 	set_state(player_stats.state,Team.PLAYER)
-	yield(Co.wait(3),"completed")
+
 
 func clear_battlefield():
 	for slot in EnemyField.get_children():
-		slot.get_card().flip_card(0.1)
-		yield(Co.wait(0.2),"completed")
+		slot.get_card().flip_card(0.01)
+		yield(slot.get_card().tween,"tween_all_completed")
 	for slot in PlayerField.get_children():
-		slot.get_card().flip_card(0.1)
-		yield(Co.wait(0.2),"completed")
-	yield(Co.wait(0.5),"completed")
+		slot.get_card().flip_card(0.01)
+		yield(slot.get_card().tween,"tween_all_completed")
+
 	for slot in EnemyField.get_children():
 		var movepos = EnemyDeck.rect_global_position
 		enemy_discard.push_back(slot.get_card().duplicate())
-		yield(Co.wrap(slot.clear_slot(true,movepos)),"completed")
+		slot.clear_slot(true,movepos)
+		yield(Co.wrap(slot.clear_slot(true,movepos,0.01)),"completed")
 
 	for slot in PlayerField.get_children():
 		var movepos = PlayerDeck.rect_global_position
 		player_discard.push_back(slot.get_card().duplicate())
-		yield(Co.wrap(slot.clear_slot(true,movepos)),"completed")
+		slot.clear_slot(true,movepos)
+		yield(Co.wrap(slot.clear_slot(true,movepos,0.01)),"completed")
+
+	emit_signal("field_cleared")
 
 func reset_stats():
 	player_stats.attack = 0
@@ -317,7 +338,7 @@ func get_empty_slot(container):
 	return result
 
 func draw_card(team):
-	var hand = PlayerHandGrid if team == Team.PLAYER else OpponentHandGrid
+	var hand = PlayerHandGrid if team == Team.PLAYER else EnemyHandGrid
 	var deck:Array = player_deck if team == Team.PLAYER else enemy_deck
 	var discard:Array = player_discard if team == Team.PLAYER else enemy_discard
 	var card = deck.pop_front() if !deck.empty() else refresh_deck(deck,discard)
@@ -333,13 +354,13 @@ func draw_card(team):
 	draw_point.set_card(card)
 	card.rect_position = Vector2.ZERO
 	card.animate_playcard(hand_slot.rect_global_position,.3)
-	yield(Co.wait(0.4),"completed")
+	yield(card.tween,"tween_all_completed")
 	hand_slot.set_card(card)
 	if team == Team.PLAYER:
 		setup_button(card)
 		card.flip_card(0.1)
-		yield(Co.wait(0.3),"completed")
-
+		yield(card.tween,"tween_all_completed")
+	emit_signal("card_drawn")
 func refresh_deck(deck,discard):
 	var card
 	for _i in range(discard.size()):
@@ -348,15 +369,33 @@ func refresh_deck(deck,discard):
 	card = deck.pop_front()
 	return card
 
+func animate_thinking(chosen_card):
+	var wait_times:Array = [0.5,0.7,1]
+	var slots:Array = EnemyHandGrid.get_children()
+	for i in range(random.rand_range_int(1,2)):
+		random.shuffle(slots)
+		var peek_slot = slots.pop_front()
+		var card = peek_slot.get_card()
+		card.animate_hover_enter()
+		yield(Co.wait(random.choice(wait_times)),"completed")
+		card.animate_hover_exit()
+		yield(card.tween,"tween_all_completed")
+	chosen_card.animate_hover_enter()
+	yield(Co.wait(random.choice(wait_times)),"completed")
+	chosen_card.animate_hover_exit()
+	yield(chosen_card.tween,"tween_all_completed")
+	emit_signal("thinking_complete")
+
 func enemy_move():
 	EnemySprite.animate_turn()
 	Banner.set_colors(Team.ENEMY)
-	Banner.set_text("Enemy Turn")
+	Banner.set_text("%s's Turn"%enemy_data.name)
 	yield(Co.wrap(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5)),"completed")
 	yield(Banner.tween,"tween_completed")
 	if can_draw_card(Team.ENEMY):
-		yield(Co.wrap(draw_card(Team.ENEMY)),"completed")
-		yield(Co.wait(0.3),"completed")
+		draw_card(Team.ENEMY)
+		yield(self,"card_drawn")
+
 	var card
 
 	if enemy_stats.state == State.NEUTRAL:
@@ -365,6 +404,9 @@ func enemy_move():
 		card = get_card(State.ATTACK)
 	if enemy_stats.state == State.DEFENSE:
 		card = get_card(State.DEFENSE)
+	if manager.get_setting("EnemyCardThought"):
+		animate_thinking(card)
+		yield(self,"thinking_complete")
 	card.flip_card(0.1)
 	yield(Co.wait(0.3),"completed")
 	var empty_slot = get_empty_slot(EnemyField)
@@ -433,7 +475,7 @@ func evaluate_state(team:int, card, bonus:bool):
 func get_card(state):
 	var choice
 	if state == State.ATTACK:
-		for slot in OpponentHandGrid.get_children():
+		for slot in EnemyHandGrid.get_children():
 			if !slot.occupied():
 				continue
 			if choice == null:
@@ -442,7 +484,7 @@ func get_card(state):
 			if choice.card_info.attack < slot.card_info.attack:
 				choice = slot.get_card()
 	if state == State.DEFENSE:
-		for slot in OpponentHandGrid.get_children():
+		for slot in EnemyHandGrid.get_children():
 			if !slot.occupied():
 				continue
 			if choice == null:
@@ -455,7 +497,7 @@ func get_card(state):
 func get_random():
 	var choice = null
 	var options = []
-	for slot in OpponentHandGrid.get_children():
+	for slot in EnemyHandGrid.get_children():
 		if slot.occupied():
 			options.push_back(slot.get_card())
 	choice = random.choice(options)
@@ -471,14 +513,16 @@ func set_player_turn(value:bool):
 
 	if value:
 		Banner.set_colors(Team.PLAYER)
-		Banner.set_text("Player Turn")
+		Banner.set_text("%s's Turn"%player_data.name)
 		yield(Co.wrap(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5)),"completed")
 		yield(Banner.tween,"tween_completed")
 		PlayerSprite.animate_turn()
 
 		if can_draw_card(Team.PLAYER):
-			yield(Co.wrap(draw_card(Team.PLAYER)),"completed")
-			yield(Co.wait(0.3),"completed")
+			draw_card(Team.PLAYER)
+			yield(self,"card_drawn")
+#			yield(Co.wrap(draw_card(Team.PLAYER)),"completed")
+#			yield(Co.wait(0.3),"completed")
 			set_focus_buttons()
 	player_turn = value
 
@@ -487,11 +531,11 @@ func get_winner_name()->String:
 	if player_stats.hp > 0:
 		result = WorldSystem.get_player().name
 	else:
-		result = "Ranger"
+		result = enemy_data.name
 	return result
 
 func can_draw_card(team)->bool:
-	var grid = PlayerHandGrid if team == Team.PLAYER else OpponentHandGrid
+	var grid = PlayerHandGrid if team == Team.PLAYER else EnemyHandGrid
 	for slot in grid.get_children():
 		if !slot.occupied():
 			return true

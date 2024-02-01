@@ -8,6 +8,7 @@ onready var UseCustomRecruitsInput = find_node("UseCustomRecruitsInput")
 onready var CaptainPatrolInput = find_node("CaptainPatrolInput")
 onready var BackupStatusInput = find_node("BackupStatusInput")
 onready var UseBattleSpriteInput = find_node("UseBattleSpriteInput")
+onready var CardEnemyThoughtsInput = find_node("CardEnemyThoughtsInput")
 const settings_path = "user://LivingWorldSettings.cfg"
 
 func _ready():
@@ -36,6 +37,9 @@ func is_dirty()->bool:
 	if BackupStatusInput.selected_value != get_config_value("backup_status"):
 		return true
 
+	if CardEnemyThoughtsInput.selected_value != get_config_value("enemy_thinking"):
+		return true
+
 	return false
 
 func apply():
@@ -50,6 +54,7 @@ func save_settings():
 	config.set_value("behavior", "captain_patrol", CaptainPatrolInput.selected_value)
 	config.set_value("world", "custom_trainee", UseCustomRecruitsInput.selected_value)
 	config.set_value("world", "battle_sprite", UseBattleSpriteInput.selected_value)
+	config.set_value("card", "enemy_thinking", CardEnemyThoughtsInput.selected_value)
 
 	_save_settings_file(config)
 
@@ -66,6 +71,7 @@ func reset():
 	CaptainPatrolInput.selected_value = get_config_value("captain_patrol")
 	BackupStatusInput.selected_value = get_config_value("backup_status")
 	UseBattleSpriteInput.selected_value = get_config_value("battle_sprite")
+	CardEnemyThoughtsInput.selected_value = get_config_value("enemy_thinking")
 
 	inputs.setup_focus()
 
@@ -86,6 +92,8 @@ func get_config_value(setting_name:String):
 		value = config.get_value("behavior","captain_patrol",CaptainPatrolInput.values[0])
 	if setting_name == "backup_status":
 		value = config.get_value("battle","backup_status",BackupStatusInput.values[0])
+	if setting_name == "enemy_thinking":
+		value = config.get_value("card","enemy_thinking",CardEnemyThoughtsInput.values[0])
 	return value
 
 func grab_focus():

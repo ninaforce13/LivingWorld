@@ -84,7 +84,7 @@ margin_bottom = 1060.0
 
 [node name="Inputs" type="GridContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 margin_right = 976.0
-margin_bottom = 834.0
+margin_bottom = 1016.0
 custom_constants/vseparation = 16
 custom_constants/hseparation = 16
 columns = 2
@@ -267,6 +267,43 @@ margin_left = 844.0
 margin_top = 774.0
 margin_right = 976.0
 margin_bottom = 834.0
+size_flags_horizontal = 3
+values = [ true, false ]
+value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
+
+[node name="MarginContainer4" type="MarginContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
+margin_top = 850.0
+margin_right = 828.0
+margin_bottom = 940.0
+custom_constants/margin_top = 20
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs/MarginContainer4"]
+margin_top = 20.0
+margin_right = 828.0
+margin_bottom = 90.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 7 )
+text = "LIVINGWORLD_SETTINGS_UI_CARDS_SECTION"
+
+[node name="Spacer4" type="Control" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
+margin_left = 844.0
+margin_top = 850.0
+margin_right = 976.0
+margin_bottom = 940.0
+
+[node name="CardEnemyThoughtLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
+margin_top = 956.0
+margin_right = 828.0
+margin_bottom = 1016.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "LIVINGWORLD_SETTINGS_UI_CARD_ENEMY_THOUGHTS"
+
+[node name="CardEnemyThoughtsInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
+margin_left = 844.0
+margin_top = 956.0
+margin_right = 976.0
+margin_bottom = 1016.0
 size_flags_horizontal = 3
 values = [ true, false ]
 value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]

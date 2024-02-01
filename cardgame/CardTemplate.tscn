@@ -80,10 +80,12 @@ shadow_color = Color( 0.137255, 0.137255, 0.137255, 0.6 )
 shadow_size = 5
 
 [node name="Control" type="Control"]
+anchor_right = 0.126
+anchor_bottom = 0.278
 margin_left = 4.0
 margin_top = 4.0
-margin_right = 221.0
-margin_bottom = 280.0
+margin_right = -20.92
+margin_bottom = -20.24
 rect_pivot_offset = Vector2( 108.5, 138 )
 script = ExtResource( 7 )
 bandcolor = Color( 0.670588, 0.458824, 0.909804, 1 )

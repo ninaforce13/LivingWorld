@@ -15,6 +15,7 @@ var recruit
 var on_battle_cooldown:bool = false
 var trade_offer = null
 var card_deck:Array = []
+var seedvalue:int = 0
 var random:Random
 func _ready():
 	WorldSystem.time.connect("date_changed", self, "_on_date_changed")
@@ -27,14 +28,18 @@ func _ready():
 		generate_recruit_data()
 	if is_captain or is_partner:
 		call_deferred("add_emoteplayer")
-	random = Random.new(recruit.name)
+	if !is_partner:
+		seedvalue = randi()
+
+	random = Random.new((recruit.name).hash() + SaveState.random_seed + seedvalue)
 
 func build_deck():
 	card_deck = []
 	var forms = MonsterForms.basic_forms.values() + MonsterForms.secret_forms.values()
+	var debut_forms = MonsterForms.pre_evolution.values()
 	random.shuffle(forms)
-	for _i in range (0,30):
-		var form = random.choice(forms)
+	for i in range (0,30):
+		var form = random.choice(forms) if i > random.rand_int(30) else random.choice(debut_forms)
 		var card = card_template.instance()
 		card.form = form.resource_path
 		card_deck.push_back(card.duplicate())

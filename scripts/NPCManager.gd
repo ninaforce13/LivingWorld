@@ -121,6 +121,13 @@ static func initialize_card_collection()->Dictionary:
 	item.deck = 1
 	result["macabra"] = item.duplicate()
 
+	var random = Random.new()
+	var forms = MonsterForms.basic_forms.values()
+	var bonus_form = random.choice(forms)
+	item.path = bonus_form.resource_path
+	item.amount = 1
+	item.deck = 1
+	result[Loc.tr(bonus_form.name).to_lower()] = item.duplicate()
 	return result
 
 static func get_card_collection()->Dictionary:
@@ -170,6 +177,8 @@ static func get_setting(setting_name):
 		value = config.get_value("battle","backup_status",true)
 	if setting_name == "BattleSprite":
 		value = config.get_value("world","battle_sprite",false)
+	if setting_name == "EnemyCardThought":
+		value = config.get_value("card","enemy_thinking",true)
 	return value
 
 static func _load_settings_file()->ConfigFile:

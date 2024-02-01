@@ -1,4 +1,4 @@
-[gd_scene load_steps=145 format=2]
+[gd_scene load_steps=146 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/misc_utils/actions/composites/Sequence.gd" type="Script" id=2]
@@ -120,6 +120,7 @@
 [ext_resource path="res://mods/LivingWorld/characters/frankie.tres" type="Resource" id=118]
 [ext_resource path="res://data/monster_forms/spooki-onna.tres" type="Resource" id=119]
 [ext_resource path="res://data/elemental_types/glitter.tres" type="Resource" id=120]
+[ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=121]
 
 [sub_resource type="CapsuleShape" id=30]
 radius = 0.9
@@ -2286,6 +2287,9 @@ title = "{pawn}"
 use_random = true
 message_array = [ [ "FRANKIE_CARDS_WIN1" ] ]
 
+[node name="ShowCardReward" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 121 )
+
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 58 )
 always_succeed = true
@@ -2295,7 +2299,7 @@ require_blackboard_values = {
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction2"]
 script = ExtResource( 72 )
-portrait = ExtResource( 103 )
+portrait = ExtResource( 109 )
 audio = ExtResource( 114 )
 title = "{pawn}"
 use_random = true

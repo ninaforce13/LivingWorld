@@ -1463,6 +1463,13 @@ enemy_setup = {
 "bordercolor": Color( 0.329412, 0.215686, 0.0588235, 1 ),
 "offscreen_pos": -1000
 }
+player_data = {
+"name": "Nate"
+}
+enemy_data = {
+"name": "Ranger"
+}
+demo = true
 
 [node name="Blur" type="TextureRect" parent="."]
 material = SubResource( 4 )
@@ -1579,15 +1586,13 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Spacer" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
-margin_right = 146.0
+margin_right = 130.0
 margin_bottom = 284.0
 rect_min_size = Vector2( 130, 0 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [node name="EnemyStatus" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
-margin_left = 150.0
-margin_right = 600.0
+margin_left = 134.0
+margin_right = 584.0
 margin_bottom = 284.0
 rect_min_size = Vector2( 450, 0 )
 size_flags_horizontal = 3
@@ -1671,9 +1676,17 @@ size_flags_vertical = 0
 texture = ExtResource( 14 )
 stretch_mode = 6
 
+[node name="Spacer2" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
+margin_left = 588.0
+margin_right = 663.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 75, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
 [node name="OpponentHandGrid" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
-margin_left = 604.0
-margin_right = 2129.0
+margin_left = 667.0
+margin_right = 2192.0
 margin_bottom = 284.0
 rect_pivot_offset = Vector2( 437.5, 142 )
 size_flags_horizontal = 3
@@ -1705,8 +1718,8 @@ margin_right = 1525.0
 custom_styles/panel = SubResource( 5 )
 
 [node name="Control2" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
-margin_left = 2133.0
-margin_right = 2733.0
+margin_left = 2196.0
+margin_right = 2796.0
 margin_bottom = 284.0
 rect_min_size = Vector2( 600, 0 )
 size_flags_horizontal = 3
@@ -1747,9 +1760,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Control" type="Control" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
-margin_right = 600.0
+margin_right = 278.0
 margin_bottom = 284.0
-rect_min_size = Vector2( 600, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -1778,9 +1790,17 @@ text = "6"
 align = 1
 valign = 1
 
+[node name="Spacer2" type="Control" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
+margin_left = 282.0
+margin_right = 457.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 175, 0 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
 [node name="PlayerHandGrid" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
-margin_left = 604.0
-margin_right = 2129.0
+margin_left = 461.0
+margin_right = 1986.0
 margin_bottom = 284.0
 rect_pivot_offset = Vector2( 437.5, 142 )
 size_flags_horizontal = 6
@@ -1812,14 +1832,16 @@ margin_right = 1525.0
 custom_styles/panel = SubResource( 5 )
 
 [node name="Spacer" type="Control" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
-margin_left = 2133.0
-margin_right = 2183.0
+margin_left = 1990.0
+margin_right = 2129.0
 margin_bottom = 284.0
 rect_min_size = Vector2( 50, 0 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
 
 [node name="PlayerStatus" type="Control" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
-margin_left = 2187.0
-margin_right = 2787.0
+margin_left = 2133.0
+margin_right = 2733.0
 margin_bottom = 284.0
 rect_min_size = Vector2( 600, 0 )
 size_flags_horizontal = 3
@@ -1999,7 +2021,6 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 7 )]
 
@@ -2127,7 +2148,6 @@ script = ExtResource( 8 )
 idle = "inactive"
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 7 )]
 

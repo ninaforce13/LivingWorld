@@ -23,9 +23,9 @@ func set_card_info(info:Dictionary):
 func occupied()->bool:
 	return current_card != null
 
-func clear_slot(animate:bool = false,movepos = Vector2.ZERO):
+func clear_slot(animate:bool = false,movepos = Vector2.ZERO,duration=0.2):
 	if animate and current_card:
-		yield(Co.wrap(current_card.animate_playcard(movepos,0.2)),"completed")
+		yield(Co.wrap(current_card.animate_playcard(movepos,duration)),"completed")
 		yield(Co.wait(0.2),"completed")
 	current_card = null
 	card_info = {}

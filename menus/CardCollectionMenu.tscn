@@ -87,11 +87,24 @@ tracks/3/keys = {
 }
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.815686, 0.8, 0.682353, 1 )
+bg_color = Color( 0.929412, 0.862745, 0.941176, 1 )
 border_width_left = 10
 border_width_right = 10
 border_color = Color( 0, 0, 0, 1 )
 border_blend = true
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.670588, 0.458824, 0.909804, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.247059, 0.113725, 0.282353, 1 )
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 1, 1, 1, 1 )
@@ -105,22 +118,10 @@ corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_detail = 1
 
-[sub_resource type="StyleBoxFlat" id=6]
-bg_color = Color( 0.576471, 0.32549, 0.32549, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 0, 0, 0, 1 )
-border_blend = true
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
 [node name="CardCollectionMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 script = ExtResource( 4 )
 
 [node name="Blur" type="TextureRect" parent="."]
@@ -156,21 +157,19 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="Background" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
-margin_left = 170.0
-margin_right = 1746.0
+margin_left = 20.0
+margin_right = 1596.0
 margin_bottom = 1080.0
 custom_styles/panel = SubResource( 1 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Scroller/OverscanMarginContainer/Control"]
-margin_left = 170.0
+margin_left = 59.0
 margin_top = 140.0
-margin_right = 1700.0
+margin_right = 1560.0
 margin_bottom = 1000.0
-custom_constants/margin_left = 100
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Scroller/OverscanMarginContainer/Control/MarginContainer"]
-margin_left = 100.0
-margin_right = 1530.0
+margin_right = 1501.0
 margin_bottom = 860.0
 rect_clip_content = false
 mouse_filter = 1
@@ -180,15 +179,85 @@ scroll_horizontal_enabled = false
 script = ExtResource( 10 )
 
 [node name="CardGrid" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control/MarginContainer/ScrollContainer"]
-custom_constants/vseparation = 50
-custom_constants/hseparation = 65
+custom_constants/vseparation = 350
+custom_constants/hseparation = 300
 columns = 5
 
 [node name="ScrollIndicator" parent="Scroller/OverscanMarginContainer/Control/MarginContainer" instance=ExtResource( 9 )]
-margin_left = 100.0
-margin_right = 1530.0
+margin_right = 1501.0
 margin_bottom = 860.0
 scroll_container = NodePath("../ScrollContainer")
+
+[node name="Header" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
+margin_left = 20.0
+margin_right = 1595.0
+margin_bottom = 110.0
+mouse_filter = 1
+custom_styles/panel = SubResource( 6 )
+
+[node name="CenterContainer" type="CenterContainer" parent="Scroller/OverscanMarginContainer/Control/Header"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1565.0
+margin_bottom = 100.0
+
+[node name="Label" type="Label" parent="Scroller/OverscanMarginContainer/Control/Header/CenterContainer"]
+margin_left = 604.0
+margin_right = 951.0
+margin_bottom = 90.0
+theme = ExtResource( 7 )
+custom_fonts/font = ExtResource( 2 )
+text = "Card Collection"
+
+[node name="Background2" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
+margin_left = 1610.0
+margin_right = 1900.0
+margin_bottom = 1080.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="MarginContainer2" type="MarginContainer" parent="Scroller/OverscanMarginContainer/Control"]
+margin_left = 1620.0
+margin_top = 140.0
+margin_right = 1900.0
+margin_bottom = 930.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Scroller/OverscanMarginContainer/Control/MarginContainer2"]
+margin_right = 280.0
+margin_bottom = 790.0
+rect_clip_content = false
+mouse_filter = 1
+theme = ExtResource( 7 )
+follow_focus = true
+scroll_horizontal_enabled = false
+
+[node name="DeckGrid" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control/MarginContainer2/ScrollContainer"]
+custom_constants/vseparation = 80
+
+[node name="ScrollIndicator" parent="Scroller/OverscanMarginContainer/Control/MarginContainer2" instance=ExtResource( 9 )]
+margin_right = 280.0
+margin_bottom = 790.0
+scroll_container = NodePath("../ScrollContainer")
+
+[node name="Header2" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
+margin_left = 1610.0
+margin_right = 1900.0
+margin_bottom = 110.0
+mouse_filter = 1
+custom_styles/panel = SubResource( 6 )
+
+[node name="CenterContainer" type="CenterContainer" parent="Scroller/OverscanMarginContainer/Control/Header2"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 280.0
+margin_bottom = 100.0
+
+[node name="Label" type="Label" parent="Scroller/OverscanMarginContainer/Control/Header2/CenterContainer"]
+margin_left = 75.0
+margin_right = 195.0
+margin_bottom = 90.0
+theme = ExtResource( 7 )
+custom_fonts/font = ExtResource( 2 )
+text = "Deck"
 
 [node name="BackPanel" type="Control" parent="Scroller/OverscanMarginContainer/Control"]
 margin_top = 1000.0
@@ -212,8 +281,8 @@ custom_constants/separation = 50
 alignment = 2
 
 [node name="AddCard" type="Button" parent="Scroller/OverscanMarginContainer/Control/BackPanel/PanelContainer/HBoxContainer"]
-margin_left = 990.0
-margin_right = 1122.0
+margin_left = 991.0
+margin_right = 1123.0
 margin_bottom = 78.0
 focus_mode = 0
 size_flags_horizontal = 0
@@ -228,8 +297,8 @@ script = ExtResource( 3 )
 action = "ui_accept"
 
 [node name="RemoveCard" type="Button" parent="Scroller/OverscanMarginContainer/Control/BackPanel/PanelContainer/HBoxContainer"]
-margin_left = 1172.0
-margin_right = 1354.0
+margin_left = 1173.0
+margin_right = 1355.0
 margin_bottom = 78.0
 size_flags_horizontal = 0
 size_flags_vertical = 3
@@ -243,8 +312,8 @@ script = ExtResource( 3 )
 action = "ui_action_2"
 
 [node name="ViewDeck" type="Button" parent="Scroller/OverscanMarginContainer/Control/BackPanel/PanelContainer/HBoxContainer"]
-margin_left = 1404.0
-margin_right = 1555.0
+margin_left = 1405.0
+margin_right = 1556.0
 margin_bottom = 78.0
 size_flags_horizontal = 0
 size_flags_vertical = 3
@@ -258,8 +327,8 @@ script = ExtResource( 3 )
 action = "ui_action_1"
 
 [node name="Back" type="Button" parent="Scroller/OverscanMarginContainer/Control/BackPanel/PanelContainer/HBoxContainer"]
-margin_left = 1605.0
-margin_right = 1679.0
+margin_left = 1606.0
+margin_right = 1680.0
 margin_bottom = 78.0
 focus_mode = 0
 size_flags_horizontal = 0
@@ -274,31 +343,10 @@ script = ExtResource( 3 )
 action = "ui_cancel"
 
 [node name="Spacer" type="Control" parent="Scroller/OverscanMarginContainer/Control/BackPanel/PanelContainer/HBoxContainer"]
-margin_left = 1729.0
-margin_right = 1879.0
+margin_left = 1730.0
+margin_right = 1880.0
 margin_bottom = 78.0
 rect_min_size = Vector2( 150, 0 )
-
-[node name="Header" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
-margin_left = 160.0
-margin_right = 1760.0
-margin_bottom = 110.0
-mouse_filter = 1
-custom_styles/panel = SubResource( 6 )
-
-[node name="CenterContainer" type="CenterContainer" parent="Scroller/OverscanMarginContainer/Control/Header"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 1590.0
-margin_bottom = 100.0
-
-[node name="Label" type="Label" parent="Scroller/OverscanMarginContainer/Control/Header/CenterContainer"]
-margin_left = 616.0
-margin_right = 963.0
-margin_bottom = 90.0
-theme = ExtResource( 7 )
-custom_fonts/font = ExtResource( 2 )
-text = "Card Collection"
 
 [connection signal="pressed" from="Scroller/OverscanMarginContainer/Control/BackPanel/PanelContainer/HBoxContainer/AddCard" to="." method="_on_AddCard_pressed"]
 [connection signal="pressed" from="Scroller/OverscanMarginContainer/Control/BackPanel/PanelContainer/HBoxContainer/RemoveCard" to="." method="_on_RemoveCard_pressed"]

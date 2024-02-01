@@ -23,6 +23,10 @@ func _ready():
 	tween.name = "Tween"
 	add_child(tween)
 	origin = rect_position
+
+func get_tween()->Tween:
+	return tween
+
 func animate_playcard(endposition,duration=0.5):
 	tween.stop_all()
 	tween.interpolate_property(self,"rect_global_position",rect_global_position,endposition,duration,Tween.TRANS_BOUNCE,Tween.EASE_OUT)
@@ -106,15 +110,34 @@ func get_stat_value(stat:int)->int:
 	return 0
 
 func flip_card(duration):
-	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(0,1),duration,Tween.TRANS_LINEAR,Tween.EASE_OUT)
+	tween.stop_all()
+	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(0,1),duration,Tween.TRANS_CIRC,Tween.EASE_IN)
 	tween.start()
 	yield(tween,"tween_completed")
+
 	cardback.visible = !cardback.visible
 	card.visible = !card.visible
-	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(1,1),duration,Tween.TRANS_LINEAR,Tween.EASE_OUT)
+	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(1,1),duration,Tween.TRANS_CIRC,Tween.EASE_OUT)
 	tween.start()
 
-func flip_card_instant():
+func flip_card_hidden(duration):
+	if tween.is_active():
+		yield(tween,"tween_completed")
+	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(0,1),duration,Tween.TRANS_CIRC,Tween.EASE_IN)
+	tween.start()
+	yield(tween,"tween_completed")
+
+	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(-1,1),duration,Tween.TRANS_CIRC,Tween.EASE_OUT)
+	tween.start()
+	yield(tween,"tween_completed")
+	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(0,1),duration,Tween.TRANS_CIRC,Tween.EASE_IN)
+	tween.start()
+	yield(tween,"tween_completed")
+
+	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(1,1),duration,Tween.TRANS_CIRC,Tween.EASE_OUT)
+	tween.start()
+
+func flip_card_no_anim():
 	cardback.visible = !cardback.visible
 	card.visible = !card.visible
 
