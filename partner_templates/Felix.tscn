@@ -1,4 +1,4 @@
-[gd_scene load_steps=140 format=2]
+[gd_scene load_steps=143 format=2]
 
 [ext_resource path="res://data/monster_forms/kirikuri.tres" type="Resource" id=1]
 [ext_resource path="res://data/monster_forms/shining_kuneko.tres" type="Resource" id=2]
@@ -115,6 +115,9 @@
 [ext_resource path="res://sfx/voices/felix/felix_sigh_1.wav" type="AudioStream" id=113]
 [ext_resource path="res://sfx/voices/felix/felix_thanks.wav" type="AudioStream" id=114]
 [ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=115]
+[ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=116]
+[ext_resource path="res://sprites/portraits/felix_shocked.png" type="Texture" id=117]
+[ext_resource path="res://sprites/portraits/felix.png" type="Texture" id=118]
 
 [sub_resource type="CapsuleShape" id=30]
 radius = 0.9
@@ -2246,11 +2249,11 @@ script = ExtResource( 52 )
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 75 )
-portrait = ExtResource( 109 )
+portrait = ExtResource( 117 )
 audio = ExtResource( 108 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECREUIT_MENU_PLAYCARDS1" ] ]
+message_array = [ [ "FELIX_CARDS_ACCEPT1" ] ]
 
 [node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 115 )
@@ -2264,9 +2267,13 @@ require_blackboard_values = {
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 75 )
+portrait = ExtResource( 118 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_PLAYCARDS_LOSE1" ] ]
+message_array = [ [ "FELIX_CARDS_LOSE1" ] ]
+
+[node name="ShowCardReward" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 116 )
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 59 )
@@ -2277,9 +2284,10 @@ require_blackboard_values = {
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction2"]
 script = ExtResource( 75 )
+portrait = ExtResource( 43 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_PLAYCARDS_WIN1" ] ]
+message_array = [ [ "FELIX_CARDS_WIN1" ] ]
 
 [node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 52 )

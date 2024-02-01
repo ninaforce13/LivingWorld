@@ -74,60 +74,24 @@ static func initialize_savedata():
 
 static func initialize_card_collection()->Dictionary:
 	var result:Dictionary = {}
-	var item:Dictionary = {"path":"","amount":0,"deck":0}
-
-	item.path = "res://data/monster_forms/traffikrab.tres"
-	item.amount = 1
-	item.deck = 2
-	result["traffikrab"] = item.duplicate()
-
-	item.path = "res://data/monster_forms/bansheep.tres"
-	item.amount = 0
-	item.deck = 1
-	result["bansheep"] = item.duplicate()
-
-	item.path = "res://data/monster_forms/candevil.tres"
-	item.amount = 0
-	item.deck = 1
-	result["candevil"] = item.duplicate()
-
-	item.path = "res://data/monster_forms/carniviper.tres"
-	item.amount = 1
-	item.deck = 1
-	result["carniviper"] = item.duplicate()
-
-	item.path = "res://data/monster_forms/bulletino.tres"
-	item.amount = 1
-	item.deck = 1
-	result["bulletino"] = item.duplicate()
-
-	item.path = "res://data/monster_forms/dandylion.tres"
-	item.amount = 0
-	item.deck = 1
-	result["dandylion"] = item.duplicate()
-
-	item.path = "res://data/monster_forms/dominoth.tres"
-	item.amount = 1
-	item.deck = 1
-	result["dominoth"] = item.duplicate()
-
-	item.path = "res://data/monster_forms/springheel.tres"
-	item.amount = 1
-	item.deck = 1
-	result["springheel"] = item.duplicate()
-
-	item.path = "res://data/monster_forms/macabra.tres"
-	item.amount = 1
-	item.deck = 1
-	result["macabra"] = item.duplicate()
-
-	var random = Random.new()
-	var forms = MonsterForms.basic_forms.values()
-	var bonus_form = random.choice(forms)
-	item.path = bonus_form.resource_path
-	item.amount = 1
-	item.deck = 1
-	result[Loc.tr(bonus_form.name).to_lower()] = item.duplicate()
+	var random = Random.new(SaveState.random_seed)
+	var item:Dictionary = {"path":"","amount":0,"deck":0,"bestiary_category":"","bestiary_index":0}
+	var basic_forms = MonsterForms.basic_forms.values()
+	var debut_forms = MonsterForms.pre_evolution.values()
+	var options:Array = []
+	for i in range(20):
+		options = debut_forms if i < 15 else basic_forms
+		var form = random.choice(options)
+		var key = Loc.tr(form.name).to_lower()
+		if result.has(key):
+			result[key].deck += 1
+			continue
+		item.path = form.resource_path
+		item.amount = 0
+		item.deck = 1
+		item.bestiary_category = form.bestiary_category
+		item.bestiary_index = form.bestiary_index
+		result[key] = item.duplicate()
 	return result
 
 static func get_card_collection()->Dictionary:
@@ -149,14 +113,16 @@ static func has_card(card_data)->bool:
 
 static func get_card_key(card_data)->String:
 	var form = load(card_data.form)
-	var key = str(form.name).to_lower()
+	var key = str(Loc.tr(form.name)).to_lower()
 	return key
 
 static func set_card_data(card_data)->Dictionary:
 	var result:Dictionary = {
 		"path":card_data.form,
 		"amount":1,
-		"deck":0
+		"deck":0,
+		"bestiary_category":card_data.bestiary_category,
+		"bestiary_index":card_data.bestiary_index
 		}
 	return result
 

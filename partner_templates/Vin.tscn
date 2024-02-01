@@ -1,4 +1,4 @@
-[gd_scene load_steps=139 format=2]
+[gd_scene load_steps=140 format=2]
 
 [ext_resource path="res://data/monster_forms/artillerex.tres" type="Resource" id=1]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
@@ -108,6 +108,7 @@
 [ext_resource path="res://sprites/portraits/vin_sad.png" type="Texture" id=106]
 [ext_resource path="res://sfx/voices/eugene/eugene_motivated_3.wav" type="AudioStream" id=107]
 [ext_resource path="res://sprites/portraits/vin_thinking.png" type="Texture" id=108]
+[ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=109]
 [ext_resource path="res://sfx/voices/eugene/eugene_sigh_3.wav" type="AudioStream" id=113]
 [ext_resource path="res://sfx/voices/eugene/eugene_greeting.wav" type="AudioStream" id=114]
 [ext_resource path="res://sfx/voices/eugene/eugene_sigh_1.wav" type="AudioStream" id=115]
@@ -2273,6 +2274,9 @@ portrait = ExtResource( 106 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "VIN_CARDS_LOSE1" ] ]
+
+[node name="ShowCardReward" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 109 )
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 59 )

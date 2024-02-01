@@ -8,6 +8,7 @@ onready var cardband:PanelContainer = find_node("CardBand")
 onready var card:PanelContainer = find_node("Card")
 onready var cardback:PanelContainer = find_node("CardBack")
 onready var cardbackband:PanelContainer = find_node("CardBackBand")
+onready var cardlogo:TextureRect = find_node("CardLogo")
 export (Dictionary) var card_info:Dictionary = {"name":"name","texture":null,"attack":3,"defense":3,"remastered":false}
 export (String) var form
 export (Color) var bandcolor
@@ -27,12 +28,12 @@ func _ready():
 func get_tween()->Tween:
 	return tween
 
-func animate_playcard(endposition,duration=0.5):
+func animate_playcard(endposition,duration=0.5,start_pos=rect_global_position):
 	tween.stop_all()
-	tween.interpolate_property(self,"rect_global_position",rect_global_position,endposition,duration,Tween.TRANS_BOUNCE,Tween.EASE_OUT)
+	tween.interpolate_property(self,"rect_global_position",start_pos,endposition,duration,Tween.TRANS_BOUNCE,Tween.EASE_OUT)
 	tween.start()
 	yield(tween,"tween_completed")
-	rect_global_position = rect_global_position
+
 func animate_hover_enter():
 	if tween.is_active():
 		yield(tween,"tween_completed")
@@ -126,14 +127,14 @@ func flip_card_hidden(duration):
 	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(0,1),duration,Tween.TRANS_CIRC,Tween.EASE_IN)
 	tween.start()
 	yield(tween,"tween_completed")
-
+	cardlogo.visible = false
 	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(-1,1),duration,Tween.TRANS_CIRC,Tween.EASE_OUT)
 	tween.start()
 	yield(tween,"tween_completed")
 	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(0,1),duration,Tween.TRANS_CIRC,Tween.EASE_IN)
 	tween.start()
 	yield(tween,"tween_completed")
-
+	cardlogo.visible = true
 	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(1,1),duration,Tween.TRANS_CIRC,Tween.EASE_OUT)
 	tween.start()
 

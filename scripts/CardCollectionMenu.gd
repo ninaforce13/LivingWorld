@@ -3,15 +3,18 @@ const card_template = preload("res://mods/LivingWorld/cardgame/CardTemplate.tscn
 const count_label = preload("res://mods/LivingWorld/cardgame/CardCountLabel.tscn")
 const deck_button = preload("res://mods/LivingWorld/cardgame/carddeckbutton.tscn")
 const duplicate_limit:int = 3
+const deck_limt:int = 20
 var manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 var focus_button = null
 var last_card_focus:int = 0
 var last_deck_focus:int = 0
 var last_removed_button = null
+var deck_count:int = 0
 onready var card_grid = find_node("CardGrid")
 onready var deck_grid = find_node("DeckGrid")
 onready var add_card_button = find_node("AddCard")
 onready var remove_card_button = find_node("RemoveCard")
+onready var deckcountlabel = find_node("DeckCountLabel")
 
 func _ready():
 	focus_mode = Control.FOCUS_NONE
@@ -31,8 +34,10 @@ func _on_focus_changed(control:Control) -> void:
 			focus_button.grab_focus()
 
 func populate_collection():
-	var collection = manager.get_card_collection()
-	for data in collection.values():
+	var collection = manager.get_card_collection().values()
+	collection.sort_custom(self, "_sort_indices")
+
+	for data in collection:
 		var card = card_template.instance()
 		var label = count_label.instance()
 		var new_card = card.duplicate()
@@ -50,7 +55,16 @@ func populate_deck():
 	for data in collection.values():
 		var card = card_template.instance()
 		if data.deck > 0:
-			add_deck_button(data.path)
+			for _i in range (data.deck):
+				add_deck_button(data.path)
+	update_deck_count()
+func update_deck_count():
+	deck_count = deck_grid.get_child_count()
+	deckcountlabel.text = "%s/%s"%[deck_count,deck_limt]
+	if !deck_full():
+		deckcountlabel.add_color_override("font_color",Color.red)
+	else:
+		deckcountlabel.remove_color_override("font_color")
 
 func add_deck_button(form_path):
 	var new_button = deck_button.instance()
@@ -134,12 +148,16 @@ func remove_card(card):
 	set_button_state(card)
 
 func _on_AddCard_pressed():
+	if deck_full():
+		return
 	var card = focus_button.get_parent()
 	if focus_button.get_parent().get_parent().name == "DeckGrid":
 		return
 	add_to_deck(card)
 	add_deck_button(card.form)
 	set_deck_focus_buttons()
+	set_focus_buttons()
+	update_deck_count()
 
 func _on_RemoveCard_pressed():
 	var card = focus_button.get_parent()
@@ -156,14 +174,15 @@ func _on_RemoveCard_pressed():
 				else:
 					focus_button = get_last_card_focus()
 				card = child
-				print("Removing %s. Last deck focus index is %s"%[card.card_info.name,last_deck_focus])
+
 				is_deck = true
 				break
 	remove_card(card)
 	remove_deck_button(card.form)
+	update_deck_count()
 	focus_button.grab_focus()
-#	set_deck_focus_buttons()
-	if is_deck:
+
+	if is_deck and deck_grid.get_child_count() > 0:
 		disable_add()
 
 
@@ -201,6 +220,9 @@ func get_card_collection_data(card):
 	return card_data
 
 func _on_Back_pressed():
+	if !deck_full():
+		yield(GlobalMessageDialog.show_message("LIVINGWORLD_UI_DECKCOUNT_ERROR"),"completed")
+		return
 	cancel()
 
 func set_focus_buttons():
@@ -262,3 +284,19 @@ func get_looped_index(index, last_index,backwards:bool)->int:
 		step = last_index-index
 		result = step
 	return result
+
+func deck_full()->bool:
+	return deck_count == deck_limt
+
+
+func _sort_indices(a, b)->bool:
+
+	if (a.bestiary_index < 0) == (b.bestiary_index < 0):
+		return a.bestiary_index < b.bestiary_index
+	elif a.bestiary_index < 0:
+		assert (b.bestiary_index >= 0)
+		return false
+	else :
+		assert (b.bestiary_index < 0)
+		assert (a.bestiary_index >= 0)
+		return true

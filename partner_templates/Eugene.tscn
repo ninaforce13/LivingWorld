@@ -115,9 +115,9 @@
 [ext_resource path="res://sprites/portraits/eugene_angry_smile.png" type="Texture" id=113]
 [ext_resource path="res://sprites/portraits/eugene_angry.png" type="Texture" id=114]
 [ext_resource path="res://sprites/portraits/eugene_awkward.png" type="Texture" id=115]
-[ext_resource path="res://sprites/portraits/kayleigh_happy.png" type="Texture" id=116]
 [ext_resource path="res://sfx/voices/kayleigh/kayleigh_greeting.wav" type="AudioStream" id=117]
 [ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=118]
+[ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=119]
 
 [sub_resource type="CapsuleShape" id=30]
 radius = 0.9
@@ -2249,11 +2249,11 @@ script = ExtResource( 53 )
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 76 )
-portrait = ExtResource( 116 )
+portrait = ExtResource( 109 )
 audio = ExtResource( 117 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECREUIT_MENU_PLAYCARDS1" ] ]
+message_array = [ [ "EUGENE_CARDS_ACCEPT1" ] ]
 
 [node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 118 )
@@ -2267,9 +2267,13 @@ require_blackboard_values = {
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 76 )
+portrait = ExtResource( 114 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_PLAYCARDS_LOSE1" ] ]
+message_array = [ [ "EUGENE_CARDS_LOSE1" ] ]
+
+[node name="ShowCardReward" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 119 )
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 60 )
@@ -2280,9 +2284,10 @@ require_blackboard_values = {
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction2"]
 script = ExtResource( 76 )
+portrait = ExtResource( 109 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_PLAYCARDS_WIN1" ] ]
+message_array = [ [ "EUGENE_CARDS_WIN1" ] ]
 
 [node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 53 )

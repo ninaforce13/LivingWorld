@@ -1469,7 +1469,6 @@ player_data = {
 enemy_data = {
 "name": "Ranger"
 }
-demo = true
 
 [node name="Blur" type="TextureRect" parent="."]
 material = SubResource( 4 )
@@ -2207,6 +2206,24 @@ margin_right = -2200.0
 
 [node name="BannerStart" type="Position2D" parent="Scroller/OverscanMarginContainer/Control"]
 position = Vector2( -2200, 297.696 )
+
+[node name="PlayerDamageStart1" type="Position2D" parent="Scroller/OverscanMarginContainer/Control"]
+position = Vector2( 9, 632 )
+
+[node name="PlayerDamageStart2" type="Position2D" parent="Scroller/OverscanMarginContainer/Control"]
+position = Vector2( 122, 668 )
+
+[node name="PlayerDamageStart3" type="Position2D" parent="Scroller/OverscanMarginContainer/Control"]
+position = Vector2( -98, 689 )
+
+[node name="EnemyDamageStart1" type="Position2D" parent="Scroller/OverscanMarginContainer/Control"]
+position = Vector2( 1413, 376 )
+
+[node name="EnemyDamageStart2" type="Position2D" parent="Scroller/OverscanMarginContainer/Control"]
+position = Vector2( 1374, 222 )
+
+[node name="EnemyDamageStart3" type="Position2D" parent="Scroller/OverscanMarginContainer/Control"]
+position = Vector2( 1397, 290 )
 
 [node name="BannerEnd" type="Position2D" parent="Scroller/OverscanMarginContainer/Control"]
 position = Vector2( 1800, 297.696 )

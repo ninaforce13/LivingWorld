@@ -5,8 +5,12 @@ signal field_cleared
 signal hand_drawn
 signal card_drawn
 signal thinking_complete
+
+enum DamageType {NEUTRAL, DAMAGE, HEAL}
+
 const card_template = preload("res://mods/LivingWorld/cardgame/CardTemplate.tscn")
 const manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
+const damage_pop = preload("res://mods/LivingWorld/cardgame/damage_pop.tscn")
 const resolve_value:int = 3
 
 onready var EnemyHandGrid = find_node("OpponentHandGrid")
@@ -30,6 +34,12 @@ onready var PlayerDefenseLabel = find_node("DefenseValue")
 onready var Banner = find_node("Banner")
 onready var BannerStart = find_node("BannerStart")
 onready var BannerEnd = find_node("BannerEnd")
+onready var PlayerDamageStart1 = find_node("PlayerDamageStart1")
+onready var PlayerDamageStart2 = find_node("PlayerDamageStart2")
+onready var PlayerDamageStart3 = find_node("PlayerDamageStart3")
+onready var EnemyDamageStart1 = find_node("EnemyDamageStart1")
+onready var EnemyDamageStart2 = find_node("EnemyDamageStart2")
+onready var EnemyDamageStart3 = find_node("EnemyDamageStart3")
 
 export (Dictionary) var player_setup
 export (Dictionary) var enemy_setup
@@ -52,6 +62,8 @@ var enemy_stats:Dictionary = {"max_hp":6,"hp":6,"state":State.NEUTRAL,"attack":0
 var winner_name:String
 var enemy_tween:Tween
 var player_tween:Tween
+var player_damage_start:Array = []
+var enemy_damage_start:Array = []
 
 func _ready():
 	random = Random.new()
@@ -62,15 +74,30 @@ func _ready():
 	set_heartgauge_tween()
 	set_sprites()
 	initialize_decks()
-
+	populate_damage_pop_arrays()
 	connect("enemyturn",self,"enemy_move")
 	connect("gameover",self,"end_game")
 
 	draw_initial_hand()
 	yield(self,"hand_drawn")
-#
+
 	set_focus_buttons()
 	set_player_turn(true)
+
+func populate_damage_pop_arrays():
+	player_damage_start.push_back(PlayerDamageStart1)
+	player_damage_start.push_back(PlayerDamageStart2)
+	player_damage_start.push_back(PlayerDamageStart3)
+
+	enemy_damage_start.push_back(EnemyDamageStart1)
+	enemy_damage_start.push_back(EnemyDamageStart2)
+	enemy_damage_start.push_back(EnemyDamageStart3)
+
+func get_random_start_point(team):
+	if team == Team.PLAYER:
+		return random.choice(player_damage_start)
+	else:
+		return random.choice(enemy_damage_start)
 
 func set_sprites():
 	if demo:
@@ -90,11 +117,9 @@ func initialize_decks():
 
 func draw_initial_hand():
 	for _i in range (0,5):
-#		yield(Co.wrap(draw_card(Team.PLAYER)),"completed")
 		draw_card(Team.PLAYER)
 		yield(self,"card_drawn")
 	for _i in range (0,5):
-#		yield(Co.wrap(draw_card(Team.ENEMY)),"completed")
 		draw_card(Team.ENEMY)
 		yield(self,"card_drawn")
 	emit_signal("hand_drawn")
@@ -159,32 +184,47 @@ func update_value_labels():
 func resolve_field():
 	var player_result:Dictionary = resolve_stats(player_stats)
 	var enemy_result:Dictionary = resolve_stats(enemy_stats)
-
+	var damage
 	if player_result.attack > enemy_result.defense:
 		EnemySprite.animate_damage()
+		damage = player_result.attack - enemy_result.defense
+		var text = "- %s"%str(damage)
 		animate_heart_damage(Team.ENEMY)
-		enemy_stats.hp -= (player_result.attack - enemy_result.defense)
+		animate_damage_pop(Team.ENEMY,text,DamageType.DAMAGE)
+		enemy_stats.hp -= damage
 		enemy_stats.hp = clamp(enemy_stats.hp,0,enemy_stats.max_hp)
 		EnemyHealth.text = str(enemy_stats.hp)
 
 	if player_result.defense > enemy_result.attack:
-#		animate_heal
-		player_stats.hp += (player_result.defense - enemy_result.attack)
+		damage = player_result.defense - enemy_result.attack
+		var text = "+ %s"%str(damage)
+		animate_damage_pop(Team.PLAYER,"Blocked!",DamageType.NEUTRAL)
+		animate_damage_pop(Team.PLAYER,text,DamageType.HEAL)
+		player_stats.hp += damage
 		player_stats.hp = clamp(player_stats.hp, 0, player_stats.max_hp)
 		PlayerHealth.text = str(player_stats.hp)
 
 	if enemy_result.attack > player_result.defense:
+		damage = enemy_result.attack - player_result.defense
+		var text = "- %s"%str(damage)
 		PlayerSprite.animate_damage()
 		animate_heart_damage(Team.PLAYER)
-		player_stats.hp -= (enemy_result.attack - player_result.defense)
+		animate_damage_pop(Team.PLAYER,text,DamageType.DAMAGE)
+		player_stats.hp -= damage
 		player_stats.hp = clamp(player_stats.hp,0,player_stats.max_hp)
 		PlayerHealth.text = str(player_stats.hp)
 
 	if enemy_result.defense > player_result.attack:
-		enemy_stats.hp += (enemy_result.defense - player_result.attack)
+		damage = enemy_result.defense - player_result.attack
+		var text = "+ %s"%str(damage)
+		animate_damage_pop(Team.ENEMY,text,DamageType.HEAL)
+		enemy_stats.hp += damage
 		enemy_stats.hp = clamp(enemy_stats.hp,0,enemy_stats.max_hp)
 		EnemyHealth.text = str(enemy_stats.hp)
-
+	if enemy_result.defense == player_result.attack:
+		animate_damage_pop(Team.ENEMY,"Blocked!",DamageType.NEUTRAL)
+	if player_result.defense == enemy_result.attack:
+		animate_damage_pop(Team.PLAYER,"Blocked!",DamageType.NEUTRAL)
 	reset_stats()
 	yield(Co.wait(2),"completed")
 	clear_battlefield()
@@ -194,25 +234,37 @@ func resolve_field():
 	set_state(player_stats.state,Team.PLAYER)
 
 
+func animate_damage_pop(team,value,damage_type = 0 ):
+	var start = get_random_start_point(team).global_position
+	var damage = damage_pop.instance()
+	damage.type = damage_type
+	damage.text = value
+	add_child(damage)
+	damage.rect_global_position = start
+	damage.animate_pop()
+
 func clear_battlefield():
+	var co_list:Array = []
 	for slot in EnemyField.get_children():
-		slot.get_card().flip_card(0.01)
-		yield(slot.get_card().tween,"tween_all_completed")
+		co_list.push_back(slot.get_card().flip_card(0.1))
 	for slot in PlayerField.get_children():
-		slot.get_card().flip_card(0.01)
-		yield(slot.get_card().tween,"tween_all_completed")
+		co_list.push_back(slot.get_card().flip_card(0.1))
+	yield(Co.join(co_list),"completed")
+	yield(Co.wait(0.5),"completed")
 
 	for slot in EnemyField.get_children():
 		var movepos = EnemyDeck.rect_global_position
 		enemy_discard.push_back(slot.get_card().duplicate())
-		slot.clear_slot(true,movepos)
-		yield(Co.wrap(slot.clear_slot(true,movepos,0.01)),"completed")
+		slot.get_card().animate_playcard(movepos,0.1,slot.rect_global_position)
+		yield(slot.get_card().tween,"tween_all_completed")
+		slot.clear_slot()
 
 	for slot in PlayerField.get_children():
 		var movepos = PlayerDeck.rect_global_position
 		player_discard.push_back(slot.get_card().duplicate())
-		slot.clear_slot(true,movepos)
-		yield(Co.wrap(slot.clear_slot(true,movepos,0.01)),"completed")
+		slot.get_card().animate_playcard(movepos,0.1,slot.rect_global_position)
+		yield(slot.get_card().tween,"tween_all_completed")
+		slot.clear_slot()
 
 	emit_signal("field_cleared")
 
@@ -301,6 +353,7 @@ func player_card_picked(card):
 	card.animate_playcard(move_pos)
 	var remaster_bonus:bool = check_remasters(PlayerField,card)
 	yield(Co.wait(.3),"completed")
+	card.rect_global_position = move_pos
 	if card.has_node("Button"):
 		var button = card.get_node("Button")
 		card.remove_child(button)
@@ -396,14 +449,16 @@ func enemy_move():
 		draw_card(Team.ENEMY)
 		yield(self,"card_drawn")
 
-	var card
 
-	if enemy_stats.state == State.NEUTRAL:
-		card = get_random()
-	if enemy_stats.state == State.ATTACK:
-		card = get_card(State.ATTACK)
-	if enemy_stats.state == State.DEFENSE:
-		card = get_card(State.DEFENSE)
+	var card = evaluate_situation()
+#	if enemy_stats.state == State.NEUTRAL:
+#		card = get_random()
+#	if enemy_stats.state == State.ATTACK:
+#		card = get_card(State.ATTACK)
+#	if enemy_stats.state == State.DEFENSE:
+#		card = get_card(State.DEFENSE)
+
+
 	if manager.get_setting("EnemyCardThought"):
 		animate_thinking(card)
 		yield(self,"thinking_complete")
@@ -493,6 +548,17 @@ func get_card(state):
 			if choice.card_info.defense < slot.card_info.defense:
 				choice = slot.get_card()
 	return choice
+func evaluate_situation():
+	var in_danger:bool = enemy_stats.hp < enemy_stats.max_hp / 3
+
+	var defensive:bool = random.rand_bool(0.7) if in_danger else random.rand_bool(0.3)
+	var offensive:bool = random.rand_bool(0.8) if !defensive else false
+
+	if defensive:
+		return get_card(State.DEFENSE)
+	if offensive:
+		return get_card(State.ATTACK)
+	return get_random()
 
 func get_random():
 	var choice = null

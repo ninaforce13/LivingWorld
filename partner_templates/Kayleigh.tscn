@@ -1,4 +1,4 @@
-[gd_scene load_steps=140 format=2]
+[gd_scene load_steps=141 format=2]
 
 [ext_resource path="res://data/monster_forms/blossomaw.tres" type="Resource" id=1]
 [ext_resource path="res://data/monster_forms/decibelle.tres" type="Resource" id=2]
@@ -115,6 +115,7 @@
 [ext_resource path="res://sprites/portraits/kayleigh_awkward.png" type="Texture" id=113]
 [ext_resource path="res://sfx/voices/kayleigh/kayleigh_thanks.wav" type="AudioStream" id=114]
 [ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=115]
+[ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=116]
 
 [sub_resource type="CapsuleShape" id=6]
 radius = 0.9
@@ -2247,10 +2248,9 @@ script = ExtResource( 72 )
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 75 )
 portrait = ExtResource( 91 )
-audio = ExtResource( 99 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECREUIT_MENU_PLAYCARDS1" ] ]
+message_array = [ [ "KAYLEIGH_CARDS_ACCEPT1" ] ]
 
 [node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 115 )
@@ -2264,9 +2264,13 @@ require_blackboard_values = {
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 75 )
+portrait = ExtResource( 70 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_PLAYCARDS_LOSE1" ] ]
+message_array = [ [ "KAYLEIGH_CARDS_LOSE1" ] ]
+
+[node name="ShowCardReward" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 116 )
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 74 )
@@ -2277,9 +2281,10 @@ require_blackboard_values = {
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction2"]
 script = ExtResource( 75 )
+portrait = ExtResource( 91 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_PLAYCARDS_WIN1" ] ]
+message_array = [ [ "KAYLEIGH_CARDS_WIN1" ] ]
 
 [node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 72 )
@@ -2361,6 +2366,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 40 )]
 

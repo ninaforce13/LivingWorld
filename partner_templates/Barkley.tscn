@@ -1,4 +1,4 @@
-[gd_scene load_steps=136 format=2]
+[gd_scene load_steps=135 format=2]
 
 [ext_resource path="res://data/monster_forms/spitzfyre.tres" type="Resource" id=1]
 [ext_resource path="res://data/monster_forms/fortiwinx.tres" type="Resource" id=2]
@@ -29,7 +29,7 @@
 [ext_resource path="res://mods/LivingWorld/actions/RecordSuccessAction.gd" type="Script" id=27]
 [ext_resource path="res://mods/LivingWorld/actions/SetTouchDetector.gd" type="Script" id=28]
 [ext_resource path="res://sfx/voices/dog/dog_bark_2.wav" type="AudioStream" id=29]
-[ext_resource path="res://sfx/voices/kayleigh/kayleigh_greeting.wav" type="AudioStream" id=30]
+[ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=30]
 [ext_resource path="res://sprites/portraits/dog_angry.png" type="Texture" id=31]
 [ext_resource path="res://sfx/voices/dog/dog_whine.wav" type="AudioStream" id=32]
 [ext_resource path="res://sprites/portraits/dog_sad.png" type="Texture" id=33]
@@ -109,7 +109,6 @@
 [ext_resource path="res://nodes/battle_slot/named_sounds.tres" type="Resource" id=107]
 [ext_resource path="res://mods/LivingWorld/scripts/setbattlesprite.gd" type="Script" id=108]
 [ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=109]
-[ext_resource path="res://sprites/portraits/kayleigh_happy.png" type="Texture" id=110]
 [ext_resource path="res://sprites/characters/world/dog.json" type="PackedScene" id=111]
 
 [sub_resource type="CapsuleShape" id=6]
@@ -2217,11 +2216,10 @@ script = ExtResource( 56 )
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 79 )
-portrait = ExtResource( 110 )
-audio = ExtResource( 30 )
+portrait = ExtResource( 47 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECREUIT_MENU_PLAYCARDS1" ] ]
+message_array = [ [ "BARKLEY_CARDS_ACCEPT1" ] ]
 
 [node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 109 )
@@ -2235,9 +2233,13 @@ require_blackboard_values = {
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 79 )
+portrait = ExtResource( 47 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_PLAYCARDS_LOSE1" ] ]
+message_array = [ [ "BARKLEY_CARDS_LOSE1" ] ]
+
+[node name="ShowCardReward" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 30 )
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 63 )
@@ -2248,9 +2250,10 @@ require_blackboard_values = {
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction2"]
 script = ExtResource( 79 )
+portrait = ExtResource( 68 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_PLAYCARDS_WIN1" ] ]
+message_array = [ [ "BARKLEY_CARDS_WIN1" ] ]
 
 [node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 56 )

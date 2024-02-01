@@ -97,6 +97,9 @@ KAYLEIGH_MENU_CHALLENGE_REJECT1,"I need to fix up my tapes first, sorry! Maybe l
 KAYLEIGH_TRADE_OFFER1,"I'd love to find [color=#{request_rarity}][{trade_request}][/color] for my tapes![pause] If you have one, could you trade it to me for this [color=#{offer_rarity}][{trade_offer}][/color] sticker?"
 KAYLEIGH_TRADE_ACCEPTED1,Thanks a million! This is exactly what I needed!
 KAYLEIGH_TRADE_REJECTED1,That doesn't really look like the sticker I needed…
+KAYLEIGH_CARDS_ACCEPT1,"That sounds fun![pause] Sure, let's play!"
+KAYLEIGH_CARDS_LOSE1,That was so fun![pause] You were great![pause] Here's one of my cards to add to your deck!
+KAYLEIGH_CARDS_WIN1,That was brilliant![pause] I can't wait to play more!
 KAYLEIGH_TRADE_CANCEL1,"Aw, alright. I'll keep looking then!"
 KAYLEIGH_PASSIVES_ROGUES_MESSAGE1,Oh no… It's another rogue! I need a hand with this!
 KAYLEIGH_MENU_GOODBYE1,See ya!
@@ -121,6 +124,9 @@ BARKLEY_TRADE_ACCEPTED1,Arf Arf!
 BARKLEY_TRADE_ACCEPTED2,[i]He wags his tail happily as he attempts to place the sticker on a tape.[pause] It seems he's satisfied with this exchange![/i]
 BARKLEY_TRADE_REJECTED1,[wave amp=30 freq=10]Grr…[/wave] Arf!
 BARKLEY_TRADE_REJECTED2,[i]He looks frustrated. Maybe you misunderstood his request?[/i]
+BARKLEY_CARDS_ACCEPT1,Arf?
+BARKLEY_CARDS_LOSE1,Arf!
+BARKLEY_CARDS_WIN1,Arf Arf!
 BARKLEY_TRADE_CANCEL,[i]He seems dissapointed.[/i]
 BARKLEY_PASSIVE_ROGUES_MESSAGE1,Arf Arf! [wave amp=30 freq=10]Grr…[/wave]!
 BARKLEY_LEAVE1,Arf!
@@ -136,19 +142,25 @@ EUGENE_TRADE_OFFER1,"{player}[pause], buddy. I've [wave amp=30 freq=10]gotta[/wa
 EUGENE_TRADE_ACCEPTED1,Momentous! Now nothing can slow me down!
 EUGENE_TRADE_REJECTED1,"Aw man, come on! You know that's what I need! "
 EUGENE_TRADE_CANCEL1,"[wave amp=30 freq=10]Fine[/wave][pause], I get it. I'll just keep battling until I earn one!"
+EUGENE_CARDS_ACCEPT1,Dude![pause] Of course I'm down to play this![pause] I love collectible card games!
+EUGENE_CARDS_LOSE1,"Aw man![pause] I was just about to draw the card I needed![pause] Ah well[pause], I'll get it next time![pause] Here's your reward!"
+EUGENE_CARDS_WIN1,Badass![pause] That was great![pause] Hit me up if you wanna play another round!
 EUGENE_LEAVE1,See ya!
 EUGENE_PASSIVE_ROGUES_MESSAGE1,We got another wild one![pause] I'm going after it!
 FELIX_IDLE_RECRUIT_DIALOG1,Hey there {player}. Not working too hard I hope?
 FELIX_IDLE_RECRUIT_DIALOG2,"I sketeched another monster the other day. Their anatomy was so unorthodox, I couldn't help but get inspired. "
 FELIX_IDLE_RECRUIT_DIALOG3,"I broke another pencil rewinding my tape today[pause]. I always keep a spare[pause], but I usually save it for my sketches. "
 FELIX_IDLE_RECRUIT_DIALOG4,"You know[pause], it's not so bad here![pause] Wild monsters aside[pause], it's actually pretty relaxing."
-FELIX_IDLE_RECRUIT_DIALOG5,"Hey. No worries, I wasn't doing anything important."
+FELIX_IDLE_RECRUIT_DIALOG5,Hey.[pause] I was just enjoying the weather.
 FELIX_CHALLENGE_REJECTED1,"Actually, I could use a break. Let's pick this up later."
 FELIX_CHALLENGE_ACCEPTED1,"Sure, I could use the practice. "
 FELIX_CHALLENGE_WIN1,"Wow, you're really something else {player}. Well played!"
 FELIX_TRADE_OFFER1,I could use an extra [color=#{request_rarity}][{trade_request}][/color] sticker.[pause] Maybe you'd be willing to trade for my [color=#{offer_rarity}][{trade_offer}][/color] sticker?
 FELIX_TRADE_REJECTED1,"Hmm[pause], I don't think that's it.[pause] That's alright, I can probably get it from the merchant stalls."
 FELIX_TRADE_ACCEPTED1,"This should smooth things out for me.[pause] I appreciate it, {player}. "
+FELIX_CARDS_ACCEPT1,Woah![pause] Check out the artwork on these cards.[pause] Wanna play a round?
+FELIX_CARDS_LOSE1,"Nice[pause], good game {player}.[pause] Here's one of my cards[pause], have fun."
+FELIX_CARDS_WIN1,Rad![pause] That was pretty fun.[pause] Let's play again sometime.
 FELIX_TRADE_CANCEL1,"Oh[pause], no worries.[pause] I'm sure I'll find one eventually."
 FELIX_PASSIVE_ROGUES_MESSAGE1,Looks like another rogue on the loose. I can help!
 FELIX_LEAVE1,Take care.
@@ -164,6 +176,9 @@ MEREDITH_TRADE_OFFER1,"So, if you've got any [color=#{request_rarity}][{trade_re
 MEREDITH_TRADE_ACCEPTED1,"Thanks, mate. I needed this one."
 MEREDITH_TRADE_REJECTED1,"Urgh. I'm, uh, pretty sure I was clear on which bloody sticker I needed."
 MEREDITH_TRADE_CANCEL1,"Yeah[pause], I figured as much."
+MEREDITH_CARDS_ACCEPT1,"Somebody made a card game?[pause] Yeah[pause], ok[pause], I guess we may as well play."
+MEREDITH_CARDS_LOSE1,"Well[pause], that was[pause] interesting.[pause]I guess[pause], here's your reward."
+MEREDITH_CARDS_WIN1,"Heh[pause], I guess I'm pretty good at this."
 MEREDITH_LEAVE1,"Take care, mate."
 MEREDITH_PASSIVE_ROGUES_MESSAGE1,Ugh! Not again! Let's just… urgh! Somebody help me out here!
 VIOLA_IDLE_RECRUIT_DIALOG1,"I am glad to see you well, friend!"
@@ -179,6 +194,9 @@ VIOLA_TRADE_ACCEPTED1,You have my gratitude!
 VIOLA_TRADE_REJECTED1,"Alas, dear friend. This does not resemble the item I requested."
 VIOLA_TRADE_CANCEL1,"Fear not, I am resourceful enough to procure one through other means!"
 VIOLA_LEAVE1,Fare thee well!
+VIOLA_CARDS_ACCEPT1,A game of chance and skill played on small sheets of paper?[pause]How fascinating! 
+VIOLA_CARDS_LOSE1,Marvelous! I do believe it is customary to reward the victor with a card from the defeated's arsenal?
+VIOLA_CARDS_WIN1,How joyous! I would gladly engage in more of these leisure activities!
 VIOLA_PASSIVE_ROGUES_MESSAGE1,Rogues have been sighted upon the horizon! Let us show thy fiends our true mettle!
 FRANKIE_CARDS_ACCEPT1,Oh oh oh! I've played tons of these back home! 
 FRANKIE_CARDS_LOSE1,Yes! Ha ha! I've still got it!
@@ -220,3 +238,4 @@ LIVINGWORLD_CARDS_UI_ATTACK,Attacking
 LIVINGWORLD_CARDS_UI_DEFENSE,Defending
 LIVINGWORLD_CARDS_UI_NEUTRAL,Balanced
 LIVINGWORLD_UI_CARDCOLLECTION,Card Collection
+LIVINGWORLD_UI_DECKCOUNT_ERROR,Your Deck cannot have less than 20 cards. Please add more cards.
