@@ -13,19 +13,20 @@ export (bool) var spawn_kinematics_on_floor:bool = true
 export (bool) var ignore_visibility:bool = false
 export (int) var forced_personality = -1
 export (bool) var supress_abilities = false
+var delay
 var current_spawns:Array = []
 var timer:Timer
-
+var random:Random
 var done_initial_spawns:bool = false
 
 func _ready():
+	random = Random.new()
 	timer = Timer.new()
 	add_child(timer)
 	timer.connect("timeout", self, "_timed_spawn")
 	UserSettings.connect("settings_changed", self,"_update_population")
-	timer.start(spawn_period)
-	if !npcmanager.has_savedata():
-		npcmanager.initialize_savedata()
+	timer.start(clamp(spawn_period - random.rand_float(),1.0,10.0))
+
 	_update_population()
 
 func _update_population():
@@ -55,7 +56,6 @@ func try_spawn():
 			return null
 	return null
 
-
 func _try_spawn_attempt():
 	assert (is_inside_tree())
 	if not is_inside_tree():
@@ -68,10 +68,9 @@ func _try_spawn_attempt():
 		if flat_pos.distance_to(player.global_transform.origin) < MIN_DISTANCE_TO_PLAYER:
 			return null
 
-	var npc = npcmanager.create_npc(self,self,forced_personality,supress_abilities)
-	if npc.has_method("beam_in"):
-		npc.beam_in()
-	npc.global_transform.origin = global_pos + Vector3(0,20,0)
+	var npc = npcmanager.create_npc(forced_personality,supress_abilities)
+	add_child(npc)
+	npc.global_transform.origin = global_pos + Vector3(0,5,0)
 	if npc is KinematicBody:
 		var orig_xform = npc.transform
 		var collision = npc.move_and_collide(Vector3(0, - 100, 0), false)
@@ -79,6 +78,7 @@ func _try_spawn_attempt():
 			npc.transform = orig_xform
 	if npc:
 		current_spawns.push_back(npc)
+
 		return npc
 	return null
 
@@ -120,7 +120,7 @@ func _timed_spawn():
 	var player = WorldSystem.get_player()
 	if WorldSystem.is_ai_enabled() and is_inside_tree():
 		_cull_freed_spawns()
-		if ignore_visibility or not is_on_screen() and self.global_transform.origin.distance_to(player.global_transform.origin) < MAX_SPAWN_DISTANCE:
+		if (ignore_visibility or not is_on_screen()) and self.global_transform.origin.distance_to(player.global_transform.origin) < MAX_SPAWN_DISTANCE:
 			try_spawn()
 
 

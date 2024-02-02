@@ -749,11 +749,10 @@ script = ExtResource( 57 )
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 61 )
-title = "{pawn}"
 wait_for_confirm = false
 close_after = false
 use_random = true
-message_array = [ [ "FOLLOWER_IDLE_DIALOG1" ], [ "FOLLOWER_IDLE_DIALOG2" ], [ "FOLLOWER_IDLE_DIALOG3" ], [ "FOLLOWER_IDLE_DIALOG4" ], [ "FOLLOWER_IDLE_DIALOG5" ], [ "FOLLOWER_IDLE_DIALOG6" ] ]
+message_array = [ [ "FOLLOWER_DEFAULT_INTERACTION" ] ]
 
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 10 )
@@ -764,27 +763,12 @@ always_succeed = true
 [node name="Dismiss" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 56 )
 
-[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Dismiss"]
-script = ExtResource( 61 )
-title = "{pawn}"
-use_random = true
-message_array = [ [ "FOLLOWER_DISMISSED1" ], [ "FOLLOWER_DISMISSED2" ], [ "FOLLOWER_DISMISSED3" ] ]
-
 [node name="RemoveFollower" type="Node" parent="InteractionBehavior/MenuDialogAction/Dismiss"]
 script = ExtResource( 19 )
 
 [node name="RemoveNodeAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Dismiss"]
 script = ExtResource( 4 )
 animation = 0
-
-[node name="Cancel" type="Node" parent="InteractionBehavior/MenuDialogAction"]
-script = ExtResource( 56 )
-
-[node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Cancel"]
-script = ExtResource( 61 )
-title = "{pawn}"
-use_random = true
-message_array = [ [ "RECRUIT_MENU_GOODBYE1" ], [ "RECRUIT_MENU_GOODBYE2" ], [ "RECRUIT_MENU_GOODBYE3" ] ]
 
 [node name="MonsterForms" parent="." instance=ExtResource( 1 )]
 
@@ -856,6 +840,7 @@ script = ExtResource( 49 )
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 3 )]
 

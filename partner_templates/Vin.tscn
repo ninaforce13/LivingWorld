@@ -1,4 +1,4 @@
-[gd_scene load_steps=140 format=2]
+[gd_scene load_steps=141 format=2]
 
 [ext_resource path="res://data/monster_forms/artillerex.tres" type="Resource" id=1]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
@@ -109,6 +109,7 @@
 [ext_resource path="res://sfx/voices/eugene/eugene_motivated_3.wav" type="AudioStream" id=107]
 [ext_resource path="res://sprites/portraits/vin_thinking.png" type="Texture" id=108]
 [ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=109]
+[ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=110]
 [ext_resource path="res://sfx/voices/eugene/eugene_sigh_3.wav" type="AudioStream" id=113]
 [ext_resource path="res://sfx/voices/eugene/eugene_greeting.wav" type="AudioStream" id=114]
 [ext_resource path="res://sfx/voices/eugene/eugene_sigh_1.wav" type="AudioStream" id=115]
@@ -2275,8 +2276,18 @@ title = "{pawn}"
 use_random = true
 message_array = [ [ "VIN_CARDS_LOSE1" ] ]
 
+[node name="PlayAudioAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 21 )
+stream = ExtResource( 110 )
+wait_for_finish = false
+mute_music = true
+
 [node name="ShowCardReward" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 109 )
+
+[node name="PassiveMessageAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 16 )
+message = "LIVINGWORLD_PASSIVE_CARDREWARD"
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 59 )
@@ -2369,6 +2380,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 35 )]
 

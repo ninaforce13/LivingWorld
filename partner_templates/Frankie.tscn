@@ -1,4 +1,4 @@
-[gd_scene load_steps=146 format=2]
+[gd_scene load_steps=147 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/misc_utils/actions/composites/Sequence.gd" type="Script" id=2]
@@ -121,6 +121,7 @@
 [ext_resource path="res://data/monster_forms/spooki-onna.tres" type="Resource" id=119]
 [ext_resource path="res://data/elemental_types/glitter.tres" type="Resource" id=120]
 [ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=121]
+[ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=122]
 
 [sub_resource type="CapsuleShape" id=30]
 radius = 0.9
@@ -2287,8 +2288,18 @@ title = "{pawn}"
 use_random = true
 message_array = [ [ "FRANKIE_CARDS_WIN1" ] ]
 
+[node name="PlayAudioAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 20 )
+stream = ExtResource( 122 )
+wait_for_finish = false
+mute_music = true
+
 [node name="ShowCardReward" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 121 )
+
+[node name="PassiveMessageAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 15 )
+message = "LIVINGWORLD_PASSIVE_CARDREWARD"
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 58 )
@@ -2383,6 +2394,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 34 )]
 

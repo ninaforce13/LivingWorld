@@ -1469,6 +1469,7 @@ player_data = {
 enemy_data = {
 "name": "Ranger"
 }
+demo = true
 
 [node name="Blur" type="TextureRect" parent="."]
 material = SubResource( 4 )
@@ -2020,6 +2021,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 7 )]
 
@@ -2147,6 +2149,7 @@ script = ExtResource( 8 )
 idle = "inactive"
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 7 )]
 
@@ -2208,13 +2211,13 @@ margin_right = -2200.0
 position = Vector2( -2200, 297.696 )
 
 [node name="PlayerDamageStart1" type="Position2D" parent="Scroller/OverscanMarginContainer/Control"]
-position = Vector2( 9, 632 )
+position = Vector2( -24, 575 )
 
 [node name="PlayerDamageStart2" type="Position2D" parent="Scroller/OverscanMarginContainer/Control"]
-position = Vector2( 122, 668 )
+position = Vector2( -2, 708 )
 
 [node name="PlayerDamageStart3" type="Position2D" parent="Scroller/OverscanMarginContainer/Control"]
-position = Vector2( -98, 689 )
+position = Vector2( -139, 645 )
 
 [node name="EnemyDamageStart1" type="Position2D" parent="Scroller/OverscanMarginContainer/Control"]
 position = Vector2( 1413, 376 )

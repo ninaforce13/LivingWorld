@@ -24,6 +24,7 @@ func _ready():
 		player_index = 0
 	if name == "Partner":
 		player_index = 1
+
 	if character != null:
 		set_character(character)
 	else :

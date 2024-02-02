@@ -1,4 +1,4 @@
-[gd_scene load_steps=141 format=2]
+[gd_scene load_steps=142 format=2]
 
 [ext_resource path="res://data/monster_forms/blossomaw.tres" type="Resource" id=1]
 [ext_resource path="res://data/monster_forms/decibelle.tres" type="Resource" id=2]
@@ -116,6 +116,7 @@
 [ext_resource path="res://sfx/voices/kayleigh/kayleigh_thanks.wav" type="AudioStream" id=114]
 [ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=115]
 [ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=116]
+[ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=117]
 
 [sub_resource type="CapsuleShape" id=6]
 radius = 0.9
@@ -2099,7 +2100,7 @@ message_array = [ [ "KAYLEIGH_IDLE_RECRUIT_DIALOG1" ], [ "KAYLEIGH_IDLE_RECRUIT_
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 86 )
 menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3", "RECRUIT_MENU_OPTION5", "RECRUIT_MENU_OPTION4" ]
-default_option = 3
+default_option = 4
 always_succeed = true
 
 [node name="PartyInvite" type="Node" parent="InteractionBehavior/MenuDialogAction"]
@@ -2269,8 +2270,18 @@ title = "{pawn}"
 use_random = true
 message_array = [ [ "KAYLEIGH_CARDS_LOSE1" ] ]
 
+[node name="PlayAudioAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 36 )
+stream = ExtResource( 117 )
+wait_for_finish = false
+mute_music = true
+
 [node name="ShowCardReward" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 116 )
+
+[node name="PassiveMessageAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 33 )
+message = "LIVINGWORLD_PASSIVE_CARDREWARD"
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 74 )

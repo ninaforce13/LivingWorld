@@ -2,13 +2,15 @@ extends MessageDialogAction
 
 export (bool) var use_random = false
 export (Array,Array,String) var message_array
+export (bool) var disable_sprite = false
 var dialogsprite
 var tween:Tween
 var npcmanager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 var use_battlesprite:bool = false
+
 func _ready():
 	var pawn = get_pawn()
-	if pawn.has_node("ConversationSprite"):
+	if pawn.has_node("ConversationSprite") and !disable_sprite:
 		dialogsprite = pawn.get_node("ConversationSprite")
 	tween = Tween.new()
 	add_child(tween)
@@ -16,7 +18,7 @@ func _enter_action():
 	generate_frankie_values()
 	var pawn = get_pawn()
 	var data = pawn.get_node("RecruitData")
-	use_battlesprite = npcmanager.get_setting("BattleSprite") or !data.is_partner
+	use_battlesprite = (npcmanager.get_setting("BattleSprite") or !data.is_partner) and !disable_sprite
 	if use_random:
 		messages = []
 		var index:int = randi()%message_array.size()

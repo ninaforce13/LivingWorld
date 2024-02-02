@@ -1,4 +1,4 @@
-[gd_scene load_steps=143 format=2]
+[gd_scene load_steps=144 format=2]
 
 [ext_resource path="res://data/monster_forms/kirikuri.tres" type="Resource" id=1]
 [ext_resource path="res://data/monster_forms/shining_kuneko.tres" type="Resource" id=2]
@@ -118,6 +118,7 @@
 [ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=116]
 [ext_resource path="res://sprites/portraits/felix_shocked.png" type="Texture" id=117]
 [ext_resource path="res://sprites/portraits/felix.png" type="Texture" id=118]
+[ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=119]
 
 [sub_resource type="CapsuleShape" id=30]
 radius = 0.9
@@ -2101,7 +2102,7 @@ message_array = [ [ "FELIX_IDLE_RECRUIT_DIALOG1" ], [ "FELIX_IDLE_RECRUIT_DIALOG
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 103 )
 menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3", "RECRUIT_MENU_OPTION5", "RECRUIT_MENU_OPTION4" ]
-default_option = 3
+default_option = 4
 always_succeed = true
 
 [node name="PartyInvite" type="Node" parent="InteractionBehavior/MenuDialogAction"]
@@ -2272,8 +2273,18 @@ title = "{pawn}"
 use_random = true
 message_array = [ [ "FELIX_CARDS_LOSE1" ] ]
 
+[node name="PlayAudioAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 21 )
+stream = ExtResource( 119 )
+wait_for_finish = false
+mute_music = true
+
 [node name="ShowCardReward" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 116 )
+
+[node name="PassiveMessageAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 27 )
+message = "LIVINGWORLD_PASSIVE_CARDREWARD"
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 59 )
@@ -2367,6 +2378,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 35 )]
 

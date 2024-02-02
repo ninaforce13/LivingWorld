@@ -140,10 +140,6 @@ func end_game():
 		EnemySprite.animate_defeat()
 	else:
 		PlayerSprite.animate_defeat()
-		Banner.set_colors(Team.PLAYER)
-		Banner.set_text("%'s Turn"%player_data.name)
-		Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5)
-		yield(Banner.tween,"tween_all_completed")
 	choose_option(winner == WorldSystem.get_player().name)
 
 func is_game_ended()->bool:
@@ -198,7 +194,6 @@ func resolve_field():
 	if player_result.defense > enemy_result.attack:
 		damage = player_result.defense - enemy_result.attack
 		var text = "+ %s"%str(damage)
-		animate_damage_pop(Team.PLAYER,"Blocked!",DamageType.NEUTRAL)
 		animate_damage_pop(Team.PLAYER,text,DamageType.HEAL)
 		player_stats.hp += damage
 		player_stats.hp = clamp(player_stats.hp, 0, player_stats.max_hp)
@@ -221,9 +216,9 @@ func resolve_field():
 		enemy_stats.hp += damage
 		enemy_stats.hp = clamp(enemy_stats.hp,0,enemy_stats.max_hp)
 		EnemyHealth.text = str(enemy_stats.hp)
-	if enemy_result.defense == player_result.attack:
+	if enemy_result.defense == player_result.attack and player_result.attack != 0:
 		animate_damage_pop(Team.ENEMY,"Blocked!",DamageType.NEUTRAL)
-	if player_result.defense == enemy_result.attack:
+	if player_result.defense == enemy_result.attack and enemy_result.attack != 0:
 		animate_damage_pop(Team.PLAYER,"Blocked!",DamageType.NEUTRAL)
 	reset_stats()
 	yield(Co.wait(2),"completed")
@@ -255,14 +250,14 @@ func clear_battlefield():
 	for slot in EnemyField.get_children():
 		var movepos = EnemyDeck.rect_global_position
 		enemy_discard.push_back(slot.get_card().duplicate())
-		slot.get_card().animate_playcard(movepos,0.1,slot.rect_global_position)
+		slot.get_card().animate_playcard(movepos,0.2)
 		yield(slot.get_card().tween,"tween_all_completed")
 		slot.clear_slot()
 
 	for slot in PlayerField.get_children():
 		var movepos = PlayerDeck.rect_global_position
 		player_discard.push_back(slot.get_card().duplicate())
-		slot.get_card().animate_playcard(movepos,0.1,slot.rect_global_position)
+		slot.get_card().animate_playcard(movepos,0.2)
 		yield(slot.get_card().tween,"tween_all_completed")
 		slot.clear_slot()
 
@@ -350,10 +345,11 @@ func player_card_picked(card):
 		return
 	var empty_slot = get_empty_slot(PlayerField)
 	var move_pos = empty_slot.get_global_rect().position
-	card.animate_playcard(move_pos)
+	card.animate_playcard(move_pos,0.2)
 	var remaster_bonus:bool = check_remasters(PlayerField,card)
-	yield(Co.wait(.3),"completed")
-	card.rect_global_position = move_pos
+#	yield(Co.wait(.3),"completed")
+	yield(card.tween,"tween_completed")
+
 	if card.has_node("Button"):
 		var button = card.get_node("Button")
 		card.remove_child(button)
@@ -449,15 +445,7 @@ func enemy_move():
 		draw_card(Team.ENEMY)
 		yield(self,"card_drawn")
 
-
 	var card = evaluate_situation()
-#	if enemy_stats.state == State.NEUTRAL:
-#		card = get_random()
-#	if enemy_stats.state == State.ATTACK:
-#		card = get_card(State.ATTACK)
-#	if enemy_stats.state == State.DEFENSE:
-#		card = get_card(State.DEFENSE)
-
 
 	if manager.get_setting("EnemyCardThought"):
 		animate_thinking(card)
@@ -467,8 +455,8 @@ func enemy_move():
 	var empty_slot = get_empty_slot(EnemyField)
 	var move_pos = empty_slot.get_global_rect().position
 	var remaster_bonus:bool = check_remasters(EnemyField,card)
-	card.animate_playcard(move_pos)
-	yield(Co.wait(0.3),"completed")
+	card.animate_playcard(move_pos,0.2)
+	yield(card.tween,"tween_completed")
 	empty_slot.set_card(card)
 	if remaster_bonus:
 		Banner.set_colors(Team.ENEMY)

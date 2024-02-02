@@ -75,7 +75,7 @@ static func initialize_savedata():
 static func initialize_card_collection()->Dictionary:
 	var result:Dictionary = {}
 	var random = Random.new(SaveState.random_seed)
-	var item:Dictionary = {"path":"","amount":0,"deck":0,"bestiary_category":"","bestiary_index":0}
+	var item:Dictionary = {"path":"","amount":0,"deck":0,"bestiary_index":0}
 	var basic_forms = MonsterForms.basic_forms.values()
 	var debut_forms = MonsterForms.pre_evolution.values()
 	var options:Array = []
@@ -89,7 +89,6 @@ static func initialize_card_collection()->Dictionary:
 		item.path = form.resource_path
 		item.amount = 0
 		item.deck = 1
-		item.bestiary_category = form.bestiary_category
 		item.bestiary_index = form.bestiary_index
 		result[key] = item.duplicate()
 	return result
@@ -117,12 +116,12 @@ static func get_card_key(card_data)->String:
 	return key
 
 static func set_card_data(card_data)->Dictionary:
+	var form = load(card_data.form)
 	var result:Dictionary = {
 		"path":card_data.form,
 		"amount":1,
 		"deck":0,
-		"bestiary_category":card_data.bestiary_category,
-		"bestiary_index":card_data.bestiary_index
+		"bestiary_index":form.bestiary_index
 		}
 	return result
 
@@ -160,8 +159,9 @@ static func get_follower_config(other_recruit):
 	var ai_nostatus = preload("res://mods/LivingWorld/nodes/RecruitAINoStatus.tscn")
 	var ai_status = preload("res://mods/LivingWorld/nodes/RecruitAI.tscn")
 	var recruit = other_recruit
-	var new_config = load("res://mods/LivingWorld/nodes/empty_charconfig.tscn").instance()
-	var rangerdata = load("res://mods/LivingWorld/scripts/RangerDataParser.gd")
+	var mod = DLC.mods_by_id["LivingWorldMod"]
+	var new_config = mod.empty_charconfig.instance()
+	var rangerdata = mod.rangerdataparser
 	new_config.team = 0
 	var tape_nodes:Array = []
 	for tape in new_config.get_children():
@@ -216,9 +216,10 @@ static func add_battle_slots(battlebackground):
 		battlebackground.battle_camera.wide_mode = true
 
 static func spawn_recruit(levelmap, current_recruit = null):
-	var rangerdata = preload("res://mods/LivingWorld/scripts/RangerDataParser.gd")
-	var PartnerController = load("res://nodes/partners/PartnerController.tscn")
-	var FollowerTemplate = load("res://mods/LivingWorld/nodes/FollowerTemplate.tscn")
+	var mod = DLC.mods_by_id["LivingWorldMod"]
+	var rangerdata = mod.rangerdataparser
+	var PartnerController = mod.partnercontroller
+	var FollowerTemplate = mod.followertemplate
 	var player
 	if levelmap.has_node("Player"):
 		player = levelmap.get_node("Player")
@@ -242,20 +243,16 @@ static func spawn_recruit(levelmap, current_recruit = null):
 	template.get_node("RecruitData").recruit = current_recruit
 	return template
 
-static func is_idle_partner_available()->bool:
-	var level = WorldSystem.get_level_map()
-	var idle_partners = level.get_tree().get_nodes_in_group("idle_partners")
+static func is_idle_partner_available(partner_names,idle_partners)->bool:
 	if idle_partners.empty():
 		return true
-	var partner_names = get_partner_names()
-	partner_names = filter_partners(partner_names)
+	partner_names = filter_partners(partner_names,idle_partners)
 	if partner_names.empty():
 		return false
 	return true
 
-static func get_partner_names()->Array:
+static func get_partner_names(frankie_quest)->Array:
 	var result:Array = []
-	var frankie_quest = preload("res://data/quests/noticeboard/FrankieAndVinQuest.tscn")
 	if SaveState.quests.is_completed(frankie_quest):
 		result.push_back("vin")
 		result.push_back("frankie")
@@ -284,11 +281,8 @@ static func is_true_partner(partner_id)->bool:
 		return false
 	return true
 
-static func filter_partners(options:Array)->Array:
+static func filter_partners(options:Array,idle_partners)->Array:
 	var result:Array = options.duplicate()
-	var level = WorldSystem.get_level_map()
-	var idle_partners = level.get_tree().get_nodes_in_group("idle_partners")
-	var partner_names = get_partner_names()
 	var current_partner = SaveState.party.get_partner()
 	result.erase(current_partner.partner_id)
 	if is_follower_partner():
@@ -302,45 +296,35 @@ static func filter_partners(options:Array)->Array:
 	return result
 
 static func get_partner_dictionary()->Dictionary:
-	var partners:Dictionary = {}
-	partners["vin"] = load("res://mods/LivingWorld/partner_templates/Vin.tscn")
-	partners["frankie"] = load("res://mods/LivingWorld/partner_templates/Frankie.tscn")
-	partners["kayleigh"] = load("res://mods/LivingWorld/partner_templates/Kayleigh.tscn")
-	partners["dog"] = load("res://mods/LivingWorld/partner_templates/Barkley.tscn")
-	partners["felix"] = load("res://mods/LivingWorld/partner_templates/Felix.tscn")
-	partners["eugene"] = load("res://mods/LivingWorld/partner_templates/Eugene.tscn")
-	partners["meredith"] = load("res://mods/LivingWorld/partner_templates/Meredith.tscn")
-	partners["viola"] = load("res://mods/LivingWorld/partner_templates/Viola.tscn")
+	var mod = DLC.mods_by_id["LivingWorldMod"]
+	return mod.partners
 
-	return partners
-
-static func create_npc(spawner, node, forced_personality,supress_abilities):
+static func create_npc(forced_personality,supress_abilities):
 	var random = Random.new()
 	var level = WorldSystem.get_level_map()
+	var idle_partners = level.get_tree().get_nodes_in_group("idle_partners")
+	var settings = preload("res://mods/LivingWorld/settings.tres")
+	var frankie_quest = preload("res://data/quests/noticeboard/FrankieAndVinQuest.tscn")
+	var partner_names = get_partner_names(frankie_quest)
 	var recruit
-	if partner_can_spawn():
-		var options = filter_partners(get_partner_names())
+	if partner_can_spawn(random,settings,partner_names,idle_partners):
+		var options = filter_partners(partner_names,idle_partners)
 		var partners = get_partner_dictionary()
 		random.shuffle(options)
 		var selection = random.choice(options)
 		recruit = partners[selection].instance()
 	else:
-		recruit = get_npc()
+		recruit = get_npc(null,random)
 
-	if !recruit.has_node("RecruitBehavior"):
-		var new_behavior = preload("res://mods/LivingWorld/nodes/recruitbehavior.tscn").instance()
-		recruit.add_child(new_behavior)
 	var behavior = recruit.get_node("RecruitBehavior")
 	behavior.personality = forced_personality if forced_personality >= 0 else random.rand_int(behavior.PERSONALITY.size())
-	recruit.transform = node.transform
 	recruit.supress_abilities = supress_abilities
-	spawner.get_parent().add_child(recruit)
 
 	return recruit
 
 static func get_data_from_npc(npc):
-	var rangerdata = load("res://mods/LivingWorld/scripts/RangerDataParser.gd")
-	var recruitdata = rangerdata.get_empty_recruit()
+	var mod = DLC.mods_by_id["LivingWorldMod"]
+	var recruitdata = mod.rangerdataparser.get_empty_recruit()
 	if npc.npc_name != "":
 		recruitdata.name = npc.npc_name
 	recruitdata.human_part_names = to_json(npc.sprite_part_names)
@@ -362,10 +346,6 @@ static func get_data_from_npc(npc):
 static func get_unlocked_partners_id()->Array:
 	return SaveState.party.unlocked_partners
 
-static func build_partner_spawns()->Array:
-	var partners:Array = []
-
-	return partners
 
 static func filter_custom_recruits(recruits)->Array:
 	var result:Array = []
@@ -416,35 +396,35 @@ static func compare_arrays(array1:Array,array2:Array)->bool:
 	return true
 
 static func recruit_can_spawn()->bool:
+	var mod = DLC.mods_by_id["LivingWorldMod"]
 	if !get_setting("CustomTrainees"):
 		return false
 	var random = Random.new()
-	var settings = preload("res://mods/LivingWorld/settings.tres")
-	var result:bool = random.rand_bool(settings.custom_recruit_rate)
+	var result:bool = random.rand_bool(mod.settings.custom_recruit_rate)
 	return result
 
-static func partner_can_spawn()->bool:
-	if not is_idle_partner_available():
+static func partner_can_spawn(random:Random,settings,partner_names,idle_partners)->bool:
+	if not is_idle_partner_available(partner_names,idle_partners):
 		return false
-	var random = Random.new()
-	var settings = preload("res://mods/LivingWorld/settings.tres")
 	var result:bool = random.rand_bool(settings.partner_rate)
 	return result
 
-static func get_npc(recruitdata=null):
+static func get_npc(recruitdata=null,random = Random.new()):
+	var mod = DLC.mods_by_id["LivingWorldMod"]
 	var name_generator = preload("res://mods/LivingWorld/scripts/NameGenerator.gd")
-	var rangerdata = load("res://mods/LivingWorld/scripts/RangerDataParser.gd")
+	var rangerdata = preload("res://mods/LivingWorld/scripts/RangerDataParser.gd")
+	var npc_template = mod.npc_template
+
 	var datapath = rangerdata.get_directory()
 	var files:Array = rangerdata.get_files(datapath)
 	var custom_recruits:Array = rangerdata.read_json(files)
 	var recruit = rangerdata.get_empty_recruit() if recruitdata == null else recruitdata
-	var npc = load("res://mods/LivingWorld/nodes/RecruitTemplate.tscn").instance()
-
+	var npc = npc_template.instance()
 	var filtered_recruits = filter_custom_recruits(custom_recruits)
-
 	var use_custom:bool = recruitdata != null
+
 	if recruit_can_spawn() and not filtered_recruits.empty() and not recruitdata:
-		recruit = filtered_recruits[randi()%filtered_recruits.size()]
+		recruit = random.choice(filtered_recruits)
 		npc.add_to_group("custom_recruits")
 		use_custom = true
 
@@ -506,7 +486,7 @@ static func remove_old_configs(encounter):
 			encounter.remove_child(child)
 
 static func set_warp_target(warp_target, subtarget_name, index):
-	var newtarget = load("res://mods/LivingWorld/nodes/warptarget.tscn")
+	var newtarget = DLC.mods_by_id["LivingWorldMod"].warptarget_template
 	if index > 1:
 		if !warp_target.has_node("FollowerTarget") and warp_target.has_node("PartnerTarget"):
 			var partner_target = warp_target.get_node("PartnerTarget")
@@ -518,8 +498,9 @@ static func set_warp_target(warp_target, subtarget_name, index):
 	return subtarget_name
 
 static func add_spawner(region_name,level):
-	var settings = load("res://mods/LivingWorld/settings.tres")
-	var spawner_scene = load("res://mods/LivingWorld/nodes/RecruitSpawner.tscn")
+	var mod = DLC.mods_by_id["LivingWorldMod"]
+	var settings = mod.settings
+	var spawner_scene = mod.spawner
 	if settings.levelmap_spawners.has(region_name):
 		for location in settings.levelmap_spawners[region_name].locations:
 			if !level.has_node(location.name):
@@ -536,12 +517,10 @@ static func mod_pawns(pawn):
 	if !pawn.has_node("RecruitData") or !pawn.has_node("RecruitBehavior"):
 		var datanode = preload("res://mods/LivingWorld/nodes/RecruitData.tscn").instance()
 		var behaviornode = preload("res://mods/LivingWorld/behaviors/captain_behavior.tscn").instance()
-#		var emoteplayer = preload("res://mods/LivingWorld/nodes/emoteplayer.tscn").instance()
+
 		datanode.is_captain = true
 		pawn.add_child(datanode)
 		pawn.add_child(behaviornode)
-
-		print("%s has been awakened."%Loc.tr(pawn.npc_name))
 
 static func is_player_transformed(playerindex=0)->bool:
 	if !has_savedata():

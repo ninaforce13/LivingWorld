@@ -16,6 +16,17 @@ var interactor = preload("res://mods/LivingWorld/scripts/Interactor_patch.gd")
 var captainbehavior = preload("res://mods/LivingWorld/scripts/CaptainNPCBehavior_patch.gd")
 var usersettings = preload("res://mods/LivingWorld/scripts/UserSettings_patch.gd")
 var mappausemenu = preload("res://mods/LivingWorld/scripts/MapPauseMenu_patch.gd")
+
+var partners:Dictionary = {}
+const npc_template = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn")
+const warptarget_template = preload("res://mods/LivingWorld/nodes/warptarget.tscn")
+const settings = preload("res://mods/LivingWorld/settings.tres")
+const spawner = preload("res://mods/LivingWorld/nodes/RecruitSpawner.tscn")
+const empty_charconfig = preload("res://mods/LivingWorld/nodes/empty_charconfig.tscn")
+const rangerdataparser = preload("res://mods/LivingWorld/scripts/RangerDataParser.gd")
+const partnercontroller = preload("res://nodes/partners/PartnerController.tscn")
+const followertemplate = preload("res://mods/LivingWorld/nodes/FollowerTemplate.tscn")
+
 func _init():
 	levelmap_patch.patch()
 	encounterconfig_patch.patch()
@@ -36,6 +47,17 @@ func _init():
 	yield(SceneManager.preloader,"singleton_setup_completed")
 	add_keyboard_shortcuts()
 	add_debug_commands()
+	preload_partners()
+
+func preload_partners():
+	partners["vin"] = preload("res://mods/LivingWorld/partner_templates/Vin.tscn")
+	partners["frankie"] = preload("res://mods/LivingWorld/partner_templates/Frankie.tscn")
+	partners["kayleigh"] = preload("res://mods/LivingWorld/partner_templates/Kayleigh.tscn")
+	partners["dog"] = preload("res://mods/LivingWorld/partner_templates/Barkley.tscn")
+	partners["felix"] = preload("res://mods/LivingWorld/partner_templates/Felix.tscn")
+	partners["eugene"] = preload("res://mods/LivingWorld/partner_templates/Eugene.tscn")
+	partners["meredith"] = preload("res://mods/LivingWorld/partner_templates/Meredith.tscn")
+	partners["viola"] = preload("res://mods/LivingWorld/partner_templates/Viola.tscn")
 
 func add_keyboard_shortcuts():
 	var inputeventkey = InputEventKey.new()
@@ -85,7 +107,7 @@ func add_debug_commands():
 			"target":[self, "get_my_pos"]
 		})
 	Console.register("clean_data",{
-		"description":"Clean save data values",
+		"description":"Remove other_data values in SaveState",
 		"args":[TYPE_STRING],
 		"target":[self,"clean_data"]
 		})
@@ -100,7 +122,7 @@ func add_debug_commands():
 		"target":[self,"pause"]
 		})
 	Console.register("add_spawner",{
-		"description":"Adds the current location as a recruit spawner",
+		"description":"Adds the current location as a recruit spawner [name,ignore visibility,personality(enum values {combative, social, loner, townie}),supress_abilities]",
 		"args":[TYPE_STRING,TYPE_BOOL,TYPE_INT,TYPE_BOOL],
 		"target":[self,"add_location_spawner"]
 		})
@@ -108,6 +130,11 @@ func add_debug_commands():
 		"description":"Exports the player character as a JSON into the arena_archives folder",
 		"args":[],
 		"target":[self,"export_player"]
+	})
+	Console.register("spawn_test",{
+		"description":"Spawns a LivingWorld NPC for testing.",
+		"args":[],
+		"target":[self,"spawn_npc"]
 	})
 
 func pause():
@@ -161,3 +188,12 @@ func export_player():
 	if playersnap:
 		return jsonparser.save_json(playersnap)
 	return false
+
+func spawn_npc():
+	var npc_template = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn")
+	var rangerdataparser = preload("res://mods/LivingWorld/scripts/RangerDataParser.gd")
+	var npc = npc_template.instance()
+	npc.get_node("RecruitData").recruit = rangerdataparser.get_empty_recruit()
+
+	WorldSystem.get_level_map().add_child(npc)
+	npc.global_transform.origin = WorldSystem.get_player().global_transform.origin

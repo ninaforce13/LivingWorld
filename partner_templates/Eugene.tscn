@@ -1,4 +1,4 @@
-[gd_scene load_steps=143 format=2]
+[gd_scene load_steps=144 format=2]
 
 [ext_resource path="res://data/monster_forms/robindam.tres" type="Resource" id=1]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
@@ -115,6 +115,7 @@
 [ext_resource path="res://sprites/portraits/eugene_angry_smile.png" type="Texture" id=113]
 [ext_resource path="res://sprites/portraits/eugene_angry.png" type="Texture" id=114]
 [ext_resource path="res://sprites/portraits/eugene_awkward.png" type="Texture" id=115]
+[ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=116]
 [ext_resource path="res://sfx/voices/kayleigh/kayleigh_greeting.wav" type="AudioStream" id=117]
 [ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=118]
 [ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=119]
@@ -2272,8 +2273,18 @@ title = "{pawn}"
 use_random = true
 message_array = [ [ "EUGENE_CARDS_LOSE1" ] ]
 
+[node name="PlayAudioAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 21 )
+stream = ExtResource( 116 )
+wait_for_finish = false
+mute_music = true
+
 [node name="ShowCardReward" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 119 )
+
+[node name="PassiveMessageAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 27 )
+message = "LIVINGWORLD_PASSIVE_CARDREWARD"
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 60 )
@@ -2367,6 +2378,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 35 )]
 

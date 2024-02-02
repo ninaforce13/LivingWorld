@@ -40,14 +40,15 @@ RECRUIT_CHALLENGE_WIN3,"{player}, you really don't pull your punches do you?"
 RECRUIT_MENU_CHALLENGE_REJECT1,I'm still catching my breath from our last round! Maybe we can go again tomorrow?
 RECRUIT_MENU_CHALLENGE_REJECT2,Are you [wave amp=30 freq=10]trying[/wave] to humiliate me? Go pick on somebody else for a while.
 RECRUIT_MENU_CHALLENGE_REJECT3,"I don't think I can keep up with you, {player}. I need some time to rethink my strategy!"
+FOLLOWER_DEFAULT_INTERACTION,[i]Dismiss {pawn} from your party?[/i]
 FOLLOWER_IDLE_DIALOG1,"Hey {player}, need something?"
 FOLLOWER_IDLE_DIALOG2,You and {partner} seem like a great team. I hope I can find somebody like that!
 FOLLOWER_IDLE_DIALOG3,I heard some weird stuff happens here in {region_name}. Maybe we can wrap up and go hang out at the Café?
 FOLLOWER_IDLE_DIALOG4,How long have you been using that {first_tape_name} tape? We should go record one for me to try out!
 FOLLOWER_IDLE_DIALOG5,How's it going?
 FOLLOWER_IDLE_DIALOG6,I'm so pumped! What's next?
-FOLLOWER_MENU_OPTION1,Dismiss {pawn}
-FOLLOWER_MENU_OPTION2,Nevermind
+FOLLOWER_MENU_OPTION1,Yes
+FOLLOWER_MENU_OPTION2,No
 FOLLOWER_DISMISSED1,"Darn, things were just starting to get interesting!"
 FOLLOWER_DISMISSED2,"Oh, alright. I'll go work on my sticker collection then."
 FOLLOWER_DISMISSED3,"Done already? Alright, I'll see you around then!"
@@ -81,11 +82,10 @@ LIVINGWORLD_SETTINGS_UI_BATTLESPRITE_OPTION2,Battle Sprite
 LIVINGWORLD_SETTINGS_UI_BATTLESPRITES,Wandering Partner Portrait
 LIVINGWORLD_SETTINGS_UI_CUSTOM_RECRUITS,Spawn Custom Trainees (Cassette Arenas)
 LIVINGWORLD_SETTINGS_UI_POPULATION,Wandering NPC Population:
-CAPTAIN_LUNCH_MENU_CLEEO,Out To Lunch.
+CAPTAIN_LUNCH_MENU,Out To Lunch.
 CAPTAIN_LUNCH_MENU2,Wait for the captain to return?
 CAPTAIN_LUNCH_OPTION1,Yes
 CAPTAIN_LUNCH_OPTION2,No
-CAPTAIN_LUNCH_MENU_GLADIOLA,
 KAYLEIGH_IDLE_RECRUIT_DIALOG1,"It's a lot of work, but daily patrols are important for the town's safety!"
 KAYLEIGH_IDLE_RECRUIT_DIALOG2,"Hi {player}, find anything interesting today?"
 KAYLEIGH_IDLE_RECRUIT_DIALOG3,There's been a lot of new faces washing up on the shore lately.
@@ -194,7 +194,7 @@ VIOLA_TRADE_ACCEPTED1,You have my gratitude!
 VIOLA_TRADE_REJECTED1,"Alas, dear friend. This does not resemble the item I requested."
 VIOLA_TRADE_CANCEL1,"Fear not, I am resourceful enough to procure one through other means!"
 VIOLA_LEAVE1,Fare thee well!
-VIOLA_CARDS_ACCEPT1,A game of chance and skill played on small sheets of paper?[pause]How fascinating! 
+VIOLA_CARDS_ACCEPT1,A game of chance and skill played on small sheets of paper?[pause] How fascinating! 
 VIOLA_CARDS_LOSE1,Marvelous! I do believe it is customary to reward the victor with a card from the defeated's arsenal?
 VIOLA_CARDS_WIN1,How joyous! I would gladly engage in more of these leisure activities!
 VIOLA_PASSIVE_ROGUES_MESSAGE1,Rogues have been sighted upon the horizon! Let us show thy fiends our true mettle!
@@ -239,3 +239,6 @@ LIVINGWORLD_CARDS_UI_DEFENSE,Defending
 LIVINGWORLD_CARDS_UI_NEUTRAL,Balanced
 LIVINGWORLD_UI_CARDCOLLECTION,Card Collection
 LIVINGWORLD_UI_DECKCOUNT_ERROR,Your Deck cannot have less than 20 cards. Please add more cards.
+LIVINGWORLD_SETTINGS_UI_CARDS_SECTION,Card Game
+LIVINGWORLD_SETTINGS_UI_CARD_ENEMY_THOUGHTS,Enemy Thinking Animation
+LIVINGWORLD_PASSIVE_CARDREWARD,A new card has been added to your collection!

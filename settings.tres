@@ -5,50 +5,227 @@
 [resource]
 script = ExtResource( 1 )
 custom_recruit_rate = 0.1
-partner_rate = 1.0
+partner_rate = 0.05
 levelmap_spawners = {
+"REGION_NAME_AUTUMN_HILL": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "autumn1",
+"pos": Vector3( 505.902, 18.0265, -173.341 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "autumn2",
+"pos": Vector3( 504.897, 12.0265, -259.778 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "autumn3",
+"pos": Vector3( 505.785, 16.0257, -328.48 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "autumn4",
+"pos": Vector3( 455.58, 16.0265, -384.288 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "autumn5",
+"pos": Vector3( 383.741, 20.0265, -350.707 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "autumn6",
+"pos": Vector3( 385.168, 20.0265, -261.672 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "autumn7",
+"pos": Vector3( 431.356, 30.0265, -257.461 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "outskirts4",
+"pos": Vector3( 421.053, 18.0265, -168.605 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "outskirts5",
+"pos": Vector3( 356.245, 18.0265, -200.93 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_AUTUMN_HILL_CAVES": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "caves1",
+"pos": Vector3( -5.68045, 2.0265, -2.04437 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_CAST_IRON_SHORE": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "castiron",
+"pos": Vector3( -387.708, -0.348499, -274.614 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "castiron2",
+"pos": Vector3( -379.535, -0.3485, -330.444 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_DEADLANDS": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "deadlands1",
+"pos": Vector3( 262.401, 12.0265, -127.402 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "deadlands3",
+"pos": Vector3( 395.549, 18.0265, -105.44 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "deadlands4",
+"pos": Vector3( 423.032, 8.0265, -72.8455 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "deadlands5",
+"pos": Vector3( 345.845, 8.0265, -67.1729 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_DINO_QUARRY": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "dino1",
+"pos": Vector3( 512.646, 8.0265, -122.967 ),
+"supress_abilities": false
+} ]
+},
 "REGION_NAME_EASTHAM_WOODS": {
 "locations": [ {
 "forced_personality": -1,
 "ignore_visibility": false,
-"name": "eastham",
-"pos": Vector3( -11.2114, 28.0265, -409.464 ),
-"supress_abilities": false
-}, {
-"forced_personality": -1,
-"ignore_visibility": false,
-"name": "eastham_woods1",
-"pos": Vector3( 153.982, 24.0262, -377.022 ),
-"supress_abilities": false
-}, {
-"forced_personality": -1,
-"ignore_visibility": false,
-"name": "eastham_woods2",
-"pos": Vector3( 146.394, 32.0265, -422.151 ),
-"supress_abilities": false
-}, {
-"forced_personality": -1,
-"ignore_visibility": false,
-"name": "eastham_camp",
-"pos": Vector3( 195.025, 34.0265, -435.041 ),
+"name": "easthamwoods",
+"pos": Vector3( 345.322, 16.0265, -385.057 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "easthamwoods1",
-"pos": Vector3( 246.849, 24.0265, -425.328 ),
+"pos": Vector3( 294.666, 18.0265, -384.439 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "easthamwoods2",
-"pos": Vector3( 312.398, 18.0265, -422.099 ),
+"pos": Vector3( 226.407, 18.0265, -384.605 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "easthamwoods3",
-"pos": Vector3( 201.811, 18.0265, -388.422 ),
+"pos": Vector3( 161.292, 24.0265, -377.104 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "easthamwoods4",
+"pos": Vector3( 99.1164, 24.0265, -367.798 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "easthamwoods5",
+"pos": Vector3( 37.037, 32.0265, -381.648 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "eastham",
+"pos": Vector3( -21.4604, 28.0265, -424.462 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "eastham1",
+"pos": Vector3( 44.8125, 30.0265, -408.575 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "eastham2",
+"pos": Vector3( 106.437, 36.0265, -424.525 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "eastham3",
+"pos": Vector3( 155.718, 32.0265, -420.328 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "mall",
+"pos": Vector3( 193.583, 34.0265, -433.351 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "eastham10",
+"pos": Vector3( 243.148, 24.0265, -439.319 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "eastham11",
+"pos": Vector3( 299.679, 18.0265, -423.74 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_FARM": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "farm",
+"pos": Vector3( -189.838, 10.0265, -60.2597 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_GRAVEYARD": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "graveyard",
+"pos": Vector3( -261.895, 14.0265, -15.5371 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "graveyard1",
+"pos": Vector3( -337.596, 12.0265, -33.3825 ),
 "supress_abilities": false
 } ]
 },
@@ -56,14 +233,59 @@ levelmap_spawners = {
 "locations": [ {
 "forced_personality": -1,
 "ignore_visibility": false,
-"name": "ham1",
-"pos": Vector3( -60.587, 16.0265, -416.774 ),
+"name": "mtwirral7",
+"pos": Vector3( -95.4639, 44.0261, -446.013 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
-"name": "ham2",
-"pos": Vector3( -62.111, 18.0262, -456.016 ),
+"name": "ham",
+"pos": Vector3( -63.1154, 18.0265, -442.75 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_LAKE": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "lake2",
+"pos": Vector3( -129.059, 5.39335, -137.81 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "lake3",
+"pos": Vector3( -116.165, 8.0265, -183.168 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "lake4",
+"pos": Vector3( -19.8677, 5.04507, -194.921 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "lake5",
+"pos": Vector3( 65.9637, 4.44274, -191.525 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "lake6",
+"pos": Vector3( 62.5111, 8.0265, -264.342 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "lake7",
+"pos": Vector3( -71.8807, 8.0265, -264.651 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "lake8",
+"pos": Vector3( -127.348, 10.0265, -258.192 ),
 "supress_abilities": false
 } ]
 },
@@ -71,32 +293,38 @@ levelmap_spawners = {
 "locations": [ {
 "forced_personality": -1,
 "ignore_visibility": false,
-"name": "park13",
-"pos": Vector3( 65.4544, 20.0265, -340.214 ),
+"name": "cherry8",
+"pos": Vector3( -220.121, 14.0265, -348.109 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
-"name": "park14",
-"pos": Vector3( -1.10258, 19.9986, -339.649 ),
+"name": "mtwirral",
+"pos": Vector3( -155.876, 26.0265, -330.926 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "mtwirral1",
+"pos": Vector3( -72.904, 14.0265, -331.471 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "lakeside",
+"pos": Vector3( -24.9706, 20.0262, -336.018 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "lakeside1",
-"pos": Vector3( -33.993, 12.026, -312.904 ),
+"pos": Vector3( 36.7343, 14.0265, -329.676 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
-"name": "lakeside2",
-"pos": Vector3( 7.39539, 10.0265, -297.487 ),
-"supress_abilities": false
-}, {
-"forced_personality": -1,
-"ignore_visibility": false,
-"name": "lakesidecamp",
-"pos": Vector3( -61.5862, 14.0265, -318.832 ),
+"name": "ham",
+"pos": Vector3( -60.0593, 18.0265, -386.624 ),
 "supress_abilities": false
 } ]
 },
@@ -104,35 +332,218 @@ levelmap_spawners = {
 "locations": [ {
 "forced_personality": -1,
 "ignore_visibility": false,
+"name": "mall",
+"pos": Vector3( 29.882, 2.0265, -2.05893 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
 "name": "mall1",
-"pos": Vector3( -43.5925, 2.0265, -88.4314 ),
-"supress_abilities": true
+"pos": Vector3( 95.682, 2.0265, -39.5512 ),
+"supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "mall2",
-"pos": Vector3( 21.2045, 2.0265, -132.82 ),
-"supress_abilities": true
+"pos": Vector3( -40.6725, 2.0265, -21.7385 ),
+"supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "mall3",
-"pos": Vector3( 94.7626, 2.0265, -77.724 ),
-"supress_abilities": true
+"pos": Vector3( -44.4161, 2.0265, -98.2715 ),
+"supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "mall4",
-"pos": Vector3( 33.7451, 2.0265, 0.989782 ),
-"supress_abilities": true
+"pos": Vector3( 10.7705, 2.0265, -134.508 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "mall5",
+"pos": Vector3( 93.2086, 2.0265, -79.9145 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_MARSH": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "marshes1",
+"pos": Vector3( -383.962, 6.0265, -57.6245 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "marshes2",
+"pos": Vector3( -280.798, 6.0265, -69.2627 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "marshes3",
+"pos": Vector3( -189.56, 6.0265, -130.713 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "marshes4",
+"pos": Vector3( -258.773, 6.0265, -128.749 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "marshes5",
+"pos": Vector3( -315.014, 6.0265, -129.963 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "marshes6",
+"pos": Vector3( -411.06, 6.0265, -147.856 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "marshes8",
+"pos": Vector3( -380.669, 10.0265, -189.948 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_MEADOW": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "cherry",
+"pos": Vector3( -320.774, 22.0265, -195.611 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "cherry1",
+"pos": Vector3( -256.373, 18.0265, -198.57 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "cherry2",
+"pos": Vector3( -177.089, 22.0265, -200.88 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "cherry3",
+"pos": Vector3( -207.492, 14.0265, -266.68 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "cherry4",
+"pos": Vector3( -253.266, 14.0265, -270.975 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "cherry5",
+"pos": Vector3( -286.348, 24.0265, -242.794 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "cherry6",
+"pos": Vector3( -328.071, 18.0265, -274.543 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "church",
+"pos": Vector3( -332.856, 22.0265, -307.612 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "cherry7",
+"pos": Vector3( -286.299, 14.0265, -347.711 ),
+"supress_abilities": false
 } ]
 },
 "REGION_NAME_MIRE_SEA": {
 "locations": [ {
 "forced_personality": -1,
 "ignore_visibility": false,
-"name": "miresea1",
-"pos": Vector3( 435.995, 8.02577, -455.65 ),
+"name": "mire1",
+"pos": Vector3( -446.529, 2.02639, -137.868 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "mire2",
+"pos": Vector3( -447.563, 4.0265, -197.009 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "castiron1",
+"pos": Vector3( -456.493, 4.0265, -256.337 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "castiron2",
+"pos": Vector3( -445.946, 4.0265, -326.736 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "sea5",
+"pos": Vector3( 504.028, 10.0265, -462.741 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_MT_WIRRAL": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "mtwirral",
+"pos": Vector3( -135.576, 38.0265, -370.742 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "mtwirral1",
+"pos": Vector3( -190.903, 42.0265, -376.149 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "mtwirral2",
+"pos": Vector3( -253.823, 36.0265, -382.128 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "mtwirral3",
+"pos": Vector3( -319.575, 68.0265, -420.658 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "mtwirral4",
+"pos": Vector3( -238.901, 84.0265, -426.537 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "mtwirral5",
+"pos": Vector3( -192.084, 74.0265, -422.581 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "mtwirral6",
+"pos": Vector3( -146.464, 56.0265, -438.807 ),
 "supress_abilities": false
 } ]
 },
@@ -140,167 +551,179 @@ levelmap_spawners = {
 "locations": [ {
 "forced_personality": -1,
 "ignore_visibility": false,
-"name": "park1camp",
-"pos": Vector3( 206.878, 22.0265, -175.767 ),
+"name": "park1",
+"pos": Vector3( 280.761, 22.0265, -170.867 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "park2",
-"pos": Vector3( 233.58, 22.0265, -176.796 ),
+"pos": Vector3( 207.533, 22.0265, -175.494 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "park3",
-"pos": Vector3( 278.831, 22.0265, -174.556 ),
+"pos": Vector3( 247.42, 18.0265, -241.581 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "park4",
-"pos": Vector3( 245.988, 18.026, -241.329 ),
+"pos": Vector3( 305.889, 16.0265, -271.63 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "park5",
-"pos": Vector3( 214.557, 22.0265, -270.322 ),
+"pos": Vector3( 347.903, 20.0265, -297.733 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "park6",
-"pos": Vector3( 247.098, 18.0265, -277.521 ),
+"pos": Vector3( 279.648, 16.0265, -324.215 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "park7",
-"pos": Vector3( 289.764, 16.0265, -274.459 ),
+"pos": Vector3( 205.372, 18.0265, -316.481 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "park8",
-"pos": Vector3( 330.507, 16.0265, -253.051 ),
+"pos": Vector3( 124.229, 18.0265, -324.241 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "park9",
-"pos": Vector3( 349.86, 20.0265, -291.416 ),
+"pos": Vector3( 112.674, 26.0265, -190.818 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "park10",
-"pos": Vector3( 270.304, 16.0265, -330.369 ),
+"pos": Vector3( 126.797, 30.0265, -240.485 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
-"name": "outpost",
-"pos": Vector3( 128.818, 30.0265, -242.074 ),
-"supress_abilities": false
-}, {
-"forced_personality": -1,
-"ignore_visibility": false,
-"name": "park11",
-"pos": Vector3( 181.259, 26.0265, -254.591 ),
-"supress_abilities": false
-}, {
-"forced_personality": -1,
-"ignore_visibility": false,
-"name": "park12",
-"pos": Vector3( 115.113, 16.0265, -336.08 ),
+"name": "newpark1",
+"pos": Vector3( 111.889, 16.0265, -331.159 ),
 "supress_abilities": false
 } ]
 },
-"REGION_NAME_RANGER_OUTPOST": {
+"REGION_NAME_OLD_VILLAGE": {
 "locations": [ {
-"forced_personality": 1,
+"forced_personality": -1,
 "ignore_visibility": false,
-"name": "outpost_inner",
-"pos": Vector3( -1.44773, 2.02631, 4.15813 ),
-"supress_abilities": true
+"name": "deadlands2",
+"pos": Vector3( 324.916, 24.0265, -118.507 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "deadlands5",
+"pos": Vector3( 470.644, 22.0265, -140.256 ),
+"supress_abilities": false
+} ]
+},
+"REGION_NAME_SOUTHERN_ISLES": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "isles",
+"pos": Vector3( 529.934, 8.0265, -35.8162 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "isles1",
+"pos": Vector3( 463.877, 4.0265, -25.1427 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "isles2",
+"pos": Vector3( 448.379, 2.80107, 15.2339 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "isles3",
+"pos": Vector3( 400.657, 4.0265, -26.6598 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "isles4",
+"pos": Vector3( 324.02, 4.02634, -15.2887 ),
+"supress_abilities": false
 } ]
 },
 "REGION_NAME_TOWN": {
 "locations": [ {
 "forced_personality": 3,
 "ignore_visibility": false,
-"name": "center1",
-"pos": Vector3( -17.827, 8.0265, -14.3575 ),
+"name": "town_center,false,3,true",
+"pos": Vector3( 13.6239, 9.0665, -21.7411 ),
 "supress_abilities": true
 }, {
 "forced_personality": 3,
 "ignore_visibility": false,
-"name": "center2",
-"pos": Vector3( 12.7933, 8.0068, -4.14309 ),
+"name": "town_center2,false,3,true",
+"pos": Vector3( -18.6824, 16.0265, -33.3318 ),
 "supress_abilities": true
 }, {
 "forced_personality": 3,
 "ignore_visibility": false,
-"name": "center3",
-"pos": Vector3( 54.4049, 7.7765, -7.7497 ),
+"name": "town_center3,false,3,true",
+"pos": Vector3( 53.0098, 7.7765, -8.50689 ),
 "supress_abilities": true
-}, {
-"forced_personality": 3,
+} ]
+},
+"REGION_NAME_TOWN_BEACH": {
+"locations": [ {
+"forced_personality": -1,
 "ignore_visibility": false,
-"name": "upper1",
-"pos": Vector3( 58.4299, 16.0265, -40.9564 ),
-"supress_abilities": true
+"name": "beach1",
+"pos": Vector3( 130.976, 8.0265, -23.3928 ),
+"supress_abilities": false
 }, {
-"forced_personality": 3,
+"forced_personality": -1,
 "ignore_visibility": false,
-"name": "upper2",
-"pos": Vector3( -13.5443, 16.0265, -61.431 ),
-"supress_abilities": true
+"name": "beach2",
+"pos": Vector3( 202.216, 10.0265, -21.5041 ),
+"supress_abilities": false
 }, {
-"forced_personality": 3,
+"forced_personality": -1,
 "ignore_visibility": false,
-"name": "upper3",
-"pos": Vector3( -18.9344, 16.0265, -34.7089 ),
-"supress_abilities": true
+"name": "beach10",
+"pos": Vector3( 265.57, 2.82186, 7.63441 ),
+"supress_abilities": false
 } ]
 },
 "REGION_NAME_TOWN_OUTSKIRTS": {
 "locations": [ {
 "forced_personality": -1,
 "ignore_visibility": false,
-"name": "upper3",
-"pos": Vector3( 133.014, 8.0265, -69.9512 ),
+"name": "outskirts",
+"pos": Vector3( 197.953, 10.0265, -65.661 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
-"name": "outskirtscamp1",
-"pos": Vector3( 196.33, 10.0265, -61.2912 ),
+"name": "outskirts1",
+"pos": Vector3( 256.507, 10.0265, -36.9009 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
-"name": "outskirtscamp2",
-"pos": Vector3( 247.242, 10.0265, -64.3301 ),
-"supress_abilities": false
-}, {
-"forced_personality": -1,
-"ignore_visibility": false,
-"name": "outskirtscamp3",
-"pos": Vector3( 189.184, 16.0265, -108.144 ),
-"supress_abilities": false
-}, {
-"forced_personality": -1,
-"ignore_visibility": false,
-"name": "outskirtscamp4",
-"pos": Vector3( 202.906, 20.0265, -151.744 ),
-"supress_abilities": false
-}, {
-"forced_personality": -1,
-"ignore_visibility": false,
-"name": "upperpath2",
-"pos": Vector3( 159.887, 20.0265, -149.602 ),
+"name": "outskirts2",
+"pos": Vector3( 190.633, 16.0265, -103.785 ),
 "supress_abilities": false
 } ]
 },
@@ -308,53 +731,59 @@ levelmap_spawners = {
 "locations": [ {
 "forced_personality": 3,
 "ignore_visibility": false,
-"name": "west1",
-"pos": Vector3( -70.913, 16.0265, -53.8454 ),
+"name": "harbourtown_west,false,3,true",
+"pos": Vector3( -75.9863, 7.98693, -9.77127 ),
 "supress_abilities": true
 }, {
 "forced_personality": 3,
 "ignore_visibility": false,
-"name": "west2",
-"pos": Vector3( -72.6687, 7.7765, -8.48827 ),
+"name": "harbourtown_west2,false,3,true",
+"pos": Vector3( -71.7146, 16.0265, -55.3992 ),
 "supress_abilities": true
 }, {
-"forced_personality": 3,
+"forced_personality": -1,
 "ignore_visibility": false,
-"name": "west3",
-"pos": Vector3( -70.7951, 2.0265, 9.06388 ),
-"supress_abilities": true
+"name": "beach",
+"pos": Vector3( -116.391, 2.0265, -23.3496 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "beach3",
+"pos": Vector3( -102.353, 14.0265, -83.8871 ),
+"supress_abilities": false
 } ]
 },
 "REGION_NAME_UPPER_PATH": {
 "locations": [ {
 "forced_personality": -1,
 "ignore_visibility": false,
-"name": "outskirts4",
-"pos": Vector3( 122.134, 14.0265, -121.26 ),
-"supress_abilities": false
-}, {
-"forced_personality": -1,
-"ignore_visibility": false,
-"name": "outskirts5",
-"pos": Vector3( 63.3857, 14.0265, -114.675 ),
-"supress_abilities": false
-}, {
-"forced_personality": -1,
-"ignore_visibility": false,
-"name": "outskirts6",
-"pos": Vector3( 4.82497, 14.0265, -114.298 ),
-"supress_abilities": false
-}, {
-"forced_personality": -1,
-"ignore_visibility": false,
-"name": "outskirts7",
-"pos": Vector3( -93.1634, 14.0265, -86.8205 ),
+"name": "upperpath",
+"pos": Vector3( -7.40414, 14.0265, -90.4696 ),
 "supress_abilities": false
 }, {
 "forced_personality": -1,
 "ignore_visibility": false,
 "name": "upperpath1",
-"pos": Vector3( 112.37, 24.0265, -149.223 ),
+"pos": Vector3( 139.775, 14.0265, -105.946 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "upperpath2",
+"pos": Vector3( 118.469, 14.0265, -114.588 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "upperpath3",
+"pos": Vector3( 38.77, 14.0265, -123.484 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "lake1",
+"pos": Vector3( -61.8345, 8.0265, -137.938 ),
 "supress_abilities": false
 } ]
 }

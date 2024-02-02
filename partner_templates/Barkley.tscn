@@ -1,4 +1,4 @@
-[gd_scene load_steps=135 format=2]
+[gd_scene load_steps=136 format=2]
 
 [ext_resource path="res://data/monster_forms/spitzfyre.tres" type="Resource" id=1]
 [ext_resource path="res://data/monster_forms/fortiwinx.tres" type="Resource" id=2]
@@ -109,6 +109,7 @@
 [ext_resource path="res://nodes/battle_slot/named_sounds.tres" type="Resource" id=107]
 [ext_resource path="res://mods/LivingWorld/scripts/setbattlesprite.gd" type="Script" id=108]
 [ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=109]
+[ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=110]
 [ext_resource path="res://sprites/characters/world/dog.json" type="PackedScene" id=111]
 
 [sub_resource type="CapsuleShape" id=6]
@@ -2072,7 +2073,7 @@ message_array = [ [ "BARKLEY_IDLE_RECRUIT_DIALOG1", "BARKLEY_IDLE_RECRUIT_DIALOG
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 104 )
 menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3", "RECRUIT_MENU_OPTION5", "RECRUIT_MENU_OPTION4" ]
-default_option = 3
+default_option = 4
 always_succeed = true
 
 [node name="PartyInvite" type="Node" parent="InteractionBehavior/MenuDialogAction"]
@@ -2238,8 +2239,18 @@ title = "{pawn}"
 use_random = true
 message_array = [ [ "BARKLEY_CARDS_LOSE1" ] ]
 
+[node name="PlayAudioAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 23 )
+stream = ExtResource( 110 )
+wait_for_finish = false
+mute_music = true
+
 [node name="ShowCardReward" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 30 )
+
+[node name="PassiveMessageAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 18 )
+message = "LIVINGWORLD_PASSIVE_CARDREWARD"
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 63 )
@@ -2334,6 +2345,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 46 )]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=143 format=2]
+[gd_scene load_steps=144 format=2]
 
 [ext_resource path="res://data/monster_forms/cat-5.tres" type="Resource" id=1]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
@@ -116,6 +116,7 @@
 [ext_resource path="res://sfx/voices/meredith/meredith_greeting.wav" type="AudioStream" id=114]
 [ext_resource path="res://sfx/voices/meredith/meredith_sigh_2.wav" type="AudioStream" id=115]
 [ext_resource path="res://sprites/portraits/meredith_shocked.png" type="Texture" id=116]
+[ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=117]
 [ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=118]
 [ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=119]
 
@@ -2101,7 +2102,7 @@ message_array = [ [ "MEREDITH_IDLE_RECRUIT_DIALOG1" ], [ "MEREDITH_IDLE_RECRUIT_
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 103 )
 menu_options = [ "RECRUIT_MENU_OPTION1", "RECRUIT_MENU_OPTION2", "RECRUIT_MENU_OPTION3", "RECRUIT_MENU_OPTION5", "RECRUIT_MENU_OPTION4" ]
-default_option = 3
+default_option = 4
 always_succeed = true
 
 [node name="PartyInvite" type="Node" parent="InteractionBehavior/MenuDialogAction"]
@@ -2271,8 +2272,18 @@ title = "{pawn}"
 use_random = true
 message_array = [ [ "MEREDITH_CARDS_LOSE1" ] ]
 
+[node name="PlayAudioAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 20 )
+stream = ExtResource( 117 )
+wait_for_finish = false
+mute_music = true
+
 [node name="ShowCardReward" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 119 )
+
+[node name="PassiveMessageAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 26 )
+message = "LIVINGWORLD_PASSIVE_CARDREWARD"
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 59 )
@@ -2366,6 +2377,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 34 )]
 
