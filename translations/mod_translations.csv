@@ -228,7 +228,7 @@ VIN_TRADE_OFFER1,The [color=#{request_rarity}][{trade_request}][/color] sticker 
 VIN_TRADE_ACCEPTED1,Great! I'll be taking down Rogues solo in no time with this setup!
 VIN_TRADE_REJECTED1,That's not it. I'll just get it myself.
 VIN_TRADE_CANCEL1,"Alright, thanks for checking. "
-VIN_LEAVE1,"Alright, see ya around."
+VIN_LEAVE1,See ya around.
 VIN_PASSIVE_ROGUES_MESSAGE1,I'll put this Rogue down in no time!
 VIN_CARDS_ACCEPT1,"I uh..[pause] What?[pause][pause] Alright, I guess I'll play."
 VIN_CARDS_WIN1,"Hey, I'm not half bad at this!"

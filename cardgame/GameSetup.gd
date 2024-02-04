@@ -40,6 +40,7 @@ onready var PlayerDamageStart3 = find_node("PlayerDamageStart3")
 onready var EnemyDamageStart1 = find_node("EnemyDamageStart1")
 onready var EnemyDamageStart2 = find_node("EnemyDamageStart2")
 onready var EnemyDamageStart3 = find_node("EnemyDamageStart3")
+onready var GameSFX = find_node("game_sfx_player")
 
 export (Dictionary) var player_setup
 export (Dictionary) var enemy_setup
@@ -190,14 +191,19 @@ func resolve_field():
 		enemy_stats.hp -= damage
 		enemy_stats.hp = clamp(enemy_stats.hp,0,enemy_stats.max_hp)
 		EnemyHealth.text = str(enemy_stats.hp)
+		GameSFX.play_track("damage")
+		yield(GameSFX,"finished")
 
-	if player_result.defense > enemy_result.attack:
+	if player_result.defense > enemy_result.attack and player_stats.hp < player_stats.max_hp:
 		damage = player_result.defense - enemy_result.attack
 		var text = "+ %s"%str(damage)
 		animate_damage_pop(Team.PLAYER,text,DamageType.HEAL)
 		player_stats.hp += damage
 		player_stats.hp = clamp(player_stats.hp, 0, player_stats.max_hp)
 		PlayerHealth.text = str(player_stats.hp)
+		GameSFX.play_track("heal")
+		yield(GameSFX,"finished")
+
 
 	if enemy_result.attack > player_result.defense:
 		damage = enemy_result.attack - player_result.defense
@@ -208,18 +214,26 @@ func resolve_field():
 		player_stats.hp -= damage
 		player_stats.hp = clamp(player_stats.hp,0,player_stats.max_hp)
 		PlayerHealth.text = str(player_stats.hp)
+		GameSFX.play_track("damage")
+		yield(GameSFX,"finished")
 
-	if enemy_result.defense > player_result.attack:
+	if enemy_result.defense > player_result.attack and enemy_stats.hp < enemy_stats.max_hp:
 		damage = enemy_result.defense - player_result.attack
 		var text = "+ %s"%str(damage)
 		animate_damage_pop(Team.ENEMY,text,DamageType.HEAL)
 		enemy_stats.hp += damage
 		enemy_stats.hp = clamp(enemy_stats.hp,0,enemy_stats.max_hp)
 		EnemyHealth.text = str(enemy_stats.hp)
+		GameSFX.play_track("heal")
+		yield(GameSFX,"finished")
 	if enemy_result.defense == player_result.attack and player_result.attack != 0:
 		animate_damage_pop(Team.ENEMY,"Blocked!",DamageType.NEUTRAL)
+		GameSFX.play_track("blocked")
+		yield(GameSFX,"finished")
 	if player_result.defense == enemy_result.attack and enemy_result.attack != 0:
 		animate_damage_pop(Team.PLAYER,"Blocked!",DamageType.NEUTRAL)
+		GameSFX.play_track("damage")
+		yield(GameSFX,"blocked")
 	reset_stats()
 	yield(Co.wait(2),"completed")
 	clear_battlefield()
@@ -250,14 +264,14 @@ func clear_battlefield():
 	for slot in EnemyField.get_children():
 		var movepos = EnemyDeck.rect_global_position
 		enemy_discard.push_back(slot.get_card().duplicate())
-		slot.get_card().animate_playcard(movepos,0.2)
+		slot.get_card().animate_playcard(movepos,0.1)
 		yield(slot.get_card().tween,"tween_all_completed")
 		slot.clear_slot()
 
 	for slot in PlayerField.get_children():
 		var movepos = PlayerDeck.rect_global_position
 		player_discard.push_back(slot.get_card().duplicate())
-		slot.get_card().animate_playcard(movepos,0.2)
+		slot.get_card().animate_playcard(movepos,0.1)
 		yield(slot.get_card().tween,"tween_all_completed")
 		slot.clear_slot()
 
@@ -347,7 +361,6 @@ func player_card_picked(card):
 	var move_pos = empty_slot.get_global_rect().position
 	card.animate_playcard(move_pos,0.2)
 	var remaster_bonus:bool = check_remasters(PlayerField,card)
-#	yield(Co.wait(.3),"completed")
 	yield(card.tween,"tween_completed")
 
 	if card.has_node("Button"):
@@ -357,7 +370,10 @@ func player_card_picked(card):
 	if remaster_bonus:
 		Banner.set_colors(Team.PLAYER)
 		Banner.set_text("Remaster Bonus!")
-		yield(Co.wrap(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5)),"completed")
+		var co_list:Array = []
+		co_list.push_back(GameSFX.play_track("remaster"))
+		co_list.push_back(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5))
+		yield(Co.join(co_list),"completed")
 		yield(Banner.tween,"tween_completed")
 	if active_field(Team.PLAYER):
 		player_stats = evaluate_state(Team.PLAYER, card, remaster_bonus)
@@ -439,7 +455,10 @@ func enemy_move():
 	EnemySprite.animate_turn()
 	Banner.set_colors(Team.ENEMY)
 	Banner.set_text("%s's Turn"%enemy_data.name)
-	yield(Co.wrap(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5)),"completed")
+	var co_list:Array = []
+	co_list.push_back(GameSFX.play_track("turn_start"))
+	co_list.push_back(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5))
+	yield(Co.join(co_list),"completed")
 	yield(Banner.tween,"tween_completed")
 	if can_draw_card(Team.ENEMY):
 		draw_card(Team.ENEMY)
@@ -461,7 +480,10 @@ func enemy_move():
 	if remaster_bonus:
 		Banner.set_colors(Team.ENEMY)
 		Banner.set_text("Remaster Bonus!")
-		yield(Co.wrap(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5)),"completed")
+		co_list = []
+		co_list.push_back(GameSFX.play_track("turn_start"))
+		co_list.push_back(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5))
+		yield(Co.join(co_list),"completed")
 		yield(Banner.tween,"tween_completed")
 	if active_field(Team.ENEMY):
 		enemy_stats = evaluate_state(Team.ENEMY,card,remaster_bonus)
@@ -568,15 +590,16 @@ func set_player_turn(value:bool):
 	if value:
 		Banner.set_colors(Team.PLAYER)
 		Banner.set_text("%s's Turn"%player_data.name)
-		yield(Co.wrap(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5)),"completed")
+		var co_list:Array = []
+		co_list.push_back(GameSFX.play_track("turn_start"))
+		co_list.push_back(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5))
+		yield(Co.join(co_list),"completed")
 		yield(Banner.tween,"tween_completed")
 		PlayerSprite.animate_turn()
 
 		if can_draw_card(Team.PLAYER):
 			draw_card(Team.PLAYER)
 			yield(self,"card_drawn")
-#			yield(Co.wrap(draw_card(Team.PLAYER)),"completed")
-#			yield(Co.wait(0.3),"completed")
 			set_focus_buttons()
 	player_turn = value
 

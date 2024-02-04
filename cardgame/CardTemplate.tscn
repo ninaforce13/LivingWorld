@@ -7,7 +7,7 @@
 [ext_resource path="res://ui/battle_theme.tres" type="Theme" id=5]
 [ext_resource path="res://ui/fonts/regular/regular_30.tres" type="DynamicFont" id=6]
 [ext_resource path="res://mods/LivingWorld/cardgame/CardInfo.gd" type="Script" id=7]
-[ext_resource path="res://mods/LivingWorld/soundeffects/drawcard.wav" type="AudioStream" id=8]
+[ext_resource path="res://sfx/ui/page_turn.wav" type="AudioStream" id=8]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 1, 1, 1, 1 )

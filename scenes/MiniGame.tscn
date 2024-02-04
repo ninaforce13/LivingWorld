@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=2]
+[gd_scene load_steps=73 format=2]
 
 [ext_resource path="res://addons/misc_utils/OverscanMarginContainer.gd" type="Script" id=1]
 [ext_resource path="res://mods/LivingWorld/cardgame/EmptyCardTemplate.tscn" type="PackedScene" id=2]
@@ -16,9 +16,15 @@
 [ext_resource path="res://mods/LivingWorld/icons/DefenseCard.png" type="Texture" id=14]
 [ext_resource path="res://ui/fonts/regular/regular_100.tres" type="DynamicFont" id=15]
 [ext_resource path="res://mods/LivingWorld/cardgame/banner.tscn" type="PackedScene" id=16]
+[ext_resource path="res://mods/LivingWorld/cardgame/sfx_manager.gd" type="Script" id=17]
 [ext_resource path="res://menus/menu_bg_fade.shader" type="Shader" id=18]
 [ext_resource path="res://menus/background.png" type="Texture" id=19]
+[ext_resource path="res://sfx/ui/recorded.wav" type="AudioStream" id=20]
 [ext_resource path="res://mods/LivingWorld/cardgame/GameSetup.gd" type="Script" id=21]
+[ext_resource path="res://sfx/ui/victory.wav" type="AudioStream" id=22]
+[ext_resource path="res://sfx/attacks/parry_stance.wav" type="AudioStream" id=23]
+[ext_resource path="res://sfx/hit_default.wav" type="AudioStream" id=24]
+[ext_resource path="res://sfx/world/physics/impact_metal_3.wav" type="AudioStream" id=25]
 
 [sub_resource type="ShaderMaterial" id=4]
 resource_local_to_scene = true
@@ -2021,7 +2027,6 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 7 )]
 
@@ -2149,7 +2154,6 @@ script = ExtResource( 8 )
 idle = "inactive"
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 7 )]
 
@@ -2230,6 +2234,16 @@ position = Vector2( 1397, 290 )
 
 [node name="BannerEnd" type="Position2D" parent="Scroller/OverscanMarginContainer/Control"]
 position = Vector2( 1800, 297.696 )
+
+[node name="game_sfx_player" type="AudioStreamPlayer2D" parent="."]
+script = ExtResource( 17 )
+sfx = {
+"blocked": ExtResource( 25 ),
+"damage": ExtResource( 24 ),
+"heal": ExtResource( 20 ),
+"remaster": ExtResource( 22 ),
+"turn_start": ExtResource( 23 )
+}
 
 [connection signal="input_event" from="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_input_event"]
 [connection signal="mouse_entered" from="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_mouse_entered"]
