@@ -8,15 +8,21 @@ var random = Random.new()
 func is_valid_detection(_detection)->bool:
 	if _detection == get_parent():
 		return false
+	var pawn = get_parent()
+	var pawn_data = pawn.get_node("RecruitData")
+	if pawn_data.has_party():
+		return false
 	if !_detection.has_node("RecruitBehavior"):
 		return false
 	var behavior = _detection.get_node("RecruitBehavior")
-	if !behavior.is_interruptible(behavior.state_node):
+	if !behavior.is_interruptible(behavior.state_node) and behavior.state != "Conversation":
 		return false
 	if !_detection.has_node("RecruitData"):
 		return false
 	var object_data = _detection.get_node("RecruitData")
 	if object_data.full_conversation():
+		return false
+	if object_data.has_party():
 		return false
 	if !random.rand_bool(get_chance()):
 		return false

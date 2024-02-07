@@ -1,13 +1,17 @@
 extends "res://addons/misc_utils/StateMachine.gd"
 enum PERSONALITY{COMBATIVE,SOCIAL,LONER,TOWNIE}
+
 export (PERSONALITY) var personality
 export (String) var previous_state = "Idle"
 export (float) var time_limit = 15.0
 export (Array) var randomized_states
 export (bool) var never_pause = false
 export (bool) var quest_requirement
+const settings = preload("res://mods/LivingWorld/settings.tres")
+
 var _timer:float = 0.0
 var random:Random = Random.new()
+var data_node = null
 
 func _ready():
 	_timer = time_limit
@@ -17,7 +21,7 @@ func _ready():
 		get_parent().connect("resumed", self, "set_paused", [false])
 		get_parent().connect("paused", self, "set_paused", [true])
 	set_randomized_states()
-
+	data_node = pawn.get_node("RecruitData")
 func set_randomized_states():
 	randomized_states.clear()
 	var weight_name
@@ -37,6 +41,9 @@ func _process(delta):
 	if state == "Idle" and time_limit > 0.0:
 		_timer -= delta
 		if _timer < 0.0:
+			if data_node:
+				if data_node.has_party() and random.rand_bool(settings.party_disband_rate):
+					disband_party()
 			set_randomized_states()
 			if !randomized_states.size() > 0:
 				return
@@ -56,6 +63,9 @@ func _process(delta):
 			set_state(choice.state)
 			_timer = time_limit
 	._process(delta)
+
+func disband_party():
+	data_node.disband_party()
 
 func filter_invalid_states(filtered_states:Array):
 	for child in get_children():
@@ -137,6 +147,8 @@ func _on_TalkingNPCDetector_detected(detection):
 
 	partner_data.add_conversation_partner(pawn)
 	set_state("Conversation")
+	if state_node.has_method("set_bb"):
+		state_node.set_bb("party", random.rand_bool(settings.party_form_rate))
 
 
 func _on_RecruitData_engaging():

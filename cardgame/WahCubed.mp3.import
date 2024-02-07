@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/WahCubed.mp3-90cdde3484e9a5787f4d764ca4ef0992.mp3str"
+
+[deps]
+
+source_file="res://mods/LivingWorld/cardgame/WahCubed.mp3"
+dest_files=[ "res://.import/WahCubed.mp3-90cdde3484e9a5787f4d764ca4ef0992.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

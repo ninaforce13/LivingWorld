@@ -53,7 +53,6 @@ func populate_collection():
 func populate_deck():
 	var collection = manager.get_card_collection()
 	for data in collection.values():
-		var card = card_template.instance()
 		if data.deck > 0:
 			for _i in range (data.deck):
 				add_deck_button(data.path)

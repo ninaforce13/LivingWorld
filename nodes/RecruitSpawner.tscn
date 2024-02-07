@@ -15,3 +15,5 @@ max_distance = 100.0
 script = ExtResource( 1 )
 spawn_period = 5.0
 initial_spawns = 1
+day_max_spawns = 5
+night_max_spawns = 2

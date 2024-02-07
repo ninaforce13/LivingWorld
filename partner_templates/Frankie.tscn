@@ -1,4 +1,4 @@
-[gd_scene load_steps=147 format=2]
+[gd_scene load_steps=152 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/misc_utils/actions/composites/Sequence.gd" type="Script" id=2]
@@ -47,7 +47,7 @@
 [ext_resource path="res://world/npc/EmotePlayer.tscn" type="PackedScene" id=45]
 [ext_resource path="res://world/npc/Footsteps.tscn" type="PackedScene" id=46]
 [ext_resource path="res://world/core/Interaction.tscn" type="PackedScene" id=47]
-[ext_resource path="res://nodes/actions/BattleAction.gd" type="Script" id=48]
+[ext_resource path="res://mods/LivingWorld/actions/RecruitBattleAction.gd" type="Script" id=48]
 [ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=49]
 [ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=50]
 [ext_resource path="res://addons/misc_utils/actions/DecoratorAction.gd" type="Script" id=51]
@@ -122,6 +122,11 @@
 [ext_resource path="res://data/elemental_types/glitter.tres" type="Resource" id=120]
 [ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=121]
 [ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=122]
+[ext_resource path="res://mods/LivingWorld/actions/RegisterParty.gd" type="Script" id=123]
+[ext_resource path="res://mods/LivingWorld/actions/GetPartyLeader.gd" type="Script" id=124]
+[ext_resource path="res://mods/LivingWorld/actions/InPartyAction.gd" type="Script" id=125]
+[ext_resource path="res://mods/LivingWorld/actions/PartyFollowAction.gd" type="Script" id=126]
+[ext_resource path="res://mods/LivingWorld/actions/DisbandPartyAction.gd" type="Script" id=127]
 
 [sub_resource type="CapsuleShape" id=30]
 radius = 0.9
@@ -907,35 +912,7 @@ script = ExtResource( 66 )
 [node name="RandomTapeConfig3" type="Node" parent="EncounterConfig/CharacterConfig"]
 script = ExtResource( 66 )
 
-[node name="Sidekick" type="Node" parent="EncounterConfig"]
-script = ExtResource( 38 )
-level_scale_override_key = "monster_miniboss_smart"
-character_kind = 1
-human_colors = {
-"body_color_1": -1,
-"body_color_2": -1,
-"eye_color": -1,
-"face_accessory_color": -1,
-"favorite_color": -1,
-"hair_accessory_color": -1,
-"hair_color": -1,
-"legs_color": -1,
-"shoe_color": -1,
-"skin_color": -1
-}
-randomize_human_sprite = true
-human_colors/body_color_1 = -1
-human_colors/body_color_2 = -1
-human_colors/eye_color = -1
-human_colors/face_accessory_color = -1
-human_colors/favorite_color = -1
-human_colors/hair_accessory_color = -1
-human_colors/hair_color = -1
-human_colors/legs_color = -1
-human_colors/shoe_color = -1
-human_colors/skin_color = -1
-
-[node name="Tape6" type="Node" parent="EncounterConfig/Sidekick"]
+[node name="Tape6" type="Node" parent="EncounterConfig/CharacterConfig"]
 script = ExtResource( 66 )
 form = ExtResource( 75 )
 
@@ -1445,6 +1422,9 @@ group = "warp_regions"
 mode = 4
 group_type = 2
 
+[node name="DisbandParty" type="Node" parent="RecruitBehavior/FindDoor"]
+script = ExtResource( 127 )
+
 [node name="RepeatWhile2" type="Node" parent="RecruitBehavior/FindDoor"]
 script = ExtResource( 8 )
 early_exit_on_failure = true
@@ -1717,113 +1697,6 @@ random_seconds = 5.0
 [node name="Failer" type="Node" parent="RecruitBehavior/BootlegBehavior"]
 script = ExtResource( 10 )
 
-[node name="Conversation" type="Node" parent="RecruitBehavior"]
-script = ExtResource( 83 )
-
-[node name="SetNPCControlsAction" type="Node" parent="RecruitBehavior/Conversation"]
-script = ExtResource( 14 )
-set_values = 478
-
-[node name="RepeatWhile2" type="Node" parent="RecruitBehavior/Conversation"]
-script = ExtResource( 8 )
-
-[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile2"]
-script = ExtResource( 92 )
-
-[node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile2/FaceTowardsAction"]
-script = ExtResource( 95 )
-
-[node name="FollowAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile2"]
-script = ExtResource( 62 )
-__meta__ = {
-"action_tree": true
-}
-always_succeed = true
-can_fly = true
-can_jump = true
-can_fall = true
-can_glide = true
-can_wait = true
-min_distance = 4.0
-ignore_ending_y = false
-
-[node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile2/FollowAction"]
-script = ExtResource( 95 )
-
-[node name="RepeatWhile" type="Node" parent="RecruitBehavior/Conversation"]
-script = ExtResource( 8 )
-
-[node name="Sequence" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile"]
-script = ExtResource( 2 )
-
-[node name="SetRandomAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
-script = ExtResource( 16 )
-bb_name = "react"
-activation_chance = 0.1
-
-[node name="Reaction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
-script = ExtResource( 68 )
-always_succeed = true
-bb_name = "react"
-
-[node name="PlayEmoteAction3" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/Reaction"]
-script = ExtResource( 22 )
-selection = 15
-emotes = [ "singing_loop", "aggro_check", "Happy", "Angry", "annoyed", "frustrated", "questioning", "Sad", "shocked", "silly", "Love", "Traffikrab", "scared" ]
-use_random = true
-
-[node name="Conversation" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
-script = ExtResource( 68 )
-always_succeed = true
-bb_name = "react"
-inverted = true
-
-[node name="PlayEmoteAction3" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/Conversation"]
-script = ExtResource( 22 )
-selection = 15
-
-[node name="WaitAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
-script = ExtResource( 49 )
-base_seconds = 0.1
-random_seconds = 0.2
-
-[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
-script = ExtResource( 92 )
-
-[node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/FaceTowardsAction"]
-script = ExtResource( 95 )
-
-[node name="FollowAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
-script = ExtResource( 62 )
-__meta__ = {
-"action_tree": true
-}
-always_succeed = true
-can_fly = true
-can_jump = true
-can_fall = true
-can_glide = true
-can_wait = true
-min_distance = 4.0
-ignore_ending_y = false
-
-[node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/FollowAction"]
-script = ExtResource( 95 )
-
-[node name="WaitUntil" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile"]
-script = ExtResource( 6 )
-base_seconds = 20.0
-random_seconds = 10.0
-
-[node name="EmptyConversation" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/WaitUntil"]
-script = ExtResource( 88 )
-
-[node name="ExitConversation" type="Node" parent="RecruitBehavior/Conversation"]
-script = ExtResource( 94 )
-
-[node name="Failer" type="Node" parent="RecruitBehavior/Conversation"]
-script = ExtResource( 10 )
-
 [node name="EngageEnemy" type="Node" parent="RecruitBehavior"]
 script = ExtResource( 67 )
 reset_on_exit_tree = true
@@ -2009,6 +1882,161 @@ script = ExtResource( 50 )
 
 [node name="Failer" type="Node" parent="RecruitBehavior/EngageEnemy"]
 script = ExtResource( 10 )
+
+[node name="Conversation" type="Node" parent="RecruitBehavior"]
+script = ExtResource( 83 )
+interruptible = false
+
+[node name="SetNPCControlsAction" type="Node" parent="RecruitBehavior/Conversation"]
+script = ExtResource( 14 )
+set_values = 478
+
+[node name="RepeatWhile2" type="Node" parent="RecruitBehavior/Conversation"]
+script = ExtResource( 8 )
+early_exit_on_failure = true
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile2"]
+script = ExtResource( 92 )
+
+[node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile2/FaceTowardsAction"]
+script = ExtResource( 95 )
+
+[node name="FollowAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile2"]
+script = ExtResource( 62 )
+__meta__ = {
+"action_tree": true
+}
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 4.0
+ignore_ending_y = false
+
+[node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile2/FollowAction"]
+script = ExtResource( 95 )
+
+[node name="RepeatWhile" type="Node" parent="RecruitBehavior/Conversation"]
+script = ExtResource( 8 )
+early_exit_on_failure = true
+
+[node name="Sequence" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile"]
+script = ExtResource( 2 )
+
+[node name="SetRandomAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 16 )
+bb_name = "react"
+activation_chance = 0.1
+
+[node name="Reaction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 68 )
+always_succeed = true
+bb_name = "react"
+
+[node name="PlayEmoteAction3" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/Reaction"]
+script = ExtResource( 22 )
+selection = 15
+emotes = [ "singing_loop", "aggro_check", "Happy", "Angry", "annoyed", "frustrated", "questioning", "Sad", "shocked", "silly", "Love", "Traffikrab", "scared" ]
+use_random = true
+
+[node name="Conversation" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 68 )
+always_succeed = true
+bb_name = "react"
+inverted = true
+
+[node name="PlayEmoteAction3" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/Conversation"]
+script = ExtResource( 22 )
+selection = 15
+
+[node name="WaitAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 49 )
+base_seconds = 0.1
+random_seconds = 0.2
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 92 )
+
+[node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/FaceTowardsAction"]
+script = ExtResource( 95 )
+
+[node name="FollowAction" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence"]
+script = ExtResource( 62 )
+__meta__ = {
+"action_tree": true
+}
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+min_distance = 4.0
+ignore_ending_y = false
+
+[node name="GetConversationPartner" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/Sequence/FollowAction"]
+script = ExtResource( 95 )
+
+[node name="WaitUntil" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile"]
+script = ExtResource( 6 )
+base_seconds = 20.0
+random_seconds = 10.0
+
+[node name="EmptyConversation" type="Node" parent="RecruitBehavior/Conversation/RepeatWhile/WaitUntil"]
+script = ExtResource( 88 )
+
+[node name="PartyCheck" type="Node" parent="RecruitBehavior/Conversation"]
+script = ExtResource( 68 )
+always_succeed = true
+bb_name = "party"
+
+[node name="FormParty" type="Node" parent="RecruitBehavior/Conversation/PartyCheck"]
+script = ExtResource( 123 )
+
+[node name="ExitConversation" type="Node" parent="RecruitBehavior/Conversation"]
+script = ExtResource( 94 )
+
+[node name="Failer" type="Node" parent="RecruitBehavior/Conversation"]
+script = ExtResource( 10 )
+
+[node name="Party" type="Node" parent="RecruitBehavior"]
+script = ExtResource( 63 )
+
+[node name="RepeatWhile" type="Node" parent="RecruitBehavior/Party"]
+script = ExtResource( 8 )
+
+[node name="Sequence" type="Node" parent="RecruitBehavior/Party/RepeatWhile"]
+script = ExtResource( 2 )
+
+[node name="PartyFollow" type="Node" parent="RecruitBehavior/Party/RepeatWhile/Sequence"]
+script = ExtResource( 126 )
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_warp = true
+min_distance = 3.0
+
+[node name="GetPartyLeader" type="Node" parent="RecruitBehavior/Party/RepeatWhile/Sequence/PartyFollow"]
+script = ExtResource( 124 )
+
+[node name="SetRandomAction" type="Node" parent="RecruitBehavior/Party/RepeatWhile/Sequence"]
+script = ExtResource( 16 )
+bb_name = "react"
+activation_chance = 0.01
+
+[node name="Reaction" type="Node" parent="RecruitBehavior/Party/RepeatWhile/Sequence"]
+script = ExtResource( 68 )
+always_succeed = true
+bb_name = "react"
+
+[node name="PlayEmoteAction3" type="Node" parent="RecruitBehavior/Party/RepeatWhile/Sequence/Reaction"]
+script = ExtResource( 22 )
+selection = 15
+emotes = [ "singing_loop", "aggro_check", "Happy", "questioning", "silly", "scared" ]
+use_random = true
+
+[node name="InParty" type="Node" parent="RecruitBehavior/Party/RepeatWhile"]
+script = ExtResource( 125 )
 
 [node name="MouseClick" parent="." instance=ExtResource( 98 )]
 
@@ -2300,6 +2328,8 @@ script = ExtResource( 121 )
 [node name="PassiveMessageAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 15 )
 message = "LIVINGWORLD_PASSIVE_CARDREWARD"
+use_pawn_npc_name = false
+wait_until_finished = false
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 58 )

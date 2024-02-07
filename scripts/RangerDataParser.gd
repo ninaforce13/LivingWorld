@@ -245,6 +245,7 @@ static func get_empty_recruit()->Dictionary:
 	var colors = {}
 	HumanLayersHelper.randomize_sprite(null, parts, colors)
 	recruit = {"name":"Ranger",
+				"ranger_id":0,
 				"human_part_names":to_json(parts),
 				"human_colors":to_json(colors),
 				"pronouns":2,
@@ -309,10 +310,18 @@ static func get_npc_snapshot(npc):
 		"sprite_body":npc.sprite_body
 							}
 	var index:int = 0
-	for tape in charconfig.get_children():
-		var newtape = tape._generate_tape(Random.new(),0)
-		snap["tape"+str(index)] = newtape.get_snapshot()
-		index+=1
-	snap["stats"] = {} if !charconfig.base_character else charconfig.base_character.get_snapshot()
+	if !charconfig:
+		for _i in range(6):
+			var tape = RandomTapeConfig.new()
+			var newtape = tape._generate_tape(Random.new(),0)
+			snap["tape"+str(index)] = newtape.get_snapshot()
+			index+=1
+		snap["stats"] = {}
+	else:
+		for tape in charconfig.get_children():
+			var newtape = tape._generate_tape(Random.new(),0)
+			snap["tape"+str(index)] = newtape.get_snapshot()
+			index+=1
+		snap["stats"] = {} if !charconfig.base_character else charconfig.base_character.get_snapshot()
 	snap["version"] = "1.2"
 	return snap

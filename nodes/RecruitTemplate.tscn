@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=2]
+[gd_scene load_steps=87 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/emoteplayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=2]
@@ -42,6 +42,9 @@
 [ext_resource path="res://nodes/actions/PlayAudioAction.gd" type="Script" id=40]
 [ext_resource path="res://nodes/actions/PassiveMessageAction.gd" type="Script" id=41]
 [ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=42]
+[ext_resource path="res://mods/LivingWorld/cardgame/WahCubed.mp3" type="AudioStream" id=43]
+[ext_resource path="res://nodes/actions/ChangeMusicAction.gd" type="Script" id=44]
+[ext_resource path="res://mods/LivingWorld/actions/RecruitBattleAction.gd" type="Script" id=45]
 [ext_resource path="res://mods/LivingWorld/scripts/MonsterDetector.gd" type="Script" id=61]
 [ext_resource path="res://nodes/actions/values/GetPlayer.gd" type="Script" id=62]
 [ext_resource path="res://nodes/actions/FaceTowardsAction.gd" type="Script" id=63]
@@ -49,7 +52,6 @@
 [ext_resource path="res://mods/LivingWorld/scripts/TalkingNPCDetector.gd" type="Script" id=65]
 [ext_resource path="res://mods/LivingWorld/actions/MessageDialogRandom.gd" type="Script" id=66]
 [ext_resource path="res://addons/misc_utils/actions/DecoratorAction.gd" type="Script" id=68]
-[ext_resource path="res://nodes/actions/BattleAction.gd" type="Script" id=69]
 [ext_resource path="res://mods/LivingWorld/scripts/BootlegDetector.gd" type="Script" id=70]
 [ext_resource path="res://mods/LivingWorld/actions/CheckBattleCooldown.gd" type="Script" id=72]
 [ext_resource path="res://mods/LivingWorld/actions/AddFollower.gd" type="Script" id=73]
@@ -707,6 +709,168 @@ script = ExtResource( 14 )
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 4 )
+monster_animations = {
+"Allseer": {
+"initial": "idle",
+"loop": "idle",
+"transition": "idle"
+},
+"Amphare": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Boltam": {
+"initial": "transition",
+"loop": "dash",
+"transition": "transition"
+},
+"Bulletino": {
+"initial": "transition",
+"loop": "dash",
+"transition": "transition"
+},
+"Busheye": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Carniviper": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Charlequin": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Cluckabilly": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Diveal": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Dominoth": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Elfless": {
+"initial": "teleport",
+"loop": "run",
+"transition": "active"
+},
+"Faucetear": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Ferriclaw": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Hauntome": {
+"initial": "",
+"loop": "idle",
+"transition": ""
+},
+"Icepeck": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Jellyton": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Littlered": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Mascotoy": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Masquerattle": {
+"initial": "idle",
+"loop": "run",
+"transition": "idle"
+},
+"Minortom": {
+"initial": "transition",
+"loop": "dash",
+"transition": "transition"
+},
+"Nevermort": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Pawndead": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Pombomb": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Puppercut": {
+"initial": "",
+"loop": "run",
+"transition": "teleport"
+},
+"Queenyx": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Sanzatime": {
+"initial": "",
+"loop": "idle",
+"transition": ""
+},
+"Spooki-oona": {
+"initial": "",
+"loop": "idle",
+"transition": ""
+},
+"Springheel": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Squirey": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Terracooka": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Traffikrab": {
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"Twirligig": {
+"initial": "",
+"loop": "run",
+"transition": ""
+}
+}
 
 [node name="Walking" type="Node" parent="StateMachine"]
 script = ExtResource( 20 )
@@ -820,38 +984,7 @@ spawn_profile = ExtResource( 24 )
 script = ExtResource( 11 )
 spawn_profile = ExtResource( 24 )
 
-[node name="Sidekick" type="Node" parent="EncounterConfig"]
-script = ExtResource( 6 )
-character_name = "Ranger"
-level_scale_override_key = "monster_miniboss_smart"
-character_sfx = ExtResource( 12 )
-character_kind = 1
-human_colors = {
-"body_color_1": -1,
-"body_color_2": -1,
-"eye_color": -1,
-"face_accessory_color": -1,
-"favorite_color": -1,
-"hair_accessory_color": -1,
-"hair_color": -1,
-"legs_color": -1,
-"shoe_color": -1,
-"skin_color": -1
-}
-randomize_human_sprite = true
-ai = ExtResource( 26 )
-human_colors/body_color_1 = -1
-human_colors/body_color_2 = -1
-human_colors/eye_color = -1
-human_colors/face_accessory_color = -1
-human_colors/favorite_color = -1
-human_colors/hair_accessory_color = -1
-human_colors/hair_color = -1
-human_colors/legs_color = -1
-human_colors/shoe_color = -1
-human_colors/skin_color = -1
-
-[node name="Tape6" type="Node" parent="EncounterConfig/Sidekick"]
+[node name="Tape6" type="Node" parent="EncounterConfig/CharacterConfig"]
 script = ExtResource( 11 )
 spawn_profile = ExtResource( 24 )
 
@@ -864,6 +997,10 @@ collision_layer = 0
 collision_mask = 288
 script = ExtResource( 23 )
 detection_cooldown = 60.0
+combative_chance = 0.4
+social_chance = 0.85
+loner_chance = 0.5
+townie_chance = 0.0
 
 [node name="CollisionShape" type="CollisionShape" parent="MagnetDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
@@ -913,9 +1050,9 @@ script = ExtResource( 65 )
 detection_bb_key = "conversation_partner"
 detection_cooldown = 60.0
 combative_chance = 0.3
-social_chance = 0.9
+social_chance = 0.75
 loner_chance = 0.0
-townie_chance = 0.85
+townie_chance = 0.75
 
 [node name="CollisionShape" type="CollisionShape" parent="TalkingNPCDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
@@ -925,6 +1062,7 @@ shape = SubResource( 5 )
 collision_layer = 0
 collision_mask = 128
 script = ExtResource( 29 )
+detection_cooldown = 90.0
 combative_chance = 1.0
 social_chance = 1.0
 loner_chance = 1.0
@@ -1020,7 +1158,7 @@ use_random = true
 message_array = [ [ "RECRUIT_MENU_CHALLENGE_ACCEPT1" ], [ "RECRUIT_MENU_CHALLENGE_ACCEPT2" ], [ "RECRUIT_MENU_CHALLENGE_ACCEPT3" ] ]
 
 [node name="BattleAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
-script = ExtResource( 69 )
+script = ExtResource( 45 )
 result_on_player_win = 1
 result_on_player_loss = 0
 result_on_flee = 0
@@ -1109,7 +1247,12 @@ title = "{pawn}"
 use_random = true
 message_array = [ [ "RECREUIT_MENU_PLAYCARDS1" ] ]
 
-[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+[node name="ChangeMusicAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+script = ExtResource( 44 )
+music = ExtResource( 43 )
+music_vox = ExtResource( 43 )
+
+[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction"]
 script = ExtResource( 38 )
 
 [node name="CheckConditionAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
@@ -1137,6 +1280,8 @@ script = ExtResource( 39 )
 [node name="PassiveMessageAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 41 )
 message = "LIVINGWORLD_PASSIVE_CARDREWARD"
+use_pawn_npc_name = false
+wait_until_finished = false
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 79 )
@@ -1231,6 +1376,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 30 )]
 

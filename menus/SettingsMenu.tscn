@@ -180,7 +180,7 @@ margin_top = 364.0
 margin_right = 976.0
 margin_bottom = 424.0
 size_flags_horizontal = 3
-values = [ 1, 2, 3 ]
+values = [ 1, 3, 5 ]
 value_labels = [ "Low", "Medium", "High" ]
 
 [node name="UseCustomRecruitsLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]

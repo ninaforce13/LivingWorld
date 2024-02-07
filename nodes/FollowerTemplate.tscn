@@ -770,6 +770,9 @@ script = ExtResource( 19 )
 script = ExtResource( 4 )
 animation = 0
 
+[node name="Nothing" type="Node" parent="InteractionBehavior/MenuDialogAction"]
+script = ExtResource( 56 )
+
 [node name="MonsterForms" parent="." instance=ExtResource( 1 )]
 
 [node name="ConversationSprite" type="Control" parent="."]
@@ -782,7 +785,7 @@ charconfig = NodePath("../EncounterConfig/CharacterConfig")
 
 [node name="MarginContainer" type="MarginContainer" parent="ConversationSprite"]
 margin_left = 201.0
-margin_top = 289.0
+margin_top = 360.0
 
 [node name="MonsterSpriteContainer1" type="ViewportContainer" parent="ConversationSprite/MarginContainer"]
 unique_name_in_owner = true
@@ -840,7 +843,6 @@ script = ExtResource( 49 )
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 3 )]
 
