@@ -17,7 +17,7 @@ func _enter_state():
 	set_in_state(true)
 
 func _exit_state():
-	exit_conversation()
+#	exit_conversation()
 	set_in_state(false)
 
 func exit_conversation():

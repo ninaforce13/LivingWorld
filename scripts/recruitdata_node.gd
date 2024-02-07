@@ -1,14 +1,19 @@
 extends Node
 
+signal engaging
+signal party_disbanded
+
 export (bool) var is_captain = false
 export (bool) var is_partner = false
-signal engaging
-var max_partners = 2
+
 const trade_generator = preload("res://mods/LivingWorld/scripts/StickerTradeGenerator.gd")
 const card_template = preload("res://mods/LivingWorld/cardgame/CardTemplate.tscn")
+
+var max_partners = 2
 var follow_target = null
 var engaged_target = null
 var conversation_partners:Array = []
+var party_members:Dictionary = {}
 var slots:Array
 var engaged:bool = false setget set_engage
 var recruit
@@ -17,21 +22,25 @@ var trade_offer = null
 var card_deck:Array = []
 var seedvalue:int = 0
 var random:Random
+var is_leader:bool = false
+
 func _ready():
 	WorldSystem.time.connect("date_changed", self, "_on_date_changed")
-	WorldSystem.time.connect("date_changed", self, "generate_trade")
+	if !is_partner:
+		seedvalue = randi()
+	if !recruit:# and (is_captain or is_partner):
+		generate_recruit_data()
+
+	random = Random.new((recruit.name).hash() + SaveState.random_seed + seedvalue)
+
 	if !is_captain:
 		generate_trade()
 	if is_captain:
 		max_partners = 0
-	if !recruit and (is_captain or is_partner):
-		generate_recruit_data()
 	if is_captain or is_partner:
 		call_deferred("add_emoteplayer")
-	if !is_partner:
-		seedvalue = randi()
-
-	random = Random.new((recruit.name).hash() + SaveState.random_seed + seedvalue)
+	if !has_ranger_id():
+		set_ranger_id()
 
 func build_deck():
 	card_deck = []
@@ -111,6 +120,104 @@ func check_partners():
 		if !is_instance_valid(partner):
 			conversation_partners.erase(partner)
 
-func _on_date_changed():
+func reset_battle_cooldown():
 	on_battle_cooldown = false
 
+func party_full()->bool:
+	return party_members.size() == max_partners
+
+func form_party():
+	var data_node = null
+	var prev_member = null
+	for partner in conversation_partners:
+		data_node = partner.get_node("RecruitData")
+		if data_node and !data_node.has_party() and !data_node.is_partner:
+			add_party_member(data_node, data_node.recruit)
+			data_node.add_party_member(self, recruit, true)
+			data_node.follow_target = get_parent()
+			if prev_member:
+				prev_member.add_party_member(data_node,data_node.recruit)
+				data_node.add_party_member(prev_member,prev_member.recruit)
+			prev_member = data_node
+
+	is_leader = true
+
+func add_party_member(data_node, data:Dictionary, leader:bool = false):
+	if party_full():
+		return
+	var key = get_ranger_key(data)
+	if !party_members.has(key):
+		party_members[key] = {"node":data_node,"data":data,"leader":leader}
+
+func remove_party_member(data):
+	var key = get_ranger_key(data)
+	if party_members.has(key):
+		party_members.erase(key)
+
+func disband_party():
+	var party = party_members.duplicate()
+	party_members.clear()
+	for member in party.values():
+		if is_instance_valid(member.node):
+			member.node.disband_party()
+
+	is_leader = false
+	emit_signal("party_disbanded")
+
+func get_party_data()->Array:
+	for member in party_members.values():
+		if !is_instance_valid(member.node):
+			var key = get_ranger_key(member.data)
+			remove_party_member(key)
+	return party_members.values()
+
+func has_party()->bool:
+	return !party_members.empty()
+
+func has_ranger_id()->bool:
+	if recruit.has("ranger_id"):
+		return recruit.ranger_id != 0
+	return false
+
+func set_ranger_id():
+	recruit["ranger_id"] = random.rand_int()
+
+func get_ranger_key(data):
+	return data.name+str(data.ranger_id)
+
+func _on_date_changed():
+	reset_battle_cooldown()
+	generate_trade()
+
+func get_party_position(data)->int:
+	var leader = get_party_leader()
+	if !leader:
+		return 0
+	var position = 0
+	for member in leader.get_party_data():
+		if member.data.ranger_id == data.ranger_id:
+			return position
+		position+=1
+	return 0
+
+func get_party_leader():
+	for member in get_party_data():
+		if member.leader:
+			return member.node
+
+func get_party_size()->int:
+	var party = get_party_data()
+	return party.size()
+
+func party_leader_invalid()->bool:
+	var leader = get_party_leader()
+	if !leader:
+		disband_party()
+		return true
+	if !is_instance_valid(leader):
+		disband_party()
+		return true
+	if !is_instance_valid(leader.get_parent()):
+		disband_party()
+		return true
+	return false

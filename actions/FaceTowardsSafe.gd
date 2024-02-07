@@ -1,7 +1,6 @@
 extends Action
 
 export (bool) var snap_to_cardinal:bool = false
-
 func _run():
 	var whos = [get_pawn()]
 	var target = null
@@ -18,7 +17,6 @@ func _run():
 		target = values[values.size() - 1]
 	if target == null:
 		return null
-
 	for who in whos:
 		var dir:Vector2 = Vector2()
 		if target is String:

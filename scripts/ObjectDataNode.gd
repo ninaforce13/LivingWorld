@@ -95,3 +95,10 @@ func purge_slots(force_purge:bool = false):
 func set_campfire(value):
 	if campfire and object_type == ObjectType.CAMP:
 		campfire.visible = value
+
+func has_space(required_slots:int)->bool:
+	var count:int = 0
+	for slot in slots:
+		if slot.occupant != null:
+			count+=1
+	return (max_slots - count) >= required_slots

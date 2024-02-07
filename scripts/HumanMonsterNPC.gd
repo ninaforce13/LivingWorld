@@ -46,14 +46,17 @@ func player_transform(value=-1):
 		cutscene.set_bb("mode",value)
 		cutscene.run()
 
-func swap_sprite(value:int, forced_index:int = -1):
+func swap_sprite(value:int, forced_index:int = -2):
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 	use_monster_form = value == FORMS.MONSTER
+	if forced_index == -1:
+		use_monster_form = false
+		forced_index += 1
 	var dominant_sprite
 	var monster_forms = get_node("MonsterForms")
-	if monster_index.empty():
-		set_transform_index()
-	var index = monster_index.pop_front() if forced_index == -1 else forced_index
+#	if monster_index.empty():
+#		set_transform_index()
+	var index = monster_index.pop_front() if forced_index == -2 else forced_index
 	var selection = monster_forms.get_child(index)
 	var monster_sprite = selection.get_child(0)
 	var human_sprite = get_node("Sprite")

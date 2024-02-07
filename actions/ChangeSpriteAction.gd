@@ -7,11 +7,13 @@ export (float) var duration = .25
 export (String) var random_activation_bb = ""
 export (bool) var use_bb = false
 export (String) var blackboard_value = "mode"
+var index:int = -1
 func _run():
 	if random_activation_bb != "":
 		var result = get_bb(random_activation_bb)
 		if !result:
 			return true
+	index = get_parent().get_index() - 1
 	var pawn = get_pawn()
 	var sprite = pawn.sprite
 	var tween = sprite.controller.tween
@@ -24,7 +26,7 @@ func _run():
 		yield(tween,"tween_completed")
 	if use_bb:
 		sprite_form = get_bb(blackboard_value)
-	pawn.swap_sprite(sprite_form)
+	pawn.swap_sprite(sprite_form, index)
 	sprite = pawn.sprite
 	tween = sprite.controller.tween
 	if sprite:

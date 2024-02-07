@@ -25,6 +25,8 @@ onready var PlayerDeck = find_node("PlayerDeck")
 onready var EnemyDeck = find_node("EnemyDeck")
 onready var EnemySprite = find_node("EnemySprite")
 onready var PlayerSprite = find_node("PlayerSprite")
+onready var PlayerName = find_node("PlayerName")
+onready var EnemyName = find_node("EnemyName")
 onready var PlayerHeartGauge = find_node("PlayerHeartGauge")
 onready var EnemyHeartGauge = find_node("EnemyHeartGauge")
 onready var EnemyAttackLabel = find_node("EnemyAttackValue")
@@ -65,10 +67,15 @@ var enemy_tween:Tween
 var player_tween:Tween
 var player_damage_start:Array = []
 var enemy_damage_start:Array = []
+var tween:Tween
+var player_state:int = State.NEUTRAL
+var enemy_state:int = State.NEUTRAL
+var state_changed:bool = false
 
 func _ready():
 	random = Random.new()
-
+	tween = Tween.new()
+	add_child(tween)
 	PlayerSprite.animate_turn_end()
 	EnemySprite.animate_turn_end()
 
@@ -105,8 +112,10 @@ func set_sprites():
 		return
 	if player_data:
 		PlayerSprite.set_sprite(player_data)
+		PlayerName.text = player_data.name
 	if enemy_data:
 		EnemySprite.set_sprite(enemy_data)
+		EnemyName.text = enemy_data.name
 
 func initialize_decks():
 	if player_deck.empty():
@@ -192,7 +201,7 @@ func resolve_field():
 		enemy_stats.hp = clamp(enemy_stats.hp,0,enemy_stats.max_hp)
 		EnemyHealth.text = str(enemy_stats.hp)
 		GameSFX.play_track("damage")
-		yield(GameSFX,"finished")
+#		yield(GameSFX,"finished")
 
 	if player_result.defense > enemy_result.attack and player_stats.hp < player_stats.max_hp:
 		damage = player_result.defense - enemy_result.attack
@@ -202,7 +211,7 @@ func resolve_field():
 		player_stats.hp = clamp(player_stats.hp, 0, player_stats.max_hp)
 		PlayerHealth.text = str(player_stats.hp)
 		GameSFX.play_track("heal")
-		yield(GameSFX,"finished")
+#		yield(GameSFX,"finished")
 
 
 	if enemy_result.attack > player_result.defense:
@@ -215,7 +224,7 @@ func resolve_field():
 		player_stats.hp = clamp(player_stats.hp,0,player_stats.max_hp)
 		PlayerHealth.text = str(player_stats.hp)
 		GameSFX.play_track("damage")
-		yield(GameSFX,"finished")
+#		yield(GameSFX,"finished")
 
 	if enemy_result.defense > player_result.attack and enemy_stats.hp < enemy_stats.max_hp:
 		damage = enemy_result.defense - player_result.attack
@@ -225,15 +234,15 @@ func resolve_field():
 		enemy_stats.hp = clamp(enemy_stats.hp,0,enemy_stats.max_hp)
 		EnemyHealth.text = str(enemy_stats.hp)
 		GameSFX.play_track("heal")
-		yield(GameSFX,"finished")
+#		yield(GameSFX,"finished")
 	if enemy_result.defense == player_result.attack and player_result.attack != 0:
 		animate_damage_pop(Team.ENEMY,"Blocked!",DamageType.NEUTRAL)
 		GameSFX.play_track("blocked")
-		yield(GameSFX,"finished")
+#		yield(GameSFX,"finished")
 	if player_result.defense == enemy_result.attack and enemy_result.attack != 0:
 		animate_damage_pop(Team.PLAYER,"Blocked!",DamageType.NEUTRAL)
-		GameSFX.play_track("damage")
-		yield(GameSFX,"blocked")
+		GameSFX.play_track("blocked")
+#		yield(GameSFX,"finished")
 	reset_stats()
 	yield(Co.wait(2),"completed")
 	clear_battlefield()
@@ -241,6 +250,19 @@ func resolve_field():
 	update_value_labels()
 	set_state(enemy_stats.state,Team.ENEMY)
 	set_state(player_stats.state,Team.PLAYER)
+	var co_list:Array = []
+	co_list.push_back(animate_hover_enter(EnemyState))
+	co_list.push_back(animate_hover_enter(PlayerState))
+	yield(Co.join(co_list),"completed")
+	co_list.clear()
+
+	co_list.push_back(animate_hover_exit(EnemyState))
+	co_list.push_back(animate_hover_exit(PlayerState))
+	yield(Co.join(co_list),"completed")
+
+	enemy_state = enemy_stats.state
+	player_state = player_stats.state
+
 
 
 func animate_damage_pop(team,value,damage_type = 0 ):
@@ -378,6 +400,12 @@ func player_card_picked(card):
 	if active_field(Team.PLAYER):
 		player_stats = evaluate_state(Team.PLAYER, card, remaster_bonus)
 		set_state(player_stats.state,Team.PLAYER)
+		if state_changed:
+			animate_hover_enter(PlayerState)
+			animate_hover_exit(PlayerState)
+			yield(tween,"tween_completed")
+			state_changed = false
+			player_state = player_stats.state
 		update_value_labels()
 	set_focus_buttons()
 	set_player_turn(false)
@@ -386,13 +414,16 @@ func player_card_picked(card):
 	PlayerSprite.animate_turn_end()
 
 func set_state(state,team):
-	var label = PlayerState if team == Team.PLAYER else EnemyState
+	var label:Label = PlayerState if team == Team.PLAYER else EnemyState
 	if state == State.NEUTRAL:
 		label.text = "LIVINGWORLD_CARDS_UI_NEUTRAL"
+		label.add_color_override("font_color",Color.white)
 	if state == State.ATTACK:
 		label.text = "LIVINGWORLD_CARDS_UI_ATTACK"
+		label.add_color_override("font_color",Color.crimson)
 	if state == State.DEFENSE:
 		label.text = "LIVINGWORLD_CARDS_UI_DEFENSE"
+		label.add_color_override("font_color",Color.lightgreen)
 
 func get_empty_slot(container):
 	var result = null
@@ -426,6 +457,7 @@ func draw_card(team):
 		card.flip_card(0.1)
 		yield(card.tween,"tween_all_completed")
 	emit_signal("card_drawn")
+
 func refresh_deck(deck,discard):
 	var card
 	for _i in range(discard.size()):
@@ -488,6 +520,12 @@ func enemy_move():
 	if active_field(Team.ENEMY):
 		enemy_stats = evaluate_state(Team.ENEMY,card,remaster_bonus)
 		set_state(enemy_stats.state,Team.ENEMY)
+		if state_changed:
+			animate_hover_enter(EnemyState)
+			animate_hover_exit(EnemyState)
+			yield(tween,"tween_completed")
+			state_changed = false
+			enemy_state = enemy_stats.state
 		update_value_labels()
 	yield(Co.wait(0.5),"completed")
 	EnemySprite.animate_turn_end()
@@ -521,6 +559,7 @@ func active_field(team:int)->bool:
 
 func evaluate_state(team:int, card, bonus:bool):
 	var stats = player_stats if team == Team.PLAYER else enemy_stats
+	var old_state = player_state if team == Team.PLAYER else enemy_state
 	stats.attack += card.card_info.attack
 	stats.defense += card.card_info.defense
 	if stats.attack > stats.defense:
@@ -535,6 +574,8 @@ func evaluate_state(team:int, card, bonus:bool):
 	if bonus:
 		stats.attack += resolve_value
 		stats.defense += resolve_value
+	if old_state != stats.state:
+		state_changed = true
 	return stats
 
 func get_card(state):
@@ -663,3 +704,13 @@ func get_player_deck()->Array:
 	return result
 
 
+func animate_hover_enter(node):
+	if tween.is_active():
+		yield(tween,"tween_completed")
+	tween.interpolate_property(node,"rect_scale",rect_scale,Vector2(1.2,1.2),.3,Tween.TRANS_CIRC,Tween.EASE_IN)
+	tween.start()
+func animate_hover_exit(node):
+	if tween.is_active():
+		yield(tween,"tween_completed")
+	tween.interpolate_property(node,"rect_scale",rect_scale,Vector2.ONE,.3,Tween.TRANS_BOUNCE,Tween.EASE_OUT)
+	tween.start()

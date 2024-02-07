@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://nodes/layered_sprite/WorldHumanSprite3D.tscn" type="PackedScene" id=1]
 [ext_resource path="res://world/core/Interaction.gd" type="Script" id=2]
@@ -8,6 +8,9 @@
 [ext_resource path="res://world/npc/EmotePlayer.tscn" type="PackedScene" id=6]
 [ext_resource path="res://world/npc/Footsteps.tscn" type="PackedScene" id=7]
 [ext_resource path="res://world/npc/Controls.gd" type="Script" id=8]
+[ext_resource path="res://nodes/actions/MessageDialogAction.gd" type="Script" id=9]
+[ext_resource path="res://nodes/actions/MenuDialogAction.gd" type="Script" id=10]
+[ext_resource path="res://mods/LivingWorld/actions/CheckCurrentForm.gd" type="Script" id=12]
 [ext_resource path="res://nodes/sprite_container/SpriteContainer.gd" type="Script" id=37]
 [ext_resource path="res://mods/LivingWorld/actions/PlayAudioVolumeCtrl.gd" type="Script" id=38]
 [ext_resource path="res://world/npc/WalkingState.gd" type="Script" id=39]
@@ -190,6 +193,11 @@ monster_animations = {
 "loop": "run",
 "transition": ""
 },
+"Kuneko": {
+"initial": "",
+"loop": "run",
+"transition": "teleport"
+},
 "Littlered": {
 "initial": "",
 "loop": "run",
@@ -266,6 +274,18 @@ monster_animations = {
 "transition": ""
 },
 "Twirligig": {
+"Kuneko": {
+"Kuneko": {
+"Kuneko": {
+},
+"initial": "",
+"loop": "run",
+"transition": ""
+},
+"initial": "",
+"loop": "run",
+"transition": "teleport"
+},
 "initial": "",
 "loop": "run",
 "transition": ""
@@ -331,15 +351,423 @@ remove_collision = true
 script = ExtResource( 42 )
 always_succeed = true
 
-[node name="PlayAudioAction" type="Node" parent="Transform"]
+[node name="MessageDialogAction" type="Node" parent="Transform"]
+script = ExtResource( 9 )
+messages = [ "LIVINGWORLD_TRANSFORM_PROMPT" ]
+wait_for_confirm = false
+close_after = false
+
+[node name="MenuDialogAction" type="Node" parent="Transform"]
+script = ExtResource( 10 )
+menu_options = [ "Human", "Traffikrab", "Diveal", "Boltam", "Allseer", "Amphare", "Bulletino", "Carniviper", "Busheye", "Charlequin", "Cluckabilly", "Dominoth", "Elfless", "Faucetear", "Ferriclaw", "Hauntome", "Icepeck", "Jellyton", "Littlered", "Mascotoy", "Masquerattle", "Minortom", "Nevermort", "Pawndead", "Pombomb", "Puppercut", "Queenyx", "Sanzatime", "Spooki-oona", "Springheel", "Squirey", "Terracooka", "Twirligig", "Kuneko" ]
+
+[node name="CheckConditionAction" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction"]
 script = ExtResource( 38 )
 stream = ExtResource( 40 )
 wait_for_finish = false
 
-[node name="ChangeSprite" type="Node" parent="Transform"]
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction"]
 script = ExtResource( 43 )
 sprite_form = 1
-use_bb = true
+
+[node name="CheckConditionAction2" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction2"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction2"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction3" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction3"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction3"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction4" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction4"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction4"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction5" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction5"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction5"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction6" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction6"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction6"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction7" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction7"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction7"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction8" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction8"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction8"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction9" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction9"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction9"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction10" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction10"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction10"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction11" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction11"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction11"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction12" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction12"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction12"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction13" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction13"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction13"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction14" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction14"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction14"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction15" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction15"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction15"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction16" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction16"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction16"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction17" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction17"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction17"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction18" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction18"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction18"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction19" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction19"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction19"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction20" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction20"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction20"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction21" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction21"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction21"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction22" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction22"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction22"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction23" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction23"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction23"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction24" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction24"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction24"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction25" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction25"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction25"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction26" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction26"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction26"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction27" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction27"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction27"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction28" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction28"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction28"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction29" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction29"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction29"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction30" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction30"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction30"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction31" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction31"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction31"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction32" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction32"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction32"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction33" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction33"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction33"]
+script = ExtResource( 43 )
+sprite_form = 1
+
+[node name="CheckConditionAction34" type="Node" parent="Transform/MenuDialogAction"]
+script = ExtResource( 12 )
+
+[node name="PlayAudioAction" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction34"]
+script = ExtResource( 38 )
+stream = ExtResource( 40 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="Transform/MenuDialogAction/CheckConditionAction34"]
+script = ExtResource( 43 )
+sprite_form = 1
 
 [node name="MonsterForms" parent="." instance=ExtResource( 5 )]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://mods/LivingWorld/actions/RegisterOccupant.gd" type="Script" id=1]
 [ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=2]
@@ -36,6 +36,11 @@
 [ext_resource path="res://mods/LivingWorld/actions/ExitConversation.gd" type="Script" id=34]
 [ext_resource path="res://nodes/actions/PlayAudioAction.gd" type="Script" id=35]
 [ext_resource path="res://mods/LivingWorld/soundeffects/heal.wav" type="AudioStream" id=36]
+[ext_resource path="res://mods/LivingWorld/actions/DisbandPartyAction.gd" type="Script" id=37]
+[ext_resource path="res://mods/LivingWorld/actions/RegisterParty.gd" type="Script" id=38]
+[ext_resource path="res://mods/LivingWorld/actions/InPartyAction.gd" type="Script" id=39]
+[ext_resource path="res://mods/LivingWorld/actions/PartyFollowAction.gd" type="Script" id=40]
+[ext_resource path="res://mods/LivingWorld/actions/GetPartyLeader.gd" type="Script" id=41]
 [ext_resource path="res://addons/misc_utils/actions/values/GetBlackboardValue.gd" type="Script" id=47]
 [ext_resource path="res://nodes/actions/FaceDirectionAction.gd" type="Script" id=48]
 [ext_resource path="res://mods/LivingWorld/actions/ChangeSpriteAction.gd" type="Script" id=49]
@@ -79,6 +84,7 @@ can_wait = true
 max_wait = 0.5
 strafe = true
 wander_limit = 64.0
+kill_on_failure = false
 
 [node name="SetNPCControlsAction" type="Node" parent="Idle"]
 script = ExtResource( 14 )
@@ -627,6 +633,9 @@ use_random = true
 script = ExtResource( 16 )
 state = "Defeated"
 
+[node name="DisbandParty" type="Node" parent="FindRogues/FailedEncounter"]
+script = ExtResource( 37 )
+
 [node name="WaitAction2" type="Node" parent="FindRogues/FailedEncounter"]
 script = ExtResource( 7 )
 base_seconds = 3.0
@@ -704,6 +713,46 @@ random_seconds = 3.0
 [node name="Failer" type="Node" parent="FindPlayer"]
 script = ExtResource( 11 )
 
+[node name="Party" type="Node" parent="."]
+script = ExtResource( 9 )
+
+[node name="RepeatWhile" type="Node" parent="Party"]
+script = ExtResource( 15 )
+
+[node name="Sequence" type="Node" parent="Party/RepeatWhile"]
+script = ExtResource( 29 )
+
+[node name="PartyFollow" type="Node" parent="Party/RepeatWhile/Sequence"]
+script = ExtResource( 40 )
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_warp = true
+min_distance = 3.0
+
+[node name="GetPartyLeader" type="Node" parent="Party/RepeatWhile/Sequence/PartyFollow"]
+script = ExtResource( 41 )
+
+[node name="SetRandomAction" type="Node" parent="Party/RepeatWhile/Sequence"]
+script = ExtResource( 51 )
+bb_name = "react"
+activation_chance = 0.01
+
+[node name="Reaction" type="Node" parent="Party/RepeatWhile/Sequence"]
+script = ExtResource( 55 )
+always_succeed = true
+bb_name = "react"
+
+[node name="PlayEmoteAction3" type="Node" parent="Party/RepeatWhile/Sequence/Reaction"]
+script = ExtResource( 69 )
+selection = 15
+emotes = [ "singing_loop", "aggro_check", "Happy", "questioning", "silly", "scared" ]
+use_random = true
+
+[node name="InParty" type="Node" parent="Party/RepeatWhile"]
+script = ExtResource( 39 )
+
 [node name="FindDoor" type="Node" parent="."]
 script = ExtResource( 9 )
 interruptible = true
@@ -721,6 +770,9 @@ script = ExtResource( 18 )
 group = "warp_regions"
 mode = 4
 group_type = 2
+
+[node name="DisbandParty" type="Node" parent="FindDoor"]
+script = ExtResource( 37 )
 
 [node name="RepeatWhile2" type="Node" parent="FindDoor"]
 script = ExtResource( 15 )
@@ -1286,6 +1338,7 @@ script = ExtResource( 11 )
 
 [node name="Conversation" type="Node" parent="."]
 script = ExtResource( 32 )
+interruptible = false
 
 [node name="SetNPCControlsAction" type="Node" parent="Conversation"]
 script = ExtResource( 14 )
@@ -1383,6 +1436,14 @@ random_seconds = 10.0
 
 [node name="EmptyConversation" type="Node" parent="Conversation/RepeatWhile/WaitUntil"]
 script = ExtResource( 28 )
+
+[node name="PartyCheck" type="Node" parent="Conversation"]
+script = ExtResource( 55 )
+always_succeed = true
+bb_name = "party"
+
+[node name="FormParty" type="Node" parent="Conversation/PartyCheck"]
+script = ExtResource( 38 )
 
 [node name="ExitConversation" type="Node" parent="Conversation"]
 script = ExtResource( 34 )

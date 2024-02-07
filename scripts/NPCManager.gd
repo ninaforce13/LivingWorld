@@ -430,18 +430,14 @@ static func get_npc(recruitdata=null,random = Random.new()):
 
 	var recruitdata_node = npc.get_node("RecruitData")
 	var char_config:Node = npc.get_node("EncounterConfig/CharacterConfig")
-	var sidekick_config:Node = npc.get_node("EncounterConfig/Sidekick")
 	var tape_nodes:Array = []
 
 	recruit.name = name_generator.generate() if not use_custom else recruit.name
 
 	for tape in char_config.get_children():
 		tape_nodes.push_back(tape)
-	for tape in sidekick_config.get_children():
-		tape_nodes.push_back(tape)
 
 	rangerdata.set_char_config(char_config,recruit,tape_nodes)
-	sidekick_config.base_character = char_config.base_character
 	rangerdata.set_npc_appearance(npc, recruit)
 
 	if recruitdata_node and recruit:
@@ -543,5 +539,13 @@ static func set_transformation_index(index,playerindex = 0):
 	if playerindex == 1:
 		SaveState.other_data.LivingWorldData.Transformations.player2.form_index = index
 
-
+static func get_transformation_index(playerindex = 0)->int:
+	if !has_savedata():
+		initialize_savedata()
+	var index:int = -1
+	if playerindex == 0:
+		index = SaveState.other_data.LivingWorldData.Transformations.player1.form_index
+	if playerindex == 1:
+		index = SaveState.other_data.LivingWorldData.Transformations.player2.form_index
+	return index
 

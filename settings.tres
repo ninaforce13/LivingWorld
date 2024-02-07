@@ -6,6 +6,8 @@
 script = ExtResource( 1 )
 custom_recruit_rate = 0.1
 partner_rate = 0.05
+party_disband_rate = 0.1
+party_form_rate = 0.5
 levelmap_spawners = {
 "REGION_NAME_AUTUMN_HILL": {
 "locations": [ {
@@ -668,19 +670,19 @@ levelmap_spawners = {
 "locations": [ {
 "forced_personality": 3,
 "ignore_visibility": false,
-"name": "town_center,false,3,true",
+"name": "town_center",
 "pos": Vector3( 13.6239, 9.0665, -21.7411 ),
 "supress_abilities": true
 }, {
 "forced_personality": 3,
 "ignore_visibility": false,
-"name": "town_center2,false,3,true",
+"name": "town_center2",
 "pos": Vector3( -18.6824, 16.0265, -33.3318 ),
 "supress_abilities": true
 }, {
 "forced_personality": 3,
 "ignore_visibility": false,
-"name": "town_center3,false,3,true",
+"name": "towncenter3",
 "pos": Vector3( 53.0098, 7.7765, -8.50689 ),
 "supress_abilities": true
 } ]
