@@ -54,8 +54,8 @@ func swap_sprite(value:int, forced_index:int = -2):
 		forced_index += 1
 	var dominant_sprite
 	var monster_forms = get_node("MonsterForms")
-#	if monster_index.empty():
-#		set_transform_index()
+	if monster_index.empty():
+		set_transform_index()
 	var index = monster_index.pop_front() if forced_index == -2 else forced_index
 	var selection = monster_forms.get_child(index)
 	var monster_sprite = selection.get_child(0)

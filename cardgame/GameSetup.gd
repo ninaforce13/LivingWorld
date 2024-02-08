@@ -541,9 +541,8 @@ func check_remasters(field, new_card)->bool:
 		var new_card_form = load(new_card.form)
 		if form.evolutions.size() > 0:
 			for evo in form.evolutions:
-				if evo.evolved_form == new_card_form and !card.card_info.remastered:
+				if evo.evolved_form == new_card_form:
 					result = true
-					card.card_info.remastered = true
 					break
 
 	return result

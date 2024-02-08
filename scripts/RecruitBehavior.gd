@@ -1,4 +1,4 @@
-extends "res://addons/misc_utils/StateMachine.gd"
+	extends "res://addons/misc_utils/StateMachine.gd"
 enum PERSONALITY{COMBATIVE,SOCIAL,LONER,TOWNIE}
 
 export (PERSONALITY) var personality
@@ -22,6 +22,7 @@ func _ready():
 		get_parent().connect("paused", self, "set_paused", [true])
 	set_randomized_states()
 	data_node = pawn.get_node("RecruitData")
+
 func set_randomized_states():
 	randomized_states.clear()
 	var weight_name
@@ -42,6 +43,8 @@ func _process(delta):
 		_timer -= delta
 		if _timer < 0.0:
 			if data_node:
+				if data_node.has_party() and !data_node.is_leader:
+					set_state("Party")
 				if data_node.has_party() and random.rand_bool(settings.party_disband_rate):
 					disband_party()
 			set_randomized_states()

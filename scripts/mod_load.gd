@@ -16,6 +16,8 @@ var interactor = preload("res://mods/LivingWorld/scripts/Interactor_patch.gd")
 var captainbehavior = preload("res://mods/LivingWorld/scripts/CaptainNPCBehavior_patch.gd")
 var usersettings = preload("res://mods/LivingWorld/scripts/UserSettings_patch.gd")
 var mappausemenu = preload("res://mods/LivingWorld/scripts/MapPauseMenu_patch.gd")
+var conditionallayer = preload("res://mods/LivingWorld/scripts/ConditionalLayer_patch.gd")
+
 
 var partners:Dictionary = {}
 const npc_template = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn")
@@ -43,6 +45,7 @@ func _init():
 	captainbehavior.patch()
 	usersettings.patch()
 	mappausemenu.patch()
+	conditionallayer.patch()
 
 	yield(SceneManager.preloader,"singleton_setup_completed")
 	add_keyboard_shortcuts()
@@ -58,6 +61,7 @@ func preload_partners():
 	partners["eugene"] = preload("res://mods/LivingWorld/partner_templates/Eugene.tscn")
 	partners["meredith"] = preload("res://mods/LivingWorld/partner_templates/Meredith.tscn")
 	partners["viola"] = preload("res://mods/LivingWorld/partner_templates/Viola.tscn")
+	partners["sunny"] = preload("res://mods/LivingWorld/partner_templates/Sunny.tscn")
 
 func add_keyboard_shortcuts():
 	var inputeventkey = InputEventKey.new()

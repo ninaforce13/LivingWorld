@@ -131,8 +131,8 @@ BARKLEY_TRADE_CANCEL,[i]He seems dissapointed.[/i]
 BARKLEY_PASSIVE_ROGUES_MESSAGE1,Arf Arf! [wave amp=30 freq=10]Grr…[/wave]!
 BARKLEY_LEAVE1,Arf!
 EUGENE_IDLE_RECRUIT_DIALOG1,"Hey {player}, you out on patrol too? "
-EUGENE_IDLE_RECRUIT_DIALOG2,It's pretty wild out here! There's always people to help out.
-EUGENE_IDLE_RECRUIT_DIALOG3,I got all these crazy stickers from one of the merchants. I'm gonna be unstoppable!
+EUGENE_IDLE_RECRUIT_DIALOG2,It's pretty wild out here! There's a ton of new people ready to help out.
+EUGENE_IDLE_RECRUIT_DIALOG3,I got all these crazy stickers from one of the merchants.[pause] I'm gonna be unstoppable!
 EUGENE_IDLE_RECRUIT_DIALOG4,"I was thinking of trying out a few new battle poses later. [pause] What? Don’t give me that look, it's totally important!"
 EUGENE_IDLE_RECRUIT_DIALOG5,"We gotta do more supply runs, can't afford to run low on tapes out there!"
 EUGENE_CHALLENGE_REJECTED1,"I'd gladly show you a few moves[pause], but I gotta finish up here first. Let's hang later!"
@@ -165,10 +165,10 @@ FELIX_TRADE_CANCEL1,"Oh[pause], no worries.[pause] I'm sure I'll find one eventu
 FELIX_PASSIVE_ROGUES_MESSAGE1,Looks like another rogue on the loose. I can help!
 FELIX_LEAVE1,Take care.
 MEREDITH_IDLE_RECRUIT_DIALOG1,"Uh, hey there. You keeping busy?"
-MEREDITH_IDLE_RECRUIT_DIALOG2,So.[pause] Is it just me or…[pause] are there a lot more people than usual?
-MEREDITH_IDLE_RECRUIT_DIALOG3,"Hey, {player}. Did you need something?"
+MEREDITH_IDLE_RECRUIT_DIALOG2,So.[pause] Is it just me or…[pause] are there more people here than usual?
+MEREDITH_IDLE_RECRUIT_DIALOG3,"Hey, {player}.[pause] Did you need something?"
 MEREDITH_IDLE_RECRUIT_DIALOG4,"Some[pause], uh[pause], odd stuff has been washing up on the beach lately."
-MEREDITH_IDLE_RECRUIT_DIALOG5,I really wanted a new tape today.
+MEREDITH_IDLE_RECRUIT_DIALOG5,Hmm…[pause] I think I'll go record a new tape later.
 MEREDITH_CHALLENGE_ACCEPTED1,"Urgh. Fine. I'll humor you this one time, mate."
 MEREDITH_CHALLENGE_REJECTED1,"I've, uh, got something I gotta do first, mate."
 MEREDITH_CHALLENGE_WIN1,"Alright, mate. You earned that one."
@@ -203,24 +203,24 @@ FRANKIE_CARDS_LOSE1,Yes! Ha ha! I've still got it!
 FRANKIE_CARDS_WIN1,"You were amazing![pause][pause]Ok ok, [wave amp=30 freq=10]Duelist Kingdom[/wave] rules apply so here's one of my cards! "
 FRANKIE_PARTY_INVITE1,Joining the hero's party?! I'm another step closer to legendary status!
 FRANKIE_IDLE_RECRUIT_DIALOG1,"I accept all quests, no matter [wave amp=30 freq=10]how[/wave] small![pause] You never know which one will move the plot forward!"
-FRANKIE_IDLE_RECRUIT_DIALOG2,"You know[pause], usually in these kinds of Isekai I would have some unique ability or abnormally high stat![pause] Vin didn't seem to get it either…"
-FRANKIE_IDLE_RECRUIT_DIALOG3,"In another world as {frankie_tape}! It's a pretty catchy title, right?!"
+FRANKIE_IDLE_RECRUIT_DIALOG2,"You know[pause], usually in these kinds of Isekai I would have some unique ability or abnormally high stat![pause] But I feel…[pause][pause] normal?"
+FRANKIE_IDLE_RECRUIT_DIALOG3,"""In Another World As {frankie_tape}!"" It's a pretty catchy title, right?![pause] I might write a fic about it later!"
 FRANKIE_IDLE_RECRUIT_DIALOG4,"We should write our own theme song![pause][pause] Something catchy like Card Captors![pause]…You had Card Captors on your world[pause], right?"
 FRANKIE_IDLE_RECRUIT_DIALOG5,"I tried rewinding my tape with my pinkie[pause], but for some reason it still didn't work… [pause]It's like there's some weird [wave amp=30 freq=10]game logic[/wave] that forces me to use pencils!"
 FRANKIE_CHALLENGE_ACCEPTED1,I've had a lot of time to train [wave amp=30 freq=10]off screen[/wave]![pause] That means it's time to show off my new special attack![pause][wave amp=30 freq=10] {frankie_attack}![/wave]
 FRANKIE_CHALLENGE_REJECTED1,I need to finish my training montage first!
 FRANKIE_CHALLENGE_WIN1,Ow…[pause] I think I bit my tongue. 
-FRANKIE_TRADE_OFFER1,"If I could just get my hands on 1 more [color=#{request_rarity}][{trade_request}][/color] sticker, my PvP build would be [wave amp=30 freq=10]so broken[/wave]! I've got an extra [color=#{offer_rarity}][{trade_offer}][/color] I can trade for it!"
+FRANKIE_TRADE_OFFER1,"If I could just get my hands on one more [color=#{request_rarity}][{trade_request}][/color] sticker, my PvP build would be [wave amp=30 freq=10]so broken[/wave]! I've got an extra [color=#{offer_rarity}][{trade_offer}][/color] I can trade for it!"
 FRANKIE_TRADE_ACCEPTED1,Yes! Finally! I'm completely unstoppable now! [pause]You don't know what PvP is do you...?
 FRANKIE_TRADE_REJECTED1,"{player}[pause], I know[pause] that you know[pause] that's not the right sticker…[pause] It's like you're just testing dialog options in a Visual Novel."
 FRANKIE_TRADE_CANCEL1,Back to the grind then.
 FRANKIE_LEAVE1,See ya!
 FRANKIE_PASSIVE_ROGUES_MESSAGE1,[wave amp=30 freq=10]Ahhhh!!![/wave] I'm making a big heroic entrance! 
-VIN_IDLE_RECRUIT_DIALOG1,I can't decide between Headshot and Last Rites…
+VIN_IDLE_RECRUIT_DIALOG1,"Captain, I can't decide between Headshot and Last Rites…"
 VIN_IDLE_RECRUIT_DIALOG2,Mourningtown has been trying to get more involved in day to day Ranger activities. [pause]I'm going to keep doing my part!
 VIN_IDLE_RECRUIT_DIALOG3,Training has been so hard lately![pause] I don't know where Frankie gets all that energy from.
 VIN_IDLE_RECRUIT_DIALOG4,"I'm going to get stronger! I'll make sure Mourningtown can hold their heads up high again, one day."
-VIN_IDLE_RECRUIT_DIALOG5,"Hey {player}, did you need something?"
+VIN_IDLE_RECRUIT_DIALOG5,Hey Captain! Did you need something?
 VIN_CHALLENGE_ACCEPTED1,I'll show you how strong I've become!
 VIN_CHALLENGE_REJECTED1,I think I sprained something. Let's pick this up again later.
 VIN_CHALLENGE_WIN1,Dang it. I was so sure I had you that time!
@@ -232,25 +232,26 @@ VIN_LEAVE1,See ya around.
 VIN_PASSIVE_ROGUES_MESSAGE1,I'll put this Rogue down in no time!
 VIN_CARDS_ACCEPT1,"I uh..[pause] What?[pause][pause] Alright, I guess I'll play."
 VIN_CARDS_WIN1,"Hey, I'm not half bad at this!"
-VIN_CARDS_LOSE1,"Well[pause], I didn't really know what I was doing there."
-SUNNY_IDLE_RECRUIT_DIALOG1,
-SUNNY_IDLE_RECRUIT_DIALOG2,
-SUNNY_IDLE_RECRUIT_DIALOG3,
-SUNNY_IDLE_RECRUIT_DIALOG4,
-SUNNY_IDLE_RECRUIT_DIALOG5,
-SUNNY_CHALLENGE_ACCEPTED1,
-SUNNY_CHALLENGE_REJECTED1,
-SUNNY_CHALLENGE_WIN1,
-SUNNY_TRADE_OFFER1,
-SUNNY_TRADE_ACCEPTED1,
-SUNNY_TRADE_REJECTED1,
-SUNNY_TRADE_CANCEL1,
-SUNNY_LEAVE1,
-SUNNY_CARDS_ACCEPT1,
-SUNNY_CARDS_LOSE1,
-SUNNY_CARDS_WIN1,
-SUNNY_PASSIVE_ROGUES_MESSAGE1,
 VIN_PARTY_INVITE1,You need my help on an important quest?[pause] Of course I can lend you my strength!
+VIN_CARDS_LOSE1,"Well[pause], I didn't really know what I was doing there."
+SUNNY_IDLE_RECRUIT_DIALOG1,Hey…
+SUNNY_IDLE_RECRUIT_DIALOG2,The sun…[pause] It feels…[pause] [wave amp=30 freq=15]Different.[/wave]
+SUNNY_IDLE_RECRUIT_DIALOG3,I think… [pause]I'll shop for…[pause] new stickers later.
+SUNNY_IDLE_RECRUIT_DIALOG4,{player}… [pause]How are you…?
+SUNNY_IDLE_RECRUIT_DIALOG5,…[pause]You've all been…[pause]very accepting…[pause]
+SUNNY_CHALLENGE_ACCEPTED1,I'm stronger…[pause] this time.
+SUNNY_CHALLENGE_REJECTED1,I…[pause] I need to rest.
+SUNNY_CHALLENGE_WIN1,That was…[pause] fun.
+SUNNY_TRADE_OFFER1,Can I…[pause] Do you have…[pause] any [color=#{request_rarity}][{trade_request}][/color] stickers... [pause] I could…[pause] trade you my [color=#{offer_rarity}][{trade_offer}][/color] sticker…[pause] if you want.
+SUNNY_TRADE_ACCEPTED1,Thank…[pause]you.
+SUNNY_TRADE_REJECTED1,That's…[pause] not it…
+SUNNY_TRADE_CANCEL1,Ok…
+SUNNY_LEAVE1,…[pause]Thanks.
+SUNNY_CARDS_ACCEPT1,Sure…[pause] That sounds…[pause] fun.
+SUNNY_CARDS_LOSE1,"Ha ha…[pause] good game…[pause] Here, take…[pause] this."
+SUNNY_CARDS_WIN1,I won…[pause]!
+SUNNY_PARTY_INVITE,Sure…[pause] I'd like that…
+SUNNY_PASSIVE_ROGUES_MESSAGE1,I…[pause] think I've got this…[pause]!
 LIVINGWORLD_CARDS_UI_ATTACK,Attacking
 LIVINGWORLD_CARDS_UI_DEFENSE,Defending
 LIVINGWORLD_CARDS_UI_NEUTRAL,Balanced

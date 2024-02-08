@@ -199,6 +199,7 @@ wait_for_finish = false
 [node name="ChangeSprite" type="Node" parent="Transform"]
 script = ExtResource( 49 )
 sprite_form = 1
+is_player = false
 
 [node name="SetNPCStateAction2" type="Node" parent="Transform"]
 script = ExtResource( 16 )
@@ -253,6 +254,7 @@ wait_for_finish = false
 
 [node name="ChangeSprite2" type="Node" parent="Transform"]
 script = ExtResource( 49 )
+is_player = false
 
 [node name="WaitAction6" type="Node" parent="Transform"]
 script = ExtResource( 7 )
@@ -316,6 +318,7 @@ bb_name = "Camp"
 script = ExtResource( 18 )
 group = "campfires"
 mode = 4
+ignore_limited_space = true
 
 [node name="RepeatWhile" type="Node" parent="FindCamp"]
 script = ExtResource( 15 )
@@ -541,6 +544,7 @@ wait_for_finish = false
 [node name="ChangeSprite" type="Node" parent="FindRogues"]
 script = ExtResource( 49 )
 sprite_form = 1
+is_player = false
 
 [node name="WaitAction" type="Node" parent="FindRogues"]
 script = ExtResource( 7 )
@@ -583,6 +587,7 @@ wait_for_finish = false
 
 [node name="ChangeSprite" type="Node" parent="FindRogues/Victory"]
 script = ExtResource( 49 )
+is_player = false
 
 [node name="PlayEmoteAction" type="Node" parent="FindRogues/Victory"]
 script = ExtResource( 69 )
@@ -622,6 +627,7 @@ wait_for_finish = false
 
 [node name="ChangeSprite" type="Node" parent="FindRogues/FailedEncounter"]
 script = ExtResource( 49 )
+is_player = false
 
 [node name="PlayEmoteAction" type="Node" parent="FindRogues/FailedEncounter"]
 script = ExtResource( 69 )
@@ -750,7 +756,7 @@ selection = 15
 emotes = [ "singing_loop", "aggro_check", "Happy", "questioning", "silly", "scared" ]
 use_random = true
 
-[node name="InParty" type="Node" parent="Party/RepeatWhile"]
+[node name="YieldUntilPartyDisband" type="Node" parent="Party/RepeatWhile"]
 script = ExtResource( 39 )
 
 [node name="FindDoor" type="Node" parent="."]
@@ -808,6 +814,13 @@ script = ExtResource( 18 )
 group = "warp_regions"
 mode = 4
 group_type = 2
+
+[node name="DisableInteraction" type="Node" parent="FindDoor"]
+script = ExtResource( 24 )
+disabled = true
+
+[node name="GetPawn" type="Node" parent="FindDoor/DisableInteraction"]
+script = ExtResource( 2 )
 
 [node name="RemoveNodeAction" type="Node" parent="FindDoor"]
 script = ExtResource( 20 )
@@ -965,6 +978,7 @@ wait_for_finish = false
 [node name="ChangeSprite" type="Node" parent="EngageEnemy/FailedRecording"]
 script = ExtResource( 49 )
 sprite_form = 1
+is_player = false
 
 [node name="WaitAction3" type="Node" parent="EngageEnemy/FailedRecording"]
 script = ExtResource( 7 )
@@ -994,6 +1008,7 @@ wait_for_finish = false
 
 [node name="ChangeSprite2" type="Node" parent="EngageEnemy/FailedRecording"]
 script = ExtResource( 49 )
+is_player = false
 
 [node name="SetDeathFlag" type="Node" parent="EngageEnemy/FailedRecording"]
 script = ExtResource( 51 )
@@ -1586,6 +1601,7 @@ wait_for_finish = false
 [node name="ChangeSprite" type="Node" parent="PvP (Pending)"]
 script = ExtResource( 49 )
 sprite_form = 1
+is_player = false
 
 [node name="SetNPCStateAction2" type="Node" parent="PvP (Pending)"]
 script = ExtResource( 16 )
@@ -1610,6 +1626,7 @@ wait_for_finish = false
 
 [node name="ChangeSprite2" type="Node" parent="PvP (Pending)"]
 script = ExtResource( 49 )
+is_player = false
 
 [node name="PlayEmoteAction2" type="Node" parent="PvP (Pending)"]
 script = ExtResource( 69 )

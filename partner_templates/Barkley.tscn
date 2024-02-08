@@ -1,4 +1,4 @@
-[gd_scene load_steps=141 format=2]
+[gd_scene load_steps=143 format=2]
 
 [ext_resource path="res://data/monster_forms/spitzfyre.tres" type="Resource" id=1]
 [ext_resource path="res://data/monster_forms/fortiwinx.tres" type="Resource" id=2]
@@ -116,6 +116,8 @@
 [ext_resource path="res://mods/LivingWorld/actions/PartyFollowAction.gd" type="Script" id=114]
 [ext_resource path="res://mods/LivingWorld/actions/RegisterParty.gd" type="Script" id=115]
 [ext_resource path="res://mods/LivingWorld/actions/DisbandPartyAction.gd" type="Script" id=116]
+[ext_resource path="res://nodes/actions/ChangeMusicAction.gd" type="Script" id=117]
+[ext_resource path="res://mods/LivingWorld/cardgame/FoozleCC_Track2.ogg" type="AudioStream" id=118]
 
 [sub_resource type="CapsuleShape" id=6]
 radius = 0.9
@@ -826,7 +828,7 @@ enable_ai_fusion = true
 script = ExtResource( 43 )
 character_name = "DOG_NAME"
 pronouns = 0
-level_scale_override_key = "monster_miniboss_smart"
+level_scale_override_key = "npc_boss"
 base_character = ExtResource( 45 )
 character_sfx = ExtResource( 101 )
 character_kind = 1
@@ -1417,6 +1419,13 @@ script = ExtResource( 65 )
 group = "warp_regions"
 mode = 4
 group_type = 2
+
+[node name="DisableInteraction" type="Node" parent="RecruitBehavior/FindDoor"]
+script = ExtResource( 86 )
+disabled = true
+
+[node name="GetPawn" type="Node" parent="RecruitBehavior/FindDoor/DisableInteraction"]
+script = ExtResource( 55 )
 
 [node name="RemoveNodeAction" type="Node" parent="RecruitBehavior/FindDoor"]
 script = ExtResource( 20 )
@@ -2250,7 +2259,12 @@ title = "{pawn}"
 use_random = true
 message_array = [ [ "BARKLEY_CARDS_ACCEPT1" ] ]
 
-[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+[node name="ChangeMusicAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+script = ExtResource( 117 )
+music = ExtResource( 118 )
+music_vox = ExtResource( 118 )
+
+[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction"]
 script = ExtResource( 109 )
 
 [node name="CheckConditionAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
@@ -2375,7 +2389,6 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 46 )]
 

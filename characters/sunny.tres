@@ -1,0 +1,70 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://data/Character.gd" type="Script" id=1]
+[ext_resource path="res://mods/LivingWorld/sfx/sunny.tres" type="Resource" id=2]
+
+[resource]
+resource_name = "sunny.tres"
+script = ExtResource( 1 )
+name = "SUNNY_NAME"
+swap_colors = [  ]
+default_palette = [  ]
+emission_palette = [  ]
+named_positions = {
+"attack": Vector2( 8, 28 ),
+"eye": Vector2( 27, 19 ),
+"hit": Vector2( 26, 28 )
+}
+elemental_types = [  ]
+exp_yield = 40
+require_dlc = ""
+character_kind = 1
+force_unrecordable = false
+human_colors = {
+"body_color_1": 6,
+"body_color_2": 2,
+"eye_color": 12,
+"face_accessory_color": 4,
+"favorite_color": 9,
+"hair_accessory_color": 16,
+"hair_color": 12,
+"legs_color": 2,
+"shoe_color": 12,
+"skin_color": 14
+}
+human_part_names = {
+"arms": "sunny",
+"body": "sunny",
+"hair": "long1",
+"head": "grumpy",
+"legs": "shorts1",
+"wings": "generic"
+}
+level = 100
+pronouns = 1
+max_ap = 5
+base_ap_regen = 2
+base_max_hp = 120
+base_melee_attack = 120
+base_melee_defense = 100
+base_ranged_attack = 100
+base_ranged_defense = 100
+base_speed = 100
+base_accuracy = 100
+base_evasion = 100
+tapes = [  ]
+team_name_override = ""
+exp_gradient = 5
+exp_base_level = 0
+partner_id = "sunny"
+sfx = ExtResource( 2 )
+human_colors/body_color_1 = 6
+human_colors/body_color_2 = 2
+human_colors/eye_color = 12
+human_colors/face_accessory_color = 4
+human_colors/favorite_color = 9
+human_colors/hair_accessory_color = 16
+human_colors/hair_color = 12
+human_colors/legs_color = 2
+human_colors/shoe_color = 12
+human_colors/skin_color = 14

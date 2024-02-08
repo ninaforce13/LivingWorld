@@ -7,13 +7,15 @@ export (float) var duration = .25
 export (String) var random_activation_bb = ""
 export (bool) var use_bb = false
 export (String) var blackboard_value = "mode"
-var index:int = -1
+export (bool) var is_player = true
+var index:int = -2
 func _run():
 	if random_activation_bb != "":
 		var result = get_bb(random_activation_bb)
 		if !result:
 			return true
-	index = get_parent().get_index() - 1
+	if is_player:
+		index = get_parent().get_index() - 1
 	var pawn = get_pawn()
 	var sprite = pawn.sprite
 	var tween = sprite.controller.tween

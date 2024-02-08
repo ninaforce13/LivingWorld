@@ -1,4 +1,4 @@
-[gd_scene load_steps=152 format=2]
+[gd_scene load_steps=154 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/misc_utils/actions/composites/Sequence.gd" type="Script" id=2]
@@ -127,6 +127,8 @@
 [ext_resource path="res://mods/LivingWorld/actions/InPartyAction.gd" type="Script" id=125]
 [ext_resource path="res://mods/LivingWorld/actions/PartyFollowAction.gd" type="Script" id=126]
 [ext_resource path="res://mods/LivingWorld/actions/DisbandPartyAction.gd" type="Script" id=127]
+[ext_resource path="res://nodes/actions/ChangeMusicAction.gd" type="Script" id=128]
+[ext_resource path="res://mods/LivingWorld/cardgame/FoozleCC_Track2.ogg" type="AudioStream" id=129]
 
 [sub_resource type="CapsuleShape" id=30]
 radius = 0.9
@@ -856,7 +858,7 @@ enable_ai_fusion = true
 [node name="CharacterConfig" type="Node" parent="EncounterConfig"]
 script = ExtResource( 38 )
 character_name = "FRANKIE_NAME"
-level_scale_override_key = "monster_miniboss_smart"
+level_scale_override_key = "npc_boss"
 base_character = ExtResource( 118 )
 character_sfx = ExtResource( 96 )
 character_kind = 1
@@ -1458,6 +1460,13 @@ script = ExtResource( 60 )
 group = "warp_regions"
 mode = 4
 group_type = 2
+
+[node name="DisableInteraction" type="Node" parent="RecruitBehavior/FindDoor"]
+script = ExtResource( 81 )
+disabled = true
+
+[node name="GetPawn" type="Node" parent="RecruitBehavior/FindDoor/DisableInteraction"]
+script = ExtResource( 50 )
 
 [node name="RemoveNodeAction" type="Node" parent="RecruitBehavior/FindDoor"]
 script = ExtResource( 17 )
@@ -2298,7 +2307,12 @@ title = "{pawn}"
 use_random = true
 message_array = [ [ "FRANKIE_CARDS_ACCEPT1" ] ]
 
-[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+[node name="ChangeMusicAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
+script = ExtResource( 128 )
+music = ExtResource( 129 )
+music_vox = ExtResource( 129 )
+
+[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction"]
 script = ExtResource( 115 )
 
 [node name="CheckConditionAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
@@ -2424,7 +2438,6 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 34 )]
 

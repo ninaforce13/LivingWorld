@@ -251,11 +251,13 @@ static func is_idle_partner_available(partner_names,idle_partners)->bool:
 		return false
 	return true
 
-static func get_partner_names(frankie_quest)->Array:
+static func get_partner_names(quests:Dictionary)->Array:
 	var result:Array = []
-	if SaveState.quests.is_completed(frankie_quest):
+	if SaveState.quests.is_completed(quests.frankie):
 		result.push_back("vin")
 		result.push_back("frankie")
+	if SaveState.quests.is_completed(quests.sunny):
+		result.push_back("sunny")
 	result.push_back("kayleigh")
 	result.push_back("meredith")
 	result.push_back("viola")
@@ -278,6 +280,8 @@ static func is_true_partner(partner_id)->bool:
 	if partner_id == "vin":
 		return false
 	if partner_id == "frankie":
+		return false
+	if partner_id == "sunny":
 		return false
 	return true
 
@@ -305,7 +309,9 @@ static func create_npc(forced_personality,supress_abilities):
 	var idle_partners = level.get_tree().get_nodes_in_group("idle_partners")
 	var settings = preload("res://mods/LivingWorld/settings.tres")
 	var frankie_quest = preload("res://data/quests/noticeboard/FrankieAndVinQuest.tscn")
-	var partner_names = get_partner_names(frankie_quest)
+	var sunny_quest = preload("res://data/quests/sidequests/SunnyQuest.tscn")
+	var quests:Dictionary = {"frankie":frankie_quest,"sunny":sunny_quest}
+	var partner_names = get_partner_names(quests)
 	var recruit
 	if partner_can_spawn(random,settings,partner_names,idle_partners):
 		var options = filter_partners(partner_names,idle_partners)

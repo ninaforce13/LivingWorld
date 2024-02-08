@@ -42,7 +42,7 @@
 [ext_resource path="res://nodes/actions/PlayAudioAction.gd" type="Script" id=40]
 [ext_resource path="res://nodes/actions/PassiveMessageAction.gd" type="Script" id=41]
 [ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=42]
-[ext_resource path="res://mods/LivingWorld/cardgame/WahCubed.mp3" type="AudioStream" id=43]
+[ext_resource path="res://mods/LivingWorld/cardgame/FoozleCC_Track2.ogg" type="AudioStream" id=43]
 [ext_resource path="res://nodes/actions/ChangeMusicAction.gd" type="Script" id=44]
 [ext_resource path="res://mods/LivingWorld/actions/RecruitBattleAction.gd" type="Script" id=45]
 [ext_resource path="res://mods/LivingWorld/scripts/MonsterDetector.gd" type="Script" id=61]
@@ -935,7 +935,7 @@ transition = 3
 
 [node name="CharacterConfig" type="Node" parent="EncounterConfig"]
 script = ExtResource( 6 )
-level_scale_override_key = "monster_miniboss_smart"
+level_scale_override_key = "npc_boss"
 character_sfx = ExtResource( 12 )
 character_kind = 1
 human_colors = {
@@ -1376,7 +1376,6 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 30 )]
 
