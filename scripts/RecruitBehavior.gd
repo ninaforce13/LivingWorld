@@ -7,6 +7,9 @@ export (float) var time_limit = 15.0
 export (Array) var randomized_states
 export (bool) var never_pause = false
 export (bool) var quest_requirement
+export (bool) var debug:bool = false
+export (int) var debug_index:int = 0
+
 const settings = preload("res://mods/LivingWorld/settings.tres")
 
 var _timer:float = 0.0
@@ -34,6 +37,10 @@ func set_randomized_states():
 		weight_name = "loner_weight"
 	if personality == PERSONALITY.TOWNIE:
 		weight_name = "townie_weight"
+	if debug:
+		var child = get_child(debug_index)
+		randomized_states.push_back({"state":child.name,"weight":1})
+		return
 	for child in get_children():
 		if child.get(weight_name):
 			randomized_states.push_back({"state":child.name,"weight":child.get(weight_name)})

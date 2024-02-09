@@ -1,8 +1,9 @@
 extends Node
-enum ObjectType {CAMP, ROGUEFUSION, WILD_ENCOUNTER, MERCHANT}
+enum ObjectType {CAMP, ROGUEFUSION, WILD_ENCOUNTER, MERCHANT, TREE, SEAT}
 export (ObjectType) var object_type
 export (int) var max_slots = 4
 export (NodePath) var fire
+export (Array,String) var targets
 var purge_timer:float = 15.0
 var timer:float = 0.0
 var slots:Array = []
@@ -12,8 +13,9 @@ func _ready():
 		campfire = get_node(fire)
 	timer = purge_timer
 	for i in range(0,max_slots):
-		slots.push_back({"occupant":null,"occupied":false,"position_target":null,"npc_data":null})
-
+		slots.push_back({"occupant":null,"occupied":false,"position_target":null,"npc_data":null,"face_direction":Direction.down})
+	if object_type == ObjectType.SEAT or object_type == ObjectType.TREE:
+		set_seats()
 func add_occupant(node):
 	for slot in slots:
 		if !slot.occupied:
@@ -102,3 +104,19 @@ func has_space(required_slots:int)->bool:
 		if slot.occupant != null:
 			count+=1
 	return (max_slots - count) >= required_slots
+
+func set_seats():
+	var index:int = 0
+	for slot in slots:
+		var pos:Position3D = get_parent().get_node(targets[index])
+		slot.position_target = pos.global_translation
+		if object_type == ObjectType.TREE:
+			if index == 0:
+				slot.face_direction = Direction.left
+			if index == 1:
+				slot.face_direction = Direction.right
+			if index == 2:
+				slot.face_direction = Direction.down
+		if object_type == ObjectType.SEAT:
+			slot.face_direction = Direction.down
+		index+=1

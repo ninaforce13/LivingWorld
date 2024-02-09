@@ -19,6 +19,7 @@ var previous_monster_form_index = 0
 var monster_index:Array = []
 var sfx:CharacterSfx
 var player_index = -1
+var human_sprite
 func _ready():
 	if name == "Player":
 		player_index = 0
@@ -59,7 +60,7 @@ func swap_sprite(value:int, forced_index:int = -2):
 	var index = monster_index.pop_front() if forced_index == -2 else forced_index
 	var selection = monster_forms.get_child(index)
 	var monster_sprite = selection.get_child(0)
-	var human_sprite = get_node("Sprite")
+	human_sprite = get_node("Sprite")
 	monster_sprite.visible = use_monster_form
 	human_sprite.visible = !use_monster_form
 	if use_monster_form:

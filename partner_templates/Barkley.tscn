@@ -1,4 +1,4 @@
-[gd_scene load_steps=143 format=2]
+[gd_scene load_steps=144 format=2]
 
 [ext_resource path="res://data/monster_forms/spitzfyre.tres" type="Resource" id=1]
 [ext_resource path="res://data/monster_forms/fortiwinx.tres" type="Resource" id=2]
@@ -118,6 +118,7 @@
 [ext_resource path="res://mods/LivingWorld/actions/DisbandPartyAction.gd" type="Script" id=116]
 [ext_resource path="res://nodes/actions/ChangeMusicAction.gd" type="Script" id=117]
 [ext_resource path="res://mods/LivingWorld/cardgame/FoozleCC_Track2.ogg" type="AudioStream" id=118]
+[ext_resource path="res://mods/LivingWorld/actions/GetSeatDirection.gd" type="Script" id=119]
 
 [sub_resource type="CapsuleShape" id=6]
 radius = 0.9
@@ -946,59 +947,6 @@ can_wait = true
 max_wait = 2.0
 use_random = true
 random_walk_distance = 25
-
-[node name="Sit" type="Node" parent="RecruitBehavior"]
-script = ExtResource( 70 )
-interruptible = true
-combative_weight = 0.2
-social_weight = 0.5
-loner_weight = 0.951
-townie_weight = 0.65
-
-[node name="SetNPCControlsAction" type="Node" parent="RecruitBehavior/Sit"]
-script = ExtResource( 17 )
-set_values = 478
-
-[node name="SetNPCStateAction" type="Node" parent="RecruitBehavior/Sit"]
-script = ExtResource( 14 )
-state = "Sitting"
-
-[node name="LowerHeight" type="Node" parent="RecruitBehavior/Sit"]
-script = ExtResource( 98 )
-
-[node name="Sequence" type="Node" parent="RecruitBehavior/Sit"]
-script = ExtResource( 5 )
-
-[node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/Sit/Sequence"]
-script = ExtResource( 26 )
-emotes = [ "singing_loop", "aggro_check", "annoyed", "content", "frustrated", "questioning", "Sad" ]
-use_random = true
-
-[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/Sit/Sequence"]
-script = ExtResource( 97 )
-__meta__ = {
-"action_tree": true
-}
-
-[node name="RandomDirectionValue" type="Node" parent="RecruitBehavior/Sit/Sequence/FaceTowardsAction"]
-script = ExtResource( 8 )
-spawn_point_return_threshold = 45.0
-
-[node name="WaitAction2" type="Node" parent="RecruitBehavior/Sit/Sequence"]
-script = ExtResource( 54 )
-random_seconds = 2.0
-
-[node name="WaitAction5" type="Node" parent="RecruitBehavior/Sit"]
-script = ExtResource( 54 )
-base_seconds = 2.0
-random_seconds = 3.0
-
-[node name="RaiseHeight" type="Node" parent="RecruitBehavior/Sit"]
-script = ExtResource( 98 )
-positive_move = true
-
-[node name="Failer" type="Node" parent="RecruitBehavior/Sit"]
-script = ExtResource( 13 )
 
 [node name="Dash" type="Node" parent="RecruitBehavior"]
 script = ExtResource( 70 )
@@ -2006,6 +1954,140 @@ script = ExtResource( 99 )
 [node name="Failer" type="Node" parent="RecruitBehavior/Conversation"]
 script = ExtResource( 13 )
 
+[node name="Sit" type="Node" parent="RecruitBehavior"]
+script = ExtResource( 70 )
+interruptible = true
+combative_weight = 0.2
+social_weight = 0.5
+loner_weight = 0.951
+townie_weight = 0.65
+
+[node name="IsNearby" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 78 )
+distance = 64.0
+bb_name = "Seat"
+
+[node name="GetGroupNode" type="Node" parent="RecruitBehavior/Sit/IsNearby"]
+script = ExtResource( 65 )
+group = "Seating"
+mode = 4
+ignore_limited_space = true
+
+[node name="RepeatWhile" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 11 )
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/Sit/RepeatWhile"]
+script = ExtResource( 59 )
+
+[node name="GetBlackboardValue" type="Node" parent="RecruitBehavior/Sit/RepeatWhile/FaceTowardsAction"]
+script = ExtResource( 71 )
+key = "Seat"
+
+[node name="FollowAction" type="Node" parent="RecruitBehavior/Sit/RepeatWhile"]
+script = ExtResource( 67 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 4.0
+strafe = true
+
+[node name="GetBlackboardValue" type="Node" parent="RecruitBehavior/Sit/RepeatWhile/FollowAction"]
+script = ExtResource( 71 )
+key = "Seat"
+
+[node name="RegisterOccupant" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 12 )
+register = true
+
+[node name="GetBlackboardValue" type="Node" parent="RecruitBehavior/Sit/RegisterOccupant"]
+script = ExtResource( 71 )
+key = "Seat"
+
+[node name="FollowTarget" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 67 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+hide_avatars_if_cutscene = false
+
+[node name="GetSeat" type="Node" parent="RecruitBehavior/Sit/FollowTarget"]
+script = ExtResource( 64 )
+bb_name = "Seat"
+
+[node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 97 )
+
+[node name="GetSeatDirection" type="Node" parent="RecruitBehavior/Sit/FaceTowardsAction"]
+script = ExtResource( 119 )
+bb_name = "Seat"
+
+[node name="SetNPCControlsAction" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 17 )
+set_values = 478
+
+[node name="SetNPCStateAction" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 14 )
+state = "Sitting"
+
+[node name="LowerHeight" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 98 )
+
+[node name="RepeatWhile2" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 11 )
+
+[node name="Sequence" type="Node" parent="RecruitBehavior/Sit/RepeatWhile2"]
+script = ExtResource( 5 )
+
+[node name="WaitAction2" type="Node" parent="RecruitBehavior/Sit/RepeatWhile2/Sequence"]
+script = ExtResource( 54 )
+
+[node name="SetRandomAction" type="Node" parent="RecruitBehavior/Sit/RepeatWhile2/Sequence"]
+script = ExtResource( 19 )
+bb_name = "react"
+activation_chance = 0.3
+
+[node name="Reaction" type="Node" parent="RecruitBehavior/Sit/RepeatWhile2/Sequence"]
+script = ExtResource( 75 )
+always_succeed = true
+bb_name = "react"
+
+[node name="PlayEmoteAction3" type="Node" parent="RecruitBehavior/Sit/RepeatWhile2/Sequence/Reaction"]
+script = ExtResource( 26 )
+selection = 15
+emotes = [ "singing_loop", "aggro_check", "Happy", "Angry", "annoyed", "content", "frustrated", "questioning", "Sad", "shocked", "silly", "Love" ]
+use_random = true
+
+[node name="WaitAction5" type="Node" parent="RecruitBehavior/Sit/RepeatWhile2"]
+script = ExtResource( 54 )
+base_seconds = 7.0
+random_seconds = 5.0
+
+[node name="UnregisterOccupant" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 12 )
+
+[node name="GetBlackboardValue" type="Node" parent="RecruitBehavior/Sit/UnregisterOccupant"]
+script = ExtResource( 71 )
+key = "Seat"
+
+[node name="RaiseHeight" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 98 )
+positive_move = true
+
+[node name="Failer" type="Node" parent="RecruitBehavior/Sit"]
+script = ExtResource( 13 )
+
 [node name="MouseClick" parent="." instance=ExtResource( 82 )]
 
 [node name="RogueFusionDetector" type="Area" parent="."]
@@ -2389,6 +2471,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 46 )]
 

@@ -26,6 +26,7 @@ func get_nearest_node(nodes):
 	if not (pawn is Spatial):
 		return null
 	var pawn_pos = pawn.global_transform.origin
+	var pawn_data = pawn.get_node("RecruitData")
 	var best = null
 	var best_dist = INF
 	for node in nodes:
@@ -37,6 +38,9 @@ func get_nearest_node(nodes):
 			var object_data = node.get_node("ObjectData")
 			if object_data.is_full() and !ignore_limited_space:
 				continue
+			if pawn.has_party():
+				if !object_data.has_space(pawn.get_party_size()):
+					continue
 		if group_type == GROUPTYPE.TRAINEE:
 			if !node.has_node("RecruitData"):
 				continue

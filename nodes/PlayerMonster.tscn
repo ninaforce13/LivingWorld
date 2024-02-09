@@ -52,7 +52,7 @@ sprite_part_names = {
 "hair": "short",
 "head": "generic",
 "legs": "generic",
-"wings": "generic"
+"wings": "dog"
 }
 human_colors/body_color_1 = -1
 human_colors/body_color_2 = -1
@@ -82,6 +82,14 @@ wave_t_frequency = 20.0
 wave_v_frequency = 20.0
 
 [node name="HumanSprite" parent="Sprite" instance=ExtResource( 1 )]
+part_names = {
+"arms": "sweater1",
+"body": "sweater1",
+"hair": "short",
+"head": "generic",
+"legs": "generic",
+"wings": "dog"
+}
 
 [node name="EmotePlayer" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
@@ -195,8 +203,8 @@ monster_animations = {
 },
 "Kuneko": {
 "initial": "",
-"loop": "run",
-"transition": "teleport"
+"loop": "fall",
+"transition": ""
 },
 "Littlered": {
 "initial": "",

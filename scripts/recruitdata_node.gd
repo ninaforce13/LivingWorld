@@ -149,8 +149,7 @@ func add_party_member(data_node, data:Dictionary, leader:bool = false):
 	if !party_members.has(key):
 		party_members[key] = {"node":data_node,"data":data,"leader":leader}
 
-func remove_party_member(data):
-	var key = get_ranger_key(data)
+func remove_party_member(key):
 	if party_members.has(key):
 		party_members.erase(key)
 
