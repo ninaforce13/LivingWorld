@@ -24,7 +24,7 @@ func _ready():
 		get_parent().connect("resumed", self, "set_paused", [false])
 		get_parent().connect("paused", self, "set_paused", [true])
 	set_randomized_states()
-	data_node = pawn.get_node("RecruitData")
+	data_node = pawn.get_data()
 
 func set_randomized_states():
 	randomized_states.clear()
@@ -131,13 +131,13 @@ func _on_MonsterDetector_detected(detection):
 		return
 	if will_flee():
 		var pawn = get_parent()
-		var recruitdata = pawn.get_node("RecruitData")
+		var recruitdata = pawn.get_data()
 		recruitdata.engaged_target = detection
 		set_state("Flee")
 		return
 	if conditions_met("EngageEnemy"):
 		var pawn = get_parent()
-		var recruitdata = pawn.get_node("RecruitData")
+		var recruitdata = pawn.get_data()
 		recruitdata.engaged_target = detection
 		set_state("EngageEnemy")
 
@@ -146,8 +146,8 @@ func _on_TalkingNPCDetector_detected(detection):
 	if !is_interruptible(state_node):
 		return
 	var pawn = get_parent()
-	var own_data = pawn.get_node("RecruitData")
-	var partner_data = detection.get_node("RecruitData")
+	var own_data = pawn.get_data()
+	var partner_data = detection.get_data()
 
 	own_data.conversation_partners.push_back(detection)
 	if partner_data.conversation_partners.size() > 0:
@@ -172,7 +172,7 @@ func will_flee()->bool:
 func _on_BootlegDetector_detected(detection):
 	if !is_interruptible(state_node):
 		return
-	var recruitdata = pawn.get_node("RecruitData")
+	var recruitdata = pawn.get_data()
 	recruitdata.engaged_target = detection
 	set_state("BootlegBehavior")
 
@@ -182,7 +182,7 @@ func _on_RogueFusionDetector_detected(detection):
 		return
 	if will_flee():
 		var pawn = get_parent()
-		var recruitdata = pawn.get_node("RecruitData")
+		var recruitdata = pawn.get_data()
 		recruitdata.engaged_target = detection
 		set_state("Flee")
 		return
@@ -192,7 +192,7 @@ func _on_RogueFusionDetector_detected(detection):
 func _on_MerchantDetector_detected(detection):
 	if !is_interruptible(state_node):
 		return
-	var recruitdata = pawn.get_node("RecruitData")
+	var recruitdata = pawn.get_data()
 	recruitdata.engaged_target = detection
 	set_state("Shop")
 
@@ -201,6 +201,6 @@ func _on_MerchantDetector_detected(detection):
 func _on_DefeatedDetector_detected(detection):
 	if !is_interruptible(state_node):
 		return
-	var recruitdata = pawn.get_node("RecruitData")
+	var recruitdata = pawn.get_data()
 	recruitdata.engaged_target = detection
 	set_state("Revive")

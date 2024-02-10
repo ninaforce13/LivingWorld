@@ -240,7 +240,7 @@ static func spawn_recruit(levelmap, current_recruit = null):
 	if levelmap.has_node("Player"):
 		player = levelmap.get_node("Player")
 	template.warp_near(player.global_transform.origin, false)
-	template.get_node("RecruitData").recruit = current_recruit
+	template.get_data().recruit = current_recruit
 	return template
 
 static func is_idle_partner_available(partner_names,idle_partners)->bool:
@@ -322,7 +322,7 @@ static func create_npc(forced_personality,supress_abilities):
 	else:
 		recruit = get_npc(null,random)
 
-	var behavior = recruit.get_node("RecruitBehavior")
+	var behavior = recruit.get_behavior()
 	behavior.personality = forced_personality if forced_personality >= 0 else random.rand_int(behavior.PERSONALITY.size())
 	recruit.supress_abilities = supress_abilities
 
@@ -366,7 +366,7 @@ static func filter_custom_recruits(recruits)->Array:
 				result.erase(item)
 
 	for recruit in grouped_recruits:
-		var data = recruit.get_node("RecruitData").recruit
+		var data = recruit.get_data().recruit
 		for item in result:
 			if compare_dictionaries(item,data):
 				result.erase(item)
@@ -434,7 +434,7 @@ static func get_npc(recruitdata=null,random = Random.new()):
 		npc.add_to_group("custom_recruits")
 		use_custom = true
 
-	var recruitdata_node = npc.get_node("RecruitData")
+	var recruitdata_node = npc.get_data()
 	var char_config:Node = npc.get_node("EncounterConfig/CharacterConfig")
 	var tape_nodes:Array = []
 

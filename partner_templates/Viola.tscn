@@ -2000,7 +2000,6 @@ bb_name = "Seat"
 script = ExtResource( 61 )
 group = "Seating"
 mode = 4
-ignore_limited_space = true
 
 [node name="RepeatWhile" type="Node" parent="RecruitBehavior/Sit"]
 script = ExtResource( 9 )
@@ -2143,10 +2142,10 @@ collision_layer = 0
 collision_mask = 128
 script = ExtResource( 83 )
 detection_bb_key = "conversation_partner"
-detection_cooldown = 60.0
+detection_cooldown = 90.0
 combative_chance = 0.3
 social_chance = 0.9
-loner_chance = 0.0
+loner_chance = 0.1
 townie_chance = 0.85
 
 [node name="CollisionShape" type="CollisionShape" parent="TalkingNPCDetector"]
@@ -2504,7 +2503,6 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 34 )]
 

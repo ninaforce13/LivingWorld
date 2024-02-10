@@ -19,7 +19,7 @@ func _run():
 func get_party_configs()->Array:
 	var configs:Array
 	var pawn = get_pawn()
-	var data_node = pawn.get_node("RecruitData")
+	var data_node = pawn.get_data()
 	if data_node.is_leader:
 		var party = data_node.get_party_data()
 		for member in party:
@@ -46,6 +46,6 @@ func get_party_configs()->Array:
 
 func has_party()->bool:
 	var pawn = get_pawn()
-	var data_node = pawn.get_node("RecruitData")
+	var data_node = pawn.get_data()
 	return data_node.has_party()
 

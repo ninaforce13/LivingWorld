@@ -17,7 +17,7 @@ func _ready():
 func _enter_action():
 	generate_frankie_values()
 	var pawn = get_pawn()
-	var data = pawn.get_node("RecruitData")
+	var data = pawn.get_data()
 	use_battlesprite = (npcmanager.get_setting("BattleSprite") or !data.is_partner) and !disable_sprite
 	if use_random:
 		messages = []

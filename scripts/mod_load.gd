@@ -197,7 +197,7 @@ func spawn_npc():
 	var npc_template = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn")
 	var rangerdataparser = preload("res://mods/LivingWorld/scripts/RangerDataParser.gd")
 	var npc = npc_template.instance()
-	npc.get_node("RecruitData").recruit = rangerdataparser.get_empty_recruit()
+	npc.get_data().recruit = rangerdataparser.get_empty_recruit()
 
 	WorldSystem.get_level_map().add_child(npc)
 	npc.global_transform.origin = WorldSystem.get_player().global_transform.origin

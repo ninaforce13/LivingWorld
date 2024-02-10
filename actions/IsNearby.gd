@@ -12,8 +12,8 @@ func _run():
 				if bb_name != "":
 					set_bb(bb_name, target)
 				if set_as_engaged_target:
-					var target_data = target.get_node("RecruitData")
-					var pawn_data = get_pawn().get_node("RecruitData")
+					var target_data = target.get_data()
+					var pawn_data = get_pawn().get_data()
 					pawn_data.engaged_target = target
 					target_data.engaged_target = get_pawn()
 					pawn_data.set_engage(true)
@@ -25,8 +25,8 @@ func _run():
 				if bb_name != "":
 					set_bb(bb_name, target)
 				if set_as_engaged_target:
-					var target_data = target.get_node("RecruitData")
-					var pawn_data = get_pawn().get_node("RecruitData")
+					var target_data = target.get_data()
+					var pawn_data = get_pawn().get_data()
 					pawn_data.engaged_target = target
 					target_data.engaged_target = get_pawn()
 					pawn_data.set_engage(true)

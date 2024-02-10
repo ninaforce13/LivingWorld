@@ -6,7 +6,7 @@ var data_node
 
 func _run():
 	pawn = get_pawn()
-	data_node = pawn.get_node("RecruitData")
+	data_node = pawn.get_data()
 	yield(self,"party_disbanded")
 	return false
 

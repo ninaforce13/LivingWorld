@@ -9,17 +9,17 @@ func is_valid_detection(_detection)->bool:
 	if _detection == get_parent():
 		return false
 	var pawn = get_parent()
-	var pawn_data = pawn.get_node("RecruitData")
+	var pawn_data = pawn.get_data()
 	if pawn_data.has_party():
 		return false
 	if !_detection.has_node("RecruitBehavior"):
 		return false
-	var behavior = _detection.get_node("RecruitBehavior")
+	var behavior = _detection.get_behavior()
 	if !behavior.is_interruptible(behavior.state_node) and behavior.state != "Conversation":
 		return false
 	if !_detection.has_node("RecruitData"):
 		return false
-	var object_data = _detection.get_node("RecruitData")
+	var object_data = _detection.get_data()
 	if object_data.full_conversation():
 		return false
 	if object_data.has_party():
@@ -29,7 +29,7 @@ func is_valid_detection(_detection)->bool:
 	return true
 
 func get_chance()->float:
-	var behavior = get_parent().get_node("RecruitBehavior")
+	var behavior = get_parent().get_behavior()
 	if behavior.personality == behavior.PERSONALITY.COMBATIVE:
 		return combative_chance
 	if behavior.personality == behavior.PERSONALITY.SOCIAL:

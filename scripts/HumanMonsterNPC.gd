@@ -20,6 +20,8 @@ var monster_index:Array = []
 var sfx:CharacterSfx
 var player_index = -1
 var human_sprite
+var data_node = null
+var behavior_node = null
 func _ready():
 	if name == "Player":
 		player_index = 0
@@ -30,6 +32,10 @@ func _ready():
 		set_character(character)
 	else :
 		refresh_sprite()
+	if has_node("RecruitBehavior"):
+		behavior_node = get_node("RecruitBehavior")
+	if has_node("RecruitData"):
+		data_node = get_node("RecruitData")
 
 func set_transform_index():
 	monster_index = []
@@ -174,3 +180,13 @@ func _get(property:String):
 
 func get_aabb()->AABB:
 	return Spatials.get_collision_aabb(self)
+
+func get_data():
+	if !data_node:
+		data_node = get_node("RecruitData")
+	return data_node
+
+func get_behavior():
+	if !behavior_node:
+		behavior_node = get_node("RecruitBehavior")
+	return behavior_node

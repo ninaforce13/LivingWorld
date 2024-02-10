@@ -1,6 +1,6 @@
 extends VisibilityNotifier
 
-const MAX_SPAWN_DISTANCE:float = 60.0
+const MAX_SPAWN_DISTANCE:float = 90.0
 const MIN_DISTANCE_TO_PLAYER:float = 10.0
 var npcmanager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 export (float) var spawn_period:float = 10.0
@@ -65,8 +65,8 @@ func _try_spawn_attempt():
 	var global_pos = global_transform.xform(pos)
 	for player in WorldSystem.get_players():
 		var flat_pos = Vector3(global_pos.x, player.global_transform.origin.y, global_pos.z)
-		if flat_pos.distance_to(player.global_transform.origin) < MIN_DISTANCE_TO_PLAYER:
-			return null
+#		if flat_pos.distance_to(player.global_transform.origin) < MIN_DISTANCE_TO_PLAYER:
+#			return null
 
 	var npc = npcmanager.create_npc(forced_personality,supress_abilities)
 	add_child(npc)

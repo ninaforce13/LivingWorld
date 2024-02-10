@@ -91,7 +91,7 @@ func _exit_action(_result):
 		return GlobalMessageDialog.hide()
 func _enter_action():
 	var pawn = get_pawn()
-	var data = pawn.get_node("RecruitData")
+	var data = pawn.get_data()
 	use_battlesprite = npcmanager.get_setting("BattleSprite") or !data.is_partner
 	assign_bb_values()
 	if use_random:
@@ -102,7 +102,7 @@ func _enter_action():
 
 func assign_bb_values():
 	var pawn = get_pawn()
-	var recruitdata = pawn.get_node("RecruitData")
+	var recruitdata = pawn.get_data()
 	var trade = recruitdata.trade_offer
 	if trade:
 		var sticker = StickerItem.new()

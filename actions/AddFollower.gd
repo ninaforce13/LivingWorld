@@ -22,7 +22,7 @@ func add_recruit():
 	setup_partner_controller(template)
 	if npc.sprite_body:
 		template.sprite_body = npc.sprite_body
-	recruitdata.recruit = npc.get_node("RecruitData").recruit
+	recruitdata.recruit = npc.get_data().recruit
 	if tapes.size() > 0:
 		rangerdata.add_tapes_to_data(tapes,recruitdata.recruit)
 

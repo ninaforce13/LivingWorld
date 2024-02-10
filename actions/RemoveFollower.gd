@@ -18,7 +18,7 @@ func remove_recruit():
 		npcmanager.reset_follower()
 		WorldSystem.get_level_map().add_child(recruit)
 		return
-	var recruitdata = npc.get_node("RecruitData").recruit
+	var recruitdata = npc.get_data().recruit
 	recruit = npcmanager.get_npc(recruitdata)
 	var behavior = preload("res://mods/LivingWorld/nodes/recruitbehavior.tscn").instance()
 

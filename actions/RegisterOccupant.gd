@@ -1,7 +1,7 @@
 extends Action
-
 export(bool) var register=false
 export (bool) var debug_mode=false
+
 func _run():
 	var target = values[0]
 	if not target:
@@ -13,7 +13,7 @@ func _run():
 		return false
 	var pawn = get_pawn()
 	var state = get_parent().name
-	var data_node = pawn.get_node("RecruitData")
+	var data_node = pawn.get_data()
 	if register:
 		if object_data.is_full() and object_data.get_own_slot(get_pawn()) == null:
 			return false
@@ -26,7 +26,7 @@ func _run():
 				for member in party:
 					var npc = member.node.get_parent()
 					object_data.add_occupant(npc)
-					npc.get_node("RecruitBehavior").set_state(state)
+					npc.get_behavior().set_state(state)
 
 				object_data.add_occupant(get_pawn())
 			else:
@@ -45,10 +45,10 @@ func _run():
 				object_data.remove_occupant(npc)
 				if !member.node.is_leader:
 					set_interaction(npc)
-					npc.get_node("RecruitBehavior").set_state("Party")
+					npc.get_behavior().set_state("Party")
 			if !data_node.is_leader:
 				set_interaction(pawn)
-				pawn.get_node("RecruitBehavior").set_state("Party")
+				pawn.get_behavior().set_state("Party")
 	return true
 
 func set_interaction(pawn):

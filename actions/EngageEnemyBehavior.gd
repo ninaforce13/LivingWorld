@@ -7,7 +7,7 @@ func reset():
 	var interaction = pawn.get_node("Interaction")
 	if interaction:
 		interaction.disabled = false
-	var recruitdata = pawn.get_node("RecruitData")
+	var recruitdata = pawn.get_data()
 	var target = recruitdata.engaged_target
 	pawn.sprite.set_static_amount(0)
 	pawn.sprite.set_wave_amplitude(0)

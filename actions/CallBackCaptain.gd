@@ -4,7 +4,7 @@ func _run():
 	var pawn = get_pawn()
 	var captain = get_bb("sign_owner")
 	if captain:
-		var behavior = captain.get_node("RecruitBehavior")
+		var behavior = captain.get_behavior()
 		var objectdata = behavior.get_node("Patrol").get_bb("object_data")
 		reset_behavior(behavior)
 		unregister_from_object(objectdata,captain)

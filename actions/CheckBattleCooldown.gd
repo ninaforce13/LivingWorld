@@ -5,6 +5,6 @@ func conditions_met()->bool:
 	if root == null:
 		setup()
 	if check_conditions(self):
-		var recruitdata = get_pawn().get_node("RecruitData")
+		var recruitdata = get_pawn().get_data()
 		return recruitdata.on_battle_cooldown if not invert else !recruitdata.on_battle_cooldown
 	return check_conditions(self)

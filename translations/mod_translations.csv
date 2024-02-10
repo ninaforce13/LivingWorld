@@ -6,13 +6,25 @@ RECRUIT_IDLE_DIALOG_4,Hey there! [pause]Record anything interesting today?
 RECRUIT_IDLE_DIALOG_5,There have been more floods lately. 
 RECRUIT_IDLE_DIALOG_6,Sometimes[pause] I just like dashing through the forest! 
 RECRUIT_IDLE_DIALOG_7,"I picked up a strange sticker the other day.[pause] It doesn't seem to do anything, but my opponent always looks [wave amp=30 freq=10]so annoyed[/wave]!"
-RECRUIT_IDLE_DIALOG_8,
-RECRUIT_IDLE_DIALOG_9,
-RECRUIT_IDLE_DIALOG_10,
-RECRUIT_IDLE_DIALOG_11,
-RECRUIT_IDLE_DIALOG_12,
-RECRUIT_IDLE_DIALOG_13,
-RECRUIT_IDLE_DIALOG_14,
+RECRUIT_IDLE_DIALOG_8,I still have no idea how I got here.[pause] I'm not sure I want to go back though!
+RECRUIT_IDLE_DIALOG_9,"Harbourtown could use some new shops.[pause] Coffee is great[pause], but I'd do anything for a new pair of shoes!"
+RECRUIT_IDLE_DIALOG_10,I was battling this ranger the other day[pause] and he transformed into a Khepri and used Headshot like [wave amp=30 freq=15]7 times in a row[/wave]. I didn't even get a turn!
+RECRUIT_IDLE_DIALOG_11,What are we going to do if the Mall runs out of tapes?[pause] I don't even want to think about it!
+RECRUIT_IDLE_DIALOG_12,I was in my bathtub when I suddenly appeared here…[pause] I didn't even get to rinse my hair!
+RECRUIT_IDLE_DIALOG_13,Do you think the monsters here might be…[pause][wave amp=30 freq=15]edible[/wave]?
+RECRUIT_IDLE_DIALOG_14,The most incredible thing washed up on the beach last night…[pause] It was a cartridge of my favorite childhood game![pause] Now if only I could find the [wave amp=30 freq=15]game console[/wave] to use it with...
+RECRUIT_IDLE_DIALOG_15,
+RECRUIT_IDLE_DIALOG_16,
+RECRUIT_IDLE_DIALOG_17,
+RECRUIT_IDLE_DIALOG_18,
+RECRUIT_IDLE_DIALOG_19,
+RECRUIT_IDLE_DIALOG_20,
+RECRUIT_IDLE_DIALOG_21,
+RECRUIT_IDLE_DIALOG_22,
+RECRUIT_IDLE_DIALOG_23,
+RECRUIT_IDLE_DIALOG_24,
+RECRUIT_IDLE_DIALOG_25,
+RECRUIT_IDLE_DIALOG_26,
 RECRUIT_PASSIVE_ROGUE,There's been another rogue sighting![pause] We need all available rangers!
 RECRUIT_MENU_OPTION1,Invite {pawn} to hang out.
 RECRUIT_MENU_OPTION2,Challenge {pawn} to a friendly battle.
@@ -148,7 +160,7 @@ EUGENE_CARDS_WIN1,Badass![pause] That was great![pause] Hit me up if you wanna p
 EUGENE_LEAVE1,See ya!
 EUGENE_PASSIVE_ROGUES_MESSAGE1,We got another wild one![pause] I'm going after it!
 FELIX_IDLE_RECRUIT_DIALOG1,Hey there {player}. Not working too hard I hope?
-FELIX_IDLE_RECRUIT_DIALOG2,"I sketeched another monster the other day. Their anatomy was so unorthodox, I couldn't help but get inspired. "
+FELIX_IDLE_RECRUIT_DIALOG2,"I sketeched this weird monster the other day. Their anatomy was so unorthodox, I couldn't help but get inspired. "
 FELIX_IDLE_RECRUIT_DIALOG3,"I broke another pencil rewinding my tape today[pause]. I always keep a spare[pause], but I usually save it for my sketches. "
 FELIX_IDLE_RECRUIT_DIALOG4,"You know[pause], it's not so bad here![pause] Wild monsters aside[pause], it's actually pretty relaxing."
 FELIX_IDLE_RECRUIT_DIALOG5,Hey.[pause] I was just enjoying the weather.
@@ -158,8 +170,8 @@ FELIX_CHALLENGE_WIN1,"Wow, you're really something else {player}. Well played!"
 FELIX_TRADE_OFFER1,I could use an extra [color=#{request_rarity}][{trade_request}][/color] sticker.[pause] Maybe you'd be willing to trade for my [color=#{offer_rarity}][{trade_offer}][/color] sticker?
 FELIX_TRADE_REJECTED1,"Hmm[pause], I don't think that's it.[pause] That's alright, I can probably get it from the merchant stalls."
 FELIX_TRADE_ACCEPTED1,"This should smooth things out for me.[pause] I appreciate it, {player}. "
-FELIX_CARDS_ACCEPT1,Woah![pause] Check out the artwork on these cards.[pause] Wanna play a round?
-FELIX_CARDS_LOSE1,"Nice[pause], good game {player}.[pause] Here's one of my cards[pause], have fun."
+FELIX_CARDS_ACCEPT1,"Woah![pause] Check out the artwork on these cards.[pause] Sure, I'll play a round."
+FELIX_CARDS_LOSE1,"Good game.[pause] Here[pause], you can have this."
 FELIX_CARDS_WIN1,Rad![pause] That was pretty fun.[pause] Let's play again sometime.
 FELIX_TRADE_CANCEL1,"Oh[pause], no worries.[pause] I'm sure I'll find one eventually."
 FELIX_PASSIVE_ROGUES_MESSAGE1,Looks like another rogue on the loose. I can help!
@@ -261,3 +273,4 @@ LIVINGWORLD_SETTINGS_UI_CARDS_SECTION,Card Game
 LIVINGWORLD_SETTINGS_UI_CARD_ENEMY_THOUGHTS,Enemy Thinking Animation
 LIVINGWORLD_PASSIVE_CARDREWARD,A new card has been added to your collection!
 LIVINGWORLD_TRANSFORM_PROMPT,Which form will you use?
+LIVINGWORLD_BENCH_MENU,Take a seat?

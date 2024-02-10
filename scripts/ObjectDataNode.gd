@@ -8,6 +8,7 @@ var purge_timer:float = 15.0
 var timer:float = 0.0
 var slots:Array = []
 var campfire = null
+export (bool) var prioritize:bool = false
 func _ready():
 	if fire:
 		campfire = get_node(fire)
@@ -21,7 +22,7 @@ func add_occupant(node):
 		if !slot.occupied:
 			slot.occupant = node
 			slot.occupied = true
-			slot.npc_data = node.get_node("RecruitData").recruit
+			slot.npc_data = node.get_data().recruit
 			break
 	if !is_empty():
 		set_campfire(true)
@@ -78,7 +79,11 @@ func purge_slots(force_purge:bool = false):
 			if !is_instance_valid(slot.occupant) or !slot.occupant.is_inside_tree():
 				clear_slot(slot)
 				continue
-			var occupant_data = slot.occupant.get_node("RecruitBehavior")
+			if object_type == ObjectType.TREE or object_type == ObjectType.SEAT:
+				if slot.occupant.global_transform.origin.distance_to(slot.position_target) > 3.0:
+					clear_slot(slot)
+					continue
+			var occupant_data = slot.occupant.get_behavior()
 			if occupant_data:
 				if occupant_data.state != "FindCamp" and object_type == ObjectType.CAMP:
 					clear_slot(slot)
@@ -93,6 +98,10 @@ func purge_slots(force_purge:bool = false):
 			clear_slot(slot)
 	if is_empty():
 		set_campfire(false)
+
+func is_player(target)->bool:
+	var player = WorldSystem.get_player()
+	return target == player
 
 func set_campfire(value):
 	if campfire and object_type == ObjectType.CAMP:

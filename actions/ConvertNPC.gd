@@ -3,7 +3,7 @@ extends Action
 func _run():
 	var target = values[0]
 	var pawn = get_pawn()
-	var personality = pawn.get_node("RecruitBehavior").personality
+	var personality = pawn.get_behavior().personality
 	var random = Random.new()
 	var npcmanager = load("res://mods/LivingWorld/scripts/NPCManager.gd")
 	var recruitdata = npcmanager.get_data_from_npc(target)
@@ -11,7 +11,7 @@ func _run():
 	if !npc.has_node("RecruitBehavior"):
 		var new_behavior = load("res://mods/LivingWorld/nodes/recruitbehavior.tscn").instance()
 		npc.add_child(new_behavior)
-	var behavior = npc.get_node("RecruitBehavior")
+	var behavior = npc.get_behavior()
 	behavior.personality = personality
 	npc.transform = target.transform
 	npc.supress_abilities = pawn.supress_abilities

@@ -11,22 +11,16 @@ func is_valid_detection(_detection)->bool:
 		return false
 	if _detection == get_parent():
 		return false
-	if !_detection.has_node("RecruitBehavior"):
+	if _detection.has_node("RecruitBehavior"):
 		return false
-	var behavior = _detection.get_node("RecruitBehavior")
-	if !behavior.is_interruptible(behavior.state_node):
-		return false
-	if !_detection.has_node("RecruitData"):
-		return false
-	var object_data = _detection.get_node("RecruitData")
-	if object_data.full_conversation():
+	if _detection.has_node("RecruitData"):
 		return false
 	if !random.rand_bool(get_chance()):
 		return false
 	return true
 
 func get_chance()->float:
-	var behavior = get_parent().get_node("RecruitBehavior")
+	var behavior = get_parent().get_behavior()
 	if behavior.personality == behavior.PERSONALITY.COMBATIVE:
 		return combative_chance
 	if behavior.personality == behavior.PERSONALITY.SOCIAL:

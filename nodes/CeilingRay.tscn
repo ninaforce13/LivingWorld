@@ -1,6 +1,0 @@
-[gd_scene format=2]
-
-[node name="CeilingRay" type="RayCast"]
-enabled = true
-cast_to = Vector3( 0, 50, 0 )
-collide_with_areas = true

@@ -87,7 +87,7 @@ func set_engage(value):
 func add_conversation_partner(partner):
 	if !full_conversation():
 		if conversation_partners.size() > 0:
-			var partner_data = conversation_partners[0].get_node("RecruitData")
+			var partner_data = conversation_partners[0].get_data()
 			if !partner_data.conversation_partners.has(partner):
 				partner_data.conversation_partners.push_back(partner)
 		if !conversation_partners.has(partner):
@@ -106,7 +106,7 @@ func exit_conversation():
 	set_engage(false)
 	for partner in conversation_partners:
 		if is_instance_valid(partner):
-			var partner_data = partner.get_node("RecruitData")
+			var partner_data = partner.get_data()
 			partner_data.remove_conversation_partner(pawn)
 	conversation_partners.clear()
 
@@ -130,7 +130,7 @@ func form_party():
 	var data_node = null
 	var prev_member = null
 	for partner in conversation_partners:
-		data_node = partner.get_node("RecruitData")
+		data_node = partner.get_data()
 		if data_node and !data_node.has_party() and !data_node.is_partner:
 			add_party_member(data_node, data_node.recruit)
 			data_node.add_party_member(self, recruit, true)

@@ -22,7 +22,7 @@ func _exit_state():
 
 func exit_conversation():
 	var pawn = get_pawn()
-	var data = pawn.get_node("RecruitData")
+	var data = pawn.get_data()
 	if data:
 		data.exit_conversation()
 

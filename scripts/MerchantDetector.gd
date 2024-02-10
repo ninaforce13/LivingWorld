@@ -22,7 +22,7 @@ func is_valid_detection(_detection)->bool:
 	return true
 
 func get_chance()->float:
-	var behavior = get_parent().get_node("RecruitBehavior")
+	var behavior = get_parent().get_behavior()
 	if behavior.personality == behavior.PERSONALITY.COMBATIVE:
 		return combative_chance
 	if behavior.personality == behavior.PERSONALITY.SOCIAL:

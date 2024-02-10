@@ -21,7 +21,7 @@ func is_valid_detection(_detection)->bool:
 func get_cooldown_duration()->float:
 	return detection_cooldown
 func get_chance()->float:
-	var behavior = get_parent().get_node("RecruitBehavior")
+	var behavior = get_parent().get_behavior()
 	if behavior.personality == behavior.PERSONALITY.COMBATIVE:
 		return combative_chance
 	if behavior.personality == behavior.PERSONALITY.SOCIAL:

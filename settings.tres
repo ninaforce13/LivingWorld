@@ -618,6 +618,21 @@ levelmap_spawners = {
 "supress_abilities": false
 } ]
 },
+"REGION_NAME_NEW_WIRRAL_PARK_CAVES": {
+"locations": [ {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "wirral_caves1 ",
+"pos": Vector3( -8.88337, 4.0265, -26.6173 ),
+"supress_abilities": false
+}, {
+"forced_personality": -1,
+"ignore_visibility": false,
+"name": "wirral_caves2",
+"pos": Vector3( -9.06674, 10.0265, -61.3552 ),
+"supress_abilities": false
+} ]
+},
 "REGION_NAME_OLD_VILLAGE": {
 "locations": [ {
 "forced_personality": -1,

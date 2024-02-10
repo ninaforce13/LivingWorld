@@ -7,7 +7,7 @@ func _run():
 	var scene = load("res://mods/LivingWorld/scenes/MiniGame.tscn")
 	var menu = scene.instance()
 	menu.player_data = jsonparser.get_player_snapshot()
-	var recruit_data = pawn.get_node("RecruitData")
+	var recruit_data = pawn.get_data()
 	menu.enemy_data = recruit_data.recruit
 	if recruit_data.card_deck.empty():
 		recruit_data.build_deck()

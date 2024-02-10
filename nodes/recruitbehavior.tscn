@@ -145,7 +145,6 @@ bb_name = "Seat"
 script = ExtResource( 18 )
 group = "Seating"
 mode = 4
-ignore_limited_space = true
 
 [node name="RepeatWhile" type="Node" parent="Sit"]
 script = ExtResource( 15 )
