@@ -1,4 +1,4 @@
-[gd_scene load_steps=140 format=2]
+[gd_scene load_steps=144 format=2]
 
 [ext_resource path="res://data/monster_forms/artillerex.tres" type="Resource" id=1]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
@@ -25,7 +25,7 @@
 [ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=23]
 [ext_resource path="res://mods/LivingWorld/actions/RecordSuccessAction.gd" type="Script" id=24]
 [ext_resource path="res://mods/LivingWorld/actions/SetTouchDetector.gd" type="Script" id=25]
-[ext_resource path="res://sfx/voices/eugene/eugene_recording_success.wav" type="AudioStream" id=26]
+[ext_resource path="res://sfx/voices/male_npc_7/male_npc_7_motivated_2.wav" type="AudioStream" id=26]
 [ext_resource path="res://sprites/portraits/vin_happy.png" type="Texture" id=27]
 [ext_resource path="res://world/npc/SwimmingState.gd" type="Script" id=28]
 [ext_resource path="res://world/npc/PauseState.gd" type="Script" id=29]
@@ -92,24 +92,28 @@
 [ext_resource path="res://mods/LivingWorld/scripts/RogueFusionDetector.gd" type="Script" id=90]
 [ext_resource path="res://mods/LivingWorld/actions/ChooseSticker.gd" type="Script" id=91]
 [ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=92]
+[ext_resource path="res://sfx/voices/male_npc_7/male_npc_7_greeting.wav" type="AudioStream" id=93]
+[ext_resource path="res://sfx/voices/male_npc_7/male_npc_7_motivated_1.wav" type="AudioStream" id=94]
+[ext_resource path="res://sfx/voices/male_npc_7/male_npc_7_awkward.wav" type="AudioStream" id=95]
 [ext_resource path="res://data/character_sfx/vin_sfx.tres" type="Resource" id=96]
 [ext_resource path="res://mods/LivingWorld/characters/vin.tres" type="Resource" id=97]
 [ext_resource path="res://mods/LivingWorld/nodes/MouseClick.tscn" type="PackedScene" id=98]
 [ext_resource path="res://sprites/portraits/vin.png" type="Texture" id=99]
 [ext_resource path="res://mods/LivingWorld/scripts/setbattlesprite.gd" type="Script" id=100]
 [ext_resource path="res://mods/LivingWorld/actions/MenuDialog.gd" type="Script" id=101]
-[ext_resource path="res://sfx/voices/eugene/eugene_story_1.wav" type="AudioStream" id=102]
-[ext_resource path="res://sfx/voices/eugene/eugene_awkward.wav" type="AudioStream" id=103]
+[ext_resource path="res://sfx/voices/male_npc_7/male_npc_7_questioning_2.wav" type="AudioStream" id=102]
+[ext_resource path="res://sfx/voices/male_npc_7/male_npc_7_thinking_1.wav" type="AudioStream" id=103]
 [ext_resource path="res://sprites/portraits/vin_angry.png" type="Texture" id=104]
-[ext_resource path="res://sfx/voices/eugene/eugene_sigh_4.wav" type="AudioStream" id=105]
+[ext_resource path="res://sfx/voices/male_npc_7/male_npc_7_surprise_1.wav" type="AudioStream" id=105]
 [ext_resource path="res://sprites/portraits/vin_sad.png" type="Texture" id=106]
-[ext_resource path="res://sfx/voices/eugene/eugene_motivated_3.wav" type="AudioStream" id=107]
+[ext_resource path="res://sfx/voices/male_npc_7/male_npc_7_angry.wav" type="AudioStream" id=107]
 [ext_resource path="res://sprites/portraits/vin_thinking.png" type="Texture" id=108]
 [ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=109]
 [ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=110]
-[ext_resource path="res://sfx/voices/eugene/eugene_sigh_3.wav" type="AudioStream" id=113]
-[ext_resource path="res://sfx/voices/eugene/eugene_greeting.wav" type="AudioStream" id=114]
-[ext_resource path="res://sfx/voices/eugene/eugene_sigh_1.wav" type="AudioStream" id=115]
+[ext_resource path="res://sfx/voices/male_npc_7/male_npc_7_sigh_2.wav" type="AudioStream" id=111]
+[ext_resource path="res://sfx/voices/male_npc_7/male_npc_7_sigh_1.wav" type="AudioStream" id=112]
+[ext_resource path="res://sfx/voices/male_npc_7/male_npc_7_questioning.wav" type="AudioStream" id=113]
+[ext_resource path="res://sfx/voices/male_npc_7/male_npc_7_laugh_2.wav" type="AudioStream" id=114]
 [ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=116]
 [ext_resource path="res://mods/LivingWorld/scripts/DefeatedNPCDetector.gd" type="Script" id=117]
 [ext_resource path="res://mods/LivingWorld/scripts/MerchantDetector.gd" type="Script" id=118]
@@ -1357,7 +1361,7 @@ script = ExtResource( 53 )
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 73 )
 portrait = ExtResource( 99 )
-audio = ExtResource( 114 )
+audio = ExtResource( 93 )
 title = "{pawn}"
 wait_for_confirm = false
 close_after = false
@@ -1379,6 +1383,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
 script = ExtResource( 73 )
 portrait = ExtResource( 27 )
+audio = ExtResource( 94 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "VIN_PARTY_INVITE1" ] ]
@@ -1400,7 +1405,7 @@ always_succeed = true
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsResting"]
 script = ExtResource( 73 )
 portrait = ExtResource( 108 )
-audio = ExtResource( 105 )
+audio = ExtResource( 95 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "VIN_CHALLENGE_REJECTED1" ] ]
@@ -1413,7 +1418,7 @@ invert = true
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
 script = ExtResource( 73 )
 portrait = ExtResource( 104 )
-audio = ExtResource( 107 )
+audio = ExtResource( 26 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "VIN_CHALLENGE_ACCEPTED1" ] ]
@@ -1432,7 +1437,7 @@ value = true
 [node name="MessageDialogAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
 script = ExtResource( 73 )
 portrait = ExtResource( 104 )
-audio = ExtResource( 26 )
+audio = ExtResource( 105 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "VIN_CHALLENGE_WIN1" ] ]
@@ -1492,7 +1497,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading/TradeRejected"]
 script = ExtResource( 86 )
 portrait = ExtResource( 104 )
-audio = ExtResource( 113 )
+audio = ExtResource( 107 )
 title = "{pawn}"
 substitute_blackboard_keys = [ "trade_offer", "trade_request", "request_rarity", "offer_rarity" ]
 use_random = true
@@ -1504,7 +1509,7 @@ script = ExtResource( 52 )
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Cancel"]
 script = ExtResource( 73 )
 portrait = ExtResource( 106 )
-audio = ExtResource( 115 )
+audio = ExtResource( 111 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "VIN_TRADE_CANCEL1" ] ]
@@ -1515,6 +1520,7 @@ script = ExtResource( 52 )
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 73 )
 portrait = ExtResource( 108 )
+audio = ExtResource( 113 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "VIN_CARDS_ACCEPT1" ] ]
@@ -1537,6 +1543,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 73 )
 portrait = ExtResource( 106 )
+audio = ExtResource( 112 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "VIN_CARDS_LOSE1" ] ]
@@ -1566,6 +1573,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction2"]
 script = ExtResource( 73 )
 portrait = ExtResource( 27 )
+audio = ExtResource( 114 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "VIN_CARDS_WIN1" ] ]
@@ -1647,6 +1655,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 35 )]
 

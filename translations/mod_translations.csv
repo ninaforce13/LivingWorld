@@ -98,8 +98,9 @@ CAPTAIN_LUNCH_MENU,Out To Lunch.
 CAPTAIN_LUNCH_MENU2,Wait for the Captain to return?
 CAPTAIN_LUNCH_OPTION1,Yes
 CAPTAIN_LUNCH_OPTION2,No
+KAYLEIGH_INVITE_ACCEPT1,Of course! Sound like fun!
 KAYLEIGH_IDLE_RECRUIT_DIALOG1,"It's a lot of work, but daily patrols are important for the town's safety!"
-KAYLEIGH_IDLE_RECRUIT_DIALOG2,"Hi {player}, find anything interesting today?"
+KAYLEIGH_IDLE_RECRUIT_DIALOG2,"Hi {player}, do anything interesting today?"
 KAYLEIGH_IDLE_RECRUIT_DIALOG3,There's been a lot of new faces washing up on the shore lately.
 KAYLEIGH_IDLE_RECRUIT_DIALOG4,Let's do everything we can to keep the town safe!
 KAYLEIGH_IDLE_RECRUIT_DIALOG5,Have you checked the sticker merchants today? They're bound to have some cool stuff you could use!
@@ -113,7 +114,7 @@ KAYLEIGH_CARDS_ACCEPT1,"That sounds fun![pause] Sure, let's play!"
 KAYLEIGH_CARDS_LOSE1,That was so fun![pause] You were great![pause] Here's one of my cards to add to your deck!
 KAYLEIGH_CARDS_WIN1,That was brilliant![pause] I can't wait to play more!
 KAYLEIGH_TRADE_CANCEL1,"Aw, alright. I'll keep looking then!"
-KAYLEIGH_PASSIVES_ROGUES_MESSAGE1,Oh no… It's another rogue! I need a hand with this!
+KAYLEIGH_PASSIVES_ROGUES_MESSAGE1,I'm gonna need a hand with this one!
 KAYLEIGH_MENU_GOODBYE1,See ya!
 BARKLEY_IDLE_RECRUIT_DIALOG1,Arf!
 BARKLEY_IDLE_RECRUIT_DIALOG2,[i]Barkley seems happy to see you![/i]
@@ -142,6 +143,7 @@ BARKLEY_CARDS_WIN1,Arf Arf!
 BARKLEY_TRADE_CANCEL,[i]He seems dissapointed.[/i]
 BARKLEY_PASSIVE_ROGUES_MESSAGE1,Arf Arf! [wave amp=30 freq=10]Grr…[/wave]!
 BARKLEY_LEAVE1,Arf!
+EUGENE_INVITE_ACCEPT1,The dynamic crime fighting…[pause] trio?! This is gonna be wild!
 EUGENE_IDLE_RECRUIT_DIALOG1,"Hey {player}, you out on patrol too? "
 EUGENE_IDLE_RECRUIT_DIALOG2,It's pretty wild out here! There's a ton of new people ready to help out.
 EUGENE_IDLE_RECRUIT_DIALOG3,I got all these crazy stickers from one of the merchants.[pause] I'm gonna be unstoppable!
@@ -158,8 +160,9 @@ EUGENE_CARDS_ACCEPT1,Dude![pause] Of course I'm down to play this![pause] I love
 EUGENE_CARDS_LOSE1,"Aw man![pause] I was just about to draw the card I needed![pause] Ah well[pause], I'll get it next time![pause] Here's your reward!"
 EUGENE_CARDS_WIN1,Badass![pause] That was great![pause] Hit me up if you wanna play another round!
 EUGENE_LEAVE1,See ya!
-EUGENE_PASSIVE_ROGUES_MESSAGE1,We got another wild one![pause] I'm going after it!
-FELIX_IDLE_RECRUIT_DIALOG1,Hey there {player}. Not working too hard I hope?
+EUGENE_PASSIVE_ROGUES_MESSAGE1,It's another wild one![pause] I'm taking it down!
+FELIX_INVITE_ACCEPT1,Yeah. Sounds like a good time. 
+FELIX_IDLE_RECRUIT_DIALOG1,Hey there. Not working too hard I hope?
 FELIX_IDLE_RECRUIT_DIALOG2,"I sketeched this weird monster the other day. Their anatomy was so unorthodox, I couldn't help but get inspired. "
 FELIX_IDLE_RECRUIT_DIALOG3,"I broke another pencil rewinding my tape today[pause]. I always keep a spare[pause], but I usually save it for my sketches. "
 FELIX_IDLE_RECRUIT_DIALOG4,"You know[pause], it's not so bad here![pause] Wild monsters aside[pause], it's actually pretty relaxing."
@@ -176,6 +179,7 @@ FELIX_CARDS_WIN1,Rad![pause] That was pretty fun.[pause] Let's play again someti
 FELIX_TRADE_CANCEL1,"Oh[pause], no worries.[pause] I'm sure I'll find one eventually."
 FELIX_PASSIVE_ROGUES_MESSAGE1,Looks like another rogue on the loose. I can help!
 FELIX_LEAVE1,Take care.
+MEREDITH_INVITE_ACCEPT1,"Yeah[pause], alright.[pause] I can make time for that."
 MEREDITH_IDLE_RECRUIT_DIALOG1,"Uh, hey there. You keeping busy?"
 MEREDITH_IDLE_RECRUIT_DIALOG2,So.[pause] Is it just me or…[pause] are there more people here than usual?
 MEREDITH_IDLE_RECRUIT_DIALOG3,"Hey, {player}.[pause] Did you need something?"
@@ -192,7 +196,8 @@ MEREDITH_CARDS_ACCEPT1,"Somebody made a card game?[pause] Yeah[pause], ok[pause]
 MEREDITH_CARDS_LOSE1,"Well[pause], that was[pause] interesting.[pause]I guess[pause], here's your reward."
 MEREDITH_CARDS_WIN1,"Heh[pause], I guess I'm pretty good at this."
 MEREDITH_LEAVE1,"Take care, mate."
-MEREDITH_PASSIVE_ROGUES_MESSAGE1,Ugh! Not again! Let's just… urgh! Somebody help me out here!
+MEREDITH_PASSIVE_ROGUES_MESSAGE1,Not another one![pause] Let's just… urgh! Somebody help me out here!
+VIOLA_INVITE_ACCEPT1,Splendid![pause] A new adventure awaits us!
 VIOLA_IDLE_RECRUIT_DIALOG1,"I am glad to see you well, friend!"
 VIOLA_IDLE_RECRUIT_DIALOG2,I can see the allure to this new lifestyle. 
 VIOLA_IDLE_RECRUIT_DIALOG3,Another fine day for adventure! 
@@ -210,7 +215,7 @@ VIOLA_CARDS_ACCEPT1,A game of chance and skill played on small sheets of paper?[
 VIOLA_CARDS_LOSE1,Marvelous! I do believe it is customary to reward the victor with a card from the defeated's arsenal?
 VIOLA_CARDS_WIN1,How joyous! I would gladly engage in more of these leisure activities!
 VIOLA_PASSIVE_ROGUES_MESSAGE1,Rogues have been sighted upon the horizon! Let us show thy fiends our true mettle!
-FRANKIE_CARDS_ACCEPT1,Oh oh oh! I've played tons of these back home! 
+FRANKIE_CARDS_ACCEPT1,Oh oh oh! I've played tons of these back home!
 FRANKIE_CARDS_LOSE1,Yes! Ha ha! I've still got it!
 FRANKIE_CARDS_WIN1,"You were amazing![pause][pause]Ok ok, [wave amp=30 freq=10]Duelist Kingdom[/wave] rules apply so here's one of my cards! "
 FRANKIE_PARTY_INVITE1,Joining the hero's party?! I'm another step closer to legendary status!

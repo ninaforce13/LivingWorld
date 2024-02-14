@@ -4,7 +4,7 @@
 [ext_resource path="res://data/character_sfx/vin_sfx.tres" type="Resource" id=2]
 
 [resource]
-resource_name = "vin.tres"
+resource_name = "VIN_NAME Lv100"
 script = ExtResource( 1 )
 name = "VIN_NAME"
 swap_colors = [  ]

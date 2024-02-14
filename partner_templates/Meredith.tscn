@@ -1,4 +1,4 @@
-[gd_scene load_steps=143 format=2]
+[gd_scene load_steps=146 format=2]
 
 [ext_resource path="res://data/monster_forms/cat-5.tres" type="Resource" id=1]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
@@ -84,15 +84,18 @@
 [ext_resource path="res://mods/LivingWorld/scripts/BootlegDetector.gd" type="Script" id=82]
 [ext_resource path="res://mods/LivingWorld/scripts/TalkingNPCDetector.gd" type="Script" id=83]
 [ext_resource path="res://mods/LivingWorld/actions/SetInteraction.gd" type="Script" id=84]
+[ext_resource path="res://sfx/voices/meredith/meredith_sigh_1.wav" type="AudioStream" id=85]
 [ext_resource path="res://mods/LivingWorld/behaviors/Conversation.tscn" type="PackedScene" id=86]
 [ext_resource path="res://mods/LivingWorld/actions/AddFollower.gd" type="Script" id=87]
 [ext_resource path="res://mods/LivingWorld/actions/CheckBattleCooldown.gd" type="Script" id=88]
 [ext_resource path="res://mods/LivingWorld/actions/MessageTradeDialog.gd" type="Script" id=89]
 [ext_resource path="res://mods/LivingWorld/actions/SetBattleCooldown.gd" type="Script" id=90]
+[ext_resource path="res://sfx/voices/meredith/meredith_motivated_2.wav" type="AudioStream" id=91]
 [ext_resource path="res://mods/LivingWorld/actions/SetRecruitBB.gd" type="Script" id=92]
 [ext_resource path="res://mods/LivingWorld/scripts/RogueFusionDetector.gd" type="Script" id=93]
 [ext_resource path="res://mods/LivingWorld/actions/ChooseSticker.gd" type="Script" id=94]
 [ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=95]
+[ext_resource path="res://sfx/voices/meredith/meredith_questioning.wav" type="AudioStream" id=96]
 [ext_resource path="res://data/character_sfx/meredith_sfx.tres" type="Resource" id=99]
 [ext_resource path="res://sprites/characters/battle/meredith.json" type="PackedScene" id=100]
 [ext_resource path="res://sprites/portraits/meredith_sad.png" type="Texture" id=101]
@@ -1374,9 +1377,10 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
 script = ExtResource( 75 )
 portrait = ExtResource( 65 )
+audio = ExtResource( 109 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_MENU_INVITE_ACCEPT1" ], [ "RECRUIT_MENU_INVITE_ACCEPT2" ], [ "RECRUIT_MENU_INVITE_ACCEPT3" ] ]
+message_array = [ [ "MEREDITH_INVITE_ACCEPT1" ] ]
 
 [node name="AddToParty" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
 script = ExtResource( 87 )
@@ -1510,6 +1514,7 @@ script = ExtResource( 52 )
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 75 )
 portrait = ExtResource( 116 )
+audio = ExtResource( 96 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "MEREDITH_CARDS_ACCEPT1" ] ]
@@ -1532,6 +1537,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 75 )
 portrait = ExtResource( 43 )
+audio = ExtResource( 85 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "MEREDITH_CARDS_LOSE1" ] ]
@@ -1561,6 +1567,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction2"]
 script = ExtResource( 75 )
 portrait = ExtResource( 65 )
+audio = ExtResource( 91 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "MEREDITH_CARDS_WIN1" ] ]
@@ -1643,6 +1650,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 34 )]
 

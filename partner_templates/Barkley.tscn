@@ -1,4 +1,4 @@
-[gd_scene load_steps=135 format=2]
+[gd_scene load_steps=138 format=2]
 
 [ext_resource path="res://data/monster_forms/spitzfyre.tres" type="Resource" id=1]
 [ext_resource path="res://data/monster_forms/fortiwinx.tres" type="Resource" id=2]
@@ -92,11 +92,14 @@
 [ext_resource path="res://mods/LivingWorld/actions/CheckBattleCooldown.gd" type="Script" id=90]
 [ext_resource path="res://mods/LivingWorld/actions/MessageTradeDialog.gd" type="Script" id=91]
 [ext_resource path="res://mods/LivingWorld/actions/SetBattleCooldown.gd" type="Script" id=92]
+[ext_resource path="res://sfx/voices/dog/dog_pant.wav" type="AudioStream" id=93]
 [ext_resource path="res://mods/LivingWorld/actions/SetRecruitBB.gd" type="Script" id=94]
 [ext_resource path="res://mods/LivingWorld/scripts/RogueFusionDetector.gd" type="Script" id=95]
 [ext_resource path="res://mods/LivingWorld/actions/ChooseSticker.gd" type="Script" id=96]
 [ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=97]
 [ext_resource path="res://mods/LivingWorld/behaviors/Sit.tscn" type="PackedScene" id=98]
+[ext_resource path="res://sfx/voices/dog/dog_howl.wav" type="AudioStream" id=99]
+[ext_resource path="res://sfx/voices/dog/dog_growl.wav" type="AudioStream" id=100]
 [ext_resource path="res://data/character_sfx/dog_sfx.tres" type="Resource" id=101]
 [ext_resource path="res://sprites/characters/battle/dog.json" type="PackedScene" id=102]
 [ext_resource path="res://menus/party/MonsterSpriteContainer.gd" type="Script" id=103]
@@ -1380,6 +1383,7 @@ invert = true
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
 script = ExtResource( 79 )
 portrait = ExtResource( 68 )
+audio = ExtResource( 99 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "BARKLEY_CHALLNEGE_ACCEPTED1", "BARKLEY_CHALLNEGE_ACCEPTED2" ] ]
@@ -1398,6 +1402,7 @@ value = true
 [node name="MessageDialogAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
 script = ExtResource( 79 )
 portrait = ExtResource( 47 )
+audio = ExtResource( 69 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "BARKLEY_CHALLENGE_WIN1", "BARKLEY_CHALLENGE_WIN2" ] ]
@@ -1411,6 +1416,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade"]
 script = ExtResource( 91 )
 portrait = ExtResource( 47 )
+audio = ExtResource( 29 )
 title = "{pawn}"
 wait_for_confirm = false
 close_after = false
@@ -1440,6 +1446,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading/TradeAccepted"]
 script = ExtResource( 91 )
 portrait = ExtResource( 68 )
+audio = ExtResource( 69 )
 title = "{pawn}"
 substitute_blackboard_keys = [ "trade_offer", "trade_request", "request_rarity", "offer_rarity" ]
 use_random = true
@@ -1455,6 +1462,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Trade/MenuDialogAction/Trading/TradeRejected"]
 script = ExtResource( 91 )
 portrait = ExtResource( 31 )
+audio = ExtResource( 100 )
 title = "{pawn}"
 substitute_blackboard_keys = [ "trade_offer", "trade_request", "request_rarity", "offer_rarity" ]
 use_random = true
@@ -1477,6 +1485,7 @@ script = ExtResource( 56 )
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 79 )
 portrait = ExtResource( 47 )
+audio = ExtResource( 69 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "BARKLEY_CARDS_ACCEPT1" ] ]
@@ -1499,6 +1508,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 79 )
 portrait = ExtResource( 47 )
+audio = ExtResource( 99 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "BARKLEY_CARDS_LOSE1" ] ]
@@ -1528,6 +1538,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction2"]
 script = ExtResource( 79 )
 portrait = ExtResource( 68 )
+audio = ExtResource( 29 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "BARKLEY_CARDS_WIN1" ] ]
@@ -1538,6 +1549,7 @@ script = ExtResource( 56 )
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Leave"]
 script = ExtResource( 79 )
 portrait = ExtResource( 47 )
+audio = ExtResource( 93 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "BARKLEY_LEAVE1" ] ]

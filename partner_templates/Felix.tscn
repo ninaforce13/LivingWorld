@@ -1,4 +1,4 @@
-[gd_scene load_steps=143 format=2]
+[gd_scene load_steps=146 format=2]
 
 [ext_resource path="res://data/monster_forms/kirikuri.tres" type="Resource" id=1]
 [ext_resource path="res://data/monster_forms/shining_kuneko.tres" type="Resource" id=2]
@@ -89,11 +89,14 @@
 [ext_resource path="res://mods/LivingWorld/actions/CheckBattleCooldown.gd" type="Script" id=87]
 [ext_resource path="res://mods/LivingWorld/actions/MessageTradeDialog.gd" type="Script" id=88]
 [ext_resource path="res://mods/LivingWorld/actions/SetBattleCooldown.gd" type="Script" id=89]
+[ext_resource path="res://sfx/voices/felix/felix_recording_success.wav" type="AudioStream" id=90]
 [ext_resource path="res://mods/LivingWorld/actions/SetRecruitBB.gd" type="Script" id=91]
 [ext_resource path="res://mods/LivingWorld/scripts/RogueFusionDetector.gd" type="Script" id=92]
 [ext_resource path="res://mods/LivingWorld/actions/ChooseSticker.gd" type="Script" id=93]
 [ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=94]
 [ext_resource path="res://mods/LivingWorld/behaviors/Revive.tscn" type="PackedScene" id=95]
+[ext_resource path="res://sfx/voices/felix/felix_accept.wav" type="AudioStream" id=96]
+[ext_resource path="res://sfx/voices/felix/felix_compliment.wav" type="AudioStream" id=97]
 [ext_resource path="res://data/character_sfx/felix_sfx.tres" type="Resource" id=98]
 [ext_resource path="res://sprites/characters/battle/felix.json" type="PackedScene" id=99]
 [ext_resource path="res://data/characters/felix.tres" type="Resource" id=100]
@@ -1374,9 +1377,10 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
 script = ExtResource( 75 )
 portrait = ExtResource( 43 )
+audio = ExtResource( 96 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_MENU_INVITE_ACCEPT1" ], [ "RECRUIT_MENU_INVITE_ACCEPT2" ], [ "RECRUIT_MENU_INVITE_ACCEPT3" ] ]
+message_array = [ [ "FELIX_INVITE_ACCEPT1" ] ]
 
 [node name="AddToParty" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
 script = ExtResource( 86 )
@@ -1533,6 +1537,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 75 )
 portrait = ExtResource( 118 )
+audio = ExtResource( 97 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "FELIX_CARDS_LOSE1" ] ]
@@ -1562,6 +1567,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction2"]
 script = ExtResource( 75 )
 portrait = ExtResource( 43 )
+audio = ExtResource( 90 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "FELIX_CARDS_WIN1" ] ]
@@ -1644,6 +1650,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 35 )]
 

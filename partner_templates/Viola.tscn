@@ -1,4 +1,4 @@
-[gd_scene load_steps=143 format=2]
+[gd_scene load_steps=142 format=2]
 
 [ext_resource path="res://data/monster_forms/spooki-onna.tres" type="Resource" id=1]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
@@ -95,6 +95,7 @@
 [ext_resource path="res://mods/LivingWorld/scripts/RogueFusionDetector.gd" type="Script" id=93]
 [ext_resource path="res://mods/LivingWorld/actions/ChooseSticker.gd" type="Script" id=94]
 [ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=95]
+[ext_resource path="res://sfx/voices/viola/viola_laugh_2.wav" type="AudioStream" id=96]
 [ext_resource path="res://data/character_sfx/viola_sfx.tres" type="Resource" id=99]
 [ext_resource path="res://sprites/characters/battle/viola.json" type="PackedScene" id=100]
 [ext_resource path="res://sprites/portraits/viola_thinking.png" type="Texture" id=101]
@@ -111,8 +112,6 @@
 [ext_resource path="res://sfx/voices/viola/viola_motivated_1.wav" type="AudioStream" id=112]
 [ext_resource path="res://sfx/voices/viola/viola_compliment.wav" type="AudioStream" id=113]
 [ext_resource path="res://sfx/voices/viola/viola_greeting.wav" type="AudioStream" id=114]
-[ext_resource path="res://sprites/portraits/viola_shocked.png" type="Texture" id=115]
-[ext_resource path="res://sfx/voices/kayleigh/kayleigh_greeting.wav" type="AudioStream" id=116]
 [ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=117]
 [ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=118]
 [ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=119]
@@ -1374,9 +1373,10 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
 script = ExtResource( 75 )
 portrait = ExtResource( 43 )
+audio = ExtResource( 113 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_MENU_INVITE_ACCEPT1" ], [ "RECRUIT_MENU_INVITE_ACCEPT2" ], [ "RECRUIT_MENU_INVITE_ACCEPT3" ] ]
+message_array = [ [ "VIOLA_INVITE_ACCEPT1" ] ]
 
 [node name="AddToParty" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
 script = ExtResource( 87 )
@@ -1510,7 +1510,7 @@ script = ExtResource( 52 )
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 75 )
 portrait = ExtResource( 101 )
-audio = ExtResource( 116 )
+audio = ExtResource( 111 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "VIOLA_CARDS_ACCEPT1" ] ]
@@ -1532,7 +1532,8 @@ require_blackboard_values = {
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 75 )
-portrait = ExtResource( 115 )
+portrait = ExtResource( 43 )
+audio = ExtResource( 64 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "VIOLA_CARDS_LOSE1" ] ]
@@ -1562,6 +1563,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction2"]
 script = ExtResource( 75 )
 portrait = ExtResource( 43 )
+audio = ExtResource( 96 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "VIOLA_CARDS_WIN1" ] ]
@@ -1644,6 +1646,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 34 )]
 
