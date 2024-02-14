@@ -182,11 +182,11 @@ func get_aabb()->AABB:
 	return Spatials.get_collision_aabb(self)
 
 func get_data():
-	if !data_node:
+	if !data_node and has_node("RecruitData"):
 		data_node = get_node("RecruitData")
 	return data_node
 
 func get_behavior():
-	if !behavior_node:
+	if !behavior_node and has_node("RecruitBehavior"):
 		behavior_node = get_node("RecruitBehavior")
 	return behavior_node

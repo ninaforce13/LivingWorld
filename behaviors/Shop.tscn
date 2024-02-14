@@ -1,0 +1,89 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=1]
+[ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=2]
+[ext_resource path="res://addons/misc_utils/actions/decorators/RepeatWhile.gd" type="Script" id=3]
+[ext_resource path="res://nodes/actions/SetNPCControlsAction.gd" type="Script" id=4]
+[ext_resource path="res://addons/misc_utils/actions/decorators/Failer.gd" type="Script" id=5]
+[ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=6]
+[ext_resource path="res://mods/LivingWorld/actions/RegisterOccupant.gd" type="Script" id=7]
+[ext_resource path="res://mods/LivingWorld/actions/SetInteraction.gd" type="Script" id=8]
+[ext_resource path="res://mods/LivingWorld/actions/CustomFollowAction.gd" type="Script" id=9]
+[ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=10]
+[ext_resource path="res://mods/LivingWorld/actions/GetEngagedTarget.gd" type="Script" id=11]
+[ext_resource path="res://mods/LivingWorld/actions/EngageEnemyBehavior.gd" type="Script" id=12]
+
+[node name="Shop" type="Node"]
+script = ExtResource( 12 )
+reset_on_exit_tree = true
+disable_on_water = true
+
+[node name="SetNPCControlsAction" type="Node" parent="."]
+script = ExtResource( 4 )
+set_values = 478
+
+[node name="Register" type="Node" parent="."]
+script = ExtResource( 7 )
+register = true
+
+[node name="GetEngagedTarget" type="Node" parent="Register"]
+script = ExtResource( 11 )
+
+[node name="DisableInteraction" type="Node" parent="."]
+script = ExtResource( 8 )
+disabled = true
+
+[node name="GetPawn" type="Node" parent="DisableInteraction"]
+script = ExtResource( 2 )
+
+[node name="FaceTowardsAction" type="Node" parent="."]
+script = ExtResource( 10 )
+
+[node name="GetEngagedTarget" type="Node" parent="FaceTowardsAction"]
+script = ExtResource( 11 )
+
+[node name="FollowAction" type="Node" parent="."]
+script = ExtResource( 9 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 3.0
+ignore_ending_y = false
+buffer = true
+zbuffer_dist = 5.0
+
+[node name="GetEngagedTarget" type="Node" parent="FollowAction"]
+script = ExtResource( 11 )
+
+[node name="RepeatWhile" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="PlayEmote" type="Node" parent="RepeatWhile"]
+script = ExtResource( 6 )
+selection = 19
+
+[node name="WaitAction2" type="Node" parent="RepeatWhile"]
+script = ExtResource( 1 )
+base_seconds = 5.0
+random_seconds = 5.0
+
+[node name="UnRegister" type="Node" parent="."]
+script = ExtResource( 7 )
+
+[node name="GetEngagedTarget" type="Node" parent="UnRegister"]
+script = ExtResource( 11 )
+
+[node name="EnableInteraction" type="Node" parent="."]
+script = ExtResource( 8 )
+
+[node name="GetPawn" type="Node" parent="EnableInteraction"]
+script = ExtResource( 2 )
+
+[node name="Failer" type="Node" parent="."]
+script = ExtResource( 5 )

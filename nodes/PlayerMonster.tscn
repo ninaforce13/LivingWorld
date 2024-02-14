@@ -97,6 +97,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
 
 [node name="RecruitData" parent="." instance=ExtResource( 11 )]
 is_captain = true
+is_player = true
 
 [node name="Interaction" type="Area" parent="."]
 collision_layer = 2

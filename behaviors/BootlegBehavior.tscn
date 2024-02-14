@@ -1,0 +1,70 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=1]
+[ext_resource path="res://addons/misc_utils/actions/decorators/RepeatWhile.gd" type="Script" id=2]
+[ext_resource path="res://addons/misc_utils/actions/decorators/Failer.gd" type="Script" id=3]
+[ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=4]
+[ext_resource path="res://mods/LivingWorld/actions/CustomFollowAction.gd" type="Script" id=5]
+[ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=6]
+[ext_resource path="res://addons/misc_utils/actions/composites/Sequence.gd" type="Script" id=7]
+[ext_resource path="res://mods/LivingWorld/actions/GetEngagedTarget.gd" type="Script" id=8]
+[ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=9]
+
+[node name="BootlegBehavior" type="Node"]
+script = ExtResource( 9 )
+interruptible = true
+
+[node name="RepeatWhile2" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="FaceTowardsAction" type="Node" parent="RepeatWhile2"]
+script = ExtResource( 6 )
+__meta__ = {
+"action_tree": true
+}
+
+[node name="GetEngagedTarget" type="Node" parent="RepeatWhile2/FaceTowardsAction"]
+script = ExtResource( 8 )
+
+[node name="FollowAction" type="Node" parent="RepeatWhile2"]
+script = ExtResource( 5 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 3.0
+
+[node name="GetEngagedTarget" type="Node" parent="RepeatWhile2/FollowAction"]
+script = ExtResource( 8 )
+
+[node name="RepeatWhile" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="Sequence" type="Node" parent="RepeatWhile"]
+script = ExtResource( 7 )
+
+[node name="PlayEmoteAction" type="Node" parent="RepeatWhile/Sequence"]
+script = ExtResource( 4 )
+selection = 1
+
+[node name="FaceTowardsAction" type="Node" parent="RepeatWhile/Sequence"]
+script = ExtResource( 6 )
+__meta__ = {
+"action_tree": true
+}
+
+[node name="GetEngagedTarget" type="Node" parent="RepeatWhile/Sequence/FaceTowardsAction"]
+script = ExtResource( 8 )
+
+[node name="WaitAction2" type="Node" parent="RepeatWhile"]
+script = ExtResource( 1 )
+base_seconds = 10.0
+random_seconds = 5.0
+
+[node name="Failer" type="Node" parent="."]
+script = ExtResource( 3 )

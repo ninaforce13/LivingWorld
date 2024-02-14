@@ -163,6 +163,8 @@ func _on_TalkingNPCDetector_detected(detection):
 
 func _on_RecruitData_engaging():
 	set_state("Conversation")
+	if state_node.has_method("set_bb"):
+		state_node.set_bb("receiver",true)
 
 func will_flee()->bool:
 	if personality == PERSONALITY.COMBATIVE:

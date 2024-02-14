@@ -9,6 +9,7 @@ onready var CaptainPatrolInput = find_node("CaptainPatrolInput")
 onready var BackupStatusInput = find_node("BackupStatusInput")
 onready var UseBattleSpriteInput = find_node("UseBattleSpriteInput")
 onready var CardEnemyThoughtsInput = find_node("CardEnemyThoughtsInput")
+onready var OverspillInput = find_node("OverspillInput")
 const settings_path = "user://LivingWorldSettings.cfg"
 
 func _ready():
@@ -40,6 +41,9 @@ func is_dirty()->bool:
 	if CardEnemyThoughtsInput.selected_value != get_config_value("enemy_thinking"):
 		return true
 
+	if OverspillInput.selected_value != get_config_value("overspill_damage"):
+		return true
+
 	return false
 
 func apply():
@@ -49,6 +53,7 @@ func save_settings():
 	var config = ConfigFile.new()
 	config.set_value("battle", "join_raids", JoinEncountersInput.selected_value)
 	config.set_value("battle", "backup_status", BackupStatusInput.selected_value)
+	config.set_value("battle", "overspill_damage", OverspillInput.selected_value)
 	config.set_value("world", "population", PopulationInput.selected_value)
 	config.set_value("behavior", "magnetism", UseMagnetismInput.selected_value)
 	config.set_value("behavior", "captain_patrol", CaptainPatrolInput.selected_value)
@@ -72,6 +77,7 @@ func reset():
 	BackupStatusInput.selected_value = get_config_value("backup_status")
 	UseBattleSpriteInput.selected_value = get_config_value("battle_sprite")
 	CardEnemyThoughtsInput.selected_value = get_config_value("enemy_thinking")
+	OverspillInput.selected_value = get_config_value("overspill_damage")
 
 	inputs.setup_focus()
 
@@ -94,6 +100,8 @@ func get_config_value(setting_name:String):
 		value = config.get_value("battle","backup_status",BackupStatusInput.values[0])
 	if setting_name == "enemy_thinking":
 		value = config.get_value("card","enemy_thinking",CardEnemyThoughtsInput.values[0])
+	if setting_name == "overspill_damage":
+		value = config.get_value("battle","overspill_damage",OverspillInput.values[0])
 	return value
 
 func grab_focus():

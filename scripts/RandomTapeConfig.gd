@@ -11,6 +11,8 @@ export (float) var profile_evolution_rate:float = 0.1
 export (float) var non_profile_rate:float = 0.01
 export (bool) var randomize_stickers = true
 export (Dictionary) var tape_snapshot
+export (String) var data_key:String = ""
+export (Array, int) var evolve_defeat_counts:Array
 const ExtraSlot = preload("res://data/sticker_attributes/extra_slot.tres")
 
 func _configure_tape(tape:MonsterTape, rand:Random, exp_points:int):
@@ -18,40 +20,62 @@ func _configure_tape(tape:MonsterTape, rand:Random, exp_points:int):
 
 func _generate_tape(encounter_rand:Random, defeat_count:int)->MonsterTape:
 	var tape = ._generate_tape(encounter_rand, defeat_count)
-	if tape_snapshot:
-		tape.set_snapshot(tape_snapshot, 1)
+	if data_key != "":
+		var snap = SaveState.other_data.get(data_key).duplicate()
+		if snap:
+			if snap.has("custom_form"):
+				if snap.custom_form != "":
+					var form = load(snap.custom_form) as MonsterForm
+					if form:
+						snap.form = snap.custom_form
+			tape.set_snapshot(snap, snap.get("version", 0))
 
-	var rand:Random
-	if not seeded:
-		rand = Random.new()
-	else :
-		if seed_key == "":
-			rand = encounter_rand
+		for threshold in evolve_defeat_counts:
+			if threshold > defeat_count:
+				break
+			var selected_evo = null
+			for evo in tape.form.evolutions:
+				if not evo.is_secret:
+					selected_evo = evo
+			if selected_evo:
+				tape.evolve(selected_evo)
+	else:
+		if tape_snapshot:
+			tape.set_snapshot(tape_snapshot, 1)
+
+		var rand:Random
+		if not seeded:
+			rand = Random.new()
 		else :
-			rand = encounter_rand.get_child(seed_key)
+			if seed_key == "":
+				rand = encounter_rand
+			else :
+				rand = encounter_rand.get_child(seed_key)
 
-	if form:
-		assert (tape.form != null)
-	if tape.form == null:
-		tape.form = _rand_form(rand)
-		form = tape.form
-	if rand.rand_bool(profile_evolution_rate):
-		var evos = []
-		for evolution in tape.form.evolutions:
-			if not evolution.is_secret:
-				evos.push_back(evolution.evolved_form)
-		if evos.size() > 0:
-			tape.form = rand.choice(evos)
+		if form:
+			assert (tape.form != null)
+		if tape.form == null:
+			tape.form = _rand_form(rand)
+			form = tape.form
+		if rand.rand_bool(profile_evolution_rate):
+			var evos = []
+			for evolution in tape.form.evolutions:
+				if not evolution.is_secret:
+					evos.push_back(evolution.evolved_form)
+			if evos.size() > 0:
+				tape.form = rand.choice(evos)
 
-	if tape.type_override.size() == 0 and bootleg_rate > 0.0 and rand.rand_float() < bootleg_rate:
-		tape.type_override = [BattleSetupUtil.random_type(rand)]
+		if tape.type_override.size() == 0 and bootleg_rate > 0.0 and rand.rand_float() < bootleg_rate:
+			tape.type_override = [BattleSetupUtil.random_type(rand)]
+
 	if randomize_stickers and !tape_snapshot:
 		configure_stickers(tape)
 	return tape
 
 func configure_stickers(tape:MonsterTape):
+	var random:Random = Random.new()
 	tape.assign_initial_stickers(true)
-	tape.upgrade_to(5, Random.new())
+	tape.upgrade_to(5, random)
 
 	var maxslots = tape.form.move_slots
 	var extra_slots:int = 0
@@ -63,7 +87,7 @@ func configure_stickers(tape:MonsterTape):
 	if tape.stickers.size() > maxslots:
 		var remove_count = tape.stickers.size() - maxslots
 		for _i in range (remove_count):
-			var sticker = tape.stickers[randi()%tape.stickers.size()]
+			var sticker = random.choice(tape.stickers)
 			tape.stickers.erase(sticker)
 
 	var duplicates:Dictionary = {}
@@ -97,7 +121,7 @@ func configure_stickers(tape:MonsterTape):
 			if attribute.get_script() == ExtraSlot.get_script():
 				extra_slots += 1
 	while extra_slots > 0:
-		var new_sticker:Array  = generate_stickers(Random.new(),tape.form.move_tags, 1, false)
+		var new_sticker:Array  = generate_stickers(random,tape.form.move_tags, 1, false)
 		if duplicates.has(new_sticker[0].battle_move):
 			continue
 		for attribute in new_sticker[0].attributes:
@@ -114,9 +138,9 @@ func configure_stickers(tape:MonsterTape):
 			break
 
 	while not has_attack:
-		var new_sticker:Array = generate_stickers(Random.new(),tape.form.move_tags, 1, false)
+		var new_sticker:Array = generate_stickers(random,tape.form.move_tags, 1, false)
 		if not duplicates.has(new_sticker[0].battle_move) and new_sticker[0].battle_move.power > 0:
-			new_stickers.remove(randi()%new_stickers.size())
+			new_stickers.erase(random.choice(new_stickers))
 			new_stickers.push_back(new_sticker[0])
 			has_attack = true
 

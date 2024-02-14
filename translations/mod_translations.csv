@@ -95,7 +95,7 @@ LIVINGWORLD_SETTINGS_UI_BATTLESPRITES,Wandering Partner Portrait
 LIVINGWORLD_SETTINGS_UI_CUSTOM_RECRUITS,Spawn Custom Trainees (Cassette Arenas)
 LIVINGWORLD_SETTINGS_UI_POPULATION,Wandering NPC Population:
 CAPTAIN_LUNCH_MENU,Out To Lunch.
-CAPTAIN_LUNCH_MENU2,Wait for the captain to return?
+CAPTAIN_LUNCH_MENU2,Wait for the Captain to return?
 CAPTAIN_LUNCH_OPTION1,Yes
 CAPTAIN_LUNCH_OPTION2,No
 KAYLEIGH_IDLE_RECRUIT_DIALOG1,"It's a lot of work, but daily patrols are important for the town's safety!"
@@ -216,7 +216,7 @@ FRANKIE_CARDS_WIN1,"You were amazing![pause][pause]Ok ok, [wave amp=30 freq=10]D
 FRANKIE_PARTY_INVITE1,Joining the hero's party?! I'm another step closer to legendary status!
 FRANKIE_IDLE_RECRUIT_DIALOG1,"I accept all quests, no matter [wave amp=30 freq=10]how[/wave] small![pause] You never know which one will move the plot forward!"
 FRANKIE_IDLE_RECRUIT_DIALOG2,"You know[pause], usually in these kinds of Isekai I would have some unique ability or abnormally high stat![pause] But I feel…[pause][pause] normal?"
-FRANKIE_IDLE_RECRUIT_DIALOG3,"""In Another World As {frankie_tape}!"" It's a pretty catchy title, right?![pause] I might write a fic about it later!"
+FRANKIE_IDLE_RECRUIT_DIALOG3,"""In Another World As {frankie_tape}!"". It's a pretty catchy title, right?![pause] I might write a fic about it later!"
 FRANKIE_IDLE_RECRUIT_DIALOG4,"We should write our own theme song![pause][pause] Something catchy like Card Captors![pause]…You had Card Captors on your world[pause], right?"
 FRANKIE_IDLE_RECRUIT_DIALOG5,"I tried rewinding my tape with my pinkie[pause], but for some reason it still didn't work… [pause]It's like there's some weird [wave amp=30 freq=10]game logic[/wave] that forces me to use pencils!"
 FRANKIE_CHALLENGE_ACCEPTED1,I've had a lot of time to train [wave amp=30 freq=10]off screen[/wave]![pause] That means it's time to show off my new special attack![pause][wave amp=30 freq=10] {frankie_attack}![/wave]
@@ -274,3 +274,4 @@ LIVINGWORLD_SETTINGS_UI_CARD_ENEMY_THOUGHTS,Enemy Thinking Animation
 LIVINGWORLD_PASSIVE_CARDREWARD,A new card has been added to your collection!
 LIVINGWORLD_TRANSFORM_PROMPT,Which form will you use?
 LIVINGWORLD_BENCH_MENU,Take a seat?
+LIVINGWORLD_SETTINGS_UI_OVERSPILL,Overspill Damage

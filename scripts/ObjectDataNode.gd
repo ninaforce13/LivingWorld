@@ -22,7 +22,7 @@ func add_occupant(node):
 		if !slot.occupied:
 			slot.occupant = node
 			slot.occupied = true
-			slot.npc_data = node.get_data().recruit
+			slot.npc_data = node.get_node("RecruitData").recruit
 			break
 	if !is_empty():
 		set_campfire(true)
@@ -83,15 +83,16 @@ func purge_slots(force_purge:bool = false):
 				if slot.occupant.global_transform.origin.distance_to(slot.position_target) > 3.0:
 					clear_slot(slot)
 					continue
-			var occupant_data = slot.occupant.get_behavior()
-			if occupant_data:
-				if occupant_data.state != "FindCamp" and object_type == ObjectType.CAMP:
-					clear_slot(slot)
-				if (occupant_data.state != "FindRogues" and occupant_data.state != "Patrol") and object_type == ObjectType.ROGUEFUSION:
-					clear_slot(slot)
-				if occupant_data.state != "EngageEnemy" and object_type == ObjectType.WILD_ENCOUNTER:
-					clear_slot(slot)
-					get_parent().get_node("Interaction").disabled = false
+			if slot.occupant.has_method("get_behavior"):
+				var occupant_data = slot.occupant.get_behavior()
+				if occupant_data:
+					if occupant_data.state != "FindCamp" and object_type == ObjectType.CAMP:
+						clear_slot(slot)
+					if (occupant_data.state != "FindRogues" and occupant_data.state != "Patrol") and object_type == ObjectType.ROGUEFUSION:
+						clear_slot(slot)
+					if occupant_data.state != "EngageEnemy" and object_type == ObjectType.WILD_ENCOUNTER:
+						clear_slot(slot)
+						get_parent().get_node("Interaction").disabled = false
 		if slot.occupant == null and slot.occupied:
 			clear_slot(slot)
 		if force_purge:

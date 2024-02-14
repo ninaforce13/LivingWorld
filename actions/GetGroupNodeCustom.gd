@@ -26,7 +26,9 @@ func get_nearest_node(nodes):
 	if not (pawn is Spatial):
 		return null
 	var pawn_pos = pawn.global_transform.origin
-	var pawn_data = pawn.get_data()
+	var pawn_data
+	if pawn.has_meta("get_data"):
+		pawn_data = pawn.get_data()
 	var best = null
 	var best_dist = INF
 	for node in nodes:

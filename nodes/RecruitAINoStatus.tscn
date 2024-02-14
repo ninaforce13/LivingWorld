@@ -4,5 +4,5 @@
 
 [node name="BalancedAI" type="Node"]
 script = ExtResource( 1 )
+team_shares_tapes = true
 status_bubble_enabled = false
-fusions_die_at_0_hp = true

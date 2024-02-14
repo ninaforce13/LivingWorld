@@ -4,7 +4,7 @@ func _run():
 	var target = values[0]
 	var pawn = get_pawn()
 	var personality = pawn.get_behavior().personality
-	var random = Random.new()
+
 	var npcmanager = load("res://mods/LivingWorld/scripts/NPCManager.gd")
 	var recruitdata = npcmanager.get_data_from_npc(target)
 	var npc = npcmanager.get_npc(recruitdata)
@@ -18,6 +18,7 @@ func _run():
 	pawn.get_parent().add_child(npc)
 	npc.global_transform.origin = target.global_transform.origin
 	target.visible = false
+	target.queue_free()
 	npc.spawn_point = target.global_transform.origin
 
 	return true

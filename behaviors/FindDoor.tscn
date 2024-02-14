@@ -1,0 +1,78 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=1]
+[ext_resource path="res://addons/misc_utils/actions/decorators/RepeatWhile.gd" type="Script" id=2]
+[ext_resource path="res://nodes/actions/RemoveNodeAction.gd" type="Script" id=3]
+[ext_resource path="res://mods/LivingWorld/actions/SetInteraction.gd" type="Script" id=4]
+[ext_resource path="res://mods/LivingWorld/actions/CustomFollowAction.gd" type="Script" id=5]
+[ext_resource path="res://mods/LivingWorld/actions/IsNearby.gd" type="Script" id=6]
+[ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=7]
+[ext_resource path="res://mods/LivingWorld/actions/DisbandPartyAction.gd" type="Script" id=8]
+[ext_resource path="res://mods/LivingWorld/actions/GetGroupNodeCustom.gd" type="Script" id=9]
+[ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=10]
+
+[node name="FindDoor" type="Node"]
+script = ExtResource( 10 )
+interruptible = true
+combative_weight = 0.1
+social_weight = 0.1
+loner_weight = 0.1
+townie_weight = 0.5
+
+[node name="IsNearby" type="Node" parent="."]
+script = ExtResource( 6 )
+distance = 32.0
+
+[node name="GetGroupNode" type="Node" parent="IsNearby"]
+script = ExtResource( 9 )
+group = "warp_regions"
+mode = 4
+group_type = 2
+
+[node name="DisbandParty" type="Node" parent="."]
+script = ExtResource( 8 )
+
+[node name="RepeatWhile2" type="Node" parent="."]
+script = ExtResource( 2 )
+early_exit_on_failure = true
+
+[node name="FaceTowardsAction" type="Node" parent="RepeatWhile2"]
+script = ExtResource( 7 )
+
+[node name="GetGroupNode" type="Node" parent="RepeatWhile2/FaceTowardsAction"]
+script = ExtResource( 9 )
+group = "warp_regions"
+mode = 4
+group_type = 2
+
+[node name="FollowAction" type="Node" parent="RepeatWhile2"]
+script = ExtResource( 5 )
+__meta__ = {
+"action_tree": true
+}
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+ignore_ending_y = false
+strafe = true
+buffer = true
+zbuffer_dist = 8.0
+
+[node name="GetGroupNode" type="Node" parent="RepeatWhile2/FollowAction"]
+script = ExtResource( 9 )
+group = "warp_regions"
+mode = 4
+group_type = 2
+
+[node name="DisableInteraction" type="Node" parent="."]
+script = ExtResource( 4 )
+disabled = true
+
+[node name="GetPawn" type="Node" parent="DisableInteraction"]
+script = ExtResource( 1 )
+
+[node name="RemoveNodeAction" type="Node" parent="."]
+script = ExtResource( 3 )
+animation = 1

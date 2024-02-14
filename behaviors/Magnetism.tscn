@@ -1,0 +1,85 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=1]
+[ext_resource path="res://addons/misc_utils/actions/decorators/RepeatWhile.gd" type="Script" id=2]
+[ext_resource path="res://nodes/actions/SetNPCControlsAction.gd" type="Script" id=3]
+[ext_resource path="res://addons/misc_utils/actions/decorators/Failer.gd" type="Script" id=4]
+[ext_resource path="res://nodes/actions/FaceDirectionAction.gd" type="Script" id=5]
+[ext_resource path="res://mods/LivingWorld/actions/CustomWalk.gd" type="Script" id=6]
+[ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=7]
+
+[node name="Magnetism" type="Node"]
+script = ExtResource( 7 )
+disable_on_water = true
+
+[node name="RepeatWhile" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="SetNPCControlsAction" type="Node" parent="RepeatWhile"]
+script = ExtResource( 3 )
+jump = true
+magnetism = true
+set_values = 324
+
+[node name="FaceDirectionAction" type="Node" parent="RepeatWhile"]
+script = ExtResource( 5 )
+
+[node name="WalkAction" type="Node" parent="RepeatWhile"]
+script = ExtResource( 6 )
+__meta__ = {
+"action_tree": true
+}
+distance = 3.0
+can_jump = true
+can_wait = true
+
+[node name="FaceDirectionAction2" type="Node" parent="RepeatWhile"]
+script = ExtResource( 5 )
+direction = "left"
+
+[node name="WalkAction2" type="Node" parent="RepeatWhile"]
+script = ExtResource( 6 )
+__meta__ = {
+"action_tree": true
+}
+distance = 3.0
+can_jump = true
+can_wait = true
+
+[node name="FaceDirectionAction3" type="Node" parent="RepeatWhile"]
+script = ExtResource( 5 )
+direction = "up"
+
+[node name="WalkAction3" type="Node" parent="RepeatWhile"]
+script = ExtResource( 6 )
+__meta__ = {
+"action_tree": true
+}
+distance = 3.0
+can_jump = true
+can_wait = true
+
+[node name="FaceDirectionAction4" type="Node" parent="RepeatWhile"]
+script = ExtResource( 5 )
+direction = "right"
+
+[node name="WalkAction4" type="Node" parent="RepeatWhile"]
+script = ExtResource( 6 )
+__meta__ = {
+"action_tree": true
+}
+distance = 3.0
+can_jump = true
+can_wait = true
+
+[node name="WaitAction" type="Node" parent="RepeatWhile"]
+script = ExtResource( 1 )
+base_seconds = 7.0
+random_seconds = 2.0
+
+[node name="SetNPCControlsAction2" type="Node" parent="."]
+script = ExtResource( 3 )
+set_values = 64
+
+[node name="Failer" type="Node" parent="."]
+script = ExtResource( 4 )

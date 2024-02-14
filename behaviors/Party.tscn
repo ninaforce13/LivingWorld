@@ -1,0 +1,72 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://world/behaviors/monsters/RandomDirectionValue.gd" type="Script" id=1]
+[ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=2]
+[ext_resource path="res://addons/misc_utils/actions/decorators/RepeatWhile.gd" type="Script" id=3]
+[ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=4]
+[ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=5]
+[ext_resource path="res://addons/misc_utils/actions/composites/Sequence.gd" type="Script" id=6]
+[ext_resource path="res://mods/LivingWorld/actions/RandomSetBBFlag.gd" type="Script" id=7]
+[ext_resource path="res://mods/LivingWorld/actions/InPartyAction.gd" type="Script" id=8]
+[ext_resource path="res://mods/LivingWorld/actions/PartyFollowAction.gd" type="Script" id=9]
+[ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=10]
+[ext_resource path="res://mods/LivingWorld/actions/GetPartyLeader.gd" type="Script" id=11]
+[ext_resource path="res://mods/LivingWorld/actions/CheckFlagValue.gd" type="Script" id=12]
+
+[node name="Party" type="Node"]
+script = ExtResource( 10 )
+
+[node name="RepeatWhile" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Sequence" type="Node" parent="RepeatWhile"]
+script = ExtResource( 6 )
+
+[node name="RepeatWhile" type="Node" parent="RepeatWhile/Sequence"]
+script = ExtResource( 3 )
+
+[node name="FaceTowardsAction" type="Node" parent="RepeatWhile/Sequence/RepeatWhile"]
+script = ExtResource( 5 )
+
+[node name="GetPartyLeader" type="Node" parent="RepeatWhile/Sequence/RepeatWhile/FaceTowardsAction"]
+script = ExtResource( 11 )
+
+[node name="PartyFollow" type="Node" parent="RepeatWhile/Sequence/RepeatWhile"]
+script = ExtResource( 9 )
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_warp = true
+min_distance = 3.0
+
+[node name="GetPartyLeader" type="Node" parent="RepeatWhile/Sequence/RepeatWhile/PartyFollow"]
+script = ExtResource( 11 )
+
+[node name="FaceTowardsAction" type="Node" parent="RepeatWhile/Sequence"]
+script = ExtResource( 5 )
+
+[node name="RandomDirectionValue" type="Node" parent="RepeatWhile/Sequence/FaceTowardsAction"]
+script = ExtResource( 1 )
+
+[node name="SetRandomAction" type="Node" parent="RepeatWhile/Sequence"]
+script = ExtResource( 7 )
+bb_name = "react"
+activation_chance = 0.01
+
+[node name="Reaction" type="Node" parent="RepeatWhile/Sequence"]
+script = ExtResource( 12 )
+always_succeed = true
+bb_name = "react"
+
+[node name="PlayEmoteAction3" type="Node" parent="RepeatWhile/Sequence/Reaction"]
+script = ExtResource( 4 )
+selection = 15
+emotes = [ "singing_loop", "aggro_check", "Happy", "content" ]
+use_random = true
+
+[node name="WaitAction5" type="Node" parent="RepeatWhile/Sequence"]
+script = ExtResource( 2 )
+
+[node name="YieldUntilPartyDisband" type="Node" parent="RepeatWhile"]
+script = ExtResource( 8 )

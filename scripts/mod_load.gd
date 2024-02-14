@@ -17,7 +17,8 @@ var captainbehavior = preload("res://mods/LivingWorld/scripts/CaptainNPCBehavior
 var usersettings = preload("res://mods/LivingWorld/scripts/UserSettings_patch.gd")
 var mappausemenu = preload("res://mods/LivingWorld/scripts/MapPauseMenu_patch.gd")
 var conditionallayer = preload("res://mods/LivingWorld/scripts/ConditionalLayer_patch.gd")
-
+var battlenpcbehavior = preload("res://mods/LivingWorld/scripts/BattleNPCBehavior_patch.gd")
+var unlockedpartnerspawner = preload("res://mods/LivingWorld/scripts/UnlockedPartnerSpawner_patch.gd")
 
 var partners:Dictionary = {}
 const npc_template = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn")
@@ -46,6 +47,9 @@ func _init():
 	usersettings.patch()
 	mappausemenu.patch()
 	conditionallayer.patch()
+	battlenpcbehavior.patch()
+	unlockedpartnerspawner.patch()
+
 
 	yield(SceneManager.preloader,"singleton_setup_completed")
 	add_keyboard_shortcuts()

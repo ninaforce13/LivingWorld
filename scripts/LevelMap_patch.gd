@@ -67,8 +67,17 @@ static func get_code(block:String)->String:
 
 	code_blocks["respawn_recruit"] = """
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
+	if has_node("FollowerRecruit") and !npc_manager.has_active_follower():
+		var follower = get_node("FollowerRecruit")
+		follower.get_parent().remove_child(follower)
+		follower.queue_free()
+	if has_node("FollowerRecruit") and npc_manager.has_active_follower():
+			var follower = get_node("FollowerRecruit")
+			if !npc_manager.compare_dictionaries(follower.get_data().recruit,npc_manager.get_current_follower()):
+				follower.get_parent().remove_child(follower)
+				follower.queue_free()
 	if npc_manager.has_active_follower() and !has_node("FollowerRecruit"):
-		npc_manager.spawn_recruit(self, npc_manager.get_current_follower())
+		npc_manager.spawn_recruit(self, npc_manager.get_current_follower(), npc_manager.get_follower_partner_id())
 	"""
 
 	code_blocks["add_spawner"] = """

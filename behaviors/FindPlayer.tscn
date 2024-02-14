@@ -1,0 +1,74 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://nodes/actions/values/GetPlayer.gd" type="Script" id=1]
+[ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=2]
+[ext_resource path="res://addons/misc_utils/actions/decorators/RepeatWhile.gd" type="Script" id=3]
+[ext_resource path="res://addons/misc_utils/actions/decorators/Failer.gd" type="Script" id=4]
+[ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=5]
+[ext_resource path="res://mods/LivingWorld/actions/CheckDistanceFrom.gd" type="Script" id=6]
+[ext_resource path="res://mods/LivingWorld/actions/CustomFollowAction.gd" type="Script" id=7]
+[ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=8]
+[ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=9]
+
+[node name="FindPlayer" type="Node"]
+script = ExtResource( 9 )
+interruptible = true
+combative_weight = 0.5
+social_weight = 0.78
+loner_weight = 0.5
+townie_weight = 0.8
+
+[node name="IsPlayerNearby" type="Node" parent="."]
+script = ExtResource( 6 )
+within_distance = 32.0
+
+[node name="RepeatWhile" type="Node" parent="IsPlayerNearby"]
+script = ExtResource( 3 )
+
+[node name="FaceTowardsAction" type="Node" parent="IsPlayerNearby/RepeatWhile"]
+script = ExtResource( 8 )
+
+[node name="GetPlayer" type="Node" parent="IsPlayerNearby/RepeatWhile/FaceTowardsAction"]
+script = ExtResource( 1 )
+which = 3
+
+[node name="FollowAction" type="Node" parent="IsPlayerNearby/RepeatWhile"]
+script = ExtResource( 7 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 6.0
+ignore_ending_y = false
+
+[node name="GetPlayer" type="Node" parent="IsPlayerNearby/RepeatWhile/FollowAction"]
+script = ExtResource( 1 )
+which = 3
+
+[node name="PlayEmoteAction" type="Node" parent="IsPlayerNearby"]
+script = ExtResource( 5 )
+emotes = [ "singing_loop", "annoyed", "content", "questioning", "silly", "Traffikrab" ]
+use_random = true
+
+[node name="RepeatWhile2" type="Node" parent="IsPlayerNearby"]
+script = ExtResource( 3 )
+
+[node name="FaceTowardsAction" type="Node" parent="IsPlayerNearby/RepeatWhile2"]
+script = ExtResource( 8 )
+
+[node name="GetPlayer" type="Node" parent="IsPlayerNearby/RepeatWhile2/FaceTowardsAction"]
+script = ExtResource( 1 )
+which = 3
+
+[node name="WaitAction" type="Node" parent="IsPlayerNearby/RepeatWhile2"]
+script = ExtResource( 2 )
+base_seconds = 2.0
+random_seconds = 3.0
+
+[node name="Failer" type="Node" parent="."]
+script = ExtResource( 4 )

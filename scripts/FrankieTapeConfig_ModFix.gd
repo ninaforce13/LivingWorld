@@ -13,7 +13,6 @@ func _generate_tape(rand:Random, defeat_count:int)->MonsterTape:
 				var form = load(snap.custom_form) as MonsterForm
 				if form:
 					snap.form = snap.custom_form
-					print("converted custom tape back to custom form")
 		result.set_snapshot(snap, snap.get("version", 0))
 
 	for threshold in evolve_defeat_counts:

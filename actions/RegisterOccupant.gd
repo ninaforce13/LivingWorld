@@ -13,7 +13,7 @@ func _run():
 		return false
 	var pawn = get_pawn()
 	var state = get_parent().name
-	var data_node = pawn.get_data()
+	var data_node = pawn.get_node("RecruitData")
 	if register:
 		if object_data.is_full() and object_data.get_own_slot(get_pawn()) == null:
 			return false

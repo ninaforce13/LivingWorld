@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=1]
+[ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=2]
+[ext_resource path="res://nodes/actions/SetNPCControlsAction.gd" type="Script" id=3]
+[ext_resource path="res://nodes/actions/SpawnPointReturnAction.gd" type="Script" id=4]
+[ext_resource path="res://mods/LivingWorld/actions/CustomWalk.gd" type="Script" id=5]
+[ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=6]
+[ext_resource path="res://mods/LivingWorld/actions/GetRandomNonCardinalDirection.gd" type="Script" id=7]
+[ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=8]
+
+[node name="Idle" type="Node"]
+script = ExtResource( 8 )
+interruptible = true
+combative_weight = 0.9
+social_weight = 0.9
+loner_weight = 0.9
+
+[node name="SpawnPointReturnAction" type="Node" parent="."]
+script = ExtResource( 4 )
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_warp = true
+can_wait = true
+max_wait = 0.5
+strafe = true
+wander_limit = 64.0
+kill_on_failure = false
+
+[node name="SetNPCControlsAction" type="Node" parent="."]
+script = ExtResource( 3 )
+set_values = 478
+
+[node name="WaitAction" type="Node" parent="."]
+script = ExtResource( 1 )
+base_seconds = 0.25
+random_seconds = 0.5
+
+[node name="FaceTowardsAction" type="Node" parent="."]
+script = ExtResource( 6 )
+__meta__ = {
+"action_tree": true
+}
+
+[node name="GetPawn" type="Node" parent="FaceTowardsAction"]
+script = ExtResource( 2 )
+
+[node name="RandomDirectionValue" type="Node" parent="FaceTowardsAction"]
+script = ExtResource( 7 )
+spawn_point_return_threshold = 45.0
+
+[node name="WaitAction2" type="Node" parent="."]
+script = ExtResource( 1 )
+random_seconds = 2.5
+
+[node name="WalkAction" type="Node" parent="."]
+script = ExtResource( 5 )
+__meta__ = {
+"action_tree": true
+}
+can_fly = true
+can_jump = true
+can_glide = true
+can_fall = true
+can_wait = true
+max_wait = 2.0
+use_random = true
+random_walk_distance = 25

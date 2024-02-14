@@ -5,6 +5,7 @@ signal party_disbanded
 
 export (bool) var is_captain = false
 export (bool) var is_partner = false
+export (bool) var is_player = false
 
 const trade_generator = preload("res://mods/LivingWorld/scripts/StickerTradeGenerator.gd")
 const card_template = preload("res://mods/LivingWorld/cardgame/CardTemplate.tscn")
@@ -65,7 +66,7 @@ func add_emoteplayer():
 func generate_recruit_data():
 	var rangerdataparser = preload("res://mods/LivingWorld/scripts/RangerDataParser.gd")
 	var pawn = get_parent()
-	recruit = rangerdataparser.get_npc_snapshot(pawn)
+	recruit = rangerdataparser.get_npc_snapshot(pawn, is_player)
 
 func generate_trade():
 	trade_offer = trade_generator.generate()
@@ -129,9 +130,10 @@ func party_full()->bool:
 func form_party():
 	var data_node = null
 	var prev_member = null
+	check_partners()
 	for partner in conversation_partners:
 		data_node = partner.get_data()
-		if data_node and !data_node.has_party() and !data_node.is_partner:
+		if data_node and !data_node.has_party():
 			add_party_member(data_node, data_node.recruit)
 			data_node.add_party_member(self, recruit, true)
 			data_node.follow_target = get_parent()
@@ -200,6 +202,8 @@ func get_party_position(data)->int:
 	return 0
 
 func get_party_leader():
+	if is_leader:
+		return self
 	for member in get_party_data():
 		if member.leader:
 			return member.node

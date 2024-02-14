@@ -1,0 +1,96 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://sfx/transform.wav" type="AudioStream" id=1]
+[ext_resource path="res://addons/misc_utils/actions/DecoratorAction.gd" type="Script" id=2]
+[ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=3]
+[ext_resource path="res://nodes/actions/SetNPCControlsAction.gd" type="Script" id=4]
+[ext_resource path="res://addons/misc_utils/actions/decorators/Failer.gd" type="Script" id=5]
+[ext_resource path="res://nodes/actions/FaceDirectionAction.gd" type="Script" id=6]
+[ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=7]
+[ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=8]
+[ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=9]
+[ext_resource path="res://mods/LivingWorld/actions/ChangeSpriteAction.gd" type="Script" id=10]
+[ext_resource path="res://mods/LivingWorld/actions/PlayAudioVolumeCtrl.gd" type="Script" id=11]
+
+[node name="Transform" type="Node"]
+script = ExtResource( 9 )
+always_succeed = true
+combative_weight = 0.3
+social_weight = 0.85
+loner_weight = 0.65
+disable_on_water = true
+
+[node name="SetNPCControlsAction" type="Node" parent="."]
+script = ExtResource( 4 )
+set_values = 478
+
+[node name="PlayAudioAction" type="Node" parent="."]
+script = ExtResource( 11 )
+stream = ExtResource( 1 )
+wait_for_finish = false
+
+[node name="ChangeSprite" type="Node" parent="."]
+script = ExtResource( 10 )
+sprite_form = 1
+is_player = false
+
+[node name="SetNPCStateAction2" type="Node" parent="."]
+script = ExtResource( 8 )
+
+[node name="PlayEmoteAction" type="Node" parent="."]
+script = ExtResource( 7 )
+emotes = [ "singing_loop", "aggro_check", "Angry", "content", "questioning", "silly" ]
+use_random = true
+
+[node name="Turnstile" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="FaceDirectionAction" type="Node" parent="Turnstile"]
+script = ExtResource( 6 )
+direction = "anticlockwise"
+
+[node name="WaitAction" type="Node" parent="Turnstile"]
+script = ExtResource( 3 )
+base_seconds = 0.75
+
+[node name="FaceDirectionAction2" type="Node" parent="Turnstile"]
+script = ExtResource( 6 )
+direction = "anticlockwise"
+
+[node name="WaitAction2" type="Node" parent="Turnstile"]
+script = ExtResource( 3 )
+base_seconds = 0.75
+
+[node name="FaceDirectionAction3" type="Node" parent="Turnstile"]
+script = ExtResource( 6 )
+direction = "anticlockwise"
+
+[node name="WaitAction3" type="Node" parent="Turnstile"]
+script = ExtResource( 3 )
+base_seconds = 0.75
+
+[node name="FaceDirectionAction4" type="Node" parent="Turnstile"]
+script = ExtResource( 6 )
+direction = "anticlockwise"
+
+[node name="WaitAction4" type="Node" parent="Turnstile"]
+script = ExtResource( 3 )
+base_seconds = 0.75
+
+[node name="WaitAction" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="PlayAudioAction3" type="Node" parent="."]
+script = ExtResource( 11 )
+stream = ExtResource( 1 )
+wait_for_finish = false
+
+[node name="ChangeSprite2" type="Node" parent="."]
+script = ExtResource( 10 )
+is_player = false
+
+[node name="WaitAction6" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Failer" type="Node" parent="."]
+script = ExtResource( 5 )

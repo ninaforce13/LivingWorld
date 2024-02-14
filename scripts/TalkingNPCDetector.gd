@@ -14,6 +14,9 @@ func is_valid_detection(_detection)->bool:
 		return false
 	if !_detection.has_node("RecruitBehavior"):
 		return false
+	if !_detection.has_method("get_behavior"):
+		return false
+
 	var behavior = _detection.get_behavior()
 	if !behavior.is_interruptible(behavior.state_node) and behavior.state != "Conversation":
 		return false

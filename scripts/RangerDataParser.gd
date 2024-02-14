@@ -290,11 +290,11 @@ static func get_player_snapshot():
 	snap["version"] = "1.1"
 	return snap
 
-static func get_npc_snapshot(npc):
+static func get_npc_snapshot(npc, is_player:bool = false):
 	var charconfig
-	if npc.has_node("RematchConfig"):
+	if npc.has_node("RematchConfig/CharacterConfig"):
 		charconfig = npc.get_node("RematchConfig/CharacterConfig")
-	elif npc.has_node("EncounterConfig"):
+	elif npc.has_node("EncounterConfig/CharacterConfig"):
 		charconfig = npc.get_node("EncounterConfig/CharacterConfig")
 	var snap:Dictionary = {
 		"name":npc.npc_name,
@@ -310,6 +310,10 @@ static func get_npc_snapshot(npc):
 		"sprite_body":npc.sprite_body
 							}
 	var index:int = 0
+	if is_player:
+		snap["stats"] = {}
+		snap["version"] = "1.2"
+		return snap
 	if !charconfig:
 		for _i in range(6):
 			var tape = RandomTapeConfig.new()

@@ -1,0 +1,52 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://addons/misc_utils/actions/decorators/RepeatWhile.gd" type="Script" id=1]
+[ext_resource path="res://nodes/actions/SetNPCControlsAction.gd" type="Script" id=2]
+[ext_resource path="res://addons/misc_utils/actions/decorators/Failer.gd" type="Script" id=3]
+[ext_resource path="res://nodes/actions/FaceDirectionAction.gd" type="Script" id=4]
+[ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=5]
+[ext_resource path="res://mods/LivingWorld/actions/CustomWalk.gd" type="Script" id=6]
+[ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=7]
+[ext_resource path="res://mods/LivingWorld/actions/GetEngagedTarget.gd" type="Script" id=8]
+[ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=9]
+
+[node name="Flee" type="Node"]
+script = ExtResource( 9 )
+
+[node name="SetNPCControlsAction" type="Node" parent="."]
+script = ExtResource( 2 )
+set_values = 478
+
+[node name="FaceTowardsAction" type="Node" parent="."]
+script = ExtResource( 7 )
+
+[node name="GetEngagedTarget" type="Node" parent="FaceTowardsAction"]
+script = ExtResource( 8 )
+
+[node name="PlayShocked" type="Node" parent="."]
+script = ExtResource( 5 )
+selection = 11
+
+[node name="FaceDirectionAction" type="Node" parent="."]
+script = ExtResource( 4 )
+direction = "opposite"
+
+[node name="RepeatWhile" type="Node" parent="."]
+script = ExtResource( 1 )
+
+[node name="PlayShocked" type="Node" parent="RepeatWhile"]
+script = ExtResource( 5 )
+selection = 17
+
+[node name="WalkAction" type="Node" parent="RepeatWhile"]
+script = ExtResource( 6 )
+distance = 25.0
+can_fly = true
+can_jump = true
+can_glide = true
+can_fall = true
+can_wait = true
+max_wait = 2.0
+
+[node name="Failer" type="Node" parent="."]
+script = ExtResource( 3 )

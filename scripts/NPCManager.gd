@@ -144,6 +144,8 @@ static func get_setting(setting_name):
 		value = config.get_value("world","battle_sprite",false)
 	if setting_name == "EnemyCardThought":
 		value = config.get_value("card","enemy_thinking",true)
+	if setting_name == "OverspillDamage":
+		value = config.get_value("battle","overspill_damage",false)
 	return value
 
 static func _load_settings_file()->ConfigFile:
@@ -155,7 +157,7 @@ static func _load_settings_file()->ConfigFile:
 			push_error("Unable to load settings file " + settings_path)
 	return config
 
-static func get_follower_config(other_recruit):
+static func get_follower_config(other_recruit, occupant = null):
 	var ai_nostatus = preload("res://mods/LivingWorld/nodes/RecruitAINoStatus.tscn")
 	var ai_status = preload("res://mods/LivingWorld/nodes/RecruitAI.tscn")
 	var recruit = other_recruit
@@ -164,6 +166,16 @@ static func get_follower_config(other_recruit):
 	var rangerdata = mod.rangerdataparser
 	new_config.team = 0
 	var tape_nodes:Array = []
+	var is_frankie:bool = false
+	if occupant and occupant.character:
+		is_frankie = occupant.character.partner_id == "frankie"
+
+	if (is_follower_partner() and get_follower_partner_id() == "frankie" and !occupant) or is_frankie:
+
+		var first_tape = new_config.get_child(0)
+		first_tape.data_key = "frankie_starter"
+		first_tape.evolve_defeat_counts.push_back(0)
+		first_tape.evolve_defeat_counts.push_back(0)
 	for tape in new_config.get_children():
 		tape_nodes.push_back(tape)
 	rangerdata.set_char_config(new_config,recruit,tape_nodes)
@@ -215,7 +227,7 @@ static func add_battle_slots(battlebackground):
 	if SaveState.other_data.LivingWorldData.ExtraEncounterConfig.extra_slots > 0:
 		battlebackground.battle_camera.wide_mode = true
 
-static func spawn_recruit(levelmap, current_recruit = null):
+static func spawn_recruit(levelmap, current_recruit = null, partner_id = ""):
 	var mod = DLC.mods_by_id["LivingWorldMod"]
 	var rangerdata = mod.rangerdataparser
 	var PartnerController = mod.partnercontroller
@@ -224,7 +236,9 @@ static func spawn_recruit(levelmap, current_recruit = null):
 	if levelmap.has_node("Player"):
 		player = levelmap.get_node("Player")
 	var template = FollowerTemplate.instance()
-
+	if partner_id == "dog":
+		var dog_template = get_partner_by_id("dog").instance()
+		template.sprite_body = dog_template.sprite_body
 	if not template.has_node(NodePath("PartnerController")):
 		var controller = PartnerController.instance()
 		controller.min_distance = 6
@@ -244,8 +258,6 @@ static func spawn_recruit(levelmap, current_recruit = null):
 	return template
 
 static func is_idle_partner_available(partner_names,idle_partners)->bool:
-	if idle_partners.empty():
-		return true
 	partner_names = filter_partners(partner_names,idle_partners)
 	if partner_names.empty():
 		return false
@@ -253,17 +265,22 @@ static func is_idle_partner_available(partner_names,idle_partners)->bool:
 
 static func get_partner_names(quests:Dictionary)->Array:
 	var result:Array = []
+	result.push_back("kayleigh")
 	if SaveState.quests.is_completed(quests.frankie):
 		result.push_back("vin")
 		result.push_back("frankie")
 	if SaveState.quests.is_completed(quests.sunny):
 		result.push_back("sunny")
-	result.push_back("kayleigh")
-	result.push_back("meredith")
-	result.push_back("viola")
-	result.push_back("eugene")
-	result.push_back("felix")
-	result.push_back("dog")
+	if SaveState.party.is_partner_unlocked("meredith"):
+		result.push_back("meredith")
+	if SaveState.party.is_partner_unlocked("viola"):
+		result.push_back("viola")
+	if SaveState.party.is_partner_unlocked("eugene"):
+		result.push_back("eugene")
+	if SaveState.party.is_partner_unlocked("felix"):
+		result.push_back("felix")
+	if SaveState.party.is_partner_unlocked("dog"):
+		result.push_back("dog")
 
 	return result
 
@@ -289,6 +306,8 @@ static func filter_partners(options:Array,idle_partners)->Array:
 	var result:Array = options.duplicate()
 	var current_partner = SaveState.party.get_partner()
 	result.erase(current_partner.partner_id)
+	if result.empty():
+		return result
 	if is_follower_partner():
 		result.erase(get_follower_partner_id())
 	for item in result:
@@ -470,7 +489,7 @@ static func add_extra_fighters(encounter):
 		for slot in parent.get_node("ObjectData").slots:
 			if !slot.occupied:
 				continue
-			var newconfig = get_follower_config(slot.npc_data)
+			var newconfig = get_follower_config(slot.npc_data, slot.occupant)
 			encounter.add_child(newconfig)
 			newconfig.add_to_group("trainee_allies")
 			SaveState.other_data.LivingWorldData.ExtraEncounterConfig.extra_slots += 1

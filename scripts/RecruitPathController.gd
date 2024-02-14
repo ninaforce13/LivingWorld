@@ -104,7 +104,7 @@ func control_movement(delta):
 	var fly_height:bool = col_count > 7 or (col_count < 2 and not pawn.test_move(next_t, Vector3.DOWN * 1.5, pawn.infinite_inertia))
 	var jump_height:bool = col_count <= 1 and pawn.test_move(next_t, Vector3.DOWN * 1.5, pawn.infinite_inertia)
 	var height_cleared:bool = col_count <= 3
-	var behavior = pawn.get_behavior()
+	var behavior = pawn.get_node("RecruitBehavior")
 	if collides_forwards and pawn.get("supress_abilities") and not height_cleared and not behavior.state == "Shop":
 		_pause_controls()
 		arrive(true)

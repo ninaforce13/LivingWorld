@@ -1,0 +1,160 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=1]
+[ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=2]
+[ext_resource path="res://addons/misc_utils/actions/decorators/RepeatWhile.gd" type="Script" id=3]
+[ext_resource path="res://nodes/actions/SetNPCControlsAction.gd" type="Script" id=4]
+[ext_resource path="res://addons/misc_utils/actions/decorators/Failer.gd" type="Script" id=5]
+[ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=6]
+[ext_resource path="res://mods/LivingWorld/actions/RegisterOccupant.gd" type="Script" id=7]
+[ext_resource path="res://mods/LivingWorld/actions/SetInteraction.gd" type="Script" id=8]
+[ext_resource path="res://mods/LivingWorld/actions/CustomFollowAction.gd" type="Script" id=9]
+[ext_resource path="res://mods/LivingWorld/actions/IsNearby.gd" type="Script" id=10]
+[ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=11]
+[ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=12]
+[ext_resource path="res://mods/LivingWorld/actions/CheckForOtherCampers.gd" type="Script" id=13]
+[ext_resource path="res://addons/misc_utils/actions/values/GetBlackboardValue.gd" type="Script" id=14]
+[ext_resource path="res://mods/LivingWorld/actions/GetGroupNodeCustom.gd" type="Script" id=15]
+[ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=16]
+[ext_resource path="res://mods/LivingWorld/actions/GetSeat.gd" type="Script" id=17]
+
+[node name="FindCamp" type="Node"]
+script = ExtResource( 16 )
+combative_weight = 0.45
+social_weight = 0.85
+loner_weight = 0.1
+
+[node name="SetNPCControlsAction2" type="Node" parent="."]
+script = ExtResource( 4 )
+set_values = 478
+
+[node name="IsNearby" type="Node" parent="."]
+script = ExtResource( 10 )
+distance = 64.0
+bb_name = "Camp"
+
+[node name="GetGroupNode" type="Node" parent="IsNearby"]
+script = ExtResource( 15 )
+group = "campfires"
+mode = 4
+
+[node name="RepeatWhile" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="FaceTowardsAction" type="Node" parent="RepeatWhile"]
+script = ExtResource( 11 )
+
+[node name="GetBlackboardValue" type="Node" parent="RepeatWhile/FaceTowardsAction"]
+script = ExtResource( 14 )
+key = "Camp"
+
+[node name="FollowAction" type="Node" parent="RepeatWhile"]
+script = ExtResource( 9 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+min_distance = 4.0
+strafe = true
+
+[node name="GetBlackboardValue" type="Node" parent="RepeatWhile/FollowAction"]
+script = ExtResource( 14 )
+key = "Camp"
+
+[node name="RegisterOccupant" type="Node" parent="."]
+script = ExtResource( 7 )
+register = true
+
+[node name="GetBlackboardValue" type="Node" parent="RegisterOccupant"]
+script = ExtResource( 14 )
+key = "Camp"
+
+[node name="DisableInteraction" type="Node" parent="."]
+script = ExtResource( 8 )
+disabled = true
+
+[node name="GetPawn" type="Node" parent="DisableInteraction"]
+script = ExtResource( 2 )
+
+[node name="FaceTowardsAction" type="Node" parent="."]
+script = ExtResource( 11 )
+
+[node name="GetBlackboardValue" type="Node" parent="FaceTowardsAction"]
+script = ExtResource( 14 )
+key = "Camp"
+
+[node name="SetNPCControlsAction" type="Node" parent="."]
+script = ExtResource( 4 )
+set_values = 476
+
+[node name="FollowTarget" type="Node" parent="."]
+script = ExtResource( 9 )
+__meta__ = {
+"action_tree": true
+}
+always_succeed = true
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_wait = true
+hide_avatars_if_cutscene = false
+
+[node name="GetSeat" type="Node" parent="FollowTarget"]
+script = ExtResource( 17 )
+bb_name = "Camp"
+
+[node name="FaceTowardsAction2" type="Node" parent="."]
+script = ExtResource( 11 )
+
+[node name="GetBlackboardValue" type="Node" parent="FaceTowardsAction2"]
+script = ExtResource( 14 )
+key = "Camp"
+
+[node name="SetNPCStateAction" type="Node" parent="."]
+script = ExtResource( 12 )
+state = "Sitting"
+
+[node name="RepeatWhile2" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="OtherCampers" type="Node" parent="RepeatWhile2"]
+script = ExtResource( 13 )
+always_succeed = true
+group = "campfires"
+
+[node name="PlayEmoteAction" type="Node" parent="RepeatWhile2/OtherCampers"]
+script = ExtResource( 6 )
+emotes = [ "singing_loop", "aggro_check", "Happy", "Angry", "annoyed", "content", "frustrated", "questioning", "Sad", "shocked", "silly", "tape", "convo", "Love" ]
+use_random = true
+
+[node name="WaitAction" type="Node" parent="RepeatWhile2/OtherCampers"]
+script = ExtResource( 1 )
+base_seconds = 3.0
+random_seconds = 2.0
+
+[node name="WaitAction" type="Node" parent="RepeatWhile2"]
+script = ExtResource( 1 )
+base_seconds = 45.0
+random_seconds = 15.0
+
+[node name="UnregisterOccupant" type="Node" parent="."]
+script = ExtResource( 7 )
+
+[node name="GetBlackboardValue" type="Node" parent="UnregisterOccupant"]
+script = ExtResource( 14 )
+key = "Camp"
+
+[node name="DisableInteraction2" type="Node" parent="."]
+script = ExtResource( 8 )
+
+[node name="GetPawn" type="Node" parent="DisableInteraction2"]
+script = ExtResource( 2 )
+
+[node name="Failer" type="Node" parent="."]
+script = ExtResource( 5 )

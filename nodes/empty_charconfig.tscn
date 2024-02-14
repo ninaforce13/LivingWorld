@@ -8,7 +8,7 @@
 
 [node name="FollowerConfig" type="Node"]
 script = ExtResource( 1 )
-level_scale_override_key = "monster_miniboss_smart"
+level_scale_override_key = "npc_boss"
 character_sfx = ExtResource( 4 )
 character_kind = 1
 human_colors = {

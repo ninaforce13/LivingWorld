@@ -45,9 +45,9 @@
 [ext_resource path="res://mods/LivingWorld/cardgame/FoozleCC_Track2.ogg" type="AudioStream" id=43]
 [ext_resource path="res://nodes/actions/ChangeMusicAction.gd" type="Script" id=44]
 [ext_resource path="res://mods/LivingWorld/actions/RecruitBattleAction.gd" type="Script" id=45]
+[ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=46]
 [ext_resource path="res://mods/LivingWorld/scripts/MonsterDetector.gd" type="Script" id=61]
 [ext_resource path="res://nodes/actions/values/GetPlayer.gd" type="Script" id=62]
-[ext_resource path="res://nodes/actions/FaceTowardsAction.gd" type="Script" id=63]
 [ext_resource path="res://nodes/actions/Cutscene.gd" type="Script" id=64]
 [ext_resource path="res://mods/LivingWorld/scripts/TalkingNPCDetector.gd" type="Script" id=65]
 [ext_resource path="res://mods/LivingWorld/actions/MessageDialogRandom.gd" type="Script" id=66]
@@ -71,7 +71,7 @@ radius = 0.991032
 height = 2.40243
 
 [sub_resource type="SphereShape" id=18]
-radius = 15.0
+radius = 5.0
 
 [sub_resource type="BoxShape" id=5]
 extents = Vector3( 11.3643, 1.59925, 10.2657 )
@@ -1049,10 +1049,10 @@ collision_mask = 128
 script = ExtResource( 65 )
 detection_bb_key = "conversation_partner"
 detection_cooldown = 90.0
-combative_chance = 0.3
+combative_chance = 0.1
 social_chance = 0.5
 loner_chance = 0.0
-townie_chance = 0.5
+townie_chance = 0.3
 
 [node name="CollisionShape" type="CollisionShape" parent="TalkingNPCDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
@@ -1095,7 +1095,7 @@ __meta__ = {
 }
 
 [node name="FaceTowardsAction" type="Node" parent="InteractionBehavior"]
-script = ExtResource( 63 )
+script = ExtResource( 46 )
 
 [node name="GetPlayer" type="Node" parent="InteractionBehavior/FaceTowardsAction"]
 script = ExtResource( 62 )
