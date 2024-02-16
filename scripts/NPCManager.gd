@@ -182,6 +182,15 @@ static func get_follower_config(other_recruit, occupant = null):
 	new_config.name = "FollowerConfig"
 	var status:bool = get_setting("BackupStatus")
 	new_config.ai = ai_status if status else ai_nostatus
+	new_config.level_override = SaveState.party.player.level - 5
+	if get_follower_partner_id() != "" and !occupant:
+		var partner_template = get_partner_by_id(get_follower_partner_id()).instance()
+		new_config.base_character = partner_template.character
+		new_config.character_sfx = partner_template.character.sfx
+	if occupant and occupant.character and occupant.character.partner_id != "":
+		var partner_template = get_partner_by_id(occupant.character.partner_id).instance()
+		new_config.base_character = partner_template.character
+		new_config.character_sfx = partner_template.character.sfx
 	return new_config
 
 static func add_battle_slots(battlebackground):
@@ -236,9 +245,12 @@ static func spawn_recruit(levelmap, current_recruit = null, partner_id = ""):
 	if levelmap.has_node("Player"):
 		player = levelmap.get_node("Player")
 	var template = FollowerTemplate.instance()
-	if partner_id == "dog":
-		var dog_template = get_partner_by_id("dog").instance()
-		template.sprite_body = dog_template.sprite_body
+	if partner_id != "":
+		var partner_template = get_partner_by_id(partner_id).instance()
+		if partner_template.sprite_body:
+			template.sprite_body = partner_template.sprite_body
+		template.character = partner_template.character
+		template.character.level = SaveState.party.player.level - 5
 	if not template.has_node(NodePath("PartnerController")):
 		var controller = PartnerController.instance()
 		controller.min_distance = 6

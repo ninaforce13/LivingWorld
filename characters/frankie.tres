@@ -4,7 +4,7 @@
 [ext_resource path="res://data/character_sfx/frankie_sfx.tres" type="Resource" id=2]
 
 [resource]
-resource_name = "frankie.tres"
+resource_name = "FRANKIE_NAME Lv1"
 script = ExtResource( 1 )
 name = "FRANKIE_NAME"
 swap_colors = [  ]

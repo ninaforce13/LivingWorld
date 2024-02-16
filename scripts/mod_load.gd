@@ -19,6 +19,7 @@ var mappausemenu = preload("res://mods/LivingWorld/scripts/MapPauseMenu_patch.gd
 var conditionallayer = preload("res://mods/LivingWorld/scripts/ConditionalLayer_patch.gd")
 var battlenpcbehavior = preload("res://mods/LivingWorld/scripts/BattleNPCBehavior_patch.gd")
 var unlockedpartnerspawner = preload("res://mods/LivingWorld/scripts/UnlockedPartnerSpawner_patch.gd")
+var randomdailyconditionallayer = preload("res://mods/LivingWorld/scripts/RandomDailyConditionalLayer_patch.gd")
 
 var partners:Dictionary = {}
 const npc_template = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn")
@@ -49,6 +50,7 @@ func _init():
 	conditionallayer.patch()
 	battlenpcbehavior.patch()
 	unlockedpartnerspawner.patch()
+	randomdailyconditionallayer.patch()
 
 
 	yield(SceneManager.preloader,"singleton_setup_completed")

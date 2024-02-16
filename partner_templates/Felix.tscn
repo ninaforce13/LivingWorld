@@ -1,4 +1,4 @@
-[gd_scene load_steps=146 format=2]
+[gd_scene load_steps=145 format=2]
 
 [ext_resource path="res://data/monster_forms/kirikuri.tres" type="Resource" id=1]
 [ext_resource path="res://data/monster_forms/shining_kuneko.tres" type="Resource" id=2]
@@ -95,7 +95,6 @@
 [ext_resource path="res://mods/LivingWorld/actions/ChooseSticker.gd" type="Script" id=93]
 [ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=94]
 [ext_resource path="res://mods/LivingWorld/behaviors/Revive.tscn" type="PackedScene" id=95]
-[ext_resource path="res://sfx/voices/felix/felix_accept.wav" type="AudioStream" id=96]
 [ext_resource path="res://sfx/voices/felix/felix_compliment.wav" type="AudioStream" id=97]
 [ext_resource path="res://data/character_sfx/felix_sfx.tres" type="Resource" id=98]
 [ext_resource path="res://sprites/characters/battle/felix.json" type="PackedScene" id=99]
@@ -1377,7 +1376,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PartyInvite"]
 script = ExtResource( 75 )
 portrait = ExtResource( 43 )
-audio = ExtResource( 96 )
+audio = ExtResource( 90 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "FELIX_INVITE_ACCEPT1" ] ]
@@ -1650,7 +1649,6 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 35 )]
 

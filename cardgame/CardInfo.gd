@@ -5,27 +5,34 @@ onready var card_image:TextureRect = find_node("CardTexture")
 onready var card_attack_grid:HBoxContainer = find_node("AttackGrid")
 onready var card_defense_grid:HBoxContainer = find_node("DefenseGrid")
 onready var cardband:PanelContainer = find_node("CardBand")
-onready var card:PanelContainer = find_node("Card")
-onready var cardback:PanelContainer = find_node("CardBack")
+onready var card:TextureRect = find_node("Card")
+onready var cardback = find_node("CardBack")
 onready var cardbackband:PanelContainer = find_node("CardBackBand")
 onready var cardlogo:TextureRect = find_node("CardLogo")
 onready var audioplayer:AudioStreamPlayer2D = find_node("AudioStreamPlayer2D")
-
+onready var card_attack_label:Label = find_node("Attack")
+onready var card_defense_label:Label = find_node("Defense")
 export (Dictionary) var card_info:Dictionary = {"name":"name","texture":null,"attack":3,"defense":3,"remastered":false}
 export (String) var form
 export (Color) var bandcolor
 export (Color) var bordercolor
 export (Color) var backcolor
+export (bool) var holocard
 var origin
 var tween:Tween
 
 func _ready():
 	set_card()
-	set_colors()
+#	set_colors()
+	set_holoeffect()
 	tween = Tween.new()
 	tween.name = "Tween"
 	add_child(tween)
 	origin = rect_position
+
+func set_holoeffect():
+	var value = 0.2 if holocard else 0.0
+	card.material.set_shader_param("strength", value)
 
 func get_tween()->Tween:
 	return tween
@@ -75,6 +82,8 @@ func set_card():
 
 	card_name.text = card_info.name
 	card_image.texture = card_info.texture
+	card_attack_label.text = str(card_info.attack)
+	card_defense_label.text = str(card_info.defense)
 	var count:int = 0
 	for child in card_attack_grid.get_children():
 		if count == card_info.attack:
@@ -96,7 +105,7 @@ func set_card_info(form):
 	card_info.defense = calculate_grade("defense",monster_form)
 
 func calculate_grade(type,form:MonsterForm)->int:
-	var result:int = 0
+	var result = 0
 	if type == "attack":
 		result += get_stat_value(form.melee_attack)
 		result += get_stat_value(form.ranged_attack)
@@ -107,13 +116,19 @@ func calculate_grade(type,form:MonsterForm)->int:
 		result += get_stat_value(form.ranged_defense)
 		result += get_stat_value(form.evasion)
 		result += get_stat_value(form.max_hp)
-	return int(clamp(result,1,5))
+	return int(clamp(result,0,100))
 
-func get_stat_value(stat:int)->int:
-	if stat > 160:
+func get_stat_value(stat):
+	if stat >= 200:
+		return 3
+	if stat >= 160:
 		return 2
-	if stat > 100:
+	if stat >= 120:
 		return 1
+	if stat >= 100:
+		return 0.5
+	if stat < 100:
+		return -0.5
 	return 0
 
 func flip_card(duration):

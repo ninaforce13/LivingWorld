@@ -60,8 +60,8 @@ var enemy_discard:Array = []
 var player_turn:bool = false
 var player_entry_point
 var enemy_entry_point
-var player_stats:Dictionary = {"max_hp":6,"hp":6,"state":State.NEUTRAL,"attack":0,"defense":0,"attack_value":0,"defense_value":0}
-var enemy_stats:Dictionary = {"max_hp":6,"hp":6,"state":State.NEUTRAL,"attack":0,"defense":0,"attack_value":0,"defense_value":0}
+var player_stats:Dictionary = {"max_hp":6,"hp":6,"state":State.NEUTRAL,"attack":0,"defense":0,"attack_value":0,"defense_value":0, "remaster_bonus":0}
+var enemy_stats:Dictionary = {"max_hp":6,"hp":6,"state":State.NEUTRAL,"attack":0,"defense":0,"attack_value":0,"defense_value":0, "remaster_bonus":0}
 var winner_name:String
 var enemy_tween:Tween
 var player_tween:Tween
@@ -119,7 +119,10 @@ func set_sprites():
 
 func initialize_decks():
 	if player_deck.empty():
-		player_deck = get_player_deck()
+		if demo:
+			player_deck = build_demo_deck(0)
+		else:
+			player_deck = get_player_deck()
 		random.shuffle(player_deck)
 	if enemy_deck.empty():
 		enemy_deck = build_demo_deck(1)
@@ -144,13 +147,21 @@ func set_heartgauge_tween():
 
 func end_game():
 	var winner = get_winner_name()
-	var player_wins:bool = winner == WorldSystem.get_player().name
+	var player_wins:bool
+	if !demo:
+		player_wins = winner == WorldSystem.get_player().name
+	else:
+		player_wins = winner == "Nate"
 	player_turn = false
 	if player_wins:
 		EnemySprite.animate_defeat()
 	else:
 		PlayerSprite.animate_defeat()
-	choose_option(winner == WorldSystem.get_player().name)
+	var team = Team.PLAYER if player_wins else Team.ENEMY
+	var text = "%s Wins!"%winner
+	PlayBanner(team,text,"remaster")
+	yield(Banner.tween,"tween_completed")
+	choose_option(player_wins)
 
 func is_game_ended()->bool:
 	return player_stats.hp == 0 or enemy_stats.hp == 0
@@ -176,17 +187,29 @@ func resolve_stats(stats:Dictionary)->Dictionary:
 	var result:Dictionary = {"attack":0,"defense":0}
 	result.attack = int(stats.attack / resolve_value) if stats.state != State.DEFENSE else 0
 	result.defense = int(stats.defense / resolve_value) if stats.state != State.ATTACK else 0
+	result.attack += stats.remaster_bonus
+	result.defense += stats.remaster_bonus
 	return result
 
 func update_value_labels():
 	var player_result = resolve_stats(player_stats)
 	PlayerAttackLabel.text = str(player_result.attack)
 	PlayerDefenseLabel.text = str(player_result.defense)
-
+	if player_stats.remaster_bonus > 0:
+		PlayerAttackLabel.add_color_override("font_color",Color.orange)
+		PlayerDefenseLabel.add_color_override("font_color",Color.orange)
+	else:
+		PlayerAttackLabel.remove_color_override("font_color")
+		PlayerDefenseLabel.remove_color_override("font_color")
 	var enemy_result = resolve_stats(enemy_stats)
 	EnemyAttackLabel.text = str(enemy_result.attack)
 	EnemyDefenseLabel.text = str(enemy_result.defense)
-
+	if enemy_stats.remaster_bonus > 0:
+		EnemyAttackLabel.add_color_override("font_color",Color.orange)
+		EnemyDefenseLabel.add_color_override("font_color",Color.orange)
+	else:
+		EnemyAttackLabel.remove_color_override("font_color")
+		EnemyDefenseLabel.remove_color_override("font_color")
 func resolve_field():
 	var player_result:Dictionary = resolve_stats(player_stats)
 	var enemy_result:Dictionary = resolve_stats(enemy_stats)
@@ -304,10 +327,12 @@ func reset_stats():
 	player_stats.defense = 0
 	player_stats.defense_value = 0
 	player_stats.attack_value = 0
+	player_stats.remaster_bonus = 0
 	enemy_stats.attack = 0
 	enemy_stats.defense = 0
 	enemy_stats.defense_value = 0
 	enemy_stats.attack_value = 0
+	enemy_stats.remaster_bonus = 0
 
 	player_stats.state = State.NEUTRAL
 	enemy_stats.state = State.NEUTRAL
@@ -390,12 +415,8 @@ func player_card_picked(card):
 		card.remove_child(button)
 	empty_slot.set_card(card)
 	if remaster_bonus:
-		Banner.set_colors(Team.PLAYER)
-		Banner.set_text("Remaster Bonus!")
-		var co_list:Array = []
-		co_list.push_back(GameSFX.play_track("remaster"))
-		co_list.push_back(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5))
-		yield(Co.join(co_list),"completed")
+		player_stats.remaster_bonus += 1
+		PlayBanner(Team.PLAYER, "Remaster Bonus!", "remaster")
 		yield(Banner.tween,"tween_completed")
 	if active_field(Team.PLAYER):
 		player_stats = evaluate_state(Team.PLAYER, card, remaster_bonus)
@@ -412,6 +433,14 @@ func player_card_picked(card):
 	yield(Co.wait(0.5),"completed")
 	emit_signal("enemyturn")
 	PlayerSprite.animate_turn_end()
+
+func PlayBanner(team, text, track):
+	Banner.set_colors(team)
+	Banner.set_text(text)
+	var co_list:Array = []
+	co_list.push_back(GameSFX.play_track("remaster"))
+	co_list.push_back(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5))
+	yield(Co.join(co_list),"completed")
 
 func set_state(state,team):
 	var label:Label = PlayerState if team == Team.PLAYER else EnemyState
@@ -485,12 +514,8 @@ func animate_thinking(chosen_card):
 
 func enemy_move():
 	EnemySprite.animate_turn()
-	Banner.set_colors(Team.ENEMY)
-	Banner.set_text("%s's Turn"%enemy_data.name)
-	var co_list:Array = []
-	co_list.push_back(GameSFX.play_track("turn_start"))
-	co_list.push_back(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5))
-	yield(Co.join(co_list),"completed")
+	var text = "%s's Turn"%enemy_data.name
+	PlayBanner(Team.ENEMY,text,"turn_start")
 	yield(Banner.tween,"tween_completed")
 	if can_draw_card(Team.ENEMY):
 		draw_card(Team.ENEMY)
@@ -510,12 +535,8 @@ func enemy_move():
 	yield(card.tween,"tween_completed")
 	empty_slot.set_card(card)
 	if remaster_bonus:
-		Banner.set_colors(Team.ENEMY)
-		Banner.set_text("Remaster Bonus!")
-		co_list = []
-		co_list.push_back(GameSFX.play_track("turn_start"))
-		co_list.push_back(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5))
-		yield(Co.join(co_list),"completed")
+		enemy_stats.remaster_bonus += 1
+		PlayBanner(Team.ENEMY,"Remaster Bonus!","remaster")
 		yield(Banner.tween,"tween_completed")
 	if active_field(Team.ENEMY):
 		enemy_stats = evaluate_state(Team.ENEMY,card,remaster_bonus)
@@ -628,12 +649,8 @@ func set_player_turn(value:bool):
 			return
 
 	if value:
-		Banner.set_colors(Team.PLAYER)
-		Banner.set_text("%s's Turn"%player_data.name)
-		var co_list:Array = []
-		co_list.push_back(GameSFX.play_track("turn_start"))
-		co_list.push_back(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5))
-		yield(Co.join(co_list),"completed")
+		var text = "%s's Turn"%player_data.name
+		PlayBanner(Team.PLAYER, text, "turn_start")
 		yield(Banner.tween,"tween_completed")
 		PlayerSprite.animate_turn()
 
@@ -646,7 +663,10 @@ func set_player_turn(value:bool):
 func get_winner_name()->String:
 	var result:String =  ""
 	if player_stats.hp > 0:
-		result = WorldSystem.get_player().name
+		if demo:
+			result = "Nate"
+		else:
+			result = WorldSystem.get_player().name
 	else:
 		result = enemy_data.name
 	return result

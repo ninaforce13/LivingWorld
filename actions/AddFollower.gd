@@ -12,7 +12,7 @@ func add_recruit():
 	var npc = get_pawn()
 	var template = FollowerTemplate.instance()
 	var tapes:Array = []
-	var recruitdata = template.get_node("RecruitData")
+	var recruitdata = template.get_data()
 	var custom:bool = npc.is_in_group("custom_recruits")
 	var partner:bool = npc.is_in_group("idle_partners")
 	var partner_id:String = ""
@@ -22,6 +22,10 @@ func add_recruit():
 	setup_partner_controller(template)
 	if npc.sprite_body:
 		template.sprite_body = npc.sprite_body
+	if npc.character:
+		template.character = npc.character
+		template.character.level = SaveState.party.player.level - 10
+		clamp(template.character.level,0,200)
 	recruitdata.recruit = npc.get_data().recruit
 	if tapes.size() > 0:
 		rangerdata.add_tapes_to_data(tapes,recruitdata.recruit)
@@ -51,12 +55,8 @@ func setup_partner_controller(template):
 
 func copy_char_config(template,npc,tapes):
 	if npc.has_node("EncounterConfig/CharacterConfig"):
-		var config1 = npc.get_node("EncounterConfig/CharacterConfig")
-		config1.get_parent().remove_child(config1)
-		template.get_node("EncounterConfig").add_child(config1)
-		if npc.has_node("EncounterConfig/Sidekick"):
-			var tape = npc.get_node("EncounterConfig/Sidekick/Tape6")
-			tape.get_parent().remove_child(tape)
-			config1.add_child(tape)
-		for tape in config1.get_children():
+		var config = npc.get_node("EncounterConfig/CharacterConfig")
+		config.get_parent().remove_child(config)
+		template.get_node("EncounterConfig").add_child(config)
+		for tape in config.get_children():
 			tapes.push_back(tape._generate_tape(Random.new(),0))

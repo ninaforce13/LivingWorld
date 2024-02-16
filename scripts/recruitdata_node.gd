@@ -93,8 +93,8 @@ func add_conversation_partner(partner):
 				partner_data.conversation_partners.push_back(partner)
 		if !conversation_partners.has(partner):
 			conversation_partners.push_back(partner)
-		if not engaged:
-			set_engage(true)
+#		if not engaged:
+#			set_engage(true)
 
 func remove_conversation_partner(node):
 	for partner in conversation_partners:

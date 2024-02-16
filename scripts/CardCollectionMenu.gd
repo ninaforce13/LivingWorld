@@ -15,7 +15,7 @@ onready var deck_grid = find_node("DeckGrid")
 onready var add_card_button = find_node("AddCard")
 onready var remove_card_button = find_node("RemoveCard")
 onready var deckcountlabel = find_node("DeckCountLabel")
-
+export (bool) var demo = true
 func _ready():
 	focus_mode = Control.FOCUS_NONE
 	if !manager.has_savedata():
@@ -34,7 +34,11 @@ func _on_focus_changed(control:Control) -> void:
 			focus_button.grab_focus()
 
 func populate_collection():
-	var collection = manager.get_card_collection().values()
+	var collection
+	if !demo:
+		collection = manager.get_card_collection().values()
+	else:
+		collection = get_demo_collection().values()
 	collection.sort_custom(self, "_sort_indices")
 
 	for data in collection:
@@ -287,6 +291,24 @@ func get_looped_index(index, last_index,backwards:bool)->int:
 func deck_full()->bool:
 	return deck_count == deck_limt
 
+func get_demo_collection()->Dictionary:
+	var result:Dictionary = {}
+	var item:Dictionary = {"path":"","amount":0,"deck":0,"bestiary_index":0}
+	var basic_forms = MonsterForms.basic_forms.values() + MonsterForms.secret_forms.values()
+	for form in basic_forms:
+		var key = Loc.tr(form.name).to_lower()
+		if result.has(key):
+			result[key].deck += 1
+			continue
+		item.path = form.resource_path
+		item.amount = 0
+		item.deck = 1
+		item.bestiary_index = form.bestiary_index
+		result[key] = item.duplicate()
+		var card:Dictionary = {}
+		card["form"] = form.resource_path
+		manager.add_card_to_collection(card)
+	return result
 
 func _sort_indices(a, b)->bool:
 
