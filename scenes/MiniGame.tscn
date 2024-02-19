@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=2]
+[gd_scene load_steps=82 format=2]
 
 [ext_resource path="res://addons/misc_utils/OverscanMarginContainer.gd" type="Script" id=1]
 [ext_resource path="res://mods/LivingWorld/cardgame/EmptyCardTemplate.tscn" type="PackedScene" id=2]
@@ -27,6 +27,9 @@
 [ext_resource path="res://sfx/world/physics/impact_metal_3.wav" type="AudioStream" id=25]
 [ext_resource path="res://ui/fonts/regular/regular_70.tres" type="DynamicFont" id=26]
 [ext_resource path="res://mods/LivingWorld/cardgame/CardTemplate.tscn" type="PackedScene" id=27]
+[ext_resource path="res://mods/LivingWorld/cardgame/PointMeter.tscn" type="PackedScene" id=28]
+[ext_resource path="res://sfx/ui/fusion_meter_ready.wav" type="AudioStream" id=29]
+[ext_resource path="res://mods/LivingWorld/cardgame/PointMeter.gd" type="Script" id=30]
 
 [sub_resource type="ShaderMaterial" id=4]
 resource_local_to_scene = true
@@ -336,26 +339,6 @@ corner_detail = 1
 expand_margin_right = 10.0
 expand_margin_top = 22.0
 expand_margin_bottom = 32.0
-
-[sub_resource type="StyleBoxEmpty" id=5]
-
-[sub_resource type="StyleBoxFlat" id=49]
-bg_color = Color( 0.423529, 0.423529, 0.423529, 1 )
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color( 0, 0, 0, 1 )
-border_blend = true
-corner_radius_top_left = 50
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-corner_detail = 1
-expand_margin_right = 10.0
-shadow_color = Color( 0.0862745, 0.0862745, 0.0862745, 0.6 )
-shadow_size = 10
-shadow_offset = Vector2( 6, -6 )
 
 [sub_resource type="StyleBoxFlat" id=47]
 bg_color = Color( 0.87451, 0.4, 0.0392157, 0.329412 )
@@ -1472,6 +1455,53 @@ tracks/5/keys = {
 } ]
 }
 
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 0.658824 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.211765, 0.211765, 0.211765, 1 )
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id=50]
+bg_color = Color( 0, 0, 0, 0.658824 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.211765, 0.211765, 0.211765, 1 )
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id=51]
+bg_color = Color( 0, 0, 0, 0.658824 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.211765, 0.211765, 0.211765, 1 )
+border_blend = true
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[sub_resource type="StyleBoxFlat" id=49]
+bg_color = Color( 0.423529, 0.423529, 0.423529, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 1
+expand_margin_right = 10.0
+shadow_color = Color( 0.0862745, 0.0862745, 0.0862745, 0.6 )
+shadow_size = 10
+shadow_offset = Vector2( 6, -6 )
+
 [node name="StickerMiniGame" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -1495,7 +1525,6 @@ player_data = {
 enemy_data = {
 "name": "Ranger"
 }
-demo = true
 
 [node name="Blur" type="TextureRect" parent="."]
 material = SubResource( 4 )
@@ -1562,9 +1591,9 @@ custom_styles/panel = SubResource( 3 )
 
 [node name="EnemyField" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control"]
 margin_left = 308.0
-margin_top = 151.4
+margin_top = 145.0
 margin_right = 1712.0
-margin_bottom = 940.4
+margin_bottom = 934.0
 rect_pivot_offset = Vector2( 437.5, 142 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1574,13 +1603,20 @@ columns = 3
 
 [node name="EmptyCardSlot3" parent="Scroller/OverscanMarginContainer/Control/EnemyField" instance=ExtResource( 2 )]
 margin_left = 0.0
-margin_right = 225.0
+margin_right = 230.0
+margin_bottom = 295.0
+rect_min_size = Vector2( 230, 295 )
 
 [node name="EmptyCardSlot4" parent="Scroller/OverscanMarginContainer/Control/EnemyField" instance=ExtResource( 2 )]
+margin_left = 330.0
+margin_bottom = 295.0
+rect_min_size = Vector2( 230, 295 )
 
 [node name="EmptyCardSlot5" parent="Scroller/OverscanMarginContainer/Control/EnemyField" instance=ExtResource( 2 )]
-margin_left = 650.0
-margin_right = 875.0
+margin_left = 660.0
+margin_right = 890.0
+margin_bottom = 295.0
+rect_min_size = Vector2( 230, 295 )
 
 [node name="PlayerField" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control"]
 margin_left = 308.0
@@ -1594,340 +1630,20 @@ columns = 3
 
 [node name="EmptyCardSlot3" parent="Scroller/OverscanMarginContainer/Control/PlayerField" instance=ExtResource( 2 )]
 margin_left = 0.0
-margin_right = 225.0
+margin_right = 230.0
+margin_bottom = 295.0
+rect_min_size = Vector2( 230, 295 )
 
 [node name="EmptyCardSlot4" parent="Scroller/OverscanMarginContainer/Control/PlayerField" instance=ExtResource( 2 )]
+margin_left = 330.0
+margin_bottom = 295.0
+rect_min_size = Vector2( 230, 295 )
 
 [node name="EmptyCardSlot5" parent="Scroller/OverscanMarginContainer/Control/PlayerField" instance=ExtResource( 2 )]
-margin_left = 650.0
-margin_right = 875.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/Control"]
-margin_left = -172.0
-margin_top = -80.8
-margin_right = 2561.0
-margin_bottom = 203.2
-rect_scale = Vector2( 0.7, 0.7 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Spacer" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
-margin_right = 130.0
-margin_bottom = 284.0
-rect_min_size = Vector2( 130, 0 )
-
-[node name="EnemyStatus" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
-margin_left = 134.0
-margin_right = 667.0
-margin_bottom = 284.0
-rect_min_size = Vector2( 450, 0 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus"]
-margin_right = 40.0
-margin_bottom = 40.0
-
-[node name="EnemyState" type="Label" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer"]
-margin_right = 1695.0
-margin_bottom = 160.0
-theme = ExtResource( 3 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
-custom_constants/shadow_offset_x = 7
-custom_constants/shadow_offset_y = 5
-custom_fonts/font = ExtResource( 6 )
-text = "LIVINGWORLD_CARDS_UI_NEUTRAL"
-valign = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer"]
-margin_top = 164.0
-margin_right = 1695.0
-margin_bottom = 292.0
-
-[node name="EnemyAttackValue" type="Label" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
-margin_top = 4.0
-margin_right = 53.0
-margin_bottom = 124.0
-size_flags_horizontal = 0
-theme = ExtResource( 3 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
-custom_constants/shadow_offset_x = 7
-custom_constants/shadow_offset_y = 5
-custom_fonts/font = ExtResource( 15 )
-text = "0"
-uppercase = true
-
-[node name="TextureRect" type="TextureRect" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
-margin_left = 57.0
-margin_right = 185.0
-margin_bottom = 128.0
-rect_min_size = Vector2( 100, 100 )
-size_flags_horizontal = 0
-size_flags_vertical = 0
-texture = ExtResource( 13 )
-
-[node name="Label" type="Label" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
-margin_left = 189.0
-margin_right = 234.0
-margin_bottom = 120.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme = ExtResource( 3 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
-custom_constants/shadow_offset_x = 7
-custom_constants/shadow_offset_y = 5
-custom_fonts/font = ExtResource( 15 )
-text = "/"
-
-[node name="EnemyDefenseValue" type="Label" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
-margin_left = 238.0
-margin_top = 4.0
-margin_right = 291.0
-margin_bottom = 124.0
-theme = ExtResource( 3 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
-custom_constants/shadow_offset_x = 7
-custom_constants/shadow_offset_y = 5
-custom_fonts/font = ExtResource( 15 )
-text = "0"
-uppercase = true
-
-[node name="TextureRect2" type="TextureRect" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
-margin_left = 295.0
-margin_right = 423.0
-margin_bottom = 128.0
-rect_min_size = Vector2( 100, 100 )
-size_flags_horizontal = 0
-size_flags_vertical = 0
-texture = ExtResource( 14 )
-stretch_mode = 6
-
-[node name="OpponentHandGrid" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
-margin_left = 671.0
-margin_right = 2196.0
-margin_bottom = 284.0
-rect_pivot_offset = Vector2( 437.5, 142 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/hseparation = 100
-columns = 5
-
-[node name="EmptyCardSlot2" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
-margin_left = 0.0
-margin_right = 225.0
-custom_styles/panel = SubResource( 5 )
-
-[node name="EmptyCardSlot3" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
-custom_styles/panel = SubResource( 5 )
-
-[node name="EmptyCardSlot4" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
-margin_left = 650.0
-margin_right = 875.0
-custom_styles/panel = SubResource( 5 )
-
-[node name="EmptyCardSlot5" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
-margin_left = 975.0
-margin_right = 1200.0
-custom_styles/panel = SubResource( 5 )
-
-[node name="EmptyCardSlot6" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
-margin_left = 1300.0
-margin_right = 1525.0
-custom_styles/panel = SubResource( 5 )
-
-[node name="Spacer2" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
-margin_left = 2200.0
-margin_right = 2733.0
-margin_bottom = 284.0
-rect_min_size = Vector2( 75, 0 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="HboxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/Control"]
-margin_left = -172.0
-margin_top = 765.1
-margin_right = 2561.0
-margin_bottom = 1049.1
-rect_scale = Vector2( 0.7, 0.7 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Spacer2" type="Control" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
-margin_right = 500.0
-margin_bottom = 284.0
-rect_min_size = Vector2( 500, 0 )
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-
-[node name="PlayerHandGrid" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
-margin_left = 504.0
-margin_right = 2029.0
-margin_bottom = 284.0
-rect_pivot_offset = Vector2( 437.5, 142 )
-size_flags_horizontal = 6
-size_flags_vertical = 6
-custom_constants/hseparation = 100
-columns = 5
-
-[node name="EmptyCardSlot2" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
-margin_left = 0.0
-margin_right = 225.0
-custom_styles/panel = SubResource( 5 )
-
-[node name="EmptyCardSlot3" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
-custom_styles/panel = SubResource( 5 )
-
-[node name="EmptyCardSlot4" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
-margin_left = 650.0
-margin_right = 875.0
-custom_styles/panel = SubResource( 5 )
-
-[node name="EmptyCardSlot5" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
-margin_left = 975.0
-margin_right = 1200.0
-custom_styles/panel = SubResource( 5 )
-
-[node name="EmptyCardSlot6" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
-margin_left = 1300.0
-margin_right = 1525.0
-custom_styles/panel = SubResource( 5 )
-
-[node name="Spacer" type="Control" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
-margin_left = 2033.0
-margin_right = 2129.0
-margin_bottom = 284.0
-rect_min_size = Vector2( 50, 0 )
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.5
-
-[node name="PlayerStatus" type="Control" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
-margin_left = 2133.0
-margin_right = 2733.0
-margin_bottom = 284.0
-rect_min_size = Vector2( 600, 0 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus"]
-margin_right = 40.0
-margin_bottom = 40.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer"]
-margin_right = 1695.0
-margin_bottom = 128.0
-
-[node name="AttackValue" type="Label" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer"]
-margin_top = 4.0
-margin_right = 53.0
-margin_bottom = 124.0
-size_flags_horizontal = 0
-theme = ExtResource( 3 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
-custom_constants/shadow_offset_x = 7
-custom_constants/shadow_offset_y = 5
-custom_fonts/font = ExtResource( 15 )
-text = "0"
-uppercase = true
-
-[node name="TextureRect" type="TextureRect" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer"]
-margin_left = 57.0
-margin_right = 185.0
-margin_bottom = 128.0
-rect_min_size = Vector2( 100, 100 )
-size_flags_horizontal = 0
-size_flags_vertical = 0
-texture = ExtResource( 13 )
-
-[node name="Label" type="Label" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer"]
-margin_left = 189.0
-margin_right = 234.0
-margin_bottom = 120.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme = ExtResource( 3 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
-custom_constants/shadow_offset_x = 7
-custom_constants/shadow_offset_y = 5
-custom_fonts/font = ExtResource( 15 )
-text = "/"
-
-[node name="DefenseValue" type="Label" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer"]
-margin_left = 238.0
-margin_top = 4.0
-margin_right = 291.0
-margin_bottom = 124.0
-theme = ExtResource( 3 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
-custom_constants/shadow_offset_x = 7
-custom_constants/shadow_offset_y = 5
-custom_fonts/font = ExtResource( 15 )
-text = "0"
-uppercase = true
-
-[node name="TextureRect2" type="TextureRect" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer"]
-margin_left = 295.0
-margin_right = 423.0
-margin_bottom = 128.0
-rect_min_size = Vector2( 100, 100 )
-size_flags_horizontal = 0
-size_flags_vertical = 0
-texture = ExtResource( 14 )
-stretch_mode = 6
-
-[node name="PlayerState" type="Label" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer"]
-margin_top = 132.0
-margin_right = 1695.0
-margin_bottom = 292.0
-rect_pivot_offset = Vector2( 850, 80 )
-theme = ExtResource( 3 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
-custom_constants/shadow_offset_x = 7
-custom_constants/shadow_offset_y = 5
-custom_fonts/font = ExtResource( 6 )
-text = "LIVINGWORLD_CARDS_UI_NEUTRAL"
-align = 2
-valign = 1
-
-[node name="EnemyDeck" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 2 )]
-margin_left = 1450.0
-margin_top = -100.0
-margin_right = 1675.0
-margin_bottom = 184.0
-rect_rotation = 90.0
-rect_scale = Vector2( -0.7, 0.7 )
-custom_styles/panel = SubResource( 49 )
-
-[node name="Control2" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 27 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 1460.0
-margin_top = -125.0
-margin_right = 1677.0
-margin_bottom = 151.0
-rect_rotation = 90.0
-rect_scale = Vector2( 0.7, 0.7 )
-
-[node name="PlayerDeck" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 2 )]
-anchor_left = 1.0
-anchor_top = 0.773
-anchor_right = 1.0
-anchor_bottom = 0.773
-margin_left = -1675.0
-margin_top = 65.122
-margin_right = -1450.0
-margin_bottom = 349.122
-rect_rotation = -90.0
-rect_scale = Vector2( -0.7, 0.7 )
-
-[node name="Control" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 27 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -70.0
-margin_top = 725.0
-margin_right = 147.0
-margin_bottom = 1001.0
-rect_rotation = -90.0
-rect_scale = Vector2( 0.7, 0.7 )
+margin_left = 660.0
+margin_right = 890.0
+margin_bottom = 295.0
+rect_min_size = Vector2( 230, 295 )
 
 [node name="EnemySprite" type="Control" parent="Scroller/OverscanMarginContainer/Control"]
 anchor_left = 1.0
@@ -2006,7 +1722,6 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 7 )]
 
@@ -2181,7 +1896,6 @@ script = ExtResource( 8 )
 idle = "inactive"
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 7 )]
 
@@ -2279,6 +1993,426 @@ text = "6"
 align = 1
 valign = 1
 
+[node name="HBoxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/Control"]
+margin_left = -172.0
+margin_top = -80.8
+margin_right = 2561.0
+margin_bottom = 203.2
+rect_scale = Vector2( 0.7, 0.7 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Spacer" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
+margin_right = 130.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 130, 0 )
+
+[node name="EnemyStatus" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
+margin_left = 134.0
+margin_right = 705.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 450, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="EnemyState" type="Label" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer"]
+margin_right = 1695.0
+margin_bottom = 160.0
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 6 )
+text = "LIVINGWORLD_CARDS_UI_NEUTRAL"
+valign = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer"]
+margin_top = 164.0
+margin_right = 1695.0
+margin_bottom = 292.0
+
+[node name="EnemyAttackValue" type="Label" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
+margin_top = 4.0
+margin_right = 53.0
+margin_bottom = 124.0
+size_flags_horizontal = 0
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 15 )
+text = "0"
+uppercase = true
+
+[node name="TextureRect" type="TextureRect" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
+margin_left = 57.0
+margin_right = 185.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 100, 100 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 13 )
+
+[node name="Label" type="Label" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
+margin_left = 189.0
+margin_right = 234.0
+margin_bottom = 120.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 15 )
+text = "/"
+
+[node name="EnemyDefenseValue" type="Label" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
+margin_left = 238.0
+margin_top = 4.0
+margin_right = 291.0
+margin_bottom = 124.0
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 15 )
+text = "0"
+uppercase = true
+
+[node name="TextureRect2" type="TextureRect" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
+margin_left = 295.0
+margin_right = 423.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 100, 100 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 14 )
+stretch_mode = 6
+
+[node name="EnemyPointMeter" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer"]
+margin_left = 427.0
+margin_right = 502.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 75, 0 )
+rect_pivot_offset = Vector2( 37.5, 37.5 )
+script = ExtResource( 30 )
+default_color = Color( 0, 0, 0, 0.729412 )
+fill_color = Color( 0.192157, 0.870588, 0.882353, 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer/EnemyPointMeter"]
+margin_right = 40.0
+margin_bottom = 40.0
+custom_constants/separation = 5
+
+[node name="Control" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer/EnemyPointMeter/VBoxContainer"]
+margin_right = 75.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 0, 18 )
+
+[node name="bar" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer/EnemyPointMeter/VBoxContainer"]
+margin_top = 23.0
+margin_right = 75.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 75, 25 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 1 )
+
+[node name="bar2" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer/EnemyPointMeter/VBoxContainer"]
+margin_top = 53.0
+margin_right = 75.0
+margin_bottom = 78.0
+rect_min_size = Vector2( 75, 25 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 50 )
+
+[node name="bar3" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer/EnemyPointMeter/VBoxContainer"]
+margin_top = 83.0
+margin_right = 75.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 75, 25 )
+rect_pivot_offset = Vector2( 25, 7.5 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 51 )
+
+[node name="FillSoundPlayer" type="AudioStreamPlayer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/EnemyStatus/VBoxContainer/HBoxContainer/EnemyPointMeter"]
+stream = ExtResource( 29 )
+
+[node name="OpponentHandGrid" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
+margin_left = 709.0
+margin_right = 2004.0
+margin_bottom = 300.0
+rect_pivot_offset = Vector2( 735, 142 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/hseparation = 30
+columns = 5
+
+[node name="EmptyCardSlot2" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
+margin_left = 0.0
+margin_right = 235.0
+custom_styles/panel = SubResource( 5 )
+
+[node name="EmptyCardSlot3" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
+margin_left = 265.0
+margin_right = 500.0
+custom_styles/panel = SubResource( 5 )
+
+[node name="EmptyCardSlot4" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
+margin_left = 530.0
+margin_right = 765.0
+custom_styles/panel = SubResource( 5 )
+
+[node name="EmptyCardSlot5" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
+margin_left = 795.0
+margin_right = 1030.0
+custom_styles/panel = SubResource( 5 )
+
+[node name="EmptyCardSlot6" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer/OpponentHandGrid" instance=ExtResource( 2 )]
+margin_left = 1060.0
+margin_right = 1295.0
+custom_styles/panel = SubResource( 5 )
+
+[node name="Spacer2" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
+margin_left = 2008.0
+margin_right = 2733.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 725, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HboxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/Control"]
+margin_left = -172.0
+margin_top = 765.1
+margin_right = 2561.0
+margin_bottom = 1049.1
+rect_scale = Vector2( 0.7, 0.7 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Spacer2" type="Control" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
+margin_right = 675.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 675, 0 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="PlayerHandGrid" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
+margin_left = 679.0
+margin_right = 2014.0
+margin_bottom = 300.0
+rect_pivot_offset = Vector2( 735, 142 )
+size_flags_horizontal = 6
+size_flags_vertical = 6
+custom_constants/hseparation = 40
+columns = 5
+
+[node name="EmptyCardSlot2" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
+margin_left = 0.0
+margin_right = 235.0
+custom_styles/panel = SubResource( 5 )
+
+[node name="EmptyCardSlot3" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
+margin_left = 275.0
+margin_right = 510.0
+custom_styles/panel = SubResource( 5 )
+
+[node name="EmptyCardSlot4" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
+margin_left = 550.0
+margin_right = 785.0
+custom_styles/panel = SubResource( 5 )
+
+[node name="EmptyCardSlot5" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
+margin_left = 825.0
+margin_right = 1060.0
+custom_styles/panel = SubResource( 5 )
+
+[node name="EmptyCardSlot6" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerHandGrid" instance=ExtResource( 2 )]
+margin_left = 1100.0
+margin_right = 1335.0
+custom_styles/panel = SubResource( 5 )
+
+[node name="Spacer" type="Control" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
+margin_left = 2018.0
+margin_right = 2129.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 50, 0 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="PlayerStatus" type="Control" parent="Scroller/OverscanMarginContainer/Control/HboxContainer"]
+margin_left = 2133.0
+margin_right = 2733.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 600, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer"]
+margin_right = 1695.0
+margin_bottom = 128.0
+
+[node name="PointMeter" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer" instance=ExtResource( 28 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 75.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 75, 0 )
+
+[node name="AttackValue" type="Label" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer"]
+margin_left = 79.0
+margin_top = 4.0
+margin_right = 132.0
+margin_bottom = 124.0
+size_flags_horizontal = 0
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 15 )
+text = "0"
+uppercase = true
+
+[node name="TextureRect" type="TextureRect" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer"]
+margin_left = 136.0
+margin_right = 264.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 100, 100 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 13 )
+
+[node name="Label" type="Label" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer"]
+margin_left = 268.0
+margin_right = 313.0
+margin_bottom = 120.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 15 )
+text = "/"
+
+[node name="DefenseValue" type="Label" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer"]
+margin_left = 317.0
+margin_top = 4.0
+margin_right = 370.0
+margin_bottom = 124.0
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 15 )
+text = "0"
+uppercase = true
+
+[node name="TextureRect2" type="TextureRect" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer/HBoxContainer"]
+margin_left = 374.0
+margin_right = 502.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 100, 100 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 14 )
+stretch_mode = 6
+
+[node name="PlayerState" type="Label" parent="Scroller/OverscanMarginContainer/Control/HboxContainer/PlayerStatus/VBoxContainer"]
+margin_top = 132.0
+margin_right = 1695.0
+margin_bottom = 292.0
+rect_pivot_offset = Vector2( 850, 80 )
+theme = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.788235 )
+custom_constants/shadow_offset_x = 7
+custom_constants/shadow_offset_y = 5
+custom_fonts/font = ExtResource( 6 )
+text = "LIVINGWORLD_CARDS_UI_NEUTRAL"
+align = 2
+valign = 1
+
+[node name="EnemyDeck" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 2 )]
+margin_left = 1450.0
+margin_top = -117.0
+margin_right = 1685.0
+margin_bottom = 183.0
+rect_rotation = 90.0
+rect_scale = Vector2( 0.7, 0.7 )
+custom_styles/panel = SubResource( 49 )
+
+[node name="Control2" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 27 )]
+margin_left = 1370.0
+margin_top = -230.0
+margin_right = 1605.0
+margin_bottom = 70.0
+rect_rotation = 90.0
+rect_scale = Vector2( 0.7, 0.7 )
+
+[node name="Control5" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 27 )]
+margin_left = 1370.0
+margin_top = -240.0
+margin_right = 1605.0
+margin_bottom = 60.0
+rect_rotation = 90.0
+rect_scale = Vector2( 0.7, 0.7 )
+
+[node name="Control6" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 27 )]
+margin_left = 1370.0
+margin_top = -250.0
+margin_right = 1605.0
+margin_bottom = 50.0
+rect_rotation = 90.0
+rect_scale = Vector2( 0.7, 0.7 )
+
+[node name="PlayerDeck" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 2 )]
+anchor_left = 1.0
+anchor_top = 0.773
+anchor_right = 1.0
+anchor_bottom = 0.773
+margin_left = -1639.0
+margin_top = 45.122
+margin_right = -1404.0
+margin_bottom = 345.122
+rect_rotation = 90.0
+rect_scale = Vector2( 0.7, 0.7 )
+
+[node name="Control" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 27 )]
+margin_left = -143.0
+margin_top = 620.0
+margin_right = 92.0
+margin_bottom = 920.0
+rect_rotation = 90.0
+rect_scale = Vector2( 0.7, 0.7 )
+
+[node name="Control3" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 27 )]
+margin_left = -143.0
+margin_top = 610.0
+margin_right = 92.0
+margin_bottom = 910.0
+rect_rotation = 90.0
+rect_scale = Vector2( 0.7, 0.7 )
+
+[node name="Control4" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 27 )]
+margin_left = -143.0
+margin_top = 600.0
+margin_right = 92.0
+margin_bottom = 900.0
+rect_rotation = 90.0
+rect_scale = Vector2( 0.7, 0.7 )
+
 [node name="Banner" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 16 )]
 anchor_top = 0.336
 margin_left = -2200.0
@@ -2318,6 +2452,42 @@ sfx = {
 "remaster": ExtResource( 22 ),
 "turn_start": ExtResource( 23 )
 }
+
+[node name="PlayerSlot1" type="Position2D" parent="."]
+position = Vector2( 650, 875 )
+
+[node name="PlayerSlot2" type="Position2D" parent="."]
+position = Vector2( 824, 875 )
+
+[node name="PlayerSlot3" type="Position2D" parent="."]
+position = Vector2( 1020, 875 )
+
+[node name="PlayerSlot4" type="Position2D" parent="."]
+position = Vector2( 1221, 875 )
+
+[node name="PlayerSlot5" type="Position2D" parent="."]
+position = Vector2( 1414, 875 )
+
+[node name="PlayerDeckPos" type="Position2D" parent="."]
+position = Vector2( 210, 716 )
+
+[node name="EnemySlot1" type="Position2D" parent="."]
+position = Vector2( 650, 20 )
+
+[node name="EnemySlot2" type="Position2D" parent="."]
+position = Vector2( 824, 20 )
+
+[node name="EnemySlot3" type="Position2D" parent="."]
+position = Vector2( 1020, 20 )
+
+[node name="EnemySlot4" type="Position2D" parent="."]
+position = Vector2( 1221, 20 )
+
+[node name="EnemySlot5" type="Position2D" parent="."]
+position = Vector2( 1414, 20 )
+
+[node name="EnemyDeckPos" type="Position2D" parent="."]
+position = Vector2( 1732, -142 )
 
 [connection signal="input_event" from="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_input_event"]
 [connection signal="mouse_entered" from="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_mouse_entered"]

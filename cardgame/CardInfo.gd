@@ -1,12 +1,19 @@
 extends Control
+
+signal card_drawn
+signal card_discarded
+
 const gradestar:Texture = preload("res://ui/party/grade.png")
+const holoeffect:Material = preload("res://mods/LivingWorld/shaders/holoeffect.tres")
 onready var card_name:Label = find_node("Name")
 onready var card_image:TextureRect = find_node("CardTexture")
 onready var card_attack_grid:HBoxContainer = find_node("AttackGrid")
 onready var card_defense_grid:HBoxContainer = find_node("DefenseGrid")
 onready var cardband:PanelContainer = find_node("CardBand")
 onready var card:TextureRect = find_node("Card")
+onready var cardenemy:TextureRect = find_node("CardEnemy")
 onready var cardback = find_node("CardBack")
+onready var cardbacknotext = find_node("CardBackNoText")
 onready var cardbackband:PanelContainer = find_node("CardBackBand")
 onready var cardlogo:TextureRect = find_node("CardLogo")
 onready var audioplayer:AudioStreamPlayer2D = find_node("AudioStreamPlayer2D")
@@ -18,12 +25,14 @@ export (Color) var bandcolor
 export (Color) var bordercolor
 export (Color) var backcolor
 export (bool) var holocard
+export (bool) var enemy
+export (bool) var no_text
 var origin
 var tween:Tween
 
 func _ready():
 	set_card()
-#	set_colors()
+	set_colors()
 	set_holoeffect()
 	tween = Tween.new()
 	tween.name = "Tween"
@@ -31,8 +40,10 @@ func _ready():
 	origin = rect_position
 
 func set_holoeffect():
-	var value = 0.2 if holocard else 0.0
-	card.material.set_shader_param("strength", value)
+	if holocard:
+		card.material = holoeffect
+	else:
+		card.material = null
 
 func get_tween()->Tween:
 	return tween
@@ -47,34 +58,72 @@ func animate_playcard(endposition,duration=0.5,start_pos=rect_global_position):
 	yield(tween,"tween_completed")
 	audioplayer.play()
 
+func discard_card(endposition,duration=0.5,start_pos=rect_global_position):
+	var co_list:Array = []
+
+	co_list.push_back(move_to(endposition,duration,start_pos))
+	co_list.push_back(shrink())
+	co_list.push_back(rotate(duration))
+	yield(Co.join(co_list),"completed")
+	yield(tween,"tween_all_completed")
+	audioplayer.play()
+	emit_signal("card_discarded")
+
+func shrink():
+	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(0.7,0.7),0.1,Tween.TRANS_CUBIC,Tween.EASE_OUT)
+	tween.start()
+	yield(tween,"tween_completed")
+
+func draw_card(endposition,duration=0.5,start_pos=rect_global_position):
+	rect_pivot_offset.y -= 100
+	var co_list:Array = []
+	co_list.push_back(move_to(endposition,duration,start_pos))
+	co_list.push_back(rotate(duration))
+
+	yield(Co.join(co_list),"completed")
+	yield(tween,"tween_all_completed")
+	co_list.clear()
+	audioplayer.play()
+	rect_pivot_offset.y += 100
+	emit_signal("card_drawn")
+
+func rotate(duration):
+#	if tween.is_active():
+#		yield(tween,"tween_completed")
+	tween.interpolate_property(self,"rect_rotation",rect_rotation,-90,duration,Tween.TRANS_EXPO,Tween.EASE_IN_OUT)
+	tween.start()
+	yield(tween,"tween_completed")
+
+func move_to(endposition,duration=0.5,start_pos=rect_global_position):
+#	if tween.is_active():
+#		yield(tween,"tween_completed")
+	tween.interpolate_property(self,"rect_global_position",start_pos,endposition,duration,Tween.TRANS_QUINT,Tween.EASE_OUT)
+	tween.start()
+	yield(tween,"tween_completed")
+
+func grow():
+#	if tween.is_active():
+#		yield(tween,"tween_completed")
+	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2.ONE,0.1,Tween.TRANS_CUBIC,Tween.EASE_OUT)
+	tween.start()
+	yield(tween,"tween_completed")
+
 func animate_hover_enter():
-	if tween.is_active():
-		yield(tween,"tween_completed")
+#	if tween.is_active():
+#		yield(tween,"tween_completed")
 	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(1.2,1.2),.3,Tween.TRANS_CIRC,Tween.EASE_IN)
 	tween.start()
+
 func animate_hover_exit():
-	if tween.is_active():
-		yield(tween,"tween_completed")
+#	if tween.is_active():
+#		yield(tween,"tween_completed")
 	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2.ONE,.3,Tween.TRANS_BOUNCE,Tween.EASE_OUT)
 	tween.start()
-
 func set_colors():
-	var new_styleboxflat = cardband.get_stylebox("panel").duplicate()
-	new_styleboxflat.bg_color = bandcolor
-	new_styleboxflat.border_color = bordercolor
-	cardband.add_stylebox_override("panel",new_styleboxflat)
-	var mainstylebox = card.get_stylebox("panel").duplicate()
-	mainstylebox.border_color = bordercolor
-	card.add_stylebox_override("panel",mainstylebox)
-
-	var cardback_bandstylebox = cardbackband.get_stylebox("panel").duplicate()
-	cardback_bandstylebox.bg_color = bandcolor
-	cardback_bandstylebox.border_color = bordercolor
-	cardbackband.add_stylebox_override("panel",cardback_bandstylebox)
-	var cardback_mainstylebox = cardback.get_stylebox("panel").duplicate()
-	cardback_mainstylebox.bg_color = backcolor
-	cardback_mainstylebox.border_color = bordercolor
-	cardback.add_stylebox_override("panel",cardback_mainstylebox)
+	if enemy:
+		card.texture = cardenemy.texture
+	if no_text:
+		cardback.texture = cardbacknotext.texture
 
 func set_card():
 	if form:
@@ -141,6 +190,14 @@ func flip_card(duration):
 	card.visible = !card.visible
 	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(1,1),duration,Tween.TRANS_CIRC,Tween.EASE_OUT)
 	tween.start()
+
+func draw_rotate(duration):
+	rect_pivot_offset.y -= 100
+	tween.stop_all()
+	tween.interpolate_property(self,"rect_rotation",rect_rotation,-90,duration,Tween.TRANS_EXPO,Tween.EASE_IN_OUT)
+	tween.start()
+	yield(tween,"tween_completed")
+	rect_pivot_offset.y += 100
 
 func flip_card_hidden(duration):
 	if tween.is_active():

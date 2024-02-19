@@ -86,7 +86,7 @@ tracks/3/keys = {
 }
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.929412, 0.862745, 0.941176, 1 )
+bg_color = Color( 0.34902, 0.345098, 0.352941, 0.552941 )
 border_width_left = 10
 border_width_right = 10
 border_color = Color( 0, 0, 0, 1 )
@@ -98,7 +98,7 @@ border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.247059, 0.113725, 0.282353, 1 )
+border_color = Color( 0.0705882, 0.0509804, 0.0941176, 1 )
 border_blend = true
 corner_radius_top_left = 10
 corner_radius_top_right = 10
@@ -106,12 +106,12 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 1, 1, 1, 1 )
+bg_color = Color( 0.670588, 0.458824, 0.909804, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0, 0, 0, 1 )
+border_color = Color( 0.054902, 0.0235294, 0.0941176, 1 )
 border_blend = true
 corner_radius_top_left = 100
 corner_radius_top_right = 100
@@ -121,7 +121,7 @@ corner_detail = 1
 bg_color = Color( 0.670588, 0.458824, 0.909804, 1 )
 border_width_top = 10
 border_width_bottom = 10
-border_color = Color( 0.247059, 0.113725, 0.282353, 1 )
+border_color = Color( 0.196078, 0.0901961, 0.317647, 1 )
 border_blend = true
 
 [node name="CardCollectionMenu" type="Control"]
@@ -189,13 +189,6 @@ custom_constants/vseparation = 350
 custom_constants/hseparation = 300
 columns = 5
 
-[node name="ScrollIndicator" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 9 )]
-margin_left = 59.0
-margin_top = 140.0
-margin_right = 1560.0
-margin_bottom = 970.0
-scroll_container = NodePath("../MarginContainer/ScrollContainer")
-
 [node name="Header" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
 margin_left = 20.0
 margin_right = 1595.0
@@ -219,6 +212,13 @@ custom_constants/shadow_offset_x = 5
 custom_constants/shadow_offset_y = 3
 custom_fonts/font = ExtResource( 2 )
 text = "Card Collection"
+
+[node name="ScrollIndicator" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 9 )]
+margin_left = 59.0
+margin_top = 140.0
+margin_right = 1560.0
+margin_bottom = 970.0
+scroll_container = NodePath("../MarginContainer/ScrollContainer")
 
 [node name="Background2" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
 margin_left = 1610.0
@@ -303,8 +303,8 @@ margin_bottom = 78.0
 focus_mode = 0
 size_flags_horizontal = 0
 size_flags_vertical = 3
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_hover = Color( 0.0745098, 0.560784, 0.639216, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.121569, 0.815686, 0.937255, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "Add Card"
 flat = true
@@ -318,8 +318,8 @@ margin_right = 1706.0
 margin_bottom = 78.0
 size_flags_horizontal = 0
 size_flags_vertical = 3
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_hover = Color( 0.0745098, 0.560784, 0.639216, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.121569, 0.815686, 0.937255, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "Remove Card"
 flat = true
@@ -334,8 +334,8 @@ margin_bottom = 78.0
 focus_mode = 0
 size_flags_horizontal = 0
 size_flags_vertical = 3
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_hover = Color( 0.0745098, 0.560784, 0.639216, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover = Color( 0.121569, 0.815686, 0.937255, 1 )
 custom_fonts/font = ExtResource( 1 )
 text = "Back"
 flat = true

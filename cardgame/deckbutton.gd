@@ -19,13 +19,13 @@ func setup_display():
 	name_label.text = Loc.tr(form.name)
 
 func animate_hover_enter():
-	if tween.is_active():
-		yield(tween,"tween_all_completed")
+#	if tween.is_active():
+#		yield(tween,"tween_all_completed")
 	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(1.2,1.2),.3,Tween.TRANS_CIRC,Tween.EASE_IN)
 	tween.start()
 func animate_hover_exit():
-	if tween.is_active():
-		yield(tween,"tween_all_completed")
+#	if tween.is_active():
+#		yield(tween,"tween_all_completed")
 	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2.ONE,.3,Tween.TRANS_BOUNCE,Tween.EASE_OUT)
 	tween.start()
 

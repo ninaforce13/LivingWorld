@@ -51,6 +51,7 @@ func build_deck():
 	for i in range (20):
 		var form = random.choice(forms) if i >= 10 else random.choice(debut_forms)
 		var card = card_template.instance()
+		card.enemy = true
 		card.form = form.resource_path
 		card_deck.push_back(card.duplicate())
 	random.shuffle(card_deck)

@@ -50,6 +50,9 @@ func populate_collection():
 		new_label.get_node("PanelContainer/Control/AmountLabel").text = str(data.amount)
 		new_card.form = data.path
 		card_grid.add_child(new_card)
+		if data.holocard:
+			new_card.holocard = data.holocard
+			new_card.set_holoeffect()
 		new_card.flip_card_no_anim()
 		new_card.add_child(new_label)
 		setup_button(new_card)
@@ -240,6 +243,8 @@ func set_focus_buttons():
 		var up_index = index-5 if index-5 >= first_card else get_looped_index(index,last_card,true)
 		var down_index = index+5 if index+5 <= last_card else get_looped_index(index,last_card,false)
 
+		if last_deck_focus > deck_grid.get_child_count() - 1:
+			last_deck_focus = 0
 		var right_neighbor = deck_grid.get_child(last_deck_focus).get_node("Button") if end_of_row and deck_grid.get_child_count() > 0 else card_grid.get_child(next_index).get_node("Button")
 		var left_neighbor = card_grid.get_child(prev_index).get_node("Button")
 		var up_neighbor = card_grid.get_child(up_index).get_node("Button")

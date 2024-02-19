@@ -1,0 +1,84 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://mods/LivingWorld/cardgame/PointMeter.gd" type="Script" id=1]
+[ext_resource path="res://sfx/ui/fusion_meter_ready.wav" type="AudioStream" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 0.658824 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.211765, 0.211765, 0.211765, 1 )
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id=50]
+bg_color = Color( 0, 0, 0, 0.658824 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.211765, 0.211765, 0.211765, 1 )
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id=51]
+bg_color = Color( 0, 0, 0, 0.658824 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.211765, 0.211765, 0.211765, 1 )
+border_blend = true
+
+[node name="PointMeter" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 1.0
+margin_right = -1844.0
+margin_bottom = -1004.0
+rect_pivot_offset = Vector2( 37.5, 37.5 )
+script = ExtResource( 1 )
+default_color = Color( 0, 0, 0, 0.729412 )
+fill_color = Color( 0.192157, 0.870588, 0.882353, 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+custom_constants/separation = 5
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+margin_right = 75.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 0, 18 )
+
+[node name="bar" type="PanelContainer" parent="VBoxContainer"]
+margin_top = 23.0
+margin_right = 75.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 75, 25 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 1 )
+
+[node name="bar2" type="PanelContainer" parent="VBoxContainer"]
+margin_top = 53.0
+margin_right = 75.0
+margin_bottom = 78.0
+rect_min_size = Vector2( 75, 25 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 50 )
+
+[node name="bar3" type="PanelContainer" parent="VBoxContainer"]
+margin_top = 83.0
+margin_right = 75.0
+margin_bottom = 108.0
+rect_min_size = Vector2( 75, 25 )
+rect_pivot_offset = Vector2( 25, 7.5 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 51 )
+
+[node name="FillSoundPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )

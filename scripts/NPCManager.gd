@@ -75,7 +75,7 @@ static func initialize_savedata():
 static func initialize_card_collection()->Dictionary:
 	var result:Dictionary = {}
 	var random = Random.new(SaveState.random_seed)
-	var item:Dictionary = {"path":"","amount":0,"deck":0,"bestiary_index":0}
+	var item:Dictionary = {"path":"","amount":0,"deck":0,"bestiary_index":0,"holocard":false}
 	var basic_forms = MonsterForms.basic_forms.values()
 	var debut_forms = MonsterForms.pre_evolution.values()
 	var options:Array = []
@@ -97,13 +97,15 @@ static func get_card_collection()->Dictionary:
 	var result:Dictionary
 	return SaveState.other_data.LivingWorldData.CardGame.collection
 
-static func add_card_to_collection(card):
+static func add_card_to_collection(card,holocard:bool = false):
 	var key = get_card_key(card)
 	var collection = get_card_collection()
 	if has_card(card):
 		collection[key].amount += 1
+		if holocard:
+			collection[key].holocard = holocard
 	else:
-		collection[key] = set_card_data(card)
+		collection[key] = set_card_data(card,holocard)
 
 static func has_card(card_data)->bool:
 	var key = get_card_key(card_data)
@@ -115,13 +117,14 @@ static func get_card_key(card_data)->String:
 	var key = str(Loc.tr(form.name)).to_lower()
 	return key
 
-static func set_card_data(card_data)->Dictionary:
+static func set_card_data(card_data,holocard:bool = false)->Dictionary:
 	var form = load(card_data.form)
 	var result:Dictionary = {
 		"path":card_data.form,
 		"amount":1,
 		"deck":0,
-		"bestiary_index":form.bestiary_index
+		"bestiary_index":form.bestiary_index,
+		"holocard":holocard
 		}
 	return result
 

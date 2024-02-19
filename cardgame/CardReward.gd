@@ -1,17 +1,19 @@
 extends Control
 signal reward_completed
 export (String) var reward_monster_path
-
+export(bool) var holocard = false
 onready var spawnpoint = find_node("CardSpawn")
 onready var endpoint = find_node("CardEndPoint")
 
 var card_template = preload("res://mods/LivingWorld/cardgame/CardTemplate.tscn")
 var reward_card = null
-
+var random:Random
 
 func _ready():
 	reward_card = card_template.instance()
 	reward_card.form = reward_monster_path
+	reward_card.no_text = true
+	reward_card.holocard = holocard
 	add_child(reward_card)
 	reward_card.rect_global_position = spawnpoint.global_position
 	animate_card(2)
