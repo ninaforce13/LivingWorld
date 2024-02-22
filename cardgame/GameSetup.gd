@@ -60,7 +60,11 @@ onready var EnemyDeckPos = find_node("EnemyDeckPos")
 
 export (Dictionary) var player_setup
 export (Dictionary) var enemy_setup
-export (int) var deck_seed
+export (int) var game_seed
+export (Color) var attack_color
+export (Color) var defend_color
+export (Color) var neutral_color
+export (Color) var remaster_bonus_color
 export (Dictionary) var player_data
 export (Dictionary) var enemy_data
 export (bool) var demo = false
@@ -215,7 +219,7 @@ func reset_labels():
 	EnemyAttackLabel.remove_color_override("font_color")
 	EnemyDefenseLabel.remove_color_override("font_color")
 	PlayerAttackLabel.remove_color_override("font_color")
-	PlayerAttackLabel.remove_color_override("font_color")
+	PlayerDefenseLabel.remove_color_override("font_color")
 
 func update_value_labels(team):
 	var stats = player_stats if team == Team.PLAYER else enemy_stats
@@ -245,9 +249,9 @@ func update_value_labels(team):
 					stats.defense_display = current_value
 				point_meter.reset_bar()
 
-		difference = (stats.attack + (stats.remaster_bonus * resolve_value)) - (stats.attack_display * resolve_value)
-		if point_meter.filled_count != difference:
-			point_meter.fill_bar(difference)
+		var remainder = ((stats.attack + (stats.remaster_bonus * resolve_value))%3) - point_meter.filled_count
+		if point_meter.filled_count != remainder:
+			point_meter.fill_bar(remainder)
 			yield(point_meter,"fill_complete")
 
 	if stats.state == State.DEFENSE:
@@ -263,14 +267,14 @@ func update_value_labels(team):
 			stats.defense_display = current_value
 			point_meter.reset_bar()
 
-		difference = (stats.defense + (stats.remaster_bonus * resolve_value)) - (stats.defense_display * resolve_value)
-		if point_meter.filled_count != difference:
-			point_meter.fill_bar(difference)
+		var remainder = ((stats.defense + (stats.remaster_bonus * resolve_value))%3) - point_meter.filled_count
+		if point_meter.filled_count != remainder:
+			point_meter.fill_bar(remainder)
 			yield(point_meter,"fill_complete")
 
 	if stats.remaster_bonus > 0:
-		attack_label.add_color_override("font_color",Color.orange)
-		defense_label.add_color_override("font_color",Color.orange)
+		attack_label.add_color_override("font_color",remaster_bonus_color)
+		defense_label.add_color_override("font_color",remaster_bonus_color)
 	else:
 		attack_label.remove_color_override("font_color")
 		defense_label.remove_color_override("font_color")
@@ -416,6 +420,7 @@ func setup_button(card):
 	card_button.add_stylebox_override("hover",StyleBoxEmpty.new())
 	card_button.add_stylebox_override("focus",StyleBoxEmpty.new())
 	card.add_child(card_button)
+	card_button.rect_size = card.rect_size
 
 func set_focus_buttons():
 	var focus_index:int = 5
@@ -481,7 +486,7 @@ func player_card_picked(card):
 	empty_slot.set_card(card)
 	if remaster_bonus:
 		player_stats.remaster_bonus += 1
-		PlayBanner(Team.PLAYER, "Remaster Bonus!", "remaster")
+		PlayBanner(Team.PLAYER, "LIVINGWORLD_CARDS_UI_REMASTER_BONUS", "remaster")
 		yield(Banner.tween,"tween_completed")
 	if active_field(Team.PLAYER):
 		player_stats = evaluate_state(Team.PLAYER, card, remaster_bonus)
@@ -504,7 +509,7 @@ func PlayBanner(team, text, track):
 	Banner.set_colors(team)
 	Banner.set_text(text)
 	var co_list:Array = []
-	co_list.push_back(GameSFX.play_track("remaster"))
+	co_list.push_back(GameSFX.play_track(track))
 	co_list.push_back(Banner.animate_banner(BannerStart.global_position,BannerEnd.global_position,1.5))
 	yield(Co.join(co_list),"completed")
 
@@ -512,13 +517,13 @@ func set_state(state,team):
 	var label:Label = PlayerState if team == Team.PLAYER else EnemyState
 	if state == State.NEUTRAL:
 		label.text = "LIVINGWORLD_CARDS_UI_NEUTRAL"
-		label.add_color_override("font_color",Color.white)
+		label.add_color_override("font_color",neutral_color)
 	if state == State.ATTACK:
 		label.text = "LIVINGWORLD_CARDS_UI_ATTACK"
-		label.add_color_override("font_color",Color.crimson)
+		label.add_color_override("font_color",attack_color)
 	if state == State.DEFENSE:
 		label.text = "LIVINGWORLD_CARDS_UI_DEFENSE"
-		label.add_color_override("font_color",Color.lightgreen)
+		label.add_color_override("font_color",defend_color)
 
 func get_empty_slot(container)->Dictionary:
 	var result = {"slot":null,"index":0}
@@ -626,7 +631,7 @@ func enemy_move():
 	empty_slot.set_card(card)
 	if remaster_bonus:
 		enemy_stats.remaster_bonus += 1
-		PlayBanner(Team.ENEMY,"Remaster Bonus!","remaster")
+		PlayBanner(Team.ENEMY,"LIVINGWORLD_CARDS_UI_REMASTER_BONUS","remaster")
 		yield(Banner.tween,"tween_completed")
 	if active_field(Team.ENEMY):
 		enemy_stats = evaluate_state(Team.ENEMY,card,remaster_bonus)
@@ -770,16 +775,14 @@ func can_draw_card(team)->bool:
 func build_demo_deck(_team:int)->Array:
 	var deck:Array = []
 	var forms = MonsterForms.by_index
-	for _i in range (0,25):
+	for _i in range (0,30):
 		var form = forms.pop_front()
 		var card = card_template.instance()
 		if _team == 1:
 			card.enemy = true
 		card.form = form.resource_path
-		if card.form == "res://data/monster_forms/sirenade.tres" or card.form == "res://data/monster_forms/traffikrab.tres":
-			deck.insert(0,card.duplicate())
-		else:
-			deck.push_back(card.duplicate())
+
+		deck.push_back(card.duplicate())
 
 #	deck.shuffle()
 	return deck
@@ -810,6 +813,9 @@ func get_player_deck()->Array:
 		manager.initialize_savedata()
 	var collection = manager.get_card_collection()
 	for item in collection.values():
+		var load_test = load(item.path)
+		if !load_test:
+			continue
 		if item.deck > 0:
 			for _i in range(0,item.deck):
 				var card = card_template.instance()

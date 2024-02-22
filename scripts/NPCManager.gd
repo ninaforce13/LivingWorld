@@ -79,8 +79,8 @@ static func initialize_card_collection()->Dictionary:
 	var basic_forms = MonsterForms.basic_forms.values()
 	var debut_forms = MonsterForms.pre_evolution.values()
 	var options:Array = []
-	for i in range(20):
-		options = debut_forms if i < 15 else basic_forms
+	for i in range(30):
+		options = debut_forms if i < 20 else basic_forms
 		var form = random.choice(options)
 		var key = Loc.tr(form.name).to_lower()
 		if result.has(key):

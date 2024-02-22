@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource( 1 )
 custom_recruit_rate = 0.1
-partner_rate = 1.0
-party_disband_rate = 0.0
+partner_rate = 0.2
+party_disband_rate = 0.05
 party_form_rate = 1.0
 holocard_rate = 0.05
 levelmap_spawners = {

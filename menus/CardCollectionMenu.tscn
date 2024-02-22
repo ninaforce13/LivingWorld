@@ -105,6 +105,15 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.670588, 0.458824, 0.909804, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0.196078, 0.0901961, 0.317647, 1 )
+border_blend = true
+
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.670588, 0.458824, 0.909804, 1 )
 border_width_left = 10
@@ -116,13 +125,6 @@ border_blend = true
 corner_radius_top_left = 100
 corner_radius_top_right = 100
 corner_detail = 1
-
-[sub_resource type="StyleBoxFlat" id=7]
-bg_color = Color( 0.670588, 0.458824, 0.909804, 1 )
-border_width_top = 10
-border_width_bottom = 10
-border_color = Color( 0.196078, 0.0901961, 0.317647, 1 )
-border_blend = true
 
 [node name="CardCollectionMenu" type="Control"]
 anchor_right = 1.0
@@ -144,13 +146,14 @@ anims/default = SubResource( 4 )
 anims/show = SubResource( 5 )
 
 [node name="Scroller" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 1920.0
+margin_bottom = 1080.0
 mouse_filter = 1
 
 [node name="OverscanMarginContainer" type="MarginContainer" parent="Scroller"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 1
 custom_constants/margin_right = 0
 custom_constants/margin_top = 0
 custom_constants/margin_left = 0
@@ -160,33 +163,48 @@ vertical_margin = false
 horizontal_margin = false
 
 [node name="Control" type="Control" parent="Scroller/OverscanMarginContainer"]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+mouse_filter = 1
 
 [node name="Background" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
 margin_left = 20.0
 margin_right = 1596.0
-margin_bottom = 1080.0
+margin_bottom = 2000.0
+mouse_filter = 1
 custom_styles/panel = SubResource( 1 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Scroller/OverscanMarginContainer/Control"]
-margin_left = 59.0
-margin_top = 140.0
-margin_right = 1560.0
-margin_bottom = 690.0
+anchor_left = 0.031
+anchor_top = 0.238
+anchor_right = 0.031
+anchor_bottom = 0.238
+margin_left = -0.520004
+margin_top = -117.04
+margin_right = 1500.48
+margin_bottom = 702.96
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Scroller/OverscanMarginContainer/Control/MarginContainer"]
 margin_right = 1501.0
-margin_bottom = 550.0
+margin_bottom = 820.0
 rect_clip_content = false
 mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme = ExtResource( 7 )
 follow_focus = true
 scroll_horizontal_enabled = false
 
 [node name="CardGrid" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control/MarginContainer/ScrollContainer"]
-custom_constants/vseparation = 350
-custom_constants/hseparation = 300
+margin_right = 1501.0
+margin_bottom = 820.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 25
+custom_constants/hseparation = 70
 columns = 5
 
 [node name="Header" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
@@ -214,27 +232,33 @@ custom_fonts/font = ExtResource( 2 )
 text = "Card Collection"
 
 [node name="ScrollIndicator" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 9 )]
-margin_left = 59.0
-margin_top = 140.0
-margin_right = 1560.0
-margin_bottom = 970.0
+anchor_left = 0.031
+anchor_top = 0.13
+anchor_right = 0.031
+anchor_bottom = 0.13
+margin_left = -0.520004
+margin_top = -0.400009
+margin_right = 1500.48
+margin_bottom = 830.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 scroll_container = NodePath("../MarginContainer/ScrollContainer")
 
 [node name="Background2" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
 margin_left = 1610.0
 margin_right = 1900.0
-margin_bottom = 1080.0
+margin_bottom = 2000.0
 custom_styles/panel = SubResource( 1 )
 
 [node name="MarginContainer2" type="MarginContainer" parent="Scroller/OverscanMarginContainer/Control"]
 margin_left = 1620.0
 margin_top = 140.0
 margin_right = 1900.0
-margin_bottom = 820.0
+margin_bottom = 920.0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Scroller/OverscanMarginContainer/Control/MarginContainer2"]
 margin_right = 280.0
-margin_bottom = 680.0
+margin_bottom = 780.0
 rect_clip_content = false
 mouse_filter = 1
 theme = ExtResource( 7 )
@@ -242,13 +266,17 @@ follow_focus = true
 scroll_horizontal_enabled = false
 
 [node name="DeckGrid" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control/MarginContainer2/ScrollContainer"]
-custom_constants/vseparation = 80
+custom_constants/vseparation = 10
 
 [node name="ScrollIndicator2" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 9 )]
-margin_left = 1620.0
-margin_top = 140.0
-margin_right = 1900.0
-margin_bottom = 920.0
+anchor_left = 0.844
+anchor_top = 0.13
+anchor_right = 0.844
+anchor_bottom = 0.13
+margin_left = -0.480103
+margin_top = -0.400009
+margin_right = 279.52
+margin_bottom = 779.6
 scroll_container = NodePath("../MarginContainer2/ScrollContainer")
 
 [node name="Header2" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
@@ -275,20 +303,43 @@ custom_constants/shadow_offset_y = 3
 custom_fonts/font = ExtResource( 2 )
 text = "Deck"
 
-[node name="BackPanel" type="Control" parent="Scroller/OverscanMarginContainer/Control"]
-margin_top = 1000.0
-margin_right = 1576.0
-margin_bottom = 1000.0
-mouse_filter = 2
+[node name="DeckCountPanel" type="PanelContainer" parent="."]
+anchor_left = 0.832
+anchor_top = 0.86
+anchor_right = 0.835
+anchor_bottom = 0.86
+margin_right = 310.0
+margin_bottom = 80.0
+custom_styles/panel = SubResource( 7 )
 
-[node name="PanelContainer" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control/BackPanel"]
+[node name="CenterContainer" type="CenterContainer" parent="DeckCountPanel"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 310.76
+margin_bottom = 75.0
+
+[node name="DeckCountLabel" type="Label" parent="DeckCountPanel/CenterContainer"]
+margin_left = 114.0
+margin_top = 5.0
+margin_right = 191.0
+margin_bottom = 65.0
+theme = ExtResource( 7 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.796078 )
+custom_constants/shadow_offset_x = 5
+custom_constants/shadow_offset_y = 3
+text = "0/20"
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchor_top = 0.93
+anchor_bottom = 0.93
 margin_right = 2050.0
 margin_bottom = 98.0
+mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 2 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/Control/BackPanel/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 2040.0
@@ -296,7 +347,7 @@ margin_bottom = 88.0
 custom_constants/separation = 50
 alignment = 2
 
-[node name="AddCard" type="Button" parent="Scroller/OverscanMarginContainer/Control/BackPanel/PanelContainer/HBoxContainer"]
+[node name="AddCard" type="Button" parent="PanelContainer/HBoxContainer"]
 margin_left = 1342.0
 margin_right = 1474.0
 margin_bottom = 78.0
@@ -312,7 +363,7 @@ expand_icon = true
 script = ExtResource( 3 )
 action = "ui_accept"
 
-[node name="RemoveCard" type="Button" parent="Scroller/OverscanMarginContainer/Control/BackPanel/PanelContainer/HBoxContainer"]
+[node name="RemoveCard" type="Button" parent="PanelContainer/HBoxContainer"]
 margin_left = 1524.0
 margin_right = 1706.0
 margin_bottom = 78.0
@@ -327,7 +378,7 @@ expand_icon = true
 script = ExtResource( 3 )
 action = "ui_action_1"
 
-[node name="Back" type="Button" parent="Scroller/OverscanMarginContainer/Control/BackPanel/PanelContainer/HBoxContainer"]
+[node name="Back" type="Button" parent="PanelContainer/HBoxContainer"]
 margin_left = 1756.0
 margin_right = 1830.0
 margin_bottom = 78.0
@@ -343,34 +394,12 @@ expand_icon = true
 script = ExtResource( 3 )
 action = "ui_cancel"
 
-[node name="Spacer" type="Control" parent="Scroller/OverscanMarginContainer/Control/BackPanel/PanelContainer/HBoxContainer"]
+[node name="Spacer" type="Control" parent="PanelContainer/HBoxContainer"]
 margin_left = 1880.0
 margin_right = 2030.0
 margin_bottom = 78.0
 rect_min_size = Vector2( 150, 0 )
 
-[node name="DeckCountPanel" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
-margin_left = 1615.0
-margin_top = 920.0
-margin_right = 1895.0
-margin_bottom = 1000.0
-custom_styles/panel = SubResource( 7 )
-
-[node name="CenterContainer" type="CenterContainer" parent="Scroller/OverscanMarginContainer/Control/DeckCountPanel"]
-margin_top = 10.0
-margin_right = 280.0
-margin_bottom = 70.0
-
-[node name="DeckCountLabel" type="Label" parent="Scroller/OverscanMarginContainer/Control/DeckCountPanel/CenterContainer"]
-margin_left = 101.0
-margin_right = 178.0
-margin_bottom = 60.0
-theme = ExtResource( 7 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.796078 )
-custom_constants/shadow_offset_x = 5
-custom_constants/shadow_offset_y = 3
-text = "0/20"
-
-[connection signal="pressed" from="Scroller/OverscanMarginContainer/Control/BackPanel/PanelContainer/HBoxContainer/AddCard" to="." method="_on_AddCard_pressed"]
-[connection signal="pressed" from="Scroller/OverscanMarginContainer/Control/BackPanel/PanelContainer/HBoxContainer/RemoveCard" to="." method="_on_RemoveCard_pressed"]
-[connection signal="pressed" from="Scroller/OverscanMarginContainer/Control/BackPanel/PanelContainer/HBoxContainer/Back" to="." method="_on_Back_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/AddCard" to="." method="_on_AddCard_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/RemoveCard" to="." method="_on_RemoveCard_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/Back" to="." method="_on_Back_pressed"]

@@ -22,7 +22,7 @@
 [ext_resource path="res://sfx/attacks/new_leaf.wav" type="AudioStream" id=20]
 [ext_resource path="res://mods/LivingWorld/cardgame/GameSetup.gd" type="Script" id=21]
 [ext_resource path="res://sfx/ui/victory.wav" type="AudioStream" id=22]
-[ext_resource path="res://sfx/attacks/parry_stance.wav" type="AudioStream" id=23]
+[ext_resource path="res://sfx/attacks/change_the_record.wav" type="AudioStream" id=23]
 [ext_resource path="res://sfx/hit_default.wav" type="AudioStream" id=24]
 [ext_resource path="res://sfx/world/physics/impact_metal_3.wav" type="AudioStream" id=25]
 [ext_resource path="res://ui/fonts/regular/regular_70.tres" type="DynamicFont" id=26]
@@ -313,12 +313,12 @@ tracks/5/keys = {
 }
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 1, 0.584314, 0, 1 )
+bg_color = Color( 0.913725, 0.258824, 0.247059, 1 )
 border_width_left = 15
 border_width_top = 15
 border_width_right = 15
 border_width_bottom = 15
-border_color = Color( 0.45098, 0.262745, 0, 1 )
+border_color = Color( 0.203922, 0.027451, 0.0235294, 1 )
 border_blend = true
 corner_radius_bottom_left = 150
 corner_detail = 1
@@ -341,12 +341,12 @@ expand_margin_top = 22.0
 expand_margin_bottom = 32.0
 
 [sub_resource type="StyleBoxFlat" id=47]
-bg_color = Color( 0.87451, 0.4, 0.0392157, 0.329412 )
+bg_color = Color( 0.913725, 0.258824, 0.247059, 0.329412 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.45098, 0.262745, 0, 1 )
+border_color = Color( 0.133333, 0.0235294, 0.0235294, 1 )
 border_blend = true
 corner_radius_bottom_left = 100
 corner_detail = 1
@@ -1519,6 +1519,10 @@ enemy_setup = {
 "bordercolor": Color( 0.329412, 0.215686, 0.0588235, 1 ),
 "offscreen_pos": -1000
 }
+attack_color = Color( 0.937255, 0.709804, 0.105882, 1 )
+defend_color = Color( 0.164706, 0.788235, 0.52549, 1 )
+neutral_color = Color( 1, 1, 1, 1 )
+remaster_bonus_color = Color( 0.121569, 0.894118, 0.858824, 1 )
 player_data = {
 "name": "Nate"
 }
@@ -1566,9 +1570,9 @@ margin_bottom = 983.0
 [node name="PanelContainer" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
 anchor_bottom = 0.055
 margin_left = -172.0
-margin_top = -80.8
+margin_top = -90.0
 margin_right = 2561.0
-margin_bottom = 159.47
+margin_bottom = 150.27
 rect_min_size = Vector2( 2733, 289 )
 rect_scale = Vector2( 0.7, 0.7 )
 size_flags_horizontal = 6
@@ -1576,13 +1580,14 @@ size_flags_vertical = 6
 custom_styles/panel = SubResource( 2 )
 
 [node name="PanelContainer2" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
-anchor_top = 0.78
-anchor_right = 0.007
-anchor_bottom = 0.78
-margin_left = -172.0
-margin_top = 70.52
-margin_right = 2549.97
-margin_bottom = 359.52
+anchor_left = -0.109
+anchor_top = 0.869
+anchor_right = -0.109
+anchor_bottom = 1.144
+margin_left = -0.216003
+margin_top = 0.065979
+margin_right = 2732.78
+margin_bottom = 45.416
 rect_min_size = Vector2( 2733, 289 )
 rect_scale = Vector2( 0.7, 0.7 )
 size_flags_horizontal = 6
@@ -1590,10 +1595,14 @@ size_flags_vertical = 6
 custom_styles/panel = SubResource( 3 )
 
 [node name="EnemyField" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control"]
-margin_left = 308.0
-margin_top = 145.0
-margin_right = 1712.0
-margin_bottom = 934.0
+anchor_left = 0.195
+anchor_top = 0.164
+anchor_right = 0.195
+anchor_bottom = 0.164
+margin_left = 0.679993
+margin_top = -0.304001
+margin_right = 900.68
+margin_bottom = 294.696
 rect_pivot_offset = Vector2( 437.5, 142 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1603,47 +1612,43 @@ columns = 3
 
 [node name="EmptyCardSlot3" parent="Scroller/OverscanMarginContainer/Control/EnemyField" instance=ExtResource( 2 )]
 margin_left = 0.0
-margin_right = 230.0
-margin_bottom = 295.0
-rect_min_size = Vector2( 230, 295 )
+margin_right = 235.0
 
 [node name="EmptyCardSlot4" parent="Scroller/OverscanMarginContainer/Control/EnemyField" instance=ExtResource( 2 )]
-margin_left = 330.0
-margin_bottom = 295.0
-rect_min_size = Vector2( 230, 295 )
+margin_left = 335.0
+margin_right = 570.0
 
 [node name="EmptyCardSlot5" parent="Scroller/OverscanMarginContainer/Control/EnemyField" instance=ExtResource( 2 )]
-margin_left = 660.0
-margin_right = 890.0
-margin_bottom = 295.0
-rect_min_size = Vector2( 230, 295 )
+margin_left = 670.0
+margin_right = 905.0
 
 [node name="PlayerField" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control"]
-margin_left = 308.0
-margin_top = 443.0
-margin_right = 1884.0
-margin_bottom = 1329.0
+anchor_left = 0.195
+anchor_top = 0.824
+anchor_right = 0.195
+anchor_bottom = 0.824
+margin_left = 0.679993
+margin_top = -287.064
+margin_right = 1000.68
+margin_bottom = 62.936
 rect_pivot_offset = Vector2( 437.5, 142 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
 custom_constants/vseparation = 25
 custom_constants/hseparation = 100
 columns = 3
 
 [node name="EmptyCardSlot3" parent="Scroller/OverscanMarginContainer/Control/PlayerField" instance=ExtResource( 2 )]
 margin_left = 0.0
-margin_right = 230.0
-margin_bottom = 295.0
-rect_min_size = Vector2( 230, 295 )
+margin_right = 235.0
 
 [node name="EmptyCardSlot4" parent="Scroller/OverscanMarginContainer/Control/PlayerField" instance=ExtResource( 2 )]
-margin_left = 330.0
-margin_bottom = 295.0
-rect_min_size = Vector2( 230, 295 )
+margin_left = 335.0
+margin_right = 570.0
 
 [node name="EmptyCardSlot5" parent="Scroller/OverscanMarginContainer/Control/PlayerField" instance=ExtResource( 2 )]
-margin_left = 660.0
-margin_right = 890.0
-margin_bottom = 295.0
-rect_min_size = Vector2( 230, 295 )
+margin_left = 670.0
+margin_right = 905.0
 
 [node name="EnemySprite" type="Control" parent="Scroller/OverscanMarginContainer/Control"]
 anchor_left = 1.0
@@ -1655,15 +1660,15 @@ script = ExtResource( 12 )
 
 [node name="SpriteBackground" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control/EnemySprite"]
 margin_left = -50.0
-margin_top = 144.0
+margin_top = 135.0
 margin_right = 350.0
-margin_bottom = 444.0
+margin_bottom = 435.0
 custom_styles/panel = SubResource( 47 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Scroller/OverscanMarginContainer/Control/EnemySprite"]
-margin_top = 30.0
+margin_top = 20.0
 margin_right = 400.0
-margin_bottom = 430.0
+margin_bottom = 420.0
 
 [node name="MonsterSpriteContainer1" type="ViewportContainer" parent="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer"]
 margin_right = 400.0
@@ -1788,9 +1793,9 @@ align = 2
 
 [node name="Control2" type="Control" parent="Scroller/OverscanMarginContainer/Control/EnemySprite"]
 margin_left = 220.0
-margin_top = 330.0
+margin_top = 320.0
 margin_right = 320.0
-margin_bottom = 430.0
+margin_bottom = 420.0
 rect_min_size = Vector2( 100, 100 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1821,25 +1826,30 @@ align = 1
 valign = 1
 
 [node name="PlayerSprite" type="Control" parent="Scroller/OverscanMarginContainer/Control"]
-anchor_left = 0.017
-anchor_top = 0.39
-anchor_right = 0.017
-anchor_bottom = 0.39
-margin_left = -180.0
-margin_right = -140.0
-margin_bottom = 40.0
+anchor_left = -0.097
+anchor_top = 0.849
+anchor_right = -0.097
+anchor_bottom = 0.849
+margin_left = -0.335983
+margin_top = -406.674
+margin_right = 39.664
+margin_bottom = -366.674
 script = ExtResource( 12 )
 
 [node name="SpriteBackground" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite"]
-margin_left = -20.0
-margin_top = 100.0
-margin_right = 380.0
-margin_bottom = 400.0
+anchor_left = -0.5
+anchor_top = 2.5
+anchor_right = -0.5
+anchor_bottom = 10.337
+margin_top = 10.0
+margin_right = 400.0
+margin_bottom = -3.48001
 custom_styles/panel = SubResource( 48 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite"]
+margin_top = 10.0
 margin_right = 400.0
-margin_bottom = 400.0
+margin_bottom = 410.0
 
 [node name="MonsterSpriteContainer1" type="ViewportContainer" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite/MarginContainer"]
 margin_right = 400.0
@@ -1948,10 +1958,12 @@ visible = false
 mesh = SubResource( 31 )
 
 [node name="PlayerName" type="Label" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite"]
+anchor_top = 9.709
+anchor_bottom = 9.709
 margin_left = 1.208
-margin_top = 325.0
+margin_top = -63.36
 margin_right = 301.208
-margin_bottom = 415.0
+margin_bottom = 26.64
 theme = ExtResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.686275 )
 custom_constants/shadow_offset_x = 7
@@ -1960,10 +1972,12 @@ custom_fonts/font = ExtResource( 26 )
 text = "Nate"
 
 [node name="Control2" type="Control" parent="Scroller/OverscanMarginContainer/Control/PlayerSprite"]
+anchor_top = 3.625
+anchor_bottom = 3.625
 margin_left = -30.0
-margin_top = 95.0
+margin_top = -40.0
 margin_right = 70.0
-margin_bottom = 195.0
+margin_bottom = 60.0
 rect_min_size = Vector2( 100, 100 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1994,9 +2008,11 @@ align = 1
 valign = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/Control"]
-margin_left = -172.0
+anchor_left = -0.109
+anchor_right = -0.109
+margin_left = -0.215988
 margin_top = -80.8
-margin_right = 2561.0
+margin_right = 2732.78
 margin_bottom = 203.2
 rect_scale = Vector2( 0.7, 0.7 )
 size_flags_horizontal = 3
@@ -2009,7 +2025,7 @@ rect_min_size = Vector2( 130, 0 )
 
 [node name="EnemyStatus" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
 margin_left = 134.0
-margin_right = 705.0
+margin_right = 704.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 450, 0 )
 size_flags_horizontal = 3
@@ -2145,8 +2161,8 @@ custom_styles/panel = SubResource( 51 )
 stream = ExtResource( 29 )
 
 [node name="OpponentHandGrid" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
-margin_left = 709.0
-margin_right = 2004.0
+margin_left = 708.0
+margin_right = 2003.0
 margin_bottom = 300.0
 rect_pivot_offset = Vector2( 735, 142 )
 size_flags_horizontal = 3
@@ -2180,18 +2196,22 @@ margin_right = 1295.0
 custom_styles/panel = SubResource( 5 )
 
 [node name="Spacer2" type="Control" parent="Scroller/OverscanMarginContainer/Control/HBoxContainer"]
-margin_left = 2008.0
-margin_right = 2733.0
+margin_left = 2007.0
+margin_right = 2732.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 725, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HboxContainer" type="HBoxContainer" parent="Scroller/OverscanMarginContainer/Control"]
-margin_left = -172.0
-margin_top = 765.1
-margin_right = 2561.0
-margin_bottom = 1049.1
+anchor_left = -0.109
+anchor_top = 1.0
+anchor_right = -0.038
+anchor_bottom = 1.0
+margin_left = -0.215988
+margin_top = -104.952
+margin_right = 2620.89
+margin_bottom = 179.048
 rect_scale = Vector2( 0.7, 0.7 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -2378,38 +2398,44 @@ rect_rotation = 90.0
 rect_scale = Vector2( 0.7, 0.7 )
 
 [node name="PlayerDeck" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 2 )]
-anchor_left = 1.0
-anchor_top = 0.773
-anchor_right = 1.0
-anchor_bottom = 0.773
-margin_left = -1639.0
-margin_top = 45.122
-margin_right = -1404.0
-margin_bottom = 345.122
+anchor_left = -0.06
+anchor_top = 0.883
+anchor_right = -0.06
+anchor_bottom = 0.883
+margin_left = -2.93991
+margin_top = -37.838
+margin_right = 232.06
+margin_bottom = 262.162
 rect_rotation = 90.0
 rect_scale = Vector2( 0.7, 0.7 )
 
 [node name="Control" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 27 )]
-margin_left = -143.0
-margin_top = 620.0
-margin_right = 92.0
-margin_bottom = 920.0
+anchor_top = 0.889
+anchor_bottom = 0.889
+margin_left = -177.5
+margin_top = -153.154
+margin_right = 57.5001
+margin_bottom = 146.846
 rect_rotation = 90.0
 rect_scale = Vector2( 0.7, 0.7 )
 
 [node name="Control3" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 27 )]
-margin_left = -143.0
-margin_top = 610.0
-margin_right = 92.0
-margin_bottom = 910.0
+anchor_top = 0.878
+anchor_bottom = 0.878
+margin_left = -177.5
+margin_top = -153.408
+margin_right = 57.5001
+margin_bottom = 146.592
 rect_rotation = 90.0
 rect_scale = Vector2( 0.7, 0.7 )
 
 [node name="Control4" parent="Scroller/OverscanMarginContainer/Control" instance=ExtResource( 27 )]
-margin_left = -143.0
-margin_top = 600.0
-margin_right = 92.0
-margin_bottom = 900.0
+anchor_top = 0.867
+anchor_bottom = 0.867
+margin_left = -177.5
+margin_top = -153.662
+margin_right = 57.5001
+margin_bottom = 146.338
 rect_rotation = 90.0
 rect_scale = Vector2( 0.7, 0.7 )
 
@@ -2449,27 +2475,9 @@ sfx = {
 "blocked": ExtResource( 25 ),
 "damage": ExtResource( 24 ),
 "heal": ExtResource( 20 ),
-"remaster": ExtResource( 22 ),
-"turn_start": ExtResource( 23 )
+"remaster": ExtResource( 23 ),
+"turn_start": ExtResource( 22 )
 }
-
-[node name="PlayerSlot1" type="Position2D" parent="."]
-position = Vector2( 650, 875 )
-
-[node name="PlayerSlot2" type="Position2D" parent="."]
-position = Vector2( 824, 875 )
-
-[node name="PlayerSlot3" type="Position2D" parent="."]
-position = Vector2( 1020, 875 )
-
-[node name="PlayerSlot4" type="Position2D" parent="."]
-position = Vector2( 1221, 875 )
-
-[node name="PlayerSlot5" type="Position2D" parent="."]
-position = Vector2( 1414, 875 )
-
-[node name="PlayerDeckPos" type="Position2D" parent="."]
-position = Vector2( 210, 716 )
 
 [node name="EnemySlot1" type="Position2D" parent="."]
 position = Vector2( 650, 20 )
@@ -2488,6 +2496,31 @@ position = Vector2( 1414, 20 )
 
 [node name="EnemyDeckPos" type="Position2D" parent="."]
 position = Vector2( 1732, -142 )
+
+[node name="Control" type="Control" parent="."]
+anchor_top = 0.787
+anchor_bottom = 0.787
+margin_top = -849.96
+margin_right = 40.0
+margin_bottom = -809.96
+
+[node name="PlayerSlot1" type="Position2D" parent="Control"]
+position = Vector2( 650, 980 )
+
+[node name="PlayerSlot2" type="Position2D" parent="Control"]
+position = Vector2( 824, 980 )
+
+[node name="PlayerSlot3" type="Position2D" parent="Control"]
+position = Vector2( 1020, 980 )
+
+[node name="PlayerSlot4" type="Position2D" parent="Control"]
+position = Vector2( 1221, 980 )
+
+[node name="PlayerSlot5" type="Position2D" parent="Control"]
+position = Vector2( 1414, 980 )
+
+[node name="PlayerDeckPos" type="Position2D" parent="Control"]
+position = Vector2( 210, 716 )
 
 [connection signal="input_event" from="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_input_event"]
 [connection signal="mouse_entered" from="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/StaticBody" to="Scroller/OverscanMarginContainer/Control/EnemySprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot" method="_on_StaticBody_mouse_entered"]

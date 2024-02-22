@@ -1587,8 +1587,8 @@ script = ExtResource( 102 )
 charconfig = NodePath("../EncounterConfig/CharacterConfig")
 
 [node name="MarginContainer" type="MarginContainer" parent="ConversationSprite"]
-margin_left = 201.0
-margin_top = 289.0
+margin_top = -400.0
+margin_right = 400.0
 
 [node name="MonsterSpriteContainer1" type="ViewportContainer" parent="ConversationSprite/MarginContainer"]
 margin_right = 400.0
@@ -1646,6 +1646,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 34 )]
 

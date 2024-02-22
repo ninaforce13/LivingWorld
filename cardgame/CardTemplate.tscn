@@ -125,8 +125,9 @@ shadow_color = Color( 0.137255, 0.137255, 0.137255, 0.6 )
 shadow_size = 5
 
 [node name="Control" type="Control"]
-margin_right = 79.2
-margin_bottom = 20.28
+margin_right = 235.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 225, 290 )
 rect_pivot_offset = Vector2( 117.5, 250 )
 script = ExtResource( 7 )
 bandcolor = Color( 0.670588, 0.458824, 0.909804, 1 )
@@ -417,6 +418,7 @@ margin_top = 1.0
 margin_right = 235.0
 margin_bottom = 295.0
 rect_pivot_offset = Vector2( 125, 125 )
+mouse_filter = 1
 size_flags_horizontal = 6
 size_flags_vertical = 6
 custom_styles/panel = SubResource( 1 )
@@ -658,6 +660,7 @@ margin_top = 4.0
 margin_right = 221.0
 margin_bottom = 280.0
 rect_pivot_offset = Vector2( 125, 125 )
+mouse_filter = 1
 custom_styles/panel = SubResource( 3 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="oldback"]

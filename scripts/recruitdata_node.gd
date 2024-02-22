@@ -48,8 +48,8 @@ func build_deck():
 	var forms = MonsterForms.basic_forms.values() + MonsterForms.secret_forms.values()
 	var debut_forms = MonsterForms.pre_evolution.values()
 	random.shuffle(forms)
-	for i in range (20):
-		var form = random.choice(forms) if i >= 10 else random.choice(debut_forms)
+	for i in range (30):
+		var form = random.choice(forms) if i >= 15 else random.choice(debut_forms)
 		var card = card_template.instance()
 		card.enemy = true
 		card.form = form.resource_path

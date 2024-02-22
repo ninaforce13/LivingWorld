@@ -1,9 +1,10 @@
 extends "res://menus/BaseMenu.gd"
 const card_template = preload("res://mods/LivingWorld/cardgame/CardTemplate.tscn")
 const count_label = preload("res://mods/LivingWorld/cardgame/CardCountLabel.tscn")
+const deck_label = preload("res://mods/LivingWorld/cardgame/DeckCountLabel.tscn")
 const deck_button = preload("res://mods/LivingWorld/cardgame/carddeckbutton.tscn")
 const duplicate_limit:int = 3
-const deck_limt:int = 20
+const deck_limt:int = 30
 var manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 var focus_button = null
 var last_card_focus:int = 0
@@ -16,6 +17,7 @@ onready var add_card_button = find_node("AddCard")
 onready var remove_card_button = find_node("RemoveCard")
 onready var deckcountlabel = find_node("DeckCountLabel")
 export (bool) var demo = true
+
 func _ready():
 	focus_mode = Control.FOCUS_NONE
 	if !manager.has_savedata():
@@ -39,22 +41,32 @@ func populate_collection():
 		collection = manager.get_card_collection().values()
 	else:
 		collection = get_demo_collection().values()
+
 	collection.sort_custom(self, "_sort_indices")
 
 	for data in collection:
 		var card = card_template.instance()
 		var label = count_label.instance()
+		var decklabel = deck_label.instance()
 		var new_card = card.duplicate()
-		var new_label = label.duplicate()
-		new_label.name = "CardCount"
-		new_label.get_node("PanelContainer/Control/AmountLabel").text = str(data.amount)
+		var collection_label = label.duplicate()
+		var deck_label = decklabel.duplicate()
+		var load_test = load(data.path)
+		if !load_test:
+			continue
+		collection_label.name = "CardCount"
+		deck_label.name = "DeckCount"
+		collection_label.get_node("PanelContainer/Control/AmountLabel").text = str(data.amount)
+		deck_label.get_node("PanelContainer/Control/AmountLabel").text = str(data.deck)
 		new_card.form = data.path
 		card_grid.add_child(new_card)
-		if data.holocard:
+		if data.get("holocard"):
 			new_card.holocard = data.holocard
 			new_card.set_holoeffect()
 		new_card.flip_card_no_anim()
-		new_card.add_child(new_label)
+		new_card.add_child(collection_label)
+		new_card.add_child(deck_label)
+		deck_label.rect_position += Vector2(182.0,0.0)
 		setup_button(new_card)
 
 func populate_deck():
@@ -79,11 +91,13 @@ func add_deck_button(form_path):
 	var button = Button.new()
 	button.name = "Button"
 	new_button.add_child(button)
+	button.rect_size = Vector2(268,70)
 	button.focus_mode = Control.FOCUS_ALL
 	button.connect("mouse_entered",button,"grab_focus")
+	button.connect("pressed",self,"_on_RemoveCard_pressed")
 	button.connect("mouse_entered",button.get_parent(),"animate_hover_enter")
 	button.connect("focus_entered",button.get_parent(),"animate_hover_enter")
-	button.connect("focus_entered",self,"disable_add")
+	button.connect("focus_entered",self,"disable_add_button")
 	button.connect("focus_entered",self,"set_focus_button",[button])
 	button.connect("focus_exited",button.get_parent(),"animate_hover_exit")
 	button.connect("focus_exited",self,"set_previous_deck_index",[button])
@@ -105,17 +119,21 @@ func setup_button(card):
 	card_button.focus_mode = Control.FOCUS_ALL
 	card_button.connect("mouse_entered",card_button,"grab_focus")
 	card_button.connect("mouse_entered",card,"animate_hover_enter")
+	card_button.connect("pressed",self,"_on_AddCard_pressed")
 	card_button.connect("focus_entered",card,"animate_hover_enter")
 	card_button.connect("focus_entered",self,"set_button_state",[card])
 	card_button.connect("focus_entered",self,"set_focus_button",[card_button])
+	card_button.connect("mouse_entered",self,"set_focus_button",[card_button])
 	card_button.connect("focus_exited",card,"animate_hover_exit")
 	card_button.connect("focus_exited",self,"set_previous_index",[card_button])
+	card_button.connect("mouse_exited",self,"set_previous_index",[card_button])
 	card_button.connect("mouse_exited",card,"animate_hover_exit")
 	card_button.add_stylebox_override("normal",StyleBoxEmpty.new())
 	card_button.add_stylebox_override("pressed",StyleBoxEmpty.new())
 	card_button.add_stylebox_override("hover",StyleBoxEmpty.new())
 	card_button.add_stylebox_override("focus",StyleBoxEmpty.new())
 	card.add_child(card_button)
+	card_button.rect_size = Vector2(235,300)
 
 func set_previous_index(button):
 	last_card_focus = button.get_parent().get_index()
@@ -134,31 +152,73 @@ func set_focus_button(button):
 	focus_button = button
 
 func add_to_deck(card):
-	var collection = manager.get_card_collection()
-	var key = str(card.card_info.name).to_lower()
-	var card_data = collection[key]
-	if card_data.amount == 0:
+	if !has_valid_data(card):
 		return
+	if stockpile_empty(card):
+		return
+
+	var card_data = get_card_data(card)
 	card_data.amount -= 1
 	card_data.deck += 1
 	set_count_label(card,card_data)
 	set_button_state(card)
 
+func get_card_data(card):
+	var collection = manager.get_card_collection()
+	var card_form
+	if card.get("card_info"):
+		card_form = card.card_info.name
+	elif card.get("monster_form"):
+		var form = load(card.monster_form)
+		if !form:
+			return null
+		else:
+			card_form = Loc.tr(form.name)
+	else:
+		return null
+	var key = str(card_form).to_lower()
+	var card_data = collection[key]
+	return card_data
+
 func remove_card(card):
-	var card_data = get_card_collection_data(card)
-	if card_data.deck == 0:
+	if !has_valid_data(card):
+		return
+	var card_data = get_card_data(card)
+	if !exists_in_deck(card):
 		return
 	card_data.amount += 1
 	card_data.deck -= 1
 	set_count_label(card,card_data)
 	set_button_state(card)
 
+func max_duplicates(card)->bool:
+	var card_data = get_card_data(card)
+	if !card_data:
+		return true
+	return card_data.deck == duplicate_limit
+
+func exists_in_deck(card)->bool:
+	if !has_valid_data(card):
+		return false
+	return get_card_data(card).deck > 0
+
+func stockpile_empty(card)->bool:
+	var card_data = get_card_data(card)
+	if !card_data:
+		return true
+	return card_data.amount == 0
+
 func _on_AddCard_pressed():
 	if deck_full():
 		return
 	var card = focus_button.get_parent()
+	if !has_valid_data(card):
+		return
+	if stockpile_empty(card):
+		return
 	if focus_button.get_parent().get_parent().name == "DeckGrid":
 		return
+	var card_data = get_card_data(card)
 	add_to_deck(card)
 	add_deck_button(card.form)
 	set_deck_focus_buttons()
@@ -169,7 +229,13 @@ func _on_RemoveCard_pressed():
 	var card = focus_button.get_parent()
 	if !card.is_inside_tree():
 		return
-	var is_deck:bool = false
+	if !has_valid_data(card):
+		return
+	if !exists_in_deck(card):
+		return
+
+	var card_data = get_card_data(card)
+	var is_deck_button:bool = false
 	if focus_button.get_parent().get_parent().name == "DeckGrid":
 		var form = card.monster_form
 		for child in card_grid.get_children():
@@ -181,16 +247,15 @@ func _on_RemoveCard_pressed():
 					focus_button = get_last_card_focus()
 				card = child
 
-				is_deck = true
+				is_deck_button = true
 				break
 	remove_card(card)
 	remove_deck_button(card.form)
 	update_deck_count()
 	focus_button.grab_focus()
 
-	if is_deck and deck_grid.get_child_count() > 0:
-		disable_add()
-
+	if is_deck_button and deck_grid.get_child_count() > 0:
+		disable_add_button()
 
 func get_last_card_focus():
 	return card_grid.get_child(last_card_focus).get_node("Button")
@@ -206,24 +271,25 @@ func get_last_deck_focus(removed_button):
 
 func set_count_label(card,data):
 	var label = card.get_node("CardCount").get_node("PanelContainer/Control/AmountLabel")
+	var decklabel = card.get_node("DeckCount").get_node("PanelContainer/Control/AmountLabel")
 	label.text = str(data.amount)
+	decklabel.text = str(data.deck)
+
+func has_valid_data(card)->bool:
+	var card_data = get_card_data(card)
+	return card_data != null
 
 func set_button_state(card):
-	var card_data = get_card_collection_data(card)
-	var add_disabled:bool = card_data.amount == 0 or card_data.deck == duplicate_limit
-	var remove_disabled:bool = card_data.deck == 0
+	if !has_valid_data(card):
+		return
+	var add_disabled:bool = stockpile_empty(card) or max_duplicates(card)
+	var remove_disabled:bool = exists_in_deck(card)
 	add_card_button.disabled = add_disabled
 	remove_card_button.disabled = remove_disabled
 
-func disable_add():
+func disable_add_button():
 	add_card_button.disabled = true
 	remove_card_button.disabled = false
-
-func get_card_collection_data(card):
-	var collection = manager.get_card_collection()
-	var key = str(card.card_info.name).to_lower()
-	var card_data = collection[key]
-	return card_data
 
 func _on_Back_pressed():
 	if !deck_full():
@@ -298,7 +364,7 @@ func deck_full()->bool:
 
 func get_demo_collection()->Dictionary:
 	var result:Dictionary = {}
-	var item:Dictionary = {"path":"","amount":0,"deck":0,"bestiary_index":0}
+	var item:Dictionary = {"path":"","amount":0,"deck":0,"bestiary_index":0,"holocard":false}
 	var basic_forms = MonsterForms.basic_forms.values() + MonsterForms.secret_forms.values()
 	for form in basic_forms:
 		var key = Loc.tr(form.name).to_lower()

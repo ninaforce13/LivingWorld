@@ -1310,14 +1310,20 @@ message_array = [ [ "RECRUIT_MENU_GOODBYE1" ], [ "RECRUIT_MENU_GOODBYE2" ], [ "R
 [node name="ConversationSprite" type="Control" parent="."]
 unique_name_in_owner = true
 visible = false
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_left = 0.01
+anchor_top = 0.019
+anchor_right = 0.01
+anchor_bottom = 0.019
+margin_left = -19.2
+margin_top = -20.52
+margin_right = 20.8
+margin_bottom = 19.48
 script = ExtResource( 34 )
 charconfig = NodePath("../EncounterConfig/CharacterConfig")
 
 [node name="MarginContainer" type="MarginContainer" parent="ConversationSprite"]
-margin_left = 201.0
-margin_top = 289.0
+margin_top = -400.0
+margin_right = 400.0
 
 [node name="MonsterSpriteContainer1" type="ViewportContainer" parent="ConversationSprite/MarginContainer"]
 unique_name_in_owner = true

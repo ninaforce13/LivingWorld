@@ -7,7 +7,7 @@ var dialogsprite
 var tween:Tween
 var npcmanager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 var use_battlesprite:bool = false
-
+var orig_y = null
 func _ready():
 	var pawn = get_pawn()
 	if pawn.has_node("ConversationSprite") and !disable_sprite:
@@ -27,9 +27,11 @@ func _enter_action():
 	if dialogsprite and use_battlesprite:
 		var spritecont = dialogsprite.get_node("MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer")
 		spritecont.idle = "inactive"
-		if dialogsprite.visible:
-			tween.interpolate_property(dialogsprite,"rect_position",Vector2(0,0),Vector2(1800,0),0.05,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
-			tween.start()
+#		if dialogsprite.visible:
+#			if orig_y == null:
+#				orig_y = dialogsprite.rect_position.y
+#			tween.interpolate_property(dialogsprite,"rect_position",Vector2(0,orig_y),Vector2(1800,orig_y),0.05,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
+#			tween.start()
 
 func _run():
 	var audio = self.audio
@@ -46,7 +48,7 @@ func _run():
 	dlg.audio = audio
 	dlg.type_sounds = type_sounds
 	dlg.font = null
-
+	var dlg_messagebox = dlg.get_node("Slider/OverscanMarginContainer/MessageBox")
 	if style == 2:
 		dlg.font = preload("res://ui/fonts/archangel/archangel_60.tres")
 	elif style == 3:
@@ -89,8 +91,13 @@ func _run():
 		text = Loc.substitute_mfn(text, SaveState.party.player.pronouns)
 		if dialogsprite and use_battlesprite:
 			dialogsprite.visible = true
-			tween.interpolate_property(dialogsprite,"rect_position",Vector2(-550,0),Vector2(0,0),0.2,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
-			tween.start()
+			if dlg_messagebox and !dlg_messagebox.has_node("ConversationSprite"):
+				dialogsprite.get_parent().remove_child(dialogsprite)
+				dlg_messagebox.add_child(dialogsprite)
+				dlg_messagebox.move_child(dialogsprite,0)
+
+#			tween.interpolate_property(dialogsprite,"rect_position",Vector2(-550,0),Vector2(0,0),0.2,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
+#			tween.start()
 		if style == 1:
 			yield (MenuHelper.show_spooky_dialog(text, audio if i == 0 else null, type_sounds), "completed")
 		else :
@@ -99,13 +106,23 @@ func _run():
 		dlg.audio = null
 	if close_after:
 		if dialogsprite and use_battlesprite:
-			tween.interpolate_property(dialogsprite,"rect_position",Vector2(0,0),Vector2(1800,0),0.05,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
-			tween.start()
+			if dlg_messagebox and !dlg_messagebox.has_node("ConversationSprite"):
+				dialogsprite.get_parent().remove_child(dialogsprite)
+				dlg_messagebox.add_child(dialogsprite)
+				dlg_messagebox.move_child(dialogsprite,0)
+#			tween.interpolate_property(dialogsprite,"rect_position",Vector2(0,0),Vector2(1800,0),0.05,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
+#			tween.start()
 			dialogsprite.visible = false
 	return true
 
 func _exit_action(_result):
 	if close_after:
+		var dlg = GlobalMessageDialog.message_dialog
+		var dlg_messagebox = dlg.get_node("Slider/OverscanMarginContainer/MessageBox")
+		if dlg_messagebox.has_node("ConversationSprite"):
+			var spritenode = dlg_messagebox.get_node("ConversationSprite")
+			dlg_messagebox.remove_child(spritenode)
+			get_pawn().add_child(spritenode)
 		return GlobalMessageDialog.hide()
 
 func generate_frankie_values():

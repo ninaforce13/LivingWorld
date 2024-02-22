@@ -180,23 +180,23 @@ FELIX_TRADE_CANCEL1,"Oh[pause], no worries.[pause] I'm sure I'll find one eventu
 FELIX_PASSIVE_ROGUES_MESSAGE1,Looks like another rogue on the loose. I can help!
 FELIX_LEAVE1,Take care.
 MEREDITH_INVITE_ACCEPT1,"Yeah[pause], alright.[pause] I can make time for that."
-MEREDITH_IDLE_RECRUIT_DIALOG1,"Uh, hey there. You keeping busy?"
+MEREDITH_IDLE_RECRUIT_DIALOG1,"Uh[pause], hey there. "
 MEREDITH_IDLE_RECRUIT_DIALOG2,So.[pause] Is it just me or…[pause] are there more people here than usual?
 MEREDITH_IDLE_RECRUIT_DIALOG3,"Hey, {player}.[pause] Did you need something?"
 MEREDITH_IDLE_RECRUIT_DIALOG4,"Some[pause], uh[pause], odd stuff has been washing up on the beach lately."
 MEREDITH_IDLE_RECRUIT_DIALOG5,Hmm…[pause] I think I'll go record a new tape later.
 MEREDITH_CHALLENGE_ACCEPTED1,"Urgh. Fine. I'll humor you this one time, mate."
-MEREDITH_CHALLENGE_REJECTED1,"I've, uh, got something I gotta do first, mate."
+MEREDITH_CHALLENGE_REJECTED1,"I[pause], uh…[pause] got something I gotta do first, mate."
 MEREDITH_CHALLENGE_WIN1,"Alright, mate. You earned that one."
-MEREDITH_TRADE_OFFER1,"So, if you've got any [color=#{request_rarity}][{trade_request}][/color] stickers laying around.[pause] I wouldn't mind trading my [color=#{offer_rarity}][{trade_offer}][/color] for it. If you're interested."
-MEREDITH_TRADE_ACCEPTED1,"Thanks, mate. I needed this one."
-MEREDITH_TRADE_REJECTED1,"Urgh. I'm, uh, pretty sure I was clear on which bloody sticker I needed."
+MEREDITH_TRADE_OFFER1,"So[pause], if you've got any [color=#{request_rarity}][{trade_request}][/color] stickers laying around.[pause] I wouldn't mind trading my [color=#{offer_rarity}][{trade_offer}][/color] for it. If you're interested."
+MEREDITH_TRADE_ACCEPTED1,"Thanks, mate.[pause] I needed this one."
+MEREDITH_TRADE_REJECTED1,Urgh.[pause] I'm pretty sure I was clear on which bloody sticker I needed.
 MEREDITH_TRADE_CANCEL1,"Yeah[pause], I figured as much."
-MEREDITH_CARDS_ACCEPT1,"Somebody made a card game?[pause] Yeah[pause], ok[pause], I guess we may as well play."
+MEREDITH_CARDS_ACCEPT1,"Uhm.[pause] When did a whole bloody card game wash up on shore?[pause] Sure[pause], I guess I'll try it."
 MEREDITH_CARDS_LOSE1,"Well[pause], that was[pause] interesting.[pause]I guess[pause], here's your reward."
 MEREDITH_CARDS_WIN1,"Heh[pause], I guess I'm pretty good at this."
 MEREDITH_LEAVE1,"Take care, mate."
-MEREDITH_PASSIVE_ROGUES_MESSAGE1,Not another one![pause] Let's just… urgh! Somebody help me out here!
+MEREDITH_PASSIVE_ROGUES_MESSAGE1,Not another one![pause] Can somebody just…[pause] urgh! Somebody help me out here!
 VIOLA_INVITE_ACCEPT1,Splendid![pause] A new adventure awaits us!
 VIOLA_IDLE_RECRUIT_DIALOG1,"I am glad to see you well, friend!"
 VIOLA_IDLE_RECRUIT_DIALOG2,I can see the allure to this new lifestyle. 
@@ -273,10 +273,11 @@ LIVINGWORLD_CARDS_UI_ATTACK,Attacking
 LIVINGWORLD_CARDS_UI_DEFENSE,Defending
 LIVINGWORLD_CARDS_UI_NEUTRAL,Balanced
 LIVINGWORLD_UI_CARDCOLLECTION,Card Collection
-LIVINGWORLD_UI_DECKCOUNT_ERROR,Your Deck cannot have less than 20 cards. Please add more cards.
+LIVINGWORLD_UI_DECKCOUNT_ERROR,Your Deck cannot have less than 30 cards. Please add more cards.
 LIVINGWORLD_SETTINGS_UI_CARDS_SECTION,Card Game
 LIVINGWORLD_SETTINGS_UI_CARD_ENEMY_THOUGHTS,Enemy Thinking Animation
 LIVINGWORLD_PASSIVE_CARDREWARD,A new card has been added to your collection!
 LIVINGWORLD_TRANSFORM_PROMPT,Which form will you use?
 LIVINGWORLD_BENCH_MENU,Take a seat?
 LIVINGWORLD_SETTINGS_UI_OVERSPILL,Overspill Damage
+LIVINGWORLD_CARDS_UI_REMASTER_BONUS,Remaster Bonus!
