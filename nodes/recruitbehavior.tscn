@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://mods/LivingWorld/actions/RegisterOccupant.gd" type="Script" id=1]
 [ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=2]
@@ -35,6 +35,7 @@
 [ext_resource path="res://mods/LivingWorld/behaviors/Shop.tscn" type="PackedScene" id=33]
 [ext_resource path="res://mods/LivingWorld/behaviors/Transform.tscn" type="PackedScene" id=34]
 [ext_resource path="res://mods/LivingWorld/behaviors/Magnetism.tscn" type="PackedScene" id=35]
+[ext_resource path="res://mods/LivingWorld/behaviors/Fainted.tscn" type="PackedScene" id=36]
 [ext_resource path="res://mods/LivingWorld/actions/DisbandPartyAction.gd" type="Script" id=37]
 [ext_resource path="res://addons/misc_utils/actions/values/GetBlackboardValue.gd" type="Script" id=47]
 [ext_resource path="res://mods/LivingWorld/actions/ChangeSpriteAction.gd" type="Script" id=49]
@@ -64,8 +65,8 @@ debug_index = 1
 [node name="FindRogues" type="Node" parent="."]
 script = ExtResource( 9 )
 combative_weight = 0.87
-social_weight = 0.6
-loner_weight = 0.45
+social_weight = 0.45
+loner_weight = 0.68
 
 [node name="IsNearby" type="Node" parent="FindRogues"]
 script = ExtResource( 25 )
@@ -94,7 +95,7 @@ script = ExtResource( 15 )
 [node name="IsPlayerNearby" type="Node" parent="FindRogues/RepeatWhile2"]
 script = ExtResource( 23 )
 always_succeed = true
-within_distance = 40.0
+within_distance = 25.0
 
 [node name="PlayEmoteAction" type="Node" parent="FindRogues/RepeatWhile2/IsPlayerNearby"]
 script = ExtResource( 69 )
@@ -121,6 +122,7 @@ can_fly = true
 can_jump = true
 can_fall = true
 can_glide = true
+can_warp = true
 can_wait = true
 min_distance = 6.0
 
@@ -312,13 +314,6 @@ pause = true
 [node name="GetEngagedTarget" type="Node" parent="EngageEnemy/PauseEngagedTarget"]
 script = ExtResource( 56 )
 
-[node name="DisableTouchDetector" type="Node" parent="EngageEnemy"]
-script = ExtResource( 67 )
-disabled = true
-
-[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/DisableTouchDetector"]
-script = ExtResource( 56 )
-
 [node name="FaceTowardsAction" type="Node" parent="EngageEnemy"]
 script = ExtResource( 8 )
 
@@ -335,6 +330,7 @@ can_fly = true
 can_jump = true
 can_fall = true
 can_glide = true
+can_warp = true
 can_wait = true
 min_distance = 6.0
 
@@ -435,12 +431,6 @@ is_player = false
 script = ExtResource( 7 )
 base_seconds = 0.5
 
-[node name="EnableTouchDetection" type="Node" parent="EngageEnemy/FailedRecording"]
-script = ExtResource( 67 )
-
-[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/FailedRecording/EnableTouchDetection"]
-script = ExtResource( 56 )
-
 [node name="RepeatWhile" type="Node" parent="EngageEnemy/FailedRecording"]
 script = ExtResource( 15 )
 
@@ -527,17 +517,27 @@ script = ExtResource( 2 )
 [node name="Failer" type="Node" parent="EngageEnemy"]
 script = ExtResource( 11 )
 
+[node name="Fainted" parent="." instance=ExtResource( 36 )]
+
 [node name="BootlegBehavior" parent="." instance=ExtResource( 4 )]
 
 [node name="Conversation" parent="." instance=ExtResource( 13 )]
 
 [node name="Dash" parent="." instance=ExtResource( 29 )]
+combative_weight = 0.35
+social_weight = 0.35
+loner_weight = 0.35
 
 [node name="FindCamp" parent="." instance=ExtResource( 6 )]
+combative_weight = 0.65
+social_weight = 0.9
+loner_weight = 0.3
 
 [node name="FindDoor" parent="." instance=ExtResource( 32 )]
 
 [node name="FindPlayer" parent="." instance=ExtResource( 31 )]
+social_weight = 0.8
+loner_weight = 0.3
 
 [node name="Flee" parent="." instance=ExtResource( 5 )]
 
@@ -550,5 +550,11 @@ script = ExtResource( 11 )
 [node name="Shop" parent="." instance=ExtResource( 33 )]
 
 [node name="Sit" parent="." instance=ExtResource( 30 )]
+combative_weight = 0.4
+social_weight = 0.7
+loner_weight = 0.95
+townie_weight = 0.9
 
 [node name="Transform" parent="." instance=ExtResource( 34 )]
+social_weight = 0.7
+loner_weight = 0.45

@@ -14,9 +14,14 @@ func get_value():
 	var node_distance = get_pawn().global_transform.origin.distance_to(best_node.global_transform.origin)
 	var result = node_distance <= distance if !inverted else node_distance > distance
 	if node_distance <= distance:
+		var object_data
 		if !best_node.has_node("ObjectData"):
-			return false
-		var object_data = best_node.get_node("ObjectData")
+			if !best_node.get_parent().has_node("ObjectData"):
+				return
+			else:
+				object_data = best_node.get_parent().get_node("ObjectData")
+		else:
+			object_data = best_node.get_node("ObjectData")
 		result = object_data.is_empty()
 
 	return result

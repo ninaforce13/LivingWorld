@@ -1,4 +1,4 @@
-[gd_scene load_steps=144 format=2]
+[gd_scene load_steps=148 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=1]
 [ext_resource path="res://mods/LivingWorld/behaviors/Revive.tscn" type="PackedScene" id=2]
@@ -81,14 +81,19 @@
 [ext_resource path="res://mods/LivingWorld/scripts/BootlegDetector.gd" type="Script" id=79]
 [ext_resource path="res://mods/LivingWorld/scripts/TalkingNPCDetector.gd" type="Script" id=80]
 [ext_resource path="res://mods/LivingWorld/actions/SetInteraction.gd" type="Script" id=81]
+[ext_resource path="res://sfx/voices/female_npc_7/female_npc_7_surprise_1.wav" type="AudioStream" id=82]
+[ext_resource path="res://mods/LivingWorld/scripts/SetCardCooldown.gd" type="Script" id=83]
 [ext_resource path="res://mods/LivingWorld/actions/AddFollower.gd" type="Script" id=84]
 [ext_resource path="res://mods/LivingWorld/actions/CheckBattleCooldown.gd" type="Script" id=85]
 [ext_resource path="res://mods/LivingWorld/actions/MessageTradeDialog.gd" type="Script" id=86]
 [ext_resource path="res://mods/LivingWorld/actions/SetBattleCooldown.gd" type="Script" id=87]
+[ext_resource path="res://mods/LivingWorld/behaviors/Fainted.tscn" type="PackedScene" id=88]
 [ext_resource path="res://mods/LivingWorld/actions/SetRecruitBB.gd" type="Script" id=89]
 [ext_resource path="res://mods/LivingWorld/scripts/RogueFusionDetector.gd" type="Script" id=90]
 [ext_resource path="res://mods/LivingWorld/actions/ChooseSticker.gd" type="Script" id=91]
 [ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=92]
+[ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=93]
+[ext_resource path="res://mods/LivingWorld/actions/SetBehaviorState.gd" type="Script" id=94]
 [ext_resource path="res://data/character_sfx/frankie_sfx.tres" type="Resource" id=96]
 [ext_resource path="res://mods/LivingWorld/nodes/MouseClick.tscn" type="PackedScene" id=98]
 [ext_resource path="res://mods/LivingWorld/scripts/setbattlesprite.gd" type="Script" id=99]
@@ -106,7 +111,6 @@
 [ext_resource path="res://sfx/voices/female_npc_7/female_npc_7_motivated_1.wav" type="AudioStream" id=111]
 [ext_resource path="res://sfx/voices/female_npc_7/female_npc_7_greeting.wav" type="AudioStream" id=112]
 [ext_resource path="res://sfx/voices/female_npc_7/female_npc_7_thinking_1.wav" type="AudioStream" id=113]
-[ext_resource path="res://sfx/voices/female_npc_7/female_npc_7_surprise_2.wav" type="AudioStream" id=114]
 [ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=115]
 [ext_resource path="res://mods/LivingWorld/scripts/DefeatedNPCDetector.gd" type="Script" id=116]
 [ext_resource path="res://mods/LivingWorld/scripts/MerchantDetector.gd" type="Script" id=117]
@@ -972,7 +976,7 @@ script = ExtResource( 8 )
 [node name="IsPlayerNearby" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2"]
 script = ExtResource( 13 )
 always_succeed = true
-within_distance = 40.0
+within_distance = 25.0
 
 [node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2/IsPlayerNearby"]
 script = ExtResource( 22 )
@@ -1268,6 +1272,8 @@ script = ExtResource( 10 )
 
 [node name="Shop" parent="RecruitBehavior" instance=ExtResource( 69 )]
 
+[node name="Fainted" parent="RecruitBehavior" instance=ExtResource( 88 )]
+
 [node name="MouseClick" parent="." instance=ExtResource( 98 )]
 
 [node name="RogueFusionDetector" type="Area" parent="."]
@@ -1445,6 +1451,17 @@ title = "{pawn}"
 use_random = true
 message_array = [ [ "FRANKIE_CHALLENGE_WIN1" ] ]
 
+[node name="PlayEmoteAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 22 )
+selection = 8
+
+[node name="SetNPCStateAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 93 )
+state = "Defeated"
+
+[node name="SetBehaviorState" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 94 )
+
 [node name="Trade" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 58 )
 require_blackboard_values = {
@@ -1518,7 +1535,10 @@ use_random = true
 message_array = [ [ "FRANKIE_TRADE_CANCEL1" ] ]
 
 [node name="PlayCards" type="Node" parent="InteractionBehavior/MenuDialogAction"]
-script = ExtResource( 51 )
+script = ExtResource( 58 )
+require_blackboard_values = {
+"card_cooldown": false
+}
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 72 )
@@ -1533,7 +1553,10 @@ script = ExtResource( 128 )
 music = ExtResource( 129 )
 music_vox = ExtResource( 129 )
 
-[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction"]
+[node name="Cutscene" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction"]
+script = ExtResource( 57 )
+
+[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction/Cutscene"]
 script = ExtResource( 115 )
 
 [node name="CheckConditionAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
@@ -1566,6 +1589,10 @@ message = "LIVINGWORLD_PASSIVE_CARDREWARD"
 use_pawn_npc_name = false
 wait_until_finished = false
 
+[node name="SetCooldownFlag" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 83 )
+value = true
+
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 58 )
 always_succeed = true
@@ -1576,7 +1603,7 @@ require_blackboard_values = {
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction2"]
 script = ExtResource( 72 )
 portrait = ExtResource( 109 )
-audio = ExtResource( 114 )
+audio = ExtResource( 82 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "FRANKIE_CARDS_LOSE1" ] ]
@@ -1659,7 +1686,6 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 34 )]
 

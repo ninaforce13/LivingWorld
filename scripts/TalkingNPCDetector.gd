@@ -6,6 +6,8 @@ export (float) var loner_chance = 0.7
 export (float) var townie_chance = 0.7
 var random = Random.new()
 func is_valid_detection(_detection)->bool:
+	if get_parent().state_machine.state == "Defeated":
+		return false
 	if _detection == get_parent():
 		return false
 	var pawn = get_parent()
@@ -27,6 +29,9 @@ func is_valid_detection(_detection)->bool:
 		return false
 	if object_data.has_party():
 		return false
+	if _detection.has_node("StateMachine"):
+		if _detection.state_machine.state == "Defeated":
+			return false
 	if !random.rand_bool(get_chance()):
 		return false
 	return true

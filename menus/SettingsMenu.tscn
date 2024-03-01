@@ -71,7 +71,7 @@ page = 1080.0
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/ScrollContainer"]
 margin_right = 976.0
-margin_bottom = 1132.0
+margin_bottom = 1208.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_top = 20
@@ -80,11 +80,11 @@ custom_constants/margin_bottom = 20
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer"]
 margin_top = 20.0
 margin_right = 976.0
-margin_bottom = 1112.0
+margin_bottom = 1188.0
 
 [node name="Inputs" type="GridContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 margin_right = 976.0
-margin_bottom = 1092.0
+margin_bottom = 1168.0
 custom_constants/vseparation = 16
 custom_constants/hseparation = 16
 columns = 2
@@ -197,7 +197,7 @@ margin_top = 440.0
 margin_right = 976.0
 margin_bottom = 500.0
 size_flags_horizontal = 3
-values = [ 1, 3, 5 ]
+values = [ 1, 2, 3 ]
 value_labels = [ "Low", "Medium", "High" ]
 
 [node name="UseCustomRecruitsLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
@@ -271,15 +271,15 @@ size_flags_horizontal = 3
 values = [ true, false ]
 value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
 
-[node name="CaptainPatrolLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
+[node name="UseVineballLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
 margin_top = 850.0
 margin_right = 828.0
 margin_bottom = 910.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "LIVINGWORLD_SETTINGS_UI_CAPTAIN_PATROL"
+text = "LIVINGWORLD_SETTINGS_UI_VINEBALL"
 
-[node name="CaptainPatrolInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
+[node name="UseVineballInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
 margin_left = 844.0
 margin_top = 850.0
 margin_right = 976.0
@@ -288,10 +288,27 @@ size_flags_horizontal = 3
 values = [ true, false ]
 value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
 
-[node name="MarginContainer4" type="MarginContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
+[node name="CaptainPatrolLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
 margin_top = 926.0
 margin_right = 828.0
-margin_bottom = 1016.0
+margin_bottom = 986.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "LIVINGWORLD_SETTINGS_UI_CAPTAIN_PATROL"
+
+[node name="CaptainPatrolInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
+margin_left = 844.0
+margin_top = 926.0
+margin_right = 976.0
+margin_bottom = 986.0
+size_flags_horizontal = 3
+values = [ true, false ]
+value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
+
+[node name="MarginContainer4" type="MarginContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
+margin_top = 1002.0
+margin_right = 828.0
+margin_bottom = 1092.0
 custom_constants/margin_top = 20
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs/MarginContainer4"]
@@ -304,23 +321,23 @@ text = "LIVINGWORLD_SETTINGS_UI_CARDS_SECTION"
 
 [node name="Spacer4" type="Control" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
 margin_left = 844.0
-margin_top = 926.0
+margin_top = 1002.0
 margin_right = 976.0
-margin_bottom = 1016.0
+margin_bottom = 1092.0
 
 [node name="CardEnemyThoughtLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
-margin_top = 1032.0
+margin_top = 1108.0
 margin_right = 828.0
-margin_bottom = 1092.0
+margin_bottom = 1168.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "LIVINGWORLD_SETTINGS_UI_CARD_ENEMY_THOUGHTS"
 
 [node name="CardEnemyThoughtsInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
 margin_left = 844.0
-margin_top = 1032.0
+margin_top = 1108.0
 margin_right = 976.0
-margin_bottom = 1092.0
+margin_bottom = 1168.0
 size_flags_horizontal = 3
 values = [ true, false ]
 value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]

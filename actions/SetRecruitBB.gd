@@ -5,4 +5,5 @@ func _run():
 	set_bb("has_trade",data.has_trade_offer())
 	set_bb("has_follower",SaveState.other_data.LivingWorldData.CurrentFollower.active)
 	set_bb("is_resting",data.on_battle_cooldown)
+	set_bb("card_cooldown",data.on_card_cooldown)
 	return true

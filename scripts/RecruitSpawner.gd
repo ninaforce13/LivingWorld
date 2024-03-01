@@ -13,6 +13,7 @@ export (bool) var spawn_kinematics_on_floor:bool = true
 export (bool) var ignore_visibility:bool = false
 export (int) var forced_personality = -1
 export (bool) var supress_abilities = false
+export (bool) var disable = true
 var delay
 var current_spawns:Array = []
 var timer:Timer
@@ -20,6 +21,8 @@ var random:Random
 var done_initial_spawns:bool = false
 
 func _ready():
+	if disable:
+		return
 	random = Random.new()
 	timer = Timer.new()
 	add_child(timer)

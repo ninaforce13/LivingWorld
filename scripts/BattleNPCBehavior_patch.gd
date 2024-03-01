@@ -38,20 +38,18 @@ static func patch():
 static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
 	code_blocks["convert_npc1"] = """
-			convert_npc()
+			call_deferred("convert_npc")
 	"""
 	code_blocks["convert_npc2"] = """
-	convert_npc()
+	call_deferred("convert_npc")
 	"""
 	code_blocks["convert_npc3"] = """
 		if on_defeat == 0:
-			convert_npc()
-			pawn.visible = false
-			pawn.queue_free()
+			call_deferred("convert_npc",true)
 			return
 	"""
 	code_blocks["add_function"] = """
-func convert_npc():
+func convert_npc(free_pawn=false):
 	var pawn = get_pawn()
 	var npcmanager = load("res://mods/LivingWorld/scripts/NPCManager.gd")
 	var recruitdata = npcmanager.get_data_from_npc(pawn)
@@ -65,6 +63,9 @@ func convert_npc():
 	npc.global_transform.origin = pawn.global_transform.origin
 	pawn.visible = false
 	npc.spawn_point = pawn.global_transform.origin
+	if free_pawn:
+		pawn.visible = false
+		pawn.queue_free()
 	"""
 	return code_blocks[block]
 

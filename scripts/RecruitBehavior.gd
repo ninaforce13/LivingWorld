@@ -1,4 +1,4 @@
-	extends "res://addons/misc_utils/StateMachine.gd"
+extends "res://addons/misc_utils/StateMachine.gd"
 enum PERSONALITY{COMBATIVE,SOCIAL,LONER,TOWNIE}
 
 export (PERSONALITY) var personality
@@ -106,9 +106,8 @@ func set_play_with_magnets(_detection):
 		return
 	if conditions_met("Magnetism"):
 		set_state("Magnetism")
-
-func kill_npc(_detection):
-	set_state("Kill")
+		if state_node.has_method("set_bb"):
+			state_node.set_bb("magnet_target", _detection)
 
 func warp_npc(_detection):
 	var pawn = get_parent()
@@ -127,7 +126,7 @@ func conditions_met(statename)->bool:
 	return true
 
 func _on_MonsterDetector_detected(detection):
-	if !is_interruptible(state_node):
+	if !is_interruptible(state_node) or debug:
 		return
 	if will_flee():
 		var pawn = get_parent()
@@ -143,7 +142,7 @@ func _on_MonsterDetector_detected(detection):
 
 
 func _on_TalkingNPCDetector_detected(detection):
-	if !is_interruptible(state_node):
+	if !is_interruptible(state_node) or debug:
 		return
 	var pawn = get_parent()
 	var own_data = pawn.get_data()
@@ -163,16 +162,16 @@ func _on_TalkingNPCDetector_detected(detection):
 
 func _on_RecruitData_engaging():
 	set_state("Conversation")
-	if state_node.has_method("set_bb"):
-		state_node.set_bb("receiver",true)
+#	if state_node.has_method("set_bb"):
+#		state_node.set_bb("receiver",true)
 
 func will_flee()->bool:
-	if personality == PERSONALITY.COMBATIVE:
+	if personality == PERSONALITY.COMBATIVE or debug:
 		return false
 	return random.rand_bool(0.75)
 
 func _on_BootlegDetector_detected(detection):
-	if !is_interruptible(state_node):
+	if !is_interruptible(state_node) or debug:
 		return
 	var recruitdata = pawn.get_data()
 	recruitdata.engaged_target = detection
@@ -180,8 +179,8 @@ func _on_BootlegDetector_detected(detection):
 
 
 func _on_RogueFusionDetector_detected(detection):
-	if !is_interruptible(state_node):
-		return
+#	if !is_interruptible(state_node) or debug:
+#		return
 	if will_flee():
 		var pawn = get_parent()
 		var recruitdata = pawn.get_data()
@@ -192,7 +191,7 @@ func _on_RogueFusionDetector_detected(detection):
 
 
 func _on_MerchantDetector_detected(detection):
-	if !is_interruptible(state_node):
+	if !is_interruptible(state_node) or debug:
 		return
 	var recruitdata = pawn.get_data()
 	recruitdata.engaged_target = detection
@@ -201,7 +200,7 @@ func _on_MerchantDetector_detected(detection):
 
 
 func _on_DefeatedDetector_detected(detection):
-	if !is_interruptible(state_node):
+	if !is_interruptible(state_node) or debug:
 		return
 	var recruitdata = pawn.get_data()
 	recruitdata.engaged_target = detection

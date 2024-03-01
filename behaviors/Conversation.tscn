@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=1]
 [ext_resource path="res://addons/misc_utils/actions/decorators/RepeatWhile.gd" type="Script" id=2]
@@ -16,7 +16,6 @@
 [ext_resource path="res://mods/LivingWorld/actions/RandomSetBBFlag.gd" type="Script" id=14]
 [ext_resource path="res://mods/LivingWorld/actions/IsConversationEnded.gd" type="Script" id=15]
 [ext_resource path="res://mods/LivingWorld/actions/CheckFlagValue.gd" type="Script" id=16]
-[ext_resource path="res://mods/LivingWorld/actions/EngageTarget.gd" type="Script" id=17]
 
 [node name="Conversation" type="Node"]
 script = ExtResource( 8 )
@@ -35,14 +34,9 @@ script = ExtResource( 12 )
 
 [node name="GetConversationPartner" type="Node" parent="RepeatWhile2/FaceTowardsAction"]
 script = ExtResource( 7 )
+direct_target = true
 
-[node name="ReceiverCheck" type="Node" parent="RepeatWhile2"]
-script = ExtResource( 16 )
-always_succeed = true
-bb_name = "receiver"
-inverted = true
-
-[node name="FollowAction" type="Node" parent="RepeatWhile2/ReceiverCheck"]
+[node name="FollowAction" type="Node" parent="RepeatWhile2"]
 script = ExtResource( 10 )
 __meta__ = {
 "action_tree": true
@@ -53,21 +47,10 @@ can_fall = true
 can_glide = true
 can_warp = true
 can_wait = true
+min_distance = 4.0
 ignore_ending_y = false
 
-[node name="GetConversationPartner" type="Node" parent="RepeatWhile2/ReceiverCheck/FollowAction"]
-script = ExtResource( 7 )
-
-[node name="ReceiverCheck" type="Node" parent="."]
-script = ExtResource( 16 )
-always_succeed = true
-bb_name = "receiver"
-inverted = true
-
-[node name="EngagePartner" type="Node" parent="ReceiverCheck"]
-script = ExtResource( 17 )
-
-[node name="GetConversationPartner" type="Node" parent="ReceiverCheck/EngagePartner"]
+[node name="GetConversationPartner" type="Node" parent="RepeatWhile2/FollowAction"]
 script = ExtResource( 7 )
 direct_target = true
 
@@ -116,13 +99,7 @@ script = ExtResource( 1 )
 base_seconds = 0.1
 random_seconds = 0.2
 
-[node name="ReceiverCheck" type="Node" parent="RepeatWhile/Sequence"]
-script = ExtResource( 16 )
-always_succeed = true
-bb_name = "receiver"
-inverted = true
-
-[node name="FollowAction" type="Node" parent="RepeatWhile/Sequence/ReceiverCheck"]
+[node name="FollowAction" type="Node" parent="RepeatWhile/Sequence"]
 script = ExtResource( 10 )
 __meta__ = {
 "action_tree": true
@@ -135,7 +112,7 @@ can_wait = true
 min_distance = 4.0
 ignore_ending_y = false
 
-[node name="GetConversationPartner" type="Node" parent="RepeatWhile/Sequence/ReceiverCheck/FollowAction"]
+[node name="GetConversationPartner" type="Node" parent="RepeatWhile/Sequence/FollowAction"]
 script = ExtResource( 7 )
 direct_target = true
 

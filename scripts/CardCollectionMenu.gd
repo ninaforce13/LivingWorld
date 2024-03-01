@@ -4,7 +4,7 @@ const count_label = preload("res://mods/LivingWorld/cardgame/CardCountLabel.tscn
 const deck_label = preload("res://mods/LivingWorld/cardgame/DeckCountLabel.tscn")
 const deck_button = preload("res://mods/LivingWorld/cardgame/carddeckbutton.tscn")
 const duplicate_limit:int = 3
-const deck_limt:int = 30
+const settings = preload("res://mods/LivingWorld/settings.tres")
 var manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 var focus_button = null
 var last_card_focus:int = 0
@@ -78,7 +78,7 @@ func populate_deck():
 	update_deck_count()
 func update_deck_count():
 	deck_count = deck_grid.get_child_count()
-	deckcountlabel.text = "%s/%s"%[deck_count,deck_limt]
+	deckcountlabel.text = "%s/%s"%[deck_count,settings.deck_limit]
 	if !deck_full():
 		deckcountlabel.add_color_override("font_color",Color.red)
 	else:
@@ -283,7 +283,7 @@ func set_button_state(card):
 	if !has_valid_data(card):
 		return
 	var add_disabled:bool = stockpile_empty(card) or max_duplicates(card)
-	var remove_disabled:bool = exists_in_deck(card)
+	var remove_disabled:bool = !exists_in_deck(card)
 	add_card_button.disabled = add_disabled
 	remove_card_button.disabled = remove_disabled
 
@@ -360,7 +360,7 @@ func get_looped_index(index, last_index,backwards:bool)->int:
 	return result
 
 func deck_full()->bool:
-	return deck_count == deck_limt
+	return deck_count == settings.deck_limit
 
 func get_demo_collection()->Dictionary:
 	var result:Dictionary = {}

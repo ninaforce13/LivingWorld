@@ -1,5 +1,7 @@
 extends PathController
 var attempts:int = 0
+const settings = preload("res://mods/LivingWorld/settings.tres")
+const manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 func _pause_controls():
 	if not pawn.controls:
 		return
@@ -100,10 +102,10 @@ func control_movement(delta):
 		if collided:
 			col_count+=1
 
-	var climb_height:bool = col_count > 1 and col_count <= 7 and not pawn.in_water
-	var fly_height:bool = col_count > 7 or (col_count < 2 and not pawn.test_move(next_t, Vector3.DOWN * 1.5, pawn.infinite_inertia))
-	var jump_height:bool = col_count <= 1 and pawn.test_move(next_t, Vector3.DOWN * 1.5, pawn.infinite_inertia)
-	var height_cleared:bool = col_count <= 3
+	var climb_height:bool = col_count > settings.climb_threshold.min and col_count <= settings.climb_threshold.max and not pawn.in_water and manager.get_setting("VineballEnabled")
+	var fly_height:bool = col_count > settings.fly_threshold.min or (col_count < settings.jump_threshold.max and not pawn.test_move(next_t, Vector3.DOWN * 1.5, pawn.infinite_inertia)) or (col_count > settings.climb_threshold.min and col_count <= settings.climb_threshold.max and !manager.get_setting("VineballEnabled"))
+	var jump_height:bool = col_count <= settings.jump_threshold.max and pawn.test_move(next_t, Vector3.DOWN * 1.5, pawn.infinite_inertia)
+	var height_cleared:bool = col_count <= settings.jump_threshold.max
 	var behavior = pawn.get_node("RecruitBehavior")
 	if collides_forwards and pawn.get("supress_abilities") and not height_cleared and not behavior.state == "Shop":
 		_pause_controls()

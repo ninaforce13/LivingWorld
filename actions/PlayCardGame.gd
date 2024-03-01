@@ -3,7 +3,9 @@ var jsonparser = preload("res://mods/LivingWorld/scripts/RangerDataParser.gd")
 var manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 var settings = preload("res://mods/LivingWorld/settings.tres")
 var seed_value = 8675309
+var old_audio_volume:Dictionary = {}
 func _run():
+	set_soundeffect_volume(true)
 	var pawn = get_pawn()
 	seed_value ^= SaveState.random_seed
 	var random = Random.new(seed_value)
@@ -18,6 +20,7 @@ func _run():
 	MenuHelper.add_child(menu)
 	var result = yield (menu.run_menu(), "completed")
 	set_bb("win_game",result)
+	set_soundeffect_volume(false)
 	menu.queue_free()
 	if result:
 		var holocard:bool = false
@@ -28,3 +31,11 @@ func _run():
 		manager.add_card_to_collection(reward_card,holocard)
 		set_bb("reward",reward_card)
 	return true
+
+func set_soundeffect_volume(mute:bool):
+	if mute:
+		old_audio_volume = UserSettings.audio_volume.duplicate()
+		UserSettings.audio_volume.SoundEffects = 0
+	else:
+		UserSettings.audio_volume = old_audio_volume.duplicate()
+	UserSettings.apply_audio_volume()

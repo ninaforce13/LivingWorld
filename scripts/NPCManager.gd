@@ -135,6 +135,8 @@ static func get_setting(setting_name):
 		value = config.get_value("battle","join_raids",true)
 	if setting_name == "MagnetismEnabled":
 		value = config.get_value("behavior","magnetism",true)
+	if setting_name == "VineballEnabled":
+		value = config.get_value("behavior","vineball",true)
 	if setting_name == "NPCPopulation":
 		value = config.get_value("world","population",1)
 	if setting_name == "CaptainPatrol":
@@ -181,7 +183,11 @@ static func get_follower_config(other_recruit, occupant = null):
 		first_tape.evolve_defeat_counts.push_back(0)
 	for tape in new_config.get_children():
 		tape_nodes.push_back(tape)
-	rangerdata.set_char_config(new_config,recruit,tape_nodes)
+	var battle_sprite
+	if is_follower_partner() and !occupant:
+		var partner_template = get_partner_by_id(get_follower_partner_id()).instance()
+		battle_sprite = partner_template.character.battle_sprite
+	rangerdata.set_char_config(new_config,recruit,tape_nodes,battle_sprite)
 	new_config.name = "FollowerConfig"
 	var status:bool = get_setting("BackupStatus")
 	new_config.ai = ai_status if status else ai_nostatus
@@ -367,15 +373,18 @@ static func get_data_from_npc(npc):
 	var recruitdata = mod.rangerdataparser.get_empty_recruit()
 	if npc.npc_name != "":
 		recruitdata.name = npc.npc_name
+
 	recruitdata.human_part_names = to_json(npc.sprite_part_names)
 	recruitdata.human_colors = to_json(npc.sprite_colors)
 	if npc.character:
 		recruitdata.stats = npc.character.get_snapshot()
 	if npc.has_node("EncounterConfig"):
 		var encounter = npc.get_node("EncounterConfig")
-		var characters = encounter.get_character_nodes()
+		var characters:Array = encounter.get_character_nodes()
 		var tapes = []
 		var index:int = 0
+		if characters.size() > 0 and npc.npc_name == "":
+			recruitdata.name = characters[0].character_name
 		for c in characters:
 			for tape in c.get_tape_nodes():
 				var newtape = tape._generate_tape(Random.new(),0)
@@ -536,17 +545,33 @@ static func set_warp_target(warp_target, subtarget_name, index):
 static func add_spawner(region_name,level):
 	var mod = DLC.mods_by_id["LivingWorldMod"]
 	var settings = mod.settings
+	if !settings.levelmap_spawners.has(region_name):
+		return
 	var spawner_scene = mod.spawner
-	if settings.levelmap_spawners.has(region_name):
-		for location in settings.levelmap_spawners[region_name].locations:
-			if !level.has_node(location.name):
-				var spawner = spawner_scene.instance()
-				spawner.get_child(0).ignore_visibility = location.ignore_visibility
-				spawner.get_child(0).forced_personality = location.forced_personality
-				spawner.get_child(0).supress_abilities = location.supress_abilities
-				level.add_child(spawner)
-				spawner.global_transform.origin = location.pos
-				spawner.name = location.name
+	var actual_map
+	if level.get("level_streamer"):
+		var chunks = level.level_streamer.chunks.values()
+		var exists:bool = false
+		for chunk in chunks:
+			for location in settings.levelmap_spawners[region_name].locations:
+				if chunk.has_node(location.name):
+					exists = true
+					break
+		if exists:
+			return
+		actual_map = chunks[chunks.size()-1]
+	else:
+		actual_map = level
+	for location in settings.levelmap_spawners[region_name].locations:
+		if !actual_map.has_node(location.name):
+			var spawner = spawner_scene.instance()
+			spawner.get_child(0).ignore_visibility = location.ignore_visibility
+			spawner.get_child(0).forced_personality = location.forced_personality
+			spawner.get_child(0).supress_abilities = location.supress_abilities
+			actual_map.add_child(spawner)
+			actual_map.move_child(spawner,0)
+			spawner.global_transform.origin = location.pos
+			spawner.name = location.name
 
 
 static func mod_pawns(pawn):
@@ -557,6 +582,7 @@ static func mod_pawns(pawn):
 		datanode.is_captain = true
 		pawn.add_child(datanode)
 		pawn.add_child(behaviornode)
+		pawn.never_pause = true
 
 static func is_player_transformed(playerindex=0)->bool:
 	if !has_savedata():

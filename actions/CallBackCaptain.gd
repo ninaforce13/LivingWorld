@@ -4,7 +4,7 @@ func _run():
 	var pawn = get_pawn()
 	var captain = get_bb("sign_owner")
 	if captain:
-		var behavior = captain.get_behavior()
+		var behavior = captain.get_node("RecruitBehavior")
 		var objectdata = behavior.get_node("Patrol").get_bb("object_data")
 		reset_behavior(behavior)
 		unregister_from_object(objectdata,captain)
@@ -33,6 +33,6 @@ func enable_interaction(pawn):
 	if interaction:
 		interaction.disabled = false
 
-func unregister_from_object(objectdata,pawn):
-	if objectdata:
-		objectdata.remove_occupant(pawn)
+func unregister_from_object(objectdata,captain):
+	if is_instance_valid(objectdata) and is_instance_valid(captain):
+		objectdata.remove_occupant(captain)

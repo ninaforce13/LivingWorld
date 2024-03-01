@@ -1,4 +1,4 @@
-[gd_scene load_steps=87 format=2]
+[gd_scene load_steps=92 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/emoteplayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=2]
@@ -46,6 +46,11 @@
 [ext_resource path="res://nodes/actions/ChangeMusicAction.gd" type="Script" id=44]
 [ext_resource path="res://mods/LivingWorld/actions/RecruitBattleAction.gd" type="Script" id=45]
 [ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=46]
+[ext_resource path="res://mods/LivingWorld/scripts/SetCardCooldown.gd" type="Script" id=47]
+[ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=48]
+[ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=49]
+[ext_resource path="res://mods/LivingWorld/actions/SetBehaviorState.gd" type="Script" id=50]
+[ext_resource path="res://mods/LivingWorld/actions/DisbandPartyAction.gd" type="Script" id=51]
 [ext_resource path="res://mods/LivingWorld/scripts/MonsterDetector.gd" type="Script" id=61]
 [ext_resource path="res://nodes/actions/values/GetPlayer.gd" type="Script" id=62]
 [ext_resource path="res://nodes/actions/Cutscene.gd" type="Script" id=64]
@@ -685,7 +690,7 @@ wave_v_frequency = 20.0
 [node name="HumanSprite" parent="Sprite" instance=ExtResource( 3 )]
 
 [node name="EmotePlayer" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.351, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
 
 [node name="Interaction" parent="." instance=ExtResource( 9 )]
 pawn_path = NodePath("..")
@@ -997,8 +1002,8 @@ collision_layer = 0
 collision_mask = 288
 script = ExtResource( 23 )
 detection_cooldown = 60.0
-combative_chance = 0.4
-social_chance = 0.85
+combative_chance = 0.5
+social_chance = 0.9
 loner_chance = 0.5
 townie_chance = 0.0
 
@@ -1106,7 +1111,7 @@ title = "{pawn}"
 wait_for_confirm = false
 close_after = false
 use_random = true
-message_array = [ [ "RECRUIT_IDLE_DIALOG_1" ], [ "RECRUIT_IDLE_DIALOG_2", "RECRUIT_IDLE_DIALOG_3" ], [ "RECRUIT_IDLE_DIALOG_4" ], [ "RECRUIT_IDLE_DIALOG_5" ], [ "RECRUIT_IDLE_DIALOG_6" ], [ "RECRUIT_IDLE_DIALOG_7" ], [ "RECRUIT_IDLE_DIALOG_8" ], [ "RECRUIT_IDLE_DIALOG_9" ], [ "RECRUIT_IDLE_DIALOG_10" ], [ "RECRUIT_IDLE_DIALOG_11" ], [ "RECRUIT_IDLE_DIALOG_12" ], [ "RECRUIT_IDLE_DIALOG_13" ], [ "RECRUIT_IDLE_DIALOG_14" ] ]
+message_array = [ [ "RECRUIT_IDLE_DIALOG_1" ], [ "RECRUIT_IDLE_DIALOG_2", "RECRUIT_IDLE_DIALOG_3" ], [ "RECRUIT_IDLE_DIALOG_4" ], [ "RECRUIT_IDLE_DIALOG_5" ], [ "RECRUIT_IDLE_DIALOG_6" ], [ "RECRUIT_IDLE_DIALOG_7" ], [ "RECRUIT_IDLE_DIALOG_8" ], [ "RECRUIT_IDLE_DIALOG_9" ], [ "RECRUIT_IDLE_DIALOG_10" ], [ "RECRUIT_IDLE_DIALOG_11" ], [ "RECRUIT_IDLE_DIALOG_12" ], [ "RECRUIT_IDLE_DIALOG_13" ], [ "RECRUIT_IDLE_DIALOG_14" ], [ "RECRUIT_IDLE_DIALOG_15" ], [ "RECRUIT_IDLE_DIALOG_16" ], [ "RECRUIT_IDLE_DIALOG_17" ], [ "RECRUIT_IDLE_DIALOG_18" ] ]
 
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 35 )
@@ -1174,6 +1179,20 @@ title = "{pawn}"
 use_random = true
 message_array = [ [ "RECRUIT_CHALLENGE_WIN1" ], [ "RECRUIT_CHALLENGE_WIN2" ], [ "RECRUIT_CHALLENGE_WIN3" ] ]
 
+[node name="PlayEmoteAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 48 )
+selection = 8
+
+[node name="SetNPCStateAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 49 )
+state = "Defeated"
+
+[node name="SetBehaviorState" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 50 )
+
+[node name="DisbandParty" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 51 )
+
 [node name="Trade" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 79 )
 require_blackboard_values = {
@@ -1239,20 +1258,26 @@ use_random = true
 message_array = [ [ "RECRUIT_TRADE_CANCEL1" ], [ "RECRUIT_TRADE_CANCEL2" ], [ "RECRUIT_TRADE_CANCEL3" ] ]
 
 [node name="PlayCards" type="Node" parent="InteractionBehavior/MenuDialogAction"]
-script = ExtResource( 68 )
+script = ExtResource( 79 )
+require_blackboard_values = {
+"card_cooldown": false
+}
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 66 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECREUIT_MENU_PLAYCARDS1" ] ]
+message_array = [ [ "RECRUIT_MENU_PLAYCARDS1" ], [ "RECRUIT_MENU_PLAYCARDS2" ], [ "RECRUIT_MENU_PLAYCARDS3" ], [ "RECRUIT_MENU_PLAYCARDS4" ], [ "RECRUIT_MENU_PLAYCARDS5" ] ]
 
 [node name="ChangeMusicAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 44 )
 music = ExtResource( 43 )
 music_vox = ExtResource( 43 )
 
-[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction"]
+[node name="Cutscene" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction"]
+script = ExtResource( 64 )
+
+[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction/Cutscene"]
 script = ExtResource( 38 )
 
 [node name="CheckConditionAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
@@ -1266,7 +1291,7 @@ require_blackboard_values = {
 script = ExtResource( 66 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_PLAYCARDS_LOSE1" ] ]
+message_array = [ [ "RECRUIT_PLAYCARDS_LOSE1" ], [ "RECRUIT_PLAYCARDS_LOSE2" ], [ "RECRUIT_PLAYCARDS_LOSE3" ], [ "RECRUIT_PLAYCARDS_LOSE4" ], [ "RECRUIT_PLAYCARDS_LOSE5" ], [ "RECRUIT_PLAYCARDS_LOSE6" ] ]
 
 [node name="PlayAudioAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
 script = ExtResource( 40 )
@@ -1283,6 +1308,10 @@ message = "LIVINGWORLD_PASSIVE_CARDREWARD"
 use_pawn_npc_name = false
 wait_until_finished = false
 
+[node name="SetCooldownFlag" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 47 )
+value = true
+
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 79 )
 always_succeed = true
@@ -1294,7 +1323,7 @@ require_blackboard_values = {
 script = ExtResource( 66 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_PLAYCARDS_WIN1" ] ]
+message_array = [ [ "RECRUIT_PLAYCARDS_WIN1" ], [ "RECRUIT_PLAYCARDS_WIN2" ], [ "RECRUIT_PLAYCARDS_WIN3" ], [ "RECRUIT_PLAYCARDS_WIN4" ], [ "RECRUIT_PLAYCARDS_WIN5" ] ]
 
 [node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 68 )

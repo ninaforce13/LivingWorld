@@ -41,7 +41,6 @@ func reset():
 	num_running = 0
 
 func revert_human_sprite(target):
-	print("Reverting to human form...")
 	var static_amount = 1.0
 	var wave_amplitude = 0.2
 	var duration = .25

@@ -197,7 +197,7 @@ static func set_custom_monster(tape_snapshot:Dictionary)->Dictionary:
 		print("Living World Mod: Set fallback form for custom form: " + tape_snapshot.custom_form)
 	return tape_snapshot
 
-static func set_char_config(char_config:CharacterConfig, ranger_data, tapes:Array = []):
+static func set_char_config(char_config:CharacterConfig, ranger_data, tapes:Array = [],battle_sprite = null):
 
 	char_config.character_name = ranger_data.name
 	char_config.pronouns = ranger_data.pronouns
@@ -213,7 +213,11 @@ static func set_char_config(char_config:CharacterConfig, ranger_data, tapes:Arra
 	char_stats.name = ranger_data.name
 	char_config.base_character = char_stats
 	if ranger_data.has("custom_battle_sprite"):
-		char_config.custom_battle_sprite = ranger_data.custom_battle_sprite
+		if battle_sprite:
+			char_config.custom_battle_sprite = battle_sprite
+		else:
+			char_config.custom_battle_sprite = ranger_data.custom_battle_sprite
+
 	if not ranger_data.has("stats"):
 		char_config.base_character.base_max_hp = 120
 	var index:int = 0

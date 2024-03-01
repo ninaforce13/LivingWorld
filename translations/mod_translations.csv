@@ -13,10 +13,10 @@ RECRUIT_IDLE_DIALOG_11,What are we going to do if the Mall runs out of tapes?[pa
 RECRUIT_IDLE_DIALOG_12,I was in my bathtub when I suddenly appeared here…[pause] I didn't even get to rinse my hair!
 RECRUIT_IDLE_DIALOG_13,Do you think the monsters here might be…[pause][wave amp=30 freq=15]edible[/wave]?
 RECRUIT_IDLE_DIALOG_14,The most incredible thing washed up on the beach last night…[pause] It was a cartridge of my favorite childhood game![pause] Now if only I could find the [wave amp=30 freq=15]game console[/wave] to use it with...
-RECRUIT_IDLE_DIALOG_15,
-RECRUIT_IDLE_DIALOG_16,
-RECRUIT_IDLE_DIALOG_17,
-RECRUIT_IDLE_DIALOG_18,
+RECRUIT_IDLE_DIALOG_15,I heard the mall is haunted![pause] I can't wait to bring a ghost home as a pet!
+RECRUIT_IDLE_DIALOG_16,"The other night, I gazed out into the infinite void of the ocean.[pause] It called to me.[pause] It said [wave amp=30 freq=10]""bikini season is only 4 months away""[/wave]![pause] Oh the horror!"
+RECRUIT_IDLE_DIALOG_17,"There's this rumor[pause], if you play your tapes backwards it would summon a demon god!"
+RECRUIT_IDLE_DIALOG_18,I had a brilliant idea![pause] I'm going to use two cassette players to play two different tapes![pause] Do you think I'll fuse with myself?
 RECRUIT_IDLE_DIALOG_19,
 RECRUIT_IDLE_DIALOG_20,
 RECRUIT_IDLE_DIALOG_21,
@@ -26,14 +26,27 @@ RECRUIT_IDLE_DIALOG_24,
 RECRUIT_IDLE_DIALOG_25,
 RECRUIT_IDLE_DIALOG_26,
 RECRUIT_PASSIVE_ROGUE,There's been another rogue sighting![pause] We need all available rangers!
-RECRUIT_MENU_OPTION1,Invite {pawn} to hang out.
-RECRUIT_MENU_OPTION2,Challenge {pawn} to a friendly battle.
+RECRUIT_MENU_OPTION1,Invite {pawn} to Party.
+RECRUIT_MENU_OPTION2,Fight {pawn}
 RECRUIT_MENU_OPTION3,[color=#1fba33]Trade stickers with {pawn}.[/color]
 RECRUIT_MENU_OPTION5,Play Card Game
 RECRUIT_MENU_OPTION4,Goodbye!
-RECREUIT_MENU_PLAYCARDS1,A card game on a weird interdimensional island filled with dangerous monsters?[pause][pause] Of course I'll play!
+RECRUIT_MENU_PLAYCARDS1,A card game on a weird interdimensional island filled with dangerous monsters?[pause][pause] Of course I'll play!
+RECRUIT_MENU_PLAYCARDS2,"Ok[pause], but I'll have you know I'm pretty good at these!"
+RECRUIT_MENU_PLAYCARDS3,Let's stake our livelyhood and the fate of our world...[pause] on a card game!
+RECRUIT_MENU_PLAYCARDS4,Sounds like a great way to take my mind off the impending doom and existential dread!
+RECRUIT_MENU_PLAYCARDS5,I spent all night building my deck![pause] Time to take it for a spin!
 RECRUIT_PLAYCARDS_LOSE1,"Aw, dang it. I gotta find better cards."
+RECRUIT_PLAYCARDS_LOSE2,I knew I should have swapped my stance on the last card!
+RECRUIT_PLAYCARDS_LOSE3,Next time I'll use more remaster combos!
+RECRUIT_PLAYCARDS_LOSE4,"Argh! Fine[pause], you can have my card!"
+RECRUIT_PLAYCARDS_LOSE5,I'm not going to be a sore loser about it.[pause] Here's your prize.
+RECRUIT_PLAYCARDS_LOSE6,I'm definitely not going to obsess over this loss later.
 RECRUIT_PLAYCARDS_WIN1,"It's all in the heart of the cards, you know?"
+RECRUIT_PLAYCARDS_WIN2,Shift your focus into defending when you're low on health! After blocking damage you'll heal with the leftover defense points!
+RECRUIT_PLAYCARDS_WIN3,Ha! I've still got it![pause] It's all about Balance!
+RECRUIT_PLAYCARDS_WIN4,Did you know?[pause] You keep your Remaster Bonus even if your next card causes you to change stance!
+RECRUIT_PLAYCARDS_WIN5,Alright![pause] I'll become a champion in no time!
 RECRUIT_MENU_INVITE_ACCEPT1,"Sure, I've got some free time!"
 RECRUIT_MENU_INVITE_ACCEPT2,"I guess I can lend a hand, if you [wave amp=30 freq=10]really[/wave] need it."
 RECRUIT_MENU_INVITE_ACCEPT3,"We're not doing anything too dangerous[pause], are we?"
@@ -81,8 +94,8 @@ RECRUIT_TRADE_CANCEL1,Dang it! Now what am I going to do?!
 RECRUIT_TRADE_CANCEL2,"Oh, okay. Thanks for considering it."
 RECRUIT_TRADE_CANCEL3,I guess I'll have to keep checking the sticker merchants…
 TRADE_STICKER_UI_USE,Trade Sticker
-LIVINGWORLD_SETTINGS_UI_ENCOUNTERS,Wandering NPCs Join Raids:
-LIVINGWORLD_SETTINGS_UI_MAGNETISM,Wandering NPCs Use Magnetism:
+LIVINGWORLD_SETTINGS_UI_ENCOUNTERS,NPCs Join Raids:
+LIVINGWORLD_SETTINGS_UI_MAGNETISM, NPCs Use Magnetism:
 LIVINGWORLD_SETTINGS_UI_BACKUP_STATUS,Show allied NPC status bar
 LIVINGWORLD_SETTINGS_UI_CAPTAIN_PATROL,Captains Engage Nearby Fusions
 UI_SETTINGS_KEYBOARD_livingworldmod_transform,Overworld Transform
@@ -91,9 +104,9 @@ LIVINGWORLD_SETTINGS_UI_WORLD_SECTION,World
 LIVINGWORLD_SETTINGS_UI_BATTLE_SECTION,Battle
 LIVINGWORLD_SETTINGS_UI_BATTLESPRITE_OPTION1,Default
 LIVINGWORLD_SETTINGS_UI_BATTLESPRITE_OPTION2,Battle Sprite
-LIVINGWORLD_SETTINGS_UI_BATTLESPRITES,Wandering Partner Portrait
-LIVINGWORLD_SETTINGS_UI_CUSTOM_RECRUITS,Spawn Custom Trainees (Cassette Arenas)
-LIVINGWORLD_SETTINGS_UI_POPULATION,Wandering NPC Population:
+LIVINGWORLD_SETTINGS_UI_BATTLESPRITES,Partner Portrait
+LIVINGWORLD_SETTINGS_UI_CUSTOM_RECRUITS,Spawn Custom Trainees (Arena Archives)
+LIVINGWORLD_SETTINGS_UI_POPULATION,NPC Population:
 CAPTAIN_LUNCH_MENU,Out To Lunch.
 CAPTAIN_LUNCH_MENU2,Wait for the Captain to return?
 CAPTAIN_LUNCH_OPTION1,Yes
@@ -105,7 +118,7 @@ KAYLEIGH_IDLE_RECRUIT_DIALOG3,There's been a lot of new faces washing up on the 
 KAYLEIGH_IDLE_RECRUIT_DIALOG4,Let's do everything we can to keep the town safe!
 KAYLEIGH_IDLE_RECRUIT_DIALOG5,Have you checked the sticker merchants today? They're bound to have some cool stuff you could use!
 KAYLEIGH_MENU_CHALLENGE_ACCEPT1,Right! Let's see how strong you've gotten!
-KAYLEIGH_CHALLENGE_WIN1,Brilliant! You're even better than our last team up!
+KAYLEIGH_CHALLENGE_WIN1,You're so much stronger now!
 KAYLEIGH_MENU_CHALLENGE_REJECT1,"I need to fix up my tapes first, sorry! Maybe later?"
 KAYLEIGH_TRADE_OFFER1,"I'd love to find [color=#{request_rarity}][{trade_request}][/color] for my tapes![pause] If you have one, could you trade it to me for this [color=#{offer_rarity}][{trade_offer}][/color] sticker?"
 KAYLEIGH_TRADE_ACCEPTED1,Thanks a million! This is exactly what I needed!
@@ -129,8 +142,7 @@ BARKLEY_CHALLENGE_REJECT1,[wave amp=30 freq=10]Awoo…[/wave]
 BARKLEY_CHALLENGE_REJECT2,[i]He appears too tired for another match.[/i]
 BARKLEY_CHALLNEGE_ACCEPTED1,Arf! Arf!
 BARKLEY_CHALLNEGE_ACCEPTED2,[i]His tail wags back and forth with vigor and excitement![/i]
-BARKLEY_CHALLENGE_WIN1,Arf! Pant Pant.
-BARKLEY_CHALLENGE_WIN2,[i]Looks like Barkley enjoyed the exercise! Such a good boy![/i]
+BARKLEY_CHALLENGE_WIN1,*whine*
 BARKLEY_TRADE_OFFER1,Arf?
 BARKLEY_TRADE_OFFER2,[i]Barkley paws intently at a [color=#{request_rarity}][{trade_request}][/color] sticker.[pause] He places a [color=#{offer_rarity}][{trade_offer}][/color] sticker at your feet. Is this a trade request?[/i]
 BARKLEY_TRADE_ACCEPTED1,Arf Arf!
@@ -151,7 +163,7 @@ EUGENE_IDLE_RECRUIT_DIALOG4,"I was thinking of trying out a few new battle poses
 EUGENE_IDLE_RECRUIT_DIALOG5,"We gotta do more supply runs, can't afford to run low on tapes out there!"
 EUGENE_CHALLENGE_REJECTED1,"I'd gladly show you a few moves[pause], but I gotta finish up here first. Let's hang later!"
 EUGENE_CHALLENGE_ACCEPTED1,Lookin' to learn a few tricks from me? You got it!
-EUGENE_CHALLENGE_WIN1,I'm so pumped! You got [wave amp=30 freq=10]way[/wave] better at this!
+EUGENE_CHALLENGE_WIN1,Dang! You got [wave amp=30 freq=10]way[/wave] better at this!
 EUGENE_TRADE_OFFER1,"{player}[pause], buddy. I've [wave amp=30 freq=10]gotta[/wave] have [color=#{request_rarity}][{trade_request}][/color]![pause] I'll give ya this [color=#{offer_rarity}][{trade_offer}][/color] sticker if you got any!"
 EUGENE_TRADE_ACCEPTED1,Momentous! Now nothing can slow me down!
 EUGENE_TRADE_REJECTED1,"Aw man, come on! You know that's what I need! "
@@ -169,7 +181,7 @@ FELIX_IDLE_RECRUIT_DIALOG4,"You know[pause], it's not so bad here![pause] Aside 
 FELIX_IDLE_RECRUIT_DIALOG5,Hey.[pause] I was just enjoying the weather.
 FELIX_CHALLENGE_REJECTED1,"Actually, I could use a break. Let's pick this up later."
 FELIX_CHALLENGE_ACCEPTED1,"Sure, I could use the practice. "
-FELIX_CHALLENGE_WIN1,"Wow, you're really something else {player}. Well played!"
+FELIX_CHALLENGE_WIN1,"Wow[pause], you're really something else. "
 FELIX_TRADE_OFFER1,I could use an extra [color=#{request_rarity}][{trade_request}][/color] sticker.[pause] Maybe you'd be willing to trade for my [color=#{offer_rarity}][{trade_offer}][/color] sticker?
 FELIX_TRADE_REJECTED1,"Hmm[pause], I don't think that's it.[pause] That's alright, I can probably get it from the merchant stalls."
 FELIX_TRADE_ACCEPTED1,"This should smooth things out for me.[pause] I appreciate it, {player}. "
@@ -187,13 +199,13 @@ MEREDITH_IDLE_RECRUIT_DIALOG4,"Some[pause], uh[pause], odd stuff has been washin
 MEREDITH_IDLE_RECRUIT_DIALOG5,Hmm…[pause] I think I'll go record a new tape later.
 MEREDITH_CHALLENGE_ACCEPTED1,"Urgh. Fine. I'll humor you this one time, mate."
 MEREDITH_CHALLENGE_REJECTED1,"I[pause], uh…[pause] got something I gotta do first, mate."
-MEREDITH_CHALLENGE_WIN1,"Alright, mate. You earned that one."
+MEREDITH_CHALLENGE_WIN1,"Alright, fine.[pause] You earned that one."
 MEREDITH_TRADE_OFFER1,"So[pause], if you've got any [color=#{request_rarity}][{trade_request}][/color] stickers laying around.[pause] I wouldn't mind trading my [color=#{offer_rarity}][{trade_offer}][/color] for it. If you're interested."
 MEREDITH_TRADE_ACCEPTED1,"Thanks, mate.[pause] I needed this one."
 MEREDITH_TRADE_REJECTED1,Urgh.[pause] I'm pretty sure I was clear on which bloody sticker I needed.
 MEREDITH_TRADE_CANCEL1,"Yeah[pause], I figured as much."
-MEREDITH_CARDS_ACCEPT1,"Uhm.[pause] When did a whole bloody card game wash up on shore?[pause] Sure[pause], I guess I'll try it."
-MEREDITH_CARDS_LOSE1,"Well[pause], that was[pause] interesting.[pause]I guess[pause], here's your reward."
+MEREDITH_CARDS_ACCEPT1,Uhm.[pause] When did a whole bloody card game wash up on shore?
+MEREDITH_CARDS_LOSE1,"Well[pause], that was[pause] interesting.[pause] I guess[pause], here's your reward."
 MEREDITH_CARDS_WIN1,"Heh[pause], I guess I'm pretty good at this."
 MEREDITH_LEAVE1,"Take care, mate."
 MEREDITH_PASSIVE_ROGUES_MESSAGE1,Not another one![pause] Can somebody just…[pause] urgh! Somebody help me out here!
@@ -217,7 +229,7 @@ VIOLA_CARDS_WIN1,How joyous! I would gladly engage in more of these leisure acti
 VIOLA_PASSIVE_ROGUES_MESSAGE1,Rogues have been sighted upon the horizon! Let us show thy fiends our true mettle!
 FRANKIE_CARDS_ACCEPT1,Oh oh oh! I've played tons of these back home!
 FRANKIE_CARDS_LOSE1,Yes! Ha ha! I've still got it!
-FRANKIE_CARDS_WIN1,"You were amazing![pause][pause]Ok ok, [wave amp=30 freq=10]Duelist Kingdom[/wave] rules apply so here's one of my cards! "
+FRANKIE_CARDS_WIN1,"You were amazing![pause][pause] Ok ok, [wave amp=30 freq=10]Duelist Kingdom[/wave] rules apply so here's one of my cards! "
 FRANKIE_PARTY_INVITE1,Joining the hero's party?! I'm another step closer to legendary status!
 FRANKIE_IDLE_RECRUIT_DIALOG1,"I accept all quests, no matter [wave amp=30 freq=10]how[/wave] small![pause] You never know which one will move the plot forward!"
 FRANKIE_IDLE_RECRUIT_DIALOG2,"Usually, in this type of Isekai, I would have some unique ability or abnormally high stat![pause] But I feel…[pause][pause] normal?"
@@ -241,8 +253,8 @@ VIN_IDLE_RECRUIT_DIALOG5,Hey Captain! Did you need something?
 VIN_CHALLENGE_ACCEPTED1,I'll show you how strong I've become!
 VIN_CHALLENGE_REJECTED1,I think I sprained something. Let's pick this up again later.
 VIN_CHALLENGE_WIN1,Dang it. I was so sure I had you that time!
-VIN_TRADE_OFFER1,The [color=#{request_rarity}][{trade_request}][/color] sticker would go well in my setup. I'll give you [color=#{offer_rarity}][{trade_offer}][/color] for one if you've got any.
-VIN_TRADE_ACCEPTED1,Great! I'll be taking down Rogues solo in no time with this setup!
+VIN_TRADE_OFFER1,[color=#{request_rarity}][{trade_request}][/color] would be a great addition to my arsenal. I can trade you this [color=#{offer_rarity}][{trade_offer}][/color] for it.
+VIN_TRADE_ACCEPTED1,Great! I'll be taking down Rogues in half the time with this setup!
 VIN_TRADE_REJECTED1,That's not it. I'll just get it myself.
 VIN_TRADE_CANCEL1,"Alright, thanks for checking. "
 VIN_LEAVE1,See ya around.
@@ -258,7 +270,7 @@ SUNNY_IDLE_RECRUIT_DIALOG4,{player}… [pause]How are you…?
 SUNNY_IDLE_RECRUIT_DIALOG5,…[pause]You've all been…[pause]very accepting…[pause]
 SUNNY_CHALLENGE_ACCEPTED1,I'm stronger…[pause] this time.
 SUNNY_CHALLENGE_REJECTED1,I…[pause] I need to rest.
-SUNNY_CHALLENGE_WIN1,That was…[pause] fun.
+SUNNY_CHALLENGE_WIN1,I…[pause] lost.
 SUNNY_TRADE_OFFER1,Can I…[pause] Do you have…[pause] any [color=#{request_rarity}][{trade_request}][/color] stickers... [pause] I could…[pause] trade you my [color=#{offer_rarity}][{trade_offer}][/color] sticker…[pause] if you want.
 SUNNY_TRADE_ACCEPTED1,Thank…[pause]you.
 SUNNY_TRADE_REJECTED1,That's…[pause] not it…
@@ -273,7 +285,7 @@ LIVINGWORLD_CARDS_UI_ATTACK,Attacking
 LIVINGWORLD_CARDS_UI_DEFENSE,Defending
 LIVINGWORLD_CARDS_UI_NEUTRAL,Balanced
 LIVINGWORLD_UI_CARDCOLLECTION,Card Collection
-LIVINGWORLD_UI_DECKCOUNT_ERROR,Your Deck cannot have less than 30 cards. Please add more cards.
+LIVINGWORLD_UI_DECKCOUNT_ERROR,Your Deck must have 25 cards. 
 LIVINGWORLD_SETTINGS_UI_CARDS_SECTION,Card Game
 LIVINGWORLD_SETTINGS_UI_CARD_ENEMY_THOUGHTS,Enemy Thinking Animation
 LIVINGWORLD_PASSIVE_CARDREWARD,A new card has been added to your collection!
@@ -281,3 +293,4 @@ LIVINGWORLD_TRANSFORM_PROMPT,Which form will you use?
 LIVINGWORLD_BENCH_MENU,Take a seat?
 LIVINGWORLD_SETTINGS_UI_OVERSPILL,Overspill Damage
 LIVINGWORLD_CARDS_UI_REMASTER_BONUS,Remaster Bonus!
+LIVINGWORLD_SETTINGS_UI_VINEBALL,NPCs Use Vineball:

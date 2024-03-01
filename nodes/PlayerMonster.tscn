@@ -93,7 +93,7 @@ part_names = {
 }
 
 [node name="EmotePlayer" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.15691, 0.269875 )
 
 [node name="RecruitData" parent="." instance=ExtResource( 11 )]
 is_captain = true

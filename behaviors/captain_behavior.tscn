@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://mods/LivingWorld/scripts/RecruitBehavior.gd" type="Script" id=1]
 [ext_resource path="res://mods/LivingWorld/actions/WaitUntil.gd" type="Script" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://nodes/actions/FaceDirectionAction.gd" type="Script" id=12]
 [ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=13]
 [ext_resource path="res://mods/LivingWorld/actions/CaptainBehaviorState.gd" type="Script" id=14]
+[ext_resource path="res://nodes/actions/values/GetSpawnPoint.gd" type="Script" id=15]
 [ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=16]
 [ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=17]
 [ext_resource path="res://mods/LivingWorld/actions/GetGroupNodeCustom.gd" type="Script" id=18]
@@ -51,10 +52,6 @@ max_wait = 0.5
 strafe = true
 wander_limit = 10.0
 kill_on_failure = false
-
-[node name="LeaveSign" type="Node" parent="Idle"]
-script = ExtResource( 7 )
-remove = true
 
 [node name="Patrol" type="Node" parent="."]
 script = ExtResource( 14 )
@@ -110,7 +107,7 @@ script = ExtResource( 4 )
 [node name="IsPlayerNearby" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile2"]
 script = ExtResource( 8 )
 always_succeed = true
-within_distance = 40.0
+within_distance = 25.0
 
 [node name="PlayEmoteAction" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile2/IsPlayerNearby"]
 script = ExtResource( 13 )
@@ -136,6 +133,7 @@ can_fly = true
 can_jump = true
 can_fall = true
 can_glide = true
+can_warp = true
 can_wait = true
 min_distance = 6.0
 
@@ -182,13 +180,40 @@ selection = 18
 script = ExtResource( 2 )
 base_seconds = 0.0
 disable_timer = true
-debug_message = true
 
 [node name="GetNodeWithinRange" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile/WaitUntil"]
 script = ExtResource( 25 )
 group = "RogueFusions"
 distance = 25.0
 inverted = true
+
+[node name="RepeatWhile3" type="Node" parent="Patrol/NearbyEncounter"]
+script = ExtResource( 4 )
+
+[node name="FaceTowardsAction" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile3"]
+script = ExtResource( 28 )
+
+[node name="GetSpawnPoint" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile3/FaceTowardsAction"]
+script = ExtResource( 15 )
+
+[node name="FollowAction" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile3"]
+script = ExtResource( 20 )
+__meta__ = {
+"action_tree": true
+}
+can_fly = true
+can_jump = true
+can_fall = true
+can_glide = true
+can_warp = true
+can_wait = true
+
+[node name="GetSpawnPoint" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile3/FollowAction"]
+script = ExtResource( 15 )
+
+[node name="RemoveSign" type="Node" parent="Patrol/NearbyEncounter"]
+script = ExtResource( 7 )
+remove = true
 
 [node name="EnableInteractions" type="Node" parent="Patrol/NearbyEncounter"]
 script = ExtResource( 27 )

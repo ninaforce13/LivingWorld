@@ -1,4 +1,4 @@
-[gd_scene load_steps=142 format=2]
+[gd_scene load_steps=148 format=2]
 
 [ext_resource path="res://data/monster_forms/spooki-onna.tres" type="Resource" id=1]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
@@ -96,6 +96,8 @@
 [ext_resource path="res://mods/LivingWorld/actions/ChooseSticker.gd" type="Script" id=94]
 [ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=95]
 [ext_resource path="res://sfx/voices/viola/viola_laugh_2.wav" type="AudioStream" id=96]
+[ext_resource path="res://mods/LivingWorld/scripts/SetCardCooldown.gd" type="Script" id=97]
+[ext_resource path="res://mods/LivingWorld/behaviors/Fainted.tscn" type="PackedScene" id=98]
 [ext_resource path="res://data/character_sfx/viola_sfx.tres" type="Resource" id=99]
 [ext_resource path="res://sprites/characters/battle/viola.json" type="PackedScene" id=100]
 [ext_resource path="res://sprites/portraits/viola_thinking.png" type="Texture" id=101]
@@ -112,9 +114,13 @@
 [ext_resource path="res://sfx/voices/viola/viola_motivated_1.wav" type="AudioStream" id=112]
 [ext_resource path="res://sfx/voices/viola/viola_compliment.wav" type="AudioStream" id=113]
 [ext_resource path="res://sfx/voices/viola/viola_greeting.wav" type="AudioStream" id=114]
+[ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=115]
+[ext_resource path="res://mods/LivingWorld/actions/SetBehaviorState.gd" type="Script" id=116]
 [ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=117]
 [ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=118]
 [ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=119]
+[ext_resource path="res://sprites/portraits/viola_shocked.png" type="Texture" id=120]
+[ext_resource path="res://sfx/voices/viola/viola_surprise_1.wav" type="AudioStream" id=121]
 [ext_resource path="res://nodes/actions/ChangeMusicAction.gd" type="Script" id=125]
 [ext_resource path="res://mods/LivingWorld/cardgame/FoozleCC_Track2.ogg" type="AudioStream" id=126]
 
@@ -730,7 +736,7 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.32
 shape = SubResource( 30 )
 
 [node name="EmotePlayer" parent="." instance=ExtResource( 46 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.90958, 0 )
 
 [node name="Sprite" type="Spatial" parent="."]
 script = ExtResource( 36 )
@@ -917,6 +923,7 @@ non_profile_rate = 0.0
 
 [node name="RecruitData" parent="." instance=ExtResource( 2 )]
 is_partner = true
+signature_card_forms = [ "res://data/monster_forms/spirouette.tres", "res://data/monster_forms/regensea.tres" ]
 
 [node name="RecruitBehavior" type="Node" parent="."]
 script = ExtResource( 5 )
@@ -981,7 +988,7 @@ script = ExtResource( 9 )
 [node name="IsPlayerNearby" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2"]
 script = ExtResource( 14 )
 always_succeed = true
-within_distance = 40.0
+within_distance = 25.0
 
 [node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2/IsPlayerNearby"]
 script = ExtResource( 23 )
@@ -1257,6 +1264,8 @@ script = ExtResource( 51 )
 [node name="Failer" type="Node" parent="RecruitBehavior/EngageEnemy"]
 script = ExtResource( 11 )
 
+[node name="Fainted" parent="RecruitBehavior" instance=ExtResource( 98 )]
+
 [node name="MouseClick" parent="." instance=ExtResource( 80 )]
 
 [node name="RogueFusionDetector" type="Area" parent="."]
@@ -1426,11 +1435,22 @@ value = true
 
 [node name="MessageDialogAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
 script = ExtResource( 75 )
-portrait = ExtResource( 43 )
-audio = ExtResource( 113 )
+portrait = ExtResource( 120 )
+audio = ExtResource( 121 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "VIOLA_CHALLENGE_WIN1" ] ]
+
+[node name="PlayEmoteAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 23 )
+selection = 8
+
+[node name="SetNPCStateAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 115 )
+state = "Defeated"
+
+[node name="SetBehaviorState" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 116 )
 
 [node name="Trade" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 59 )
@@ -1505,7 +1525,10 @@ use_random = true
 message_array = [ [ "VIOLA_TRADE_CANCEL1" ] ]
 
 [node name="PlayCards" type="Node" parent="InteractionBehavior/MenuDialogAction"]
-script = ExtResource( 52 )
+script = ExtResource( 59 )
+require_blackboard_values = {
+"card_cooldown": false
+}
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 75 )
@@ -1520,7 +1543,10 @@ script = ExtResource( 125 )
 music = ExtResource( 126 )
 music_vox = ExtResource( 126 )
 
-[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction"]
+[node name="Cutscene" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction"]
+script = ExtResource( 58 )
+
+[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction/Cutscene"]
 script = ExtResource( 117 )
 
 [node name="CheckConditionAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
@@ -1552,6 +1578,10 @@ script = ExtResource( 26 )
 message = "LIVINGWORLD_PASSIVE_CARDREWARD"
 use_pawn_npc_name = false
 wait_until_finished = false
+
+[node name="SetCooldownFlag" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 97 )
+value = true
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 59 )

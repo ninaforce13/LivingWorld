@@ -1,4 +1,4 @@
-[gd_scene load_steps=146 format=2]
+[gd_scene load_steps=150 format=2]
 
 [ext_resource path="res://data/monster_forms/cat-5.tres" type="Resource" id=1]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
@@ -96,6 +96,8 @@
 [ext_resource path="res://mods/LivingWorld/actions/ChooseSticker.gd" type="Script" id=94]
 [ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=95]
 [ext_resource path="res://sfx/voices/meredith/meredith_questioning.wav" type="AudioStream" id=96]
+[ext_resource path="res://mods/LivingWorld/scripts/SetCardCooldown.gd" type="Script" id=97]
+[ext_resource path="res://mods/LivingWorld/behaviors/Fainted.tscn" type="PackedScene" id=98]
 [ext_resource path="res://data/character_sfx/meredith_sfx.tres" type="Resource" id=99]
 [ext_resource path="res://sprites/characters/battle/meredith.json" type="PackedScene" id=100]
 [ext_resource path="res://sprites/portraits/meredith_sad.png" type="Texture" id=101]
@@ -110,13 +112,15 @@
 [ext_resource path="res://sfx/voices/meredith/meredith_thinking_1.wav" type="AudioStream" id=110]
 [ext_resource path="res://sfx/voices/meredith/meredith_thanks.wav" type="AudioStream" id=111]
 [ext_resource path="res://sfx/voices/meredith/meredith_awkward_2.wav" type="AudioStream" id=112]
-[ext_resource path="res://sfx/voices/meredith/meredith_laugh_1.wav" type="AudioStream" id=113]
+[ext_resource path="res://sfx/voices/meredith/meredith_defeat.wav" type="AudioStream" id=113]
 [ext_resource path="res://sfx/voices/meredith/meredith_greeting.wav" type="AudioStream" id=114]
 [ext_resource path="res://sfx/voices/meredith/meredith_sigh_2.wav" type="AudioStream" id=115]
 [ext_resource path="res://sprites/portraits/meredith_shocked.png" type="Texture" id=116]
 [ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=117]
 [ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=118]
 [ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=119]
+[ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=120]
+[ext_resource path="res://mods/LivingWorld/actions/SetBehaviorState.gd" type="Script" id=121]
 [ext_resource path="res://nodes/actions/ChangeMusicAction.gd" type="Script" id=125]
 [ext_resource path="res://mods/LivingWorld/cardgame/FoozleCC_Track2.ogg" type="AudioStream" id=126]
 [ext_resource path="res://mods/LivingWorld/scripts/RandomTapeConfig.gd" type="Script" id=128]
@@ -921,6 +925,7 @@ non_profile_rate = 0.0
 
 [node name="RecruitData" parent="." instance=ExtResource( 2 )]
 is_partner = true
+signature_card_forms = [ "res://data/monster_forms/kittelly.tres", "res://data/monster_forms/cat-5.tres" ]
 
 [node name="RecruitBehavior" type="Node" parent="."]
 script = ExtResource( 5 )
@@ -985,7 +990,7 @@ script = ExtResource( 9 )
 [node name="IsPlayerNearby" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2"]
 script = ExtResource( 14 )
 always_succeed = true
-within_distance = 40.0
+within_distance = 25.0
 
 [node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2/IsPlayerNearby"]
 script = ExtResource( 23 )
@@ -1261,6 +1266,8 @@ script = ExtResource( 51 )
 [node name="Failer" type="Node" parent="RecruitBehavior/EngageEnemy"]
 script = ExtResource( 11 )
 
+[node name="Fainted" parent="RecruitBehavior" instance=ExtResource( 98 )]
+
 [node name="MouseClick" parent="." instance=ExtResource( 80 )]
 
 [node name="RogueFusionDetector" type="Area" parent="."]
@@ -1430,11 +1437,22 @@ value = true
 
 [node name="MessageDialogAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
 script = ExtResource( 75 )
-portrait = ExtResource( 65 )
+portrait = ExtResource( 43 )
 audio = ExtResource( 113 )
 title = "{pawn}"
 use_random = true
 message_array = [ [ "MEREDITH_CHALLENGE_WIN1" ] ]
+
+[node name="PlayEmoteAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 23 )
+selection = 8
+
+[node name="SetNPCStateAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 120 )
+state = "Defeated"
+
+[node name="SetBehaviorState" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 121 )
 
 [node name="Trade" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 59 )
@@ -1509,7 +1527,10 @@ use_random = true
 message_array = [ [ "MEREDITH_TRADE_CANCEL1" ] ]
 
 [node name="PlayCards" type="Node" parent="InteractionBehavior/MenuDialogAction"]
-script = ExtResource( 52 )
+script = ExtResource( 59 )
+require_blackboard_values = {
+"card_cooldown": false
+}
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 75 )
@@ -1524,7 +1545,10 @@ script = ExtResource( 125 )
 music = ExtResource( 126 )
 music_vox = ExtResource( 126 )
 
-[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction"]
+[node name="Cutscene" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction"]
+script = ExtResource( 58 )
+
+[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction/Cutscene"]
 script = ExtResource( 118 )
 
 [node name="CheckConditionAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
@@ -1556,6 +1580,10 @@ script = ExtResource( 26 )
 message = "LIVINGWORLD_PASSIVE_CARDREWARD"
 use_pawn_npc_name = false
 wait_until_finished = false
+
+[node name="SetCooldownFlag" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 97 )
+value = true
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 59 )
@@ -1650,7 +1678,6 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 34 )]
 

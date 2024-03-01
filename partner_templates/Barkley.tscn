@@ -1,4 +1,4 @@
-[gd_scene load_steps=138 format=2]
+[gd_scene load_steps=143 format=2]
 
 [ext_resource path="res://data/monster_forms/spitzfyre.tres" type="Resource" id=1]
 [ext_resource path="res://data/monster_forms/fortiwinx.tres" type="Resource" id=2]
@@ -111,6 +111,11 @@
 [ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=109]
 [ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=110]
 [ext_resource path="res://sprites/characters/world/dog.json" type="PackedScene" id=111]
+[ext_resource path="res://mods/LivingWorld/scripts/SetCardCooldown.gd" type="Script" id=112]
+[ext_resource path="res://mods/LivingWorld/behaviors/Fainted.tscn" type="PackedScene" id=113]
+[ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=114]
+[ext_resource path="res://mods/LivingWorld/actions/SetBehaviorState.gd" type="Script" id=115]
+[ext_resource path="res://sprites/portraits/dog_shocked.png" type="Texture" id=116]
 [ext_resource path="res://nodes/actions/ChangeMusicAction.gd" type="Script" id=117]
 [ext_resource path="res://mods/LivingWorld/cardgame/FoozleCC_Track2.ogg" type="AudioStream" id=118]
 
@@ -892,6 +897,7 @@ non_profile_rate = 0.0
 
 [node name="RecruitData" parent="." instance=ExtResource( 3 )]
 is_partner = true
+signature_card_forms = [ "res://data/monster_forms/pombomb.tres", "res://data/monster_forms/spitzfyre.tres" ]
 
 [node name="RecruitBehavior" type="Node" parent="."]
 script = ExtResource( 7 )
@@ -952,7 +958,7 @@ script = ExtResource( 11 )
 [node name="IsPlayerNearby" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2"]
 script = ExtResource( 16 )
 always_succeed = true
-within_distance = 40.0
+within_distance = 25.0
 
 [node name="PlayEmoteAction" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile2/IsPlayerNearby"]
 script = ExtResource( 26 )
@@ -1232,6 +1238,8 @@ script = ExtResource( 13 )
 
 [node name="Party" parent="RecruitBehavior" instance=ExtResource( 59 )]
 
+[node name="Fainted" parent="RecruitBehavior" instance=ExtResource( 113 )]
+
 [node name="MouseClick" parent="." instance=ExtResource( 82 )]
 
 [node name="RogueFusionDetector" type="Area" parent="."]
@@ -1401,11 +1409,22 @@ value = true
 
 [node name="MessageDialogAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
 script = ExtResource( 79 )
-portrait = ExtResource( 47 )
-audio = ExtResource( 69 )
+portrait = ExtResource( 116 )
+audio = ExtResource( 32 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "BARKLEY_CHALLENGE_WIN1", "BARKLEY_CHALLENGE_WIN2" ] ]
+message_array = [ [ "BARKLEY_CHALLENGE_WIN1" ] ]
+
+[node name="PlayEmoteAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 26 )
+selection = 8
+
+[node name="SetNPCStateAction" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 114 )
+state = "Defeated"
+
+[node name="SetBehaviorState" type="Node" parent="InteractionBehavior/MenuDialogAction/Challenge/IsReady"]
+script = ExtResource( 115 )
 
 [node name="Trade" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 63 )
@@ -1480,7 +1499,10 @@ use_random = true
 message_array = [ [ "BARKLEY_TRADE_CANCEL" ] ]
 
 [node name="PlayCards" type="Node" parent="InteractionBehavior/MenuDialogAction"]
-script = ExtResource( 56 )
+script = ExtResource( 63 )
+require_blackboard_values = {
+"card_cooldown": false
+}
 
 [node name="MessageDialogAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 79 )
@@ -1495,7 +1517,10 @@ script = ExtResource( 117 )
 music = ExtResource( 118 )
 music_vox = ExtResource( 118 )
 
-[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction"]
+[node name="Cutscene" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction"]
+script = ExtResource( 62 )
+
+[node name="ShowGameScreen" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/ChangeMusicAction/Cutscene"]
 script = ExtResource( 109 )
 
 [node name="CheckConditionAction" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
@@ -1527,6 +1552,10 @@ script = ExtResource( 18 )
 message = "LIVINGWORLD_PASSIVE_CARDREWARD"
 use_pawn_npc_name = false
 wait_until_finished = false
+
+[node name="SetCooldownFlag" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards/CheckConditionAction"]
+script = ExtResource( 112 )
+value = true
 
 [node name="CheckConditionAction2" type="Node" parent="InteractionBehavior/MenuDialogAction/PlayCards"]
 script = ExtResource( 63 )
@@ -1623,7 +1652,6 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 46 )]
 

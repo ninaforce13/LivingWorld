@@ -1,8 +1,7 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://battle/ai/WeightedAI.gd" type="Script" id=1]
+[ext_resource path="res://mods/LivingWorld/AI/RecruitRecordingAI.gd" type="Script" id=1]
 
 [node name="BalancedAI" type="Node"]
 script = ExtResource( 1 )
-team_shares_tapes = true
 status_bubble_enabled = false

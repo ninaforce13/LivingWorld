@@ -7,6 +7,8 @@ export (float) var townie_chance = 0.0
 export (float) var max_player_dist = 50.0
 var random = Random.new()
 func is_valid_detection(_detection)->bool:
+	if get_parent().state_machine.state == "Defeated":
+		return false
 	var player = WorldSystem.get_player()
 	if get_parent().global_transform.origin.distance_to(player.global_transform.origin) > max_player_dist:
 		return false

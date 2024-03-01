@@ -6,9 +6,11 @@ signal party_disbanded
 export (bool) var is_captain = false
 export (bool) var is_partner = false
 export (bool) var is_player = false
+export (Array,String) var signature_card_forms = []
 
 const trade_generator = preload("res://mods/LivingWorld/scripts/StickerTradeGenerator.gd")
 const card_template = preload("res://mods/LivingWorld/cardgame/CardTemplate.tscn")
+const settings = preload("res://mods/LivingWorld/settings.tres")
 
 var max_partners = 2
 var follow_target = null
@@ -19,6 +21,7 @@ var slots:Array
 var engaged:bool = false setget set_engage
 var recruit
 var on_battle_cooldown:bool = false
+var on_card_cooldown:bool = false
 var trade_offer = null
 var card_deck:Array = []
 var seedvalue:int = 0
@@ -26,10 +29,11 @@ var random:Random
 var is_leader:bool = false
 
 func _ready():
-	WorldSystem.time.connect("date_changed", self, "_on_date_changed")
+	if !is_captain:
+		WorldSystem.time.connect("date_changed", self, "_on_date_changed")
 	if !is_partner:
 		seedvalue = randi()
-	if !recruit:# and (is_captain or is_partner):
+	if !recruit:
 		generate_recruit_data()
 
 	random = Random.new((recruit.name).hash() + SaveState.random_seed + seedvalue)
@@ -48,8 +52,13 @@ func build_deck():
 	var forms = MonsterForms.basic_forms.values() + MonsterForms.secret_forms.values()
 	var debut_forms = MonsterForms.pre_evolution.values()
 	random.shuffle(forms)
-	for i in range (30):
-		var form = random.choice(forms) if i >= 15 else random.choice(debut_forms)
+	for form_path in signature_card_forms:
+		var card = card_template.instance()
+		card.enemy = true
+		card.form = form_path
+		card_deck.push_back(card.duplicate())
+	for i in range (settings.deck_limit - signature_card_forms.size()):
+		var form = random.choice(forms) if i >= (settings.deck_limit/2) else random.choice(debut_forms)
 		var card = card_template.instance()
 		card.enemy = true
 		card.form = form.resource_path
@@ -70,6 +79,8 @@ func generate_recruit_data():
 	recruit = rangerdataparser.get_npc_snapshot(pawn, is_player)
 
 func generate_trade():
+	if trade_offer:
+		remove_trade(trade_offer)
 	trade_offer = trade_generator.generate()
 	add_child(trade_offer)
 	trade_offer.connect("trade_completed",self,"remove_trade",[trade_offer])
@@ -94,8 +105,8 @@ func add_conversation_partner(partner):
 				partner_data.conversation_partners.push_back(partner)
 		if !conversation_partners.has(partner):
 			conversation_partners.push_back(partner)
-#		if not engaged:
-#			set_engage(true)
+		if not engaged:
+			set_engage(true)
 
 func remove_conversation_partner(node):
 	for partner in conversation_partners:
@@ -124,6 +135,9 @@ func check_partners():
 
 func reset_battle_cooldown():
 	on_battle_cooldown = false
+
+func reset_card_cooldown():
+	on_card_cooldown = false
 
 func party_full()->bool:
 	return party_members.size() == max_partners
@@ -189,7 +203,9 @@ func get_ranger_key(data):
 
 func _on_date_changed():
 	reset_battle_cooldown()
+	reset_card_cooldown()
 	generate_trade()
+	build_deck()
 
 func get_party_position(data)->int:
 	var leader = get_party_leader()

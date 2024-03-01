@@ -68,6 +68,7 @@ export (Color) var remaster_bonus_color
 export (Dictionary) var player_data
 export (Dictionary) var enemy_data
 export (bool) var demo = false
+export (bool) var logs = false
 enum State {ATTACK,DEFENSE,NEUTRAL}
 enum Team  {PLAYER,ENEMY}
 var random:Random
@@ -108,7 +109,21 @@ func _ready():
 	yield(self,"hand_drawn")
 
 	set_focus_buttons()
-	set_player_turn(true)
+	if logs:
+		print("Match Start")
+	if coin_toss():
+		if logs:
+			print("Player wins coin toss.")
+		set_player_turn(true)
+	else:
+		if logs:
+			print("Enemy wins coin toss.")
+		enemy_move()
+
+func coin_toss()->bool:
+	if demo:
+		return false
+	return random.rand_bool()
 
 func populate_damage_pop_arrays():
 	player_damage_start.push_back(PlayerDamageStart1)
@@ -133,7 +148,7 @@ func set_sprites():
 		PlayerName.text = player_data.name
 	if enemy_data:
 		EnemySprite.set_sprite(enemy_data)
-		EnemyName.text = enemy_data.name
+		EnemyName.text = Loc.tr(enemy_data.name)
 
 func initialize_decks():
 	if player_deck.empty():
@@ -165,6 +180,8 @@ func set_heartgauge_tween():
 
 func end_game():
 	var winner = get_winner_name()
+	if logs:
+		print("%s wins match."%winner)
 	refresh_deck(player_deck,player_discard)
 	refresh_deck(enemy_deck,enemy_discard)
 	var player_wins:bool
@@ -178,7 +195,7 @@ func end_game():
 	else:
 		PlayerSprite.animate_defeat()
 	var team = Team.PLAYER if player_wins else Team.ENEMY
-	var text = "%s Wins!"%winner
+	var text = "%s Wins!"%Loc.tr(winner)
 	PlayBanner(team,text,"remaster")
 	yield(Banner.tween,"tween_completed")
 	choose_option(player_wins)
@@ -186,7 +203,7 @@ func end_game():
 func is_game_ended()->bool:
 	return player_stats.hp == 0 or enemy_stats.hp == 0
 
-func set_card_colors(card,team):
+func set_card_colors(card,team): #Obsolete
 	var setup = player_setup if team == Team.PLAYER else enemy_setup
 	card.bordercolor = setup.bordercolor
 	card.bandcolor = setup.bandcolor
@@ -201,6 +218,8 @@ func ready_to_resolve()->bool:
 	for slot in PlayerField.get_children():
 		if !slot.occupied():
 			result = false
+	if logs and result:
+		print("Ready to resolve field")
 	return result
 
 func resolve_stats(stats:Dictionary)->Dictionary:
@@ -229,7 +248,7 @@ func update_value_labels(team):
 	var debug_name:String = "Player" if team == Team.PLAYER else "Enemy"
 	var result = resolve_stats(stats)
 	var current_value:int = 0
-	if demo:
+	if logs:
 		print("%s: Current Stats %s and Normalized Stats %s"%[debug_name,str(stats),str(result)])
 	if stats.state == State.ATTACK or stats.state == State.NEUTRAL:
 
@@ -297,6 +316,8 @@ func resolve_field():
 		enemy_stats.hp -= damage
 		enemy_stats.hp = clamp(enemy_stats.hp,0,enemy_stats.max_hp)
 		EnemyHealth.text = str(enemy_stats.hp)
+		if logs:
+			print("Player attacks Enemy. Dealing %s damage"%damage)
 		GameSFX.play_track("damage")
 
 	if player_result.defense > enemy_result.attack and player_stats.hp < player_stats.max_hp:
@@ -306,7 +327,14 @@ func resolve_field():
 		player_stats.hp += damage
 		player_stats.hp = clamp(player_stats.hp, 0, player_stats.max_hp)
 		PlayerHealth.text = str(player_stats.hp)
+		if logs:
+			print("Player blocks Enemy attack. Heals for %s remaining defense value."%damage)
 		GameSFX.play_track("heal")
+	elif player_result.defense > enemy_result.attack and player_stats.hp >= player_stats.max_hp and enemy_result.attack > 0:
+		if logs:
+			print("Player blocks Enemy attack.")
+		animate_damage_pop(Team.PLAYER,"Blocked!",DamageType.NEUTRAL)
+		GameSFX.play_track("blocked")
 
 
 	if enemy_result.attack > player_result.defense:
@@ -318,6 +346,8 @@ func resolve_field():
 		player_stats.hp -= damage
 		player_stats.hp = clamp(player_stats.hp,0,player_stats.max_hp)
 		PlayerHealth.text = str(player_stats.hp)
+		if logs:
+			print("Enemy attacks Player. Dealing %s damage"%damage)
 		GameSFX.play_track("damage")
 
 	if enemy_result.defense > player_result.attack and enemy_stats.hp < enemy_stats.max_hp:
@@ -327,13 +357,26 @@ func resolve_field():
 		enemy_stats.hp += damage
 		enemy_stats.hp = clamp(enemy_stats.hp,0,enemy_stats.max_hp)
 		EnemyHealth.text = str(enemy_stats.hp)
+		if logs:
+			print("Enemy blocks Player attack. Heals for %s remaining defense value."%damage)
 		GameSFX.play_track("heal")
+	elif enemy_result.defense > player_result.attack and enemy_stats.hp >= enemy_stats.max_hp and player_result.attack > 0:
+		if logs:
+			print("Enemy blocks Player attack.")
+		animate_damage_pop(Team.ENEMY,"Blocked!",DamageType.NEUTRAL)
+		GameSFX.play_track("blocked")
+
 	if enemy_result.defense == player_result.attack and player_result.attack != 0:
+		if logs:
+			print("Enemy blocks Player attack.")
 		animate_damage_pop(Team.ENEMY,"Blocked!",DamageType.NEUTRAL)
 		GameSFX.play_track("blocked")
 	if player_result.defense == enemy_result.attack and enemy_result.attack != 0:
+		if logs:
+			print("Player blocks Enemy attack.")
 		animate_damage_pop(Team.PLAYER,"Blocked!",DamageType.NEUTRAL)
 		GameSFX.play_track("blocked")
+
 	reset_stats()
 	yield(Co.wait(2),"completed")
 	clear_battlefield()
@@ -476,6 +519,8 @@ func player_card_picked(card):
 	var empty_slot_data:Dictionary = get_empty_slot(PlayerField)
 	var empty_slot = empty_slot_data.slot
 	var move_pos = empty_slot.get_global_rect().position
+	if logs:
+		print("Player chose %s"%card.card_name.text)
 	card.animate_playcard(move_pos,0.2)
 	var remaster_bonus:bool = check_remasters(PlayerField,card)
 	yield(card.tween,"tween_completed")
@@ -485,6 +530,8 @@ func player_card_picked(card):
 		card.remove_child(button)
 	empty_slot.set_card(card)
 	if remaster_bonus:
+		if logs:
+			print("Player Remaster triggered")
 		player_stats.remaster_bonus += 1
 		PlayBanner(Team.PLAYER, "LIVINGWORLD_CARDS_UI_REMASTER_BONUS", "remaster")
 		yield(Banner.tween,"tween_completed")
@@ -501,9 +548,6 @@ func player_card_picked(card):
 		yield(self,"labels_updated")
 	set_focus_buttons()
 	set_player_turn(false)
-	yield(Co.wait(0.5),"completed")
-	emit_signal("enemyturn")
-	PlayerSprite.animate_turn_end()
 
 func PlayBanner(team, text, track):
 	Banner.set_colors(team)
@@ -608,7 +652,7 @@ func animate_thinking(chosen_card):
 
 func enemy_move():
 	EnemySprite.animate_turn()
-	var text = "%s's Turn"%enemy_data.name
+	var text = "%s's Turn"%Loc.tr(enemy_data.name)
 	PlayBanner(Team.ENEMY,text,"turn_start")
 	yield(Banner.tween,"tween_completed")
 	if can_draw_card(Team.ENEMY):
@@ -735,7 +779,9 @@ func get_random():
 	return choice
 
 func set_player_turn(value:bool):
+	player_turn = false
 	if ready_to_resolve():
+		yield(Co.wait(1),"completed")
 		yield(Co.wrap(resolve_field()),"completed")
 		yield(Co.wait(0.5),"completed")
 		if is_game_ended():
@@ -743,7 +789,7 @@ func set_player_turn(value:bool):
 			return
 
 	if value:
-		var text = "%s's Turn"%player_data.name
+		var text = "%s's Turn"%Loc.tr(player_data.name)
 		PlayBanner(Team.PLAYER, text, "turn_start")
 		yield(Banner.tween,"tween_completed")
 		PlayerSprite.animate_turn()
@@ -752,6 +798,11 @@ func set_player_turn(value:bool):
 			draw_card(Team.PLAYER)
 			yield(self,"card_drawn")
 			set_focus_buttons()
+	else:
+		emit_signal("enemyturn")
+		yield(Co.wait(0.5),"completed")
+		PlayerSprite.animate_turn_end()
+
 	player_turn = value
 
 func get_winner_name()->String:
@@ -762,7 +813,7 @@ func get_winner_name()->String:
 		else:
 			result = SaveState.party.player.name
 	else:
-		result = enemy_data.name
+		result = Loc.tr(enemy_data.name)
 	return result
 
 func can_draw_card(team)->bool:

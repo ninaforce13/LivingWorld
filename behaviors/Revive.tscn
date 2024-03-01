@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=1]
 [ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=2]
@@ -10,13 +10,16 @@
 [ext_resource path="res://nodes/actions/RemoveNodeAction.gd" type="Script" id=8]
 [ext_resource path="res://mods/LivingWorld/actions/ConvertNPC.gd" type="Script" id=9]
 [ext_resource path="res://mods/LivingWorld/soundeffects/heal.wav" type="AudioStream" id=10]
-[ext_resource path="res://nodes/actions/PlayAudioAction.gd" type="Script" id=11]
+[ext_resource path="res://mods/LivingWorld/actions/PlayAudioVolumeCtrl.gd" type="Script" id=11]
 [ext_resource path="res://mods/LivingWorld/actions/SetInteraction.gd" type="Script" id=12]
 [ext_resource path="res://mods/LivingWorld/actions/CustomFollowAction.gd" type="Script" id=13]
 [ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=14]
 [ext_resource path="res://mods/LivingWorld/actions/GetEngagedTarget.gd" type="Script" id=15]
 [ext_resource path="res://mods/LivingWorld/actions/RecordSuccessAction.gd" type="Script" id=16]
 [ext_resource path="res://mods/LivingWorld/actions/EngageEnemyBehavior.gd" type="Script" id=17]
+[ext_resource path="res://mods/LivingWorld/actions/CheckNPCAction.gd" type="Script" id=18]
+[ext_resource path="res://mods/LivingWorld/actions/ResetTargetStateAction.gd" type="Script" id=19]
+[ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=20]
 
 [node name="Revive" type="Node"]
 script = ExtResource( 17 )
@@ -36,7 +39,6 @@ script = ExtResource( 15 )
 
 [node name="DisableInteraction" type="Node" parent="."]
 script = ExtResource( 12 )
-disabled = true
 
 [node name="GetPawn" type="Node" parent="DisableInteraction"]
 script = ExtResource( 2 )
@@ -72,6 +74,12 @@ script = ExtResource( 15 )
 [node name="RepeatWhile" type="Node" parent="."]
 script = ExtResource( 3 )
 
+[node name="FaceTowardsAction" type="Node" parent="RepeatWhile"]
+script = ExtResource( 14 )
+
+[node name="GetEngagedTarget" type="Node" parent="RepeatWhile/FaceTowardsAction"]
+script = ExtResource( 15 )
+
 [node name="PlayEmote" type="Node" parent="RepeatWhile"]
 script = ExtResource( 6 )
 selection = 1
@@ -83,7 +91,6 @@ base_seconds = 3.0
 [node name="PlayAudioAction" type="Node" parent="."]
 script = ExtResource( 11 )
 stream = ExtResource( 10 )
-wait_for_finish = false
 
 [node name="ApplyRecordSuccess" type="Node" parent="."]
 script = ExtResource( 16 )
@@ -92,17 +99,45 @@ use_heal = true
 [node name="GetEngagedTarget" type="Node" parent="ApplyRecordSuccess"]
 script = ExtResource( 15 )
 
-[node name="ConvertNPC" type="Node" parent="."]
+[node name="IfStandardNPC" type="Node" parent="."]
+script = ExtResource( 18 )
+always_succeed = true
+is_standard = true
+
+[node name="ConvertNPC" type="Node" parent="IfStandardNPC"]
 script = ExtResource( 9 )
 
-[node name="GetEngagedTarget" type="Node" parent="ConvertNPC"]
+[node name="GetEngagedTarget" type="Node" parent="IfStandardNPC/ConvertNPC"]
 script = ExtResource( 15 )
 
-[node name="RemoveNodeAction" type="Node" parent="."]
+[node name="RemoveNodeAction" type="Node" parent="IfStandardNPC"]
 script = ExtResource( 8 )
 animation = 0
 
-[node name="GetEngagedTarget" type="Node" parent="RemoveNodeAction"]
+[node name="GetEngagedTarget" type="Node" parent="IfStandardNPC/RemoveNodeAction"]
+script = ExtResource( 15 )
+
+[node name="IfCustomNPC" type="Node" parent="."]
+script = ExtResource( 18 )
+always_succeed = true
+
+[node name="ResetTargetState" type="Node" parent="IfCustomNPC"]
+script = ExtResource( 19 )
+
+[node name="GetEngagedTarget" type="Node" parent="IfCustomNPC/ResetTargetState"]
+script = ExtResource( 15 )
+
+[node name="SetNPCStateAction" type="Node" parent="IfCustomNPC"]
+script = ExtResource( 20 )
+state = "Sitting"
+
+[node name="GetEngagedTarget" type="Node" parent="IfCustomNPC/SetNPCStateAction"]
+script = ExtResource( 15 )
+
+[node name="EnableInteraction" type="Node" parent="IfCustomNPC"]
+script = ExtResource( 12 )
+
+[node name="GetEngagedTarget" type="Node" parent="IfCustomNPC/EnableInteraction"]
 script = ExtResource( 15 )
 
 [node name="PlayEmote2" type="Node" parent="."]
