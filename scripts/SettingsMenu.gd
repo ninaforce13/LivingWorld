@@ -11,6 +11,8 @@ onready var BackupStatusInput = find_node("BackupStatusInput")
 onready var UseBattleSpriteInput = find_node("UseBattleSpriteInput")
 onready var CardEnemyThoughtsInput = find_node("CardEnemyThoughtsInput")
 onready var OverspillInput = find_node("OverspillInput")
+onready var UseItemsInput = find_node("UseItemsInput")
+onready var RecordableInput = find_node("RecordableInput")
 const settings_path = "user://LivingWorldSettings.cfg"
 
 func _ready():
@@ -47,6 +49,12 @@ func is_dirty()->bool:
 	if OverspillInput.selected_value != get_config_value("overspill_damage"):
 		return true
 
+	if RecordableInput.selected_value != get_config_value("npcs_recording"):
+		return true
+
+	if UseItemsInput.selected_value != get_config_value("use_items"):
+		return true
+
 	return false
 
 func apply():
@@ -57,6 +65,8 @@ func save_settings():
 	config.set_value("battle", "join_raids", JoinEncountersInput.selected_value)
 	config.set_value("battle", "backup_status", BackupStatusInput.selected_value)
 	config.set_value("battle", "overspill_damage", OverspillInput.selected_value)
+	config.set_value("battle", "npcs_recording", RecordableInput.selected_value)
+	config.set_value("battle", "use_items", UseItemsInput.selected_value)
 	config.set_value("world", "population", PopulationInput.selected_value)
 	config.set_value("behavior", "magnetism", UseMagnetismInput.selected_value)
 	config.set_value("behavior", "vineball", UseVineballInput.selected_value)
@@ -83,12 +93,18 @@ func reset():
 	UseBattleSpriteInput.selected_value = get_config_value("battle_sprite")
 	CardEnemyThoughtsInput.selected_value = get_config_value("enemy_thinking")
 	OverspillInput.selected_value = get_config_value("overspill_damage")
+	RecordableInput.selected_value = get_config_value("npcs_recording")
+	UseItemsInput.selected_value = get_config_value("use_items")
 
 	inputs.setup_focus()
 
 func get_config_value(setting_name:String):
 	var config:ConfigFile = _load_settings_file()
 	var value
+	if setting_name == "npcs_recording":
+		value = config.get_value("battle","npcs_recording",RecordableInput.values[0])
+	if setting_name == "use_items":
+		value = config.get_value("battle","use_items",UseItemsInput.values[0])
 	if setting_name == "join_raids":
 		value = config.get_value("battle","join_raids",JoinEncountersInput.values[0])
 	if setting_name == "use_vineball":

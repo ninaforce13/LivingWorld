@@ -30,7 +30,7 @@ const empty_charconfig = preload("res://mods/LivingWorld/nodes/empty_charconfig.
 const rangerdataparser = preload("res://mods/LivingWorld/scripts/RangerDataParser.gd")
 const partnercontroller = preload("res://nodes/partners/PartnerController.tscn")
 const followertemplate = preload("res://mods/LivingWorld/nodes/FollowerTemplate.tscn")
-
+const jsondataparser = preload("res://mods/LivingWorld/scripts/RangerDataParser.gd")
 func _init():
 	levelmap_patch.patch()
 	encounterconfig_patch.patch()
@@ -106,6 +106,11 @@ func filter_recruits(recruits)->Array:
 
 
 func add_debug_commands():
+	Console.register("summon_save", {
+			"description":"Summons player from another save file.",
+			"args":[TYPE_STRING],
+			"target":[self, "summon_save"]
+		})
 	Console.register("debug_camera", {
 			"description":"Adds debug camera controls.",
 			"args":[TYPE_BOOL],
@@ -151,7 +156,11 @@ func add_debug_commands():
 		"args":[],
 		"target":[self,"check_flags"]
 	})
-
+	Console.register("give_card",{
+		"description":"Test for card reward screen",
+		"args":[],
+		"target":[self,"spawn_card"]
+	})
 func check_flags():
 	var result:String = ""
 	result = """
@@ -216,11 +225,72 @@ func export_player():
 		return jsonparser.save_json(playersnap)
 	return false
 
-func spawn_npc():
+func spawn_npc(playersnap = null):
 	var npc_template = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn")
-	var rangerdataparser = preload("res://mods/LivingWorld/scripts/RangerDataParser.gd")
+	var manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 	var npc = npc_template.instance()
-	npc.get_data().recruit = rangerdataparser.get_empty_recruit()
+	if playersnap:
+		npc.get_data().recruit = jsondataparser.get_character_snapshot(playersnap)
+		var data = npc.get_data().recruit
+#		print(data)
+		npc = manager.get_npc(data)
+	else:
+		npc.get_data().recruit = jsondataparser.get_empty_recruit()
 
 	WorldSystem.get_level_map().add_child(npc)
 	npc.global_transform.origin = WorldSystem.get_player().global_transform.origin
+
+
+func summon_save(file_path):
+
+	var storage = preload("res://global/save_system/SaveSystemStorage.gd").new()
+	if file_path == "":
+		push_error("Cannot load: file path not set")
+		return false
+	if not ("://" in file_path):
+		file_path = "user://" + file_path
+	if not storage.exists(file_path):
+		print("no file found")
+		return false
+
+	var snapshots = yield (storage.read_async(file_path).join(), "completed").versions
+
+	if snapshots.size() == 0:
+		return "Failed to load file"
+
+	for snapshot in snapshots:
+		if snapshot.get("party"):
+			var version = snapshot.get("version",-1)
+			if version != SaveState.CURRENT_VERSION:
+				continue
+#			var player = jsondataparser.merge(snapshot.party.player.custom,snapshot.party.player)
+			var player = snapshot.party
+			spawn_npc(player)
+			break
+
+func spawn_card():
+	var card_deck = []
+	var card_template = preload("res://mods/LivingWorld/cardgame/CardTemplate.tscn")
+	var random:Random = Random.new()
+	var forms = MonsterForms.basic_forms.values() + MonsterForms.secret_forms.values()
+	var debut_forms = MonsterForms.pre_evolution.values()
+	random.shuffle(forms)
+	for i in range (100):
+		var form = random.choice(forms) if i >= (settings.deck_limit/2) else random.choice(debut_forms)
+		var card = card_template.instance()
+		card.enemy = true
+		card.form = form.resource_path
+		card_deck.push_back(card.duplicate())
+	random.shuffle(card_deck)
+	var card = random.choice(card_deck)
+	card.holocard = random.rand_bool(settings.holocard_rate)
+	show_card_reward(card)
+
+func show_card_reward(reward):
+	var scene = load("res://mods/LivingWorld/cardgame/SealedCard.tscn")
+	var menu = scene.instance()
+	menu.reward_monster_path = reward.form
+	menu.holocard = reward.holocard
+	MenuHelper.add_child(menu)
+	yield (menu, "reward_completed")
+	menu.queue_free()

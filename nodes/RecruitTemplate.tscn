@@ -1,4 +1,4 @@
-[gd_scene load_steps=92 format=2]
+[gd_scene load_steps=93 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/emoteplayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=2]
@@ -51,6 +51,7 @@
 [ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=49]
 [ext_resource path="res://mods/LivingWorld/actions/SetBehaviorState.gd" type="Script" id=50]
 [ext_resource path="res://mods/LivingWorld/actions/DisbandPartyAction.gd" type="Script" id=51]
+[ext_resource path="res://mods/LivingWorld/characters/generic_human_npc.tres" type="Resource" id=52]
 [ext_resource path="res://mods/LivingWorld/scripts/MonsterDetector.gd" type="Script" id=61]
 [ext_resource path="res://nodes/actions/values/GetPlayer.gd" type="Script" id=62]
 [ext_resource path="res://nodes/actions/Cutscene.gd" type="Script" id=64]
@@ -940,7 +941,8 @@ transition = 3
 
 [node name="CharacterConfig" type="Node" parent="EncounterConfig"]
 script = ExtResource( 6 )
-level_scale_override_key = "npc_boss"
+level_scale_override_key = "monster_boss"
+base_character = ExtResource( 52 )
 character_sfx = ExtResource( 12 )
 character_kind = 1
 human_colors = {
@@ -1411,6 +1413,7 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
+aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 30 )]
 

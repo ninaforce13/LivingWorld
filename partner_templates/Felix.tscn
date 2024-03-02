@@ -1,4 +1,4 @@
-[gd_scene load_steps=149 format=2]
+[gd_scene load_steps=150 format=2]
 
 [ext_resource path="res://data/monster_forms/kirikuri.tres" type="Resource" id=1]
 [ext_resource path="res://data/monster_forms/shining_kuneko.tres" type="Resource" id=2]
@@ -122,6 +122,7 @@
 [ext_resource path="res://mods/LivingWorld/behaviors/Fainted.tscn" type="PackedScene" id=120]
 [ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=121]
 [ext_resource path="res://mods/LivingWorld/actions/SetBehaviorState.gd" type="Script" id=122]
+[ext_resource path="res://mods/LivingWorld/nodes/RecruitAI.tscn" type="PackedScene" id=123]
 [ext_resource path="res://nodes/actions/ChangeMusicAction.gd" type="Script" id=125]
 [ext_resource path="res://mods/LivingWorld/cardgame/FoozleCC_Track2.ogg" type="AudioStream" id=126]
 
@@ -872,6 +873,7 @@ human_colors = {
 "skin_color": -1
 }
 custom_battle_sprite = ExtResource( 99 )
+ai = ExtResource( 123 )
 human_colors/body_color_1 = -1
 human_colors/body_color_2 = -1
 human_colors/eye_color = -1

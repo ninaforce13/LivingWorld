@@ -1,4 +1,4 @@
-[gd_scene load_steps=150 format=2]
+[gd_scene load_steps=151 format=2]
 
 [ext_resource path="res://data/monster_forms/cat-5.tres" type="Resource" id=1]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
@@ -121,6 +121,7 @@
 [ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=119]
 [ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=120]
 [ext_resource path="res://mods/LivingWorld/actions/SetBehaviorState.gd" type="Script" id=121]
+[ext_resource path="res://mods/LivingWorld/nodes/RecruitAI.tscn" type="PackedScene" id=122]
 [ext_resource path="res://nodes/actions/ChangeMusicAction.gd" type="Script" id=125]
 [ext_resource path="res://mods/LivingWorld/cardgame/FoozleCC_Track2.ogg" type="AudioStream" id=126]
 [ext_resource path="res://mods/LivingWorld/scripts/RandomTapeConfig.gd" type="Script" id=128]
@@ -873,6 +874,7 @@ human_colors = {
 "skin_color": -1
 }
 custom_battle_sprite = ExtResource( 100 )
+ai = ExtResource( 122 )
 human_colors/body_color_1 = -1
 human_colors/body_color_2 = -1
 human_colors/eye_color = -1

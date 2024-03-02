@@ -19,7 +19,7 @@ const tape_item_node = preload("res://mods/LivingWorld/nodes/basic_tape_node.tsc
 const rewind_item_node = preload("res://mods/LivingWorld/nodes/rewind_node.tscn")
 const generic_itemnode = preload("res://mods/LivingWorld/nodes/item_node_generic.tscn")
 const settings = preload("res://mods/LivingWorld/settings.tres")
-
+var manager = load("res://mods/LivingWorld/scripts/NPCManager.gd")
 
 enum Category{CATEGORY_WALL, CATEGORY_COATING, CATEGORY_BUFF, CATEGORY_DEBUFF, CATEGORY_ATTACK, CATEGORY_SUMMON, CATEGORY_FISSION_POWER, CATEGORY_MISC}
 
@@ -35,6 +35,10 @@ export (float) var cooldown_attack:float = 0
 export (float) var cooldown_summon:float = 3
 export (float) var cooldown_fission_power:float = 1
 export (float) var cooldown_misc:float = 1
+export (float) var coodown_switch:float = 2
+export (float) var cooldown_fuse:float = 5
+export (float) var cooldown_rewind:float = 5
+export (float) var cooldown_coffee:float = 3
 
 export (float) var weight_wall:float = 1.0
 export (float) var weight_defensive_coating:float = 1.0
@@ -58,6 +62,8 @@ export (int) var threshold_max_self_damage_power:int = 0
 export (float) var parry_stance_caution:float = 0.95
 
 const basic_tape = preload("res://data/items/tape_basic.tres")
+const shuck_tape = preload("res://data/items/tape_black_shuck.tres")
+const chrome_tape = preload("res://data/items/tape_chrome.tres")
 const rewind = preload("res://data/items/rewind.tres")
 const coffee1 = preload("res://data/items/coffee1.tres")
 const coffee2 = preload("res://data/items/coffee2.tres")
@@ -69,8 +75,10 @@ var has_fair_fight:bool = false
 var parry_stancers:Dictionary
 var attempted_recording:bool = false
 var has_healed:bool = false
+var has_used_coffee:bool = false
 var random:Random = Random.new()
-
+var coffee_menu:Array = [coffee1,coffee2,coffee3,coffee4]
+var tape_arsenal:Array = [basic_tape,chrome_tape]
 func _ready():
 	cooldowns = {}
 
@@ -87,13 +95,47 @@ func request_orders():
 	if not fighter.is_transformed():
 		return []
 
+	if is_switching_appropriate():
+		var swap_tape = _get_type_advantaged_tape()
+		if swap_tape:
+			fighter.next_tape = swap_tape
+			var order:BattleOrder = BattleOrder.new(fighter, BattleOrder.OrderType.SWITCH, swap_tape)
+			update_cooldowns(order)
+			return[order]
+
 	if is_fusion_appropriate():
 		fighter.will_fuse = true
-		return [BattleOrder.new(fighter, BattleOrder.OrderType.FUSE)]
+		var order = BattleOrder.new(fighter, BattleOrder.OrderType.FUSE)
+		update_cooldowns(order)
+		return [order]
 
-	if !attempted_recording and _has_any_recording_targets(fighter) and !fighter.is_fusion() and random.rand_bool(settings.record_rate):
-		var tape_node = generic_itemnode.instance()
-		tape_node.item = basic_tape
+	if is_rewind_appropriate():
+		var rewind_node = generic_itemnode.instance()
+		rewind_node.item = rewind
+		rewind_node.amount = 1
+		add_child(rewind_node)
+		var arg:Dictionary = {"fighter":_get_heal_target(fighter),"already_used":false}
+		var order = BattleOrder.new(fighter, BattleOrder.OrderType.ITEM,rewind_node,arg)
+		update_cooldowns(order)
+		return [order]
+
+	if is_coffee_appropriate():
+		var coffee_node = generic_itemnode.instance()
+		coffee_node.item = random.choice(coffee_menu)
+		coffee_node.amount = 1
+		add_child(coffee_node)
+
+		var arg:Dictionary = {"target_slots":[]}
+		var target = _get_random_teammate(fighter)
+		if target:
+			arg.target_slots.push_back(target.get_characters()[0])
+			var order = BattleOrder.new(fighter, BattleOrder.OrderType.ITEM,coffee_node,arg)
+			update_cooldowns(order)
+			return [order]
+
+	if is_recording_appropriate():
+		var tape_node:Node = generic_itemnode.instance()
+		tape_node.item = random.choice(tape_arsenal) if randf() > 0.05 else shuck_tape
 		tape_node.amount = 1
 		add_child(tape_node)
 		var arg:Dictionary = {"target_slots":[]}
@@ -102,17 +144,6 @@ func request_orders():
 			arg.target_slots.push_back(target.get_characters()[0])
 			attempted_recording = true
 			return [BattleOrder.new(fighter, BattleOrder.OrderType.ITEM,tape_node,arg)]
-
-	if  _has_heal_target(fighter) and !has_healed and random.rand_bool():
-		var rewind_node = generic_itemnode.instance()
-		rewind_node.item = rewind
-		rewind_node.amount = 1
-		add_child(rewind_node)
-		var arg:Dictionary = {"fighter":_get_heal_target(fighter),"already_used":false}
-		has_healed = true
-		return [BattleOrder.new(fighter, BattleOrder.OrderType.ITEM,rewind_node,arg)]
-
-
 
 	battle.rand.push("AI")
 
@@ -148,6 +179,31 @@ func request_orders():
 	battle.rand.pop()
 
 	return orders
+
+func is_fusion_appropriate()->bool:
+	var fuse_rate = settings.fuse_rate
+	if not battle.enable_ai_fusion:
+		return false
+	if get_available_tapes(true).size() == 0:
+		fuse_rate = 1.0
+	if cooldowns.has("fusion"):
+		return false
+	if !random.rand_bool(fuse_rate):
+		return false
+#	if get_available_tapes(true).size() > 0:
+#		return false
+	if fighter.status.has_tag("summoned"):
+		return false
+	var team = battle.get_teams(false, false)[fighter.team]
+	if team.size() < 2:
+		return false
+	var has_valid_fusion_target = false
+	for f in team:
+		if not f.is_transformed() or f.is_fusion() or f.will_fuse or f.is_player_controlled():
+			return false
+		if f != fighter and f.get_character_kind() == fighter.get_character_kind():
+			has_valid_fusion_target = true
+	return has_valid_fusion_target
 
 func _remove_attacks(moves:Array)->void :
 	for i in range(moves.size() - 1, - 1, - 1):
@@ -533,6 +589,19 @@ func update_cooldowns(new_order:BattleOrder)->void :
 		var cooldown = get_category_cooldown(category)
 		cooldowns[move] = cooldowns.get(move, 0.0) + cooldown + 1.0
 
+	if new_order.type == BattleOrder.OrderType.SWITCH:
+		cooldowns["switch_tape"] = cooldowns.get("switch_tape", 0.0) + coodown_switch + 1.0
+
+
+	if new_order.type == BattleOrder.OrderType.FUSE:
+		cooldowns["fusion"] = cooldowns.get("fusion", 0.0) + cooldown_fuse + 1.0
+
+	if new_order.type == BattleOrder.OrderType.ITEM:
+		if new_order.order.item == rewind:
+			cooldowns["rewind"] = cooldowns.get("rewind", 0.0) + cooldown_rewind + 1.0
+		if new_order.order.item in coffee_menu:
+			cooldowns["coffee"] = cooldowns.get("coffee", 0.0) + cooldown_coffee + 1.0
+
 	for move in cooldowns.keys():
 		cooldowns[move] -= 1.0
 		if cooldowns[move] <= 0.0:
@@ -548,7 +617,6 @@ func _on_moves_refreshed():
 		var f = instance_from_id(id)
 		if f == null or not f.status.has_move(ParryStance):
 			parry_stancers.erase(id)
-
 
 func _has_any_recording_targets(fighter)->bool:
 	var teams = fighter.battle.get_teams(false, true)
@@ -577,8 +645,19 @@ func _get_heal_target(fighter):
 		if team_id != fighter.team:
 			continue
 		for f in teams[team_id]:
-			if f.status.hp <= f.status.max_hp * .30:
+			if f.status.hp <= f.status.max_hp * settings.heal_percantage:
 				potential_targets.push_back(f)
+
+	return random.choice(potential_targets) if !potential_targets.empty() else null
+
+func _get_random_teammate(fighter):
+	var teams = fighter.battle.get_teams(false, true)
+	var potential_targets:Array = []
+	for team_id in teams:
+		if team_id != fighter.team:
+			continue
+		for f in teams[team_id]:
+			potential_targets.push_back(f)
 
 	return random.choice(potential_targets) if !potential_targets.empty() else null
 
@@ -593,3 +672,84 @@ func _get_random_recording_target(fighter):
 				potential_targets.push_back(f)
 	return random.choice(potential_targets) if !potential_targets.empty() else null
 
+func _is_type_disadvantaged(fighter)->bool:
+	var teams = fighter.battle.get_teams(false, true)
+	var own_types = fighter.status.types
+	var enemy_team = _get_enemy_team(fighter)
+	for enemy in enemy_team:
+		var target_types = enemy.status.types
+		if ElementalReactions.is_type_disadvantaged(own_types,target_types) or ElementalReactions.is_type_advantaged(target_types,own_types):
+			return true
+	return false
+
+func _get_enemy_team(fighter)->Array:
+	var teams = fighter.battle.get_teams(false, true)
+	var result:Array = []
+	for team_id in teams:
+		if team_id == fighter.team:
+			continue
+		for f in teams[team_id]:
+			result.push_back(f)
+	return result
+
+func _get_type_advantaged_tape():
+	var tapes = get_available_tapes(true)
+	var enemy_targets:Array = _get_enemy_team(fighter)
+	var choices:Array = []
+	for tape in tapes:
+		var tape_types = tape.get_types()
+		for enemy in enemy_targets:
+			var target_types = enemy.status.types
+			if ElementalReactions.is_type_advantaged(tape_types,target_types) or ElementalReactions.is_type_disadvantaged(target_types,tape_types):
+				choices.push_back(tape)
+
+	return random.choice(choices)
+
+func has_ap_target()->bool:
+	return true
+
+func is_rewind_appropriate()->bool:
+	if !manager.get_setting("UseItems"):
+		return false
+	if cooldowns.has("rewind"):
+		return false
+	if !_has_heal_target(fighter):
+		return false
+	if has_healed:
+		return false
+	if !random.rand_bool(settings.heal_rate):
+		return false
+
+	return true
+
+func is_coffee_appropriate()->bool:
+	if !manager.get_setting("UseItems"):
+		return false
+	if has_used_coffee:
+		return false
+	if !has_ap_target():
+		return false
+	if !random.rand_bool(settings.coffee_rate):
+		return false
+
+	return true
+
+func is_switching_appropriate()->bool:
+	if !_is_type_disadvantaged(fighter):
+		return false
+	if cooldowns.has("switch_tape"):
+		return false
+	return true
+
+func is_recording_appropriate()->bool:
+	if !manager.get_setting("NPCRecording"):
+		return false
+	if attempted_recording:
+		return false
+	if !_has_any_recording_targets(fighter):
+		return false
+	if fighter.is_fusion():
+		return false
+	if !random.rand_bool(settings.record_rate):
+		return false
+	return true

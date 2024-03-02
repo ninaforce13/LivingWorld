@@ -176,7 +176,7 @@ func disband_party():
 	for member in party.values():
 		if is_instance_valid(member.node):
 			member.node.disband_party()
-
+			member.node.get_parent().get_behavior().set_state("Idle")
 	is_leader = false
 	emit_signal("party_disbanded")
 

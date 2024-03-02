@@ -20,6 +20,15 @@ func _run():
 	target.visible = false
 	target.queue_free()
 	npc.spawn_point = target.global_transform.origin
-
+	if pawn.has_method("get_data"):
+		var data = pawn.get_data()
+		if !data.party_full() and data.has_party():
+			var party = data.get_party_data()
+			for member in party:
+				member.node.add_party_member(npc.get_data(), npc.get_data().recruit)
+				npc.get_data().add_party_member(member.node,member.data,member.leader)
+				if member.leader:
+					npc.get_data().follow_target = member.node.get_parent()
+					npc.get_behavior().set_state("Party")
 	return true
 

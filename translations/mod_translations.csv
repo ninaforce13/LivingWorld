@@ -26,9 +26,9 @@ RECRUIT_IDLE_DIALOG_24,
 RECRUIT_IDLE_DIALOG_25,
 RECRUIT_IDLE_DIALOG_26,
 RECRUIT_PASSIVE_ROGUE,There's been another rogue sighting![pause] We need all available rangers!
-RECRUIT_MENU_OPTION1,Invite {pawn} to Party.
+RECRUIT_MENU_OPTION1,Invite {pawn} to Party
 RECRUIT_MENU_OPTION2,Fight {pawn}
-RECRUIT_MENU_OPTION3,[color=#1fba33]Trade stickers with {pawn}.[/color]
+RECRUIT_MENU_OPTION3,[color=#1fba33]Trade Stickers[/color]
 RECRUIT_MENU_OPTION5,Play Card Game
 RECRUIT_MENU_OPTION4,Goodbye!
 RECRUIT_MENU_PLAYCARDS1,A card game on a weird interdimensional island filled with dangerous monsters?[pause][pause] Of course I'll play!
@@ -41,7 +41,7 @@ RECRUIT_PLAYCARDS_LOSE2,I knew I should have swapped my stance on the last card!
 RECRUIT_PLAYCARDS_LOSE3,Next time I'll use more remaster combos!
 RECRUIT_PLAYCARDS_LOSE4,"Argh! Fine[pause], you can have my card!"
 RECRUIT_PLAYCARDS_LOSE5,I'm not going to be a sore loser about it.[pause] Here's your prize.
-RECRUIT_PLAYCARDS_LOSE6,I'm definitely not going to obsess over this loss later.
+RECRUIT_PLAYCARDS_LOSE6,I'm definitely not going to obsess over this one later.
 RECRUIT_PLAYCARDS_WIN1,"It's all in the heart of the cards, you know?"
 RECRUIT_PLAYCARDS_WIN2,Shift your focus into defending when you're low on health! After blocking damage you'll heal with the leftover defense points!
 RECRUIT_PLAYCARDS_WIN3,Ha! I've still got it![pause] It's all about Balance!
@@ -95,8 +95,8 @@ RECRUIT_TRADE_CANCEL2,"Oh, okay. Thanks for considering it."
 RECRUIT_TRADE_CANCEL3,I guess I'll have to keep checking the sticker merchants…
 TRADE_STICKER_UI_USE,Trade Sticker
 LIVINGWORLD_SETTINGS_UI_ENCOUNTERS,NPCs Join Raids:
-LIVINGWORLD_SETTINGS_UI_MAGNETISM, NPCs Use Magnetism:
-LIVINGWORLD_SETTINGS_UI_BACKUP_STATUS,Show allied NPC status bar
+LIVINGWORLD_SETTINGS_UI_MAGNETISM,NPC Magnetism Ability
+LIVINGWORLD_SETTINGS_UI_BACKUP_STATUS,NPC Status Bar
 LIVINGWORLD_SETTINGS_UI_CAPTAIN_PATROL,Captains Engage Nearby Fusions
 UI_SETTINGS_KEYBOARD_livingworldmod_transform,Overworld Transform
 LIVINGWORLD_SETTINGS_UI_BEHAVIOR_SECTION,Behavior
@@ -169,7 +169,7 @@ EUGENE_TRADE_ACCEPTED1,Momentous! Now nothing can slow me down!
 EUGENE_TRADE_REJECTED1,"Aw man, come on! You know that's what I need! "
 EUGENE_TRADE_CANCEL1,"[wave amp=30 freq=10]Fine[/wave][pause], I get it. I'll just keep battling until I earn one!"
 EUGENE_CARDS_ACCEPT1,Dude![pause] Of course I'm down to play this![pause] I love collectible card games!
-EUGENE_CARDS_LOSE1,"Aw man![pause] I was just about to draw the card I needed![pause] Ah well[pause], I'll get it next time![pause] Here's your reward!"
+EUGENE_CARDS_LOSE1,"Ugh![pause] I was just about to draw my ce![pause] Ah well[pause], I'll get it next time![pause] Here's your reward!"
 EUGENE_CARDS_WIN1,Badass![pause] That was great![pause] Hit me up if you wanna play another round!
 EUGENE_LEAVE1,See ya!
 EUGENE_PASSIVE_ROGUES_MESSAGE1,It's another wild one![pause] I'm taking it down!
@@ -293,4 +293,8 @@ LIVINGWORLD_TRANSFORM_PROMPT,Which form will you use?
 LIVINGWORLD_BENCH_MENU,Take a seat?
 LIVINGWORLD_SETTINGS_UI_OVERSPILL,Overspill Damage
 LIVINGWORLD_CARDS_UI_REMASTER_BONUS,Remaster Bonus!
-LIVINGWORLD_SETTINGS_UI_VINEBALL,NPCs Use Vineball:
+LIVINGWORLD_SETTINGS_UI_VINEBALL,NPCs Vineball Ability:
+LIVINGWORLD_SETTINGS_UI_USEITEMS,NPCs Use Items
+LIVINGWORLD_SETTINGS_UI_RECORDABLE,NPCs Record Encounters
+LIVINGWORLD_SETTINGS_UI_STATUS_OPTION_ENABLED,Show
+LIVINGWORLD_SETTINGS_UI_STATUS_OPTION_DISABLED,Hidden

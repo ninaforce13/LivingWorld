@@ -97,15 +97,15 @@ static func get_card_collection()->Dictionary:
 	var result:Dictionary
 	return SaveState.other_data.LivingWorldData.CardGame.collection
 
-static func add_card_to_collection(card,holocard:bool = false):
+static func add_card_to_collection(card):
 	var key = get_card_key(card)
 	var collection = get_card_collection()
 	if has_card(card):
 		collection[key].amount += 1
-		if holocard:
-			collection[key].holocard = holocard
+		if card.holocard:
+			collection[key].holocard = card.holocard
 	else:
-		collection[key] = set_card_data(card,holocard)
+		collection[key] = set_card_data(card,card.holocard)
 
 static func has_card(card_data)->bool:
 	var key = get_card_key(card_data)
@@ -151,6 +151,10 @@ static func get_setting(setting_name):
 		value = config.get_value("card","enemy_thinking",true)
 	if setting_name == "OverspillDamage":
 		value = config.get_value("battle","overspill_damage",false)
+	if setting_name == "NPCRecording":
+		value = config.get_value("battle","npcs_recording",true)
+	if setting_name == "UseItems":
+		value = config.get_value("battle","use_items",true)
 	return value
 
 static func _load_settings_file()->ConfigFile:

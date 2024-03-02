@@ -1,4 +1,4 @@
-[gd_scene load_steps=142 format=2]
+[gd_scene load_steps=143 format=2]
 
 [ext_resource path="res://data/monster_forms/rockertrice.tres" type="Resource" id=1]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
@@ -114,6 +114,7 @@
 [ext_resource path="res://mods/LivingWorld/behaviors/Fainted.tscn" type="PackedScene" id=112]
 [ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=113]
 [ext_resource path="res://mods/LivingWorld/actions/SetBehaviorState.gd" type="Script" id=114]
+[ext_resource path="res://mods/LivingWorld/nodes/RecruitAI.tscn" type="PackedScene" id=115]
 [ext_resource path="res://mods/LivingWorld/actions/PlayCardGame.gd" type="Script" id=117]
 [ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=118]
 [ext_resource path="res://sfx/ui/key_item_get.ogg" type="AudioStream" id=119]
@@ -872,6 +873,7 @@ human_part_names = {
 "legs": "shorts1",
 "wings": "generic"
 }
+ai = ExtResource( 115 )
 human_colors/body_color_1 = 6
 human_colors/body_color_2 = 2
 human_colors/eye_color = 12

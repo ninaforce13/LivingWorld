@@ -71,7 +71,7 @@ page = 1080.0
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/ScrollContainer"]
 margin_right = 976.0
-margin_bottom = 1208.0
+margin_bottom = 1360.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_top = 20
@@ -80,11 +80,11 @@ custom_constants/margin_bottom = 20
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer"]
 margin_top = 20.0
 margin_right = 976.0
-margin_bottom = 1188.0
+margin_bottom = 1340.0
 
 [node name="Inputs" type="GridContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer"]
 margin_right = 976.0
-margin_bottom = 1168.0
+margin_bottom = 1320.0
 custom_constants/vseparation = 16
 custom_constants/hseparation = 16
 columns = 2
@@ -144,7 +144,7 @@ margin_right = 976.0
 margin_bottom = 242.0
 size_flags_horizontal = 3
 values = [ true, false ]
-value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
+value_labels = [ "LIVINGWORLD_SETTINGS_UI_STATUS_OPTION_ENABLED", "LIVINGWORLD_SETTINGS_UI_STATUS_OPTION_DISABLED" ]
 
 [node name="OverspillLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
 margin_top = 258.0
@@ -163,10 +163,44 @@ size_flags_horizontal = 3
 values = [ true, false ]
 value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
 
-[node name="MarginContainer2" type="MarginContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
+[node name="RecordableLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
 margin_top = 334.0
 margin_right = 828.0
-margin_bottom = 424.0
+margin_bottom = 394.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "LIVINGWORLD_SETTINGS_UI_RECORDABLE"
+
+[node name="RecordableInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
+margin_left = 844.0
+margin_top = 334.0
+margin_right = 976.0
+margin_bottom = 394.0
+size_flags_horizontal = 3
+values = [ true, false ]
+value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
+
+[node name="UseItemsLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
+margin_top = 410.0
+margin_right = 828.0
+margin_bottom = 470.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "LIVINGWORLD_SETTINGS_UI_USEITEMS"
+
+[node name="UseItemsInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
+margin_left = 844.0
+margin_top = 410.0
+margin_right = 976.0
+margin_bottom = 470.0
+size_flags_horizontal = 3
+values = [ true, false ]
+value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
+
+[node name="MarginContainer2" type="MarginContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
+margin_top = 486.0
+margin_right = 828.0
+margin_bottom = 576.0
 custom_constants/margin_top = 20
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs/MarginContainer2"]
@@ -179,65 +213,65 @@ text = "LIVINGWORLD_SETTINGS_UI_WORLD_SECTION"
 
 [node name="Spacer2" type="Control" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
 margin_left = 844.0
-margin_top = 334.0
+margin_top = 486.0
 margin_right = 976.0
-margin_bottom = 424.0
+margin_bottom = 576.0
 
 [node name="PopulationLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
-margin_top = 440.0
+margin_top = 592.0
 margin_right = 828.0
-margin_bottom = 500.0
+margin_bottom = 652.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "LIVINGWORLD_SETTINGS_UI_POPULATION"
 
 [node name="PopulationInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
 margin_left = 844.0
-margin_top = 440.0
+margin_top = 592.0
 margin_right = 976.0
-margin_bottom = 500.0
+margin_bottom = 652.0
 size_flags_horizontal = 3
 values = [ 1, 2, 3 ]
 value_labels = [ "Low", "Medium", "High" ]
 
 [node name="UseCustomRecruitsLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
-margin_top = 516.0
+margin_top = 668.0
 margin_right = 828.0
-margin_bottom = 576.0
+margin_bottom = 728.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "LIVINGWORLD_SETTINGS_UI_CUSTOM_RECRUITS"
 
 [node name="UseCustomRecruitsInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
 margin_left = 844.0
-margin_top = 516.0
+margin_top = 668.0
 margin_right = 976.0
-margin_bottom = 576.0
+margin_bottom = 728.0
 size_flags_horizontal = 3
 values = [ true, false ]
 value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
 
 [node name="UseBattleSpriteLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
-margin_top = 592.0
+margin_top = 744.0
 margin_right = 828.0
-margin_bottom = 652.0
+margin_bottom = 804.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "LIVINGWORLD_SETTINGS_UI_BATTLESPRITES"
 
 [node name="UseBattleSpriteInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
 margin_left = 844.0
-margin_top = 592.0
+margin_top = 744.0
 margin_right = 976.0
-margin_bottom = 652.0
+margin_bottom = 804.0
 size_flags_horizontal = 3
 values = [ false, true ]
 value_labels = [ "LIVINGWORLD_SETTINGS_UI_BATTLESPRITE_OPTION1", "LIVINGWORLD_SETTINGS_UI_BATTLESPRITE_OPTION2" ]
 
 [node name="MarginContainer3" type="MarginContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
-margin_top = 668.0
+margin_top = 820.0
 margin_right = 828.0
-margin_bottom = 758.0
+margin_bottom = 910.0
 custom_constants/margin_top = 20
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs/MarginContainer3"]
@@ -250,65 +284,65 @@ text = "LIVINGWORLD_SETTINGS_UI_BEHAVIOR_SECTION"
 
 [node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
 margin_left = 844.0
-margin_top = 668.0
+margin_top = 820.0
 margin_right = 976.0
-margin_bottom = 758.0
+margin_bottom = 910.0
 
 [node name="UseMagnetismLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
-margin_top = 774.0
+margin_top = 926.0
 margin_right = 828.0
-margin_bottom = 834.0
+margin_bottom = 986.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "LIVINGWORLD_SETTINGS_UI_MAGNETISM"
 
 [node name="UseMagnetismInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
 margin_left = 844.0
-margin_top = 774.0
+margin_top = 926.0
 margin_right = 976.0
-margin_bottom = 834.0
+margin_bottom = 986.0
 size_flags_horizontal = 3
 values = [ true, false ]
 value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
 
 [node name="UseVineballLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
-margin_top = 850.0
+margin_top = 1002.0
 margin_right = 828.0
-margin_bottom = 910.0
+margin_bottom = 1062.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "LIVINGWORLD_SETTINGS_UI_VINEBALL"
 
 [node name="UseVineballInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
 margin_left = 844.0
-margin_top = 850.0
+margin_top = 1002.0
 margin_right = 976.0
-margin_bottom = 910.0
+margin_bottom = 1062.0
 size_flags_horizontal = 3
 values = [ true, false ]
 value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
 
 [node name="CaptainPatrolLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
-margin_top = 926.0
+margin_top = 1078.0
 margin_right = 828.0
-margin_bottom = 986.0
+margin_bottom = 1138.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "LIVINGWORLD_SETTINGS_UI_CAPTAIN_PATROL"
 
 [node name="CaptainPatrolInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
 margin_left = 844.0
-margin_top = 926.0
+margin_top = 1078.0
 margin_right = 976.0
-margin_bottom = 986.0
+margin_bottom = 1138.0
 size_flags_horizontal = 3
 values = [ true, false ]
 value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]
 
 [node name="MarginContainer4" type="MarginContainer" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
-margin_top = 1002.0
+margin_top = 1154.0
 margin_right = 828.0
-margin_bottom = 1092.0
+margin_bottom = 1244.0
 custom_constants/margin_top = 20
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs/MarginContainer4"]
@@ -321,23 +355,23 @@ text = "LIVINGWORLD_SETTINGS_UI_CARDS_SECTION"
 
 [node name="Spacer4" type="Control" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
 margin_left = 844.0
-margin_top = 1002.0
+margin_top = 1154.0
 margin_right = 976.0
-margin_bottom = 1092.0
+margin_bottom = 1244.0
 
 [node name="CardEnemyThoughtLabel" type="Label" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs"]
-margin_top = 1108.0
+margin_top = 1260.0
 margin_right = 828.0
-margin_bottom = 1168.0
+margin_bottom = 1320.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "LIVINGWORLD_SETTINGS_UI_CARD_ENEMY_THOUGHTS"
 
 [node name="CardEnemyThoughtsInput" parent="PanelContainer/MarginContainer/ScrollContainer/MarginContainer/VBoxContainer/Inputs" instance=ExtResource( 2 )]
 margin_left = 844.0
-margin_top = 1108.0
+margin_top = 1260.0
 margin_right = 976.0
-margin_bottom = 1168.0
+margin_bottom = 1320.0
 size_flags_horizontal = 3
 values = [ true, false ]
 value_labels = [ "UI_SETTINGS_AUTOSAVE_ENABLED", "UI_SETTINGS_AUTOSAVE_DISABLED" ]

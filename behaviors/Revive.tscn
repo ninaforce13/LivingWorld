@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=1]
 [ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://mods/LivingWorld/actions/CheckNPCAction.gd" type="Script" id=18]
 [ext_resource path="res://mods/LivingWorld/actions/ResetTargetStateAction.gd" type="Script" id=19]
 [ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=20]
+[ext_resource path="res://mods/LivingWorld/actions/AddPartyMember.gd" type="Script" id=21]
 
 [node name="Revive" type="Node"]
 script = ExtResource( 17 )
@@ -86,11 +87,12 @@ selection = 1
 
 [node name="WaitAction2" type="Node" parent="RepeatWhile"]
 script = ExtResource( 1 )
-base_seconds = 3.0
+base_seconds = 2.0
 
 [node name="PlayAudioAction" type="Node" parent="."]
 script = ExtResource( 11 )
 stream = ExtResource( 10 )
+wait_for_finish = false
 
 [node name="ApplyRecordSuccess" type="Node" parent="."]
 script = ExtResource( 16 )
@@ -138,6 +140,12 @@ script = ExtResource( 15 )
 script = ExtResource( 12 )
 
 [node name="GetEngagedTarget" type="Node" parent="IfCustomNPC/EnableInteraction"]
+script = ExtResource( 15 )
+
+[node name="InviteToParty" type="Node" parent="IfCustomNPC"]
+script = ExtResource( 21 )
+
+[node name="GetEngagedTarget" type="Node" parent="IfCustomNPC/InviteToParty"]
 script = ExtResource( 15 )
 
 [node name="PlayEmote2" type="Node" parent="."]

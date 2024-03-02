@@ -2,13 +2,11 @@ extends Action
 var jsonparser = preload("res://mods/LivingWorld/scripts/RangerDataParser.gd")
 var manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 var settings = preload("res://mods/LivingWorld/settings.tres")
-var seed_value = 8675309
 var old_audio_volume:Dictionary = {}
 func _run():
 	set_soundeffect_volume(true)
 	var pawn = get_pawn()
-	seed_value ^= SaveState.random_seed
-	var random = Random.new(seed_value)
+	var random = Random.new()
 	var scene = load("res://mods/LivingWorld/scenes/MiniGame.tscn")
 	var menu = scene.instance()
 	menu.player_data = jsonparser.get_player_snapshot()
@@ -23,12 +21,9 @@ func _run():
 	set_soundeffect_volume(false)
 	menu.queue_free()
 	if result:
-		var holocard:bool = false
 		var reward_card = random.choice(recruit_data.card_deck)
-		if random.rand_bool(settings.holocard_rate):
-			reward_card.holocard = true
-			holocard = true
-		manager.add_card_to_collection(reward_card,holocard)
+		reward_card.holocard = random.rand_bool(settings.holocard_rate)
+		manager.add_card_to_collection(reward_card)
 		set_bb("reward",reward_card)
 	return true
 

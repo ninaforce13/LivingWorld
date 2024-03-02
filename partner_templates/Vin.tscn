@@ -1,4 +1,4 @@
-[gd_scene load_steps=148 format=2]
+[gd_scene load_steps=149 format=2]
 
 [ext_resource path="res://data/monster_forms/artillerex.tres" type="Resource" id=1]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
@@ -123,6 +123,7 @@
 [ext_resource path="res://mods/LivingWorld/actions/SetBehaviorState.gd" type="Script" id=121]
 [ext_resource path="res://nodes/actions/ChangeMusicAction.gd" type="Script" id=122]
 [ext_resource path="res://mods/LivingWorld/cardgame/FoozleCC_Track2.ogg" type="AudioStream" id=123]
+[ext_resource path="res://mods/LivingWorld/nodes/RecruitAI.tscn" type="PackedScene" id=124]
 
 [sub_resource type="CapsuleShape" id=30]
 radius = 0.9
@@ -879,6 +880,7 @@ human_part_names = {
 "wings": "generic"
 }
 copy_human_sprite = NodePath("../..")
+ai = ExtResource( 124 )
 human_colors/body_color_1 = 12
 human_colors/body_color_2 = 12
 human_colors/eye_color = 4

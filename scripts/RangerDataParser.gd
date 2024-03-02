@@ -181,7 +181,7 @@ static func add_tapes_to_data(tapes:Array,snapshot:Dictionary):
 	return snapshot
 
 
-static func get_custom_monster(tape_snapshot:Dictionary)->Dictionary:
+static func get_custom_monster(tape_snapshot)->Dictionary:
 	if tape_snapshot.has("custom_form"):
 		if tape_snapshot.custom_form != "":
 			var form = load(tape_snapshot.custom_form) as MonsterForm
@@ -190,7 +190,7 @@ static func get_custom_monster(tape_snapshot:Dictionary)->Dictionary:
 				print("Living World Mod: Retrieved custom form " + tape_snapshot.custom_form)
 	return tape_snapshot
 
-static func set_custom_monster(tape_snapshot:Dictionary)->Dictionary:
+static func set_custom_monster(tape_snapshot)->Dictionary:
 	if tape_snapshot["form"].begins_with("res://mods/") or tape_snapshot["form"].begins_with("res://data/monster_forms/mods_"):
 		tape_snapshot["custom_form"] = tape_snapshot["form"]
 		tape_snapshot["form"] =  "res://data/monster_forms/traffikrab.tres"
@@ -269,9 +269,9 @@ static func get_empty_recruit()->Dictionary:
 
 	return recruit
 
-static func get_player_snapshot():
-	var player = SaveState.party.player
-	var partner = SaveState.party.partner
+static func get_player_snapshot(other_player = null, other_partner = null):
+	var player = SaveState.party.player if !other_player else other_player
+	var partner = SaveState.party.partner if !other_partner else other_partner
 	var snap:Dictionary = {
 		"name":player.name,
 		"human_colors":to_json(player.human_colors),
@@ -291,6 +291,31 @@ static func get_player_snapshot():
 		snap["tape"+str(index)] = tape.get_snapshot()
 		index+=1
 	snap["stats"] = player.get_snapshot()
+	snap["version"] = "1.1"
+	return snap
+
+static func get_character_snapshot(other_player):
+	var player = SaveState.party.player if !other_player else other_player.player.custom
+	var partner = SaveState.party.partner if !other_player else other_player.partners[other_player.current_partner_id].custom
+	var snap:Dictionary = {
+		"name":player.name,
+		"human_colors":to_json(player.human_colors),
+		"human_part_names":to_json(player.human_part_names),
+		"pronouns":player.pronouns,
+		"introdialog":"Hey!",
+		"defeatdialog":"Nooo!",
+		"biotext":"Player of another world.",
+		"recruiter":player.name,
+		"recruiter_id":SaveState.get_ranger_id(),
+							}
+	var index:int = 0
+	for tape in other_player.player.tapes:
+		if index == 1:
+			snap["tape"+str(index)] = other_player.partners[other_player.current_partner_id].tapes[0]
+			index+=1
+		snap["tape"+str(index)] = tape
+		index+=1
+	snap["stats"] = other_player.player
 	snap["version"] = "1.1"
 	return snap
 
@@ -333,3 +358,10 @@ static func get_npc_snapshot(npc, is_player:bool = false):
 		snap["stats"] = {} if !charconfig.base_character else charconfig.base_character.get_snapshot()
 	snap["version"] = "1.2"
 	return snap
+
+static func merge(dict_1:Dictionary, dict_2:Dictionary)->Dictionary:
+	var new_dictionary: Dictionary = dict_1.duplicate(true)
+	for key in dict_2:
+		new_dictionary[key] = dict_2[key]
+
+	return new_dictionary

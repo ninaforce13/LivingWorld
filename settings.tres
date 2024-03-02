@@ -8,12 +8,13 @@ custom_recruit_rate = 0.1
 partner_rate = 0.2
 party_disband_rate = 0.0
 party_form_rate = 1.0
-holocard_rate = 0.25
-record_rate = 0.5
-heal_rate = 0.5
-coffee_rate = 0.4
+holocard_rate = 0.15
+record_rate = 0.8
+heal_rate = 0.75
+coffee_rate = 0.3
 deck_limit = 25
 heal_percantage = 0.6
+fuse_rate = 0.75
 fly_threshold = {
 "max": inf,
 "min": 7

@@ -1,4 +1,4 @@
-[gd_scene load_steps=148 format=2]
+[gd_scene load_steps=149 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=1]
 [ext_resource path="res://mods/LivingWorld/behaviors/Revive.tscn" type="PackedScene" id=2]
@@ -94,6 +94,7 @@
 [ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=92]
 [ext_resource path="res://nodes/actions/SetNPCStateAction.gd" type="Script" id=93]
 [ext_resource path="res://mods/LivingWorld/actions/SetBehaviorState.gd" type="Script" id=94]
+[ext_resource path="res://mods/LivingWorld/nodes/RecruitAI.tscn" type="PackedScene" id=95]
 [ext_resource path="res://data/character_sfx/frankie_sfx.tres" type="Resource" id=96]
 [ext_resource path="res://mods/LivingWorld/nodes/MouseClick.tscn" type="PackedScene" id=98]
 [ext_resource path="res://mods/LivingWorld/scripts/setbattlesprite.gd" type="Script" id=99]
@@ -877,6 +878,7 @@ human_part_names = {
 "wings": "generic"
 }
 copy_human_sprite = NodePath("../..")
+ai = ExtResource( 95 )
 human_colors/body_color_1 = 16
 human_colors/body_color_2 = 12
 human_colors/eye_color = 10
