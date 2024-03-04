@@ -1325,7 +1325,7 @@ require_blackboard_values = {
 script = ExtResource( 66 )
 title = "{pawn}"
 use_random = true
-message_array = [ [ "RECRUIT_PLAYCARDS_WIN1" ], [ "RECRUIT_PLAYCARDS_WIN2" ], [ "RECRUIT_PLAYCARDS_WIN3" ], [ "RECRUIT_PLAYCARDS_WIN4" ], [ "RECRUIT_PLAYCARDS_WIN5" ] ]
+message_array = [ [ "RECRUIT_PLAYCARDS_WIN1" ], [ "RECRUIT_PLAYCARDS_WIN2" ], [ "RECRUIT_PLAYCARDS_WIN3" ], [ "RECRUIT_PLAYCARDS_WIN4" ], [ "RECRUIT_PLAYCARDS_WIN5" ], [ "RECRUIT_PLAYCARDS_WIN6" ] ]
 
 [node name="Leave" type="Node" parent="InteractionBehavior/MenuDialogAction"]
 script = ExtResource( 68 )
@@ -1413,7 +1413,6 @@ idle = "inactive"
 albedo = Color( 0.363281, 0.351929, 0.351929, 1 )
 wave_t_frequency = 5.0
 static_offset = 0.667
-aabb = AABB( -3.5, 0, 0, 7, 6, 0 )
 
 [node name="Sprite" parent="ConversationSprite/MarginContainer/MonsterSpriteContainer1/Viewport/BattleSlot/SpriteContainer" instance=ExtResource( 30 )]
 

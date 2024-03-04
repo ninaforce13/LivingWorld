@@ -85,9 +85,12 @@ func update_deck_count():
 		deckcountlabel.remove_color_override("font_color")
 
 func add_deck_button(form_path):
+	var card = card_template.instance()
 	var new_button = deck_button.instance()
 	new_button.monster_form = form_path
 	deck_grid.add_child(new_button)
+	new_button.set_attack(card.calculate_grade("attack",load(form_path)))
+	new_button.set_defense(card.calculate_grade("defense",load(form_path)))
 	var button = Button.new()
 	button.name = "Button"
 	new_button.add_child(button)

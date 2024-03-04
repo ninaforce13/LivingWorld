@@ -14,7 +14,7 @@ heal_rate = 0.75
 coffee_rate = 0.3
 deck_limit = 25
 heal_percantage = 0.6
-fuse_rate = 0.75
+fuse_rate = 0.65
 fly_threshold = {
 "max": inf,
 "min": 7

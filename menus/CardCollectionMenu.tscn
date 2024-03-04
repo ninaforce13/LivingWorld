@@ -169,7 +169,7 @@ mouse_filter = 1
 
 [node name="Background" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
 margin_left = 20.0
-margin_right = 1596.0
+margin_right = 1520.0
 margin_bottom = 2000.0
 mouse_filter = 1
 custom_styles/panel = SubResource( 1 )
@@ -181,14 +181,14 @@ anchor_right = 0.031
 anchor_bottom = 0.238
 margin_left = -0.520004
 margin_top = -117.04
-margin_right = 1500.48
+margin_right = 1424.48
 margin_bottom = 702.96
 grow_horizontal = 0
 grow_vertical = 0
 mouse_filter = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Scroller/OverscanMarginContainer/Control/MarginContainer"]
-margin_right = 1501.0
+margin_right = 1425.0
 margin_bottom = 820.0
 rect_clip_content = false
 mouse_filter = 1
@@ -199,7 +199,7 @@ follow_focus = true
 scroll_horizontal_enabled = false
 
 [node name="CardGrid" type="GridContainer" parent="Scroller/OverscanMarginContainer/Control/MarginContainer/ScrollContainer"]
-margin_right = 1501.0
+margin_right = 1425.0
 margin_bottom = 820.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -209,7 +209,7 @@ columns = 5
 
 [node name="Header" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
 margin_left = 20.0
-margin_right = 1595.0
+margin_right = 1520.0
 margin_bottom = 110.0
 mouse_filter = 1
 custom_styles/panel = SubResource( 6 )
@@ -217,12 +217,12 @@ custom_styles/panel = SubResource( 6 )
 [node name="CenterContainer" type="CenterContainer" parent="Scroller/OverscanMarginContainer/Control/Header"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 1565.0
+margin_right = 1490.0
 margin_bottom = 100.0
 
 [node name="Label" type="Label" parent="Scroller/OverscanMarginContainer/Control/Header/CenterContainer"]
-margin_left = 604.0
-margin_right = 951.0
+margin_left = 566.0
+margin_right = 913.0
 margin_bottom = 90.0
 theme = ExtResource( 7 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.756863 )
@@ -238,26 +238,26 @@ anchor_right = 0.031
 anchor_bottom = 0.13
 margin_left = -0.520004
 margin_top = -0.400009
-margin_right = 1500.48
+margin_right = 1425.48
 margin_bottom = 830.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_container = NodePath("../MarginContainer/ScrollContainer")
 
 [node name="Background2" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
-margin_left = 1610.0
-margin_right = 1900.0
+margin_left = 1530.0
+margin_right = 1905.0
 margin_bottom = 2000.0
 custom_styles/panel = SubResource( 1 )
 
 [node name="MarginContainer2" type="MarginContainer" parent="Scroller/OverscanMarginContainer/Control"]
-margin_left = 1620.0
+margin_left = 1540.0
 margin_top = 140.0
-margin_right = 1900.0
+margin_right = 1880.0
 margin_bottom = 920.0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Scroller/OverscanMarginContainer/Control/MarginContainer2"]
-margin_right = 280.0
+margin_right = 340.0
 margin_bottom = 780.0
 rect_clip_content = false
 mouse_filter = 1
@@ -273,15 +273,15 @@ anchor_left = 0.844
 anchor_top = 0.13
 anchor_right = 0.844
 anchor_bottom = 0.13
-margin_left = -0.480103
-margin_top = -0.400009
-margin_right = 279.52
+margin_left = -80.48
+margin_top = -0.399994
+margin_right = 259.52
 margin_bottom = 779.6
 scroll_container = NodePath("../MarginContainer2/ScrollContainer")
 
 [node name="Header2" type="PanelContainer" parent="Scroller/OverscanMarginContainer/Control"]
-margin_left = 1610.0
-margin_right = 1900.0
+margin_left = 1530.0
+margin_right = 1905.0
 margin_bottom = 110.0
 mouse_filter = 1
 custom_styles/panel = SubResource( 6 )
@@ -289,12 +289,12 @@ custom_styles/panel = SubResource( 6 )
 [node name="CenterContainer" type="CenterContainer" parent="Scroller/OverscanMarginContainer/Control/Header2"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 280.0
+margin_right = 365.0
 margin_bottom = 100.0
 
 [node name="Label" type="Label" parent="Scroller/OverscanMarginContainer/Control/Header2/CenterContainer"]
-margin_left = 75.0
-margin_right = 195.0
+margin_left = 117.0
+margin_right = 237.0
 margin_bottom = 90.0
 theme = ExtResource( 7 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.827451 )
@@ -308,20 +308,21 @@ anchor_left = 0.832
 anchor_top = 0.86
 anchor_right = 0.835
 anchor_bottom = 0.86
-margin_right = 310.0
+margin_left = -67.4401
+margin_right = 301.8
 margin_bottom = 80.0
 custom_styles/panel = SubResource( 7 )
 
 [node name="CenterContainer" type="CenterContainer" parent="DeckCountPanel"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 310.76
+margin_right = 370.0
 margin_bottom = 75.0
 
 [node name="DeckCountLabel" type="Label" parent="DeckCountPanel/CenterContainer"]
-margin_left = 114.0
+margin_left = 144.0
 margin_top = 5.0
-margin_right = 191.0
+margin_right = 221.0
 margin_bottom = 65.0
 theme = ExtResource( 7 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.796078 )

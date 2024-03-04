@@ -79,8 +79,17 @@ var enemy_discard:Array = []
 var player_turn:bool = false
 var player_entry_point
 var enemy_entry_point
-var player_stats:Dictionary = {"max_hp":6,"hp":6,"state":State.NEUTRAL,"attack":0,"defense":0,"attack_display":0,"defense_display":0,"remaster_bonus":0}
-var enemy_stats:Dictionary = {"max_hp":6,"hp":6,"state":State.NEUTRAL,"attack":0,"defense":0,"attack_display":0,"defense_display":0,"remaster_bonus":0}
+var player_stats:Dictionary = {
+								"max_hp":6,
+								"hp":6,
+								"state":State.NEUTRAL,
+								"attack":0,
+								"defense":0,
+								"attack_display":0,
+								"defense_display":0,
+								"remaster_bonus":0,
+								"full_remaster_bonus":0}
+var enemy_stats:Dictionary = player_stats.duplicate()
 var winner_name:String
 var enemy_tween:Tween
 var player_tween:Tween
@@ -228,6 +237,8 @@ func resolve_stats(stats:Dictionary)->Dictionary:
 	result.defense = int(stats.defense / resolve_value) if stats.state != State.ATTACK else 0
 	result.attack += stats.remaster_bonus
 	result.defense += stats.remaster_bonus
+	result.attack += stats.full_remaster_bonus
+	result.defense += stats.full_remaster_bonus
 	return result
 
 func reset_labels():
@@ -268,7 +279,7 @@ func update_value_labels(team):
 					stats.defense_display = current_value
 				point_meter.reset_bar()
 
-		var remainder = ((stats.attack + (stats.remaster_bonus * resolve_value))%3) - point_meter.filled_count
+		var remainder = ((stats.attack + (stats.remaster_bonus * resolve_value) + (stats.full_remaster_bonus * resolve_value))%3) - point_meter.filled_count
 		if point_meter.filled_count != remainder:
 			point_meter.fill_bar(remainder)
 			yield(point_meter,"fill_complete")
@@ -286,12 +297,12 @@ func update_value_labels(team):
 			stats.defense_display = current_value
 			point_meter.reset_bar()
 
-		var remainder = ((stats.defense + (stats.remaster_bonus * resolve_value))%3) - point_meter.filled_count
+		var remainder = ((stats.defense + (stats.remaster_bonus * resolve_value)+ (stats.full_remaster_bonus * resolve_value))%3) - point_meter.filled_count
 		if point_meter.filled_count != remainder:
 			point_meter.fill_bar(remainder)
 			yield(point_meter,"fill_complete")
 
-	if stats.remaster_bonus > 0:
+	if stats.remaster_bonus > 0 or stats.full_remaster_bonus > 0 :
 		attack_label.add_color_override("font_color",remaster_bonus_color)
 		defense_label.add_color_override("font_color",remaster_bonus_color)
 	else:
@@ -439,11 +450,12 @@ func reset_stats():
 	player_stats.attack_display = 0
 	player_stats.defense_display = 0
 	player_stats.remaster_bonus = 0
+	player_stats.full_remaster_bonus = 0
 	enemy_stats.attack = 0
 	enemy_stats.attack_display = 0
 	enemy_stats.defense_display = 0
 	enemy_stats.defense = 0
-	enemy_stats.remaster_bonus = 0
+	enemy_stats.full_remaster_bonus = 0
 
 	player_stats.state = State.NEUTRAL
 	enemy_stats.state = State.NEUTRAL
@@ -522,18 +534,25 @@ func player_card_picked(card):
 	if logs:
 		print("Player chose %s"%card.card_name.text)
 	card.animate_playcard(move_pos,0.2)
-	var remaster_bonus:bool = check_remasters(PlayerField,card)
+	var remaster_bonus:bool = is_remaster(PlayerField,card) if player_stats.remaster_bonus == 0 else false
+	var full_remaster_bonus:bool = is_full_remaster(PlayerField,card) if player_stats.full_remaster_bonus == 0 else false
+	if full_remaster_bonus or player_stats.full_remaster_bonus > 0:
+		remaster_bonus = false
 	yield(card.tween,"tween_completed")
 
 	if card.has_node("Button"):
 		var button = card.get_node("Button")
 		card.remove_child(button)
 	empty_slot.set_card(card)
-	if remaster_bonus:
+	if remaster_bonus or full_remaster_bonus:
 		if logs:
 			print("Player Remaster triggered")
-		player_stats.remaster_bonus += 1
-		PlayBanner(Team.PLAYER, "LIVINGWORLD_CARDS_UI_REMASTER_BONUS", "remaster")
+		if remaster_bonus:
+			player_stats.remaster_bonus += 1
+		if full_remaster_bonus:
+			player_stats.full_remaster_bonus += 2
+		var banner_text = "LIVINGWORLD_CARDS_UI_REMASTER_BONUS" if remaster_bonus else "LIVINGWORLD_CARDS_UI_FULL_REMASTER_BONUS"
+		PlayBanner(Team.PLAYER, banner_text, "remaster")
 		yield(Banner.tween,"tween_completed")
 	if active_field(Team.PLAYER):
 		player_stats = evaluate_state(Team.PLAYER, card, remaster_bonus)
@@ -669,13 +688,20 @@ func enemy_move():
 	var empty_slot_data = get_empty_slot(EnemyField)
 	var empty_slot = empty_slot_data.slot
 	var move_pos = empty_slot.get_global_rect().position
-	var remaster_bonus:bool = check_remasters(EnemyField,card)
+	var remaster_bonus:bool = is_remaster(EnemyField,card) if enemy_stats.remaster_bonus == 0 else false
+	var full_remaster_bonus:bool = is_full_remaster(EnemyField,card) if enemy_stats.full_remaster_bonus == 0 else false
+	if full_remaster_bonus or enemy_stats.full_remaster_bonus > 0:
+		remaster_bonus = false
 	card.animate_playcard(move_pos,0.2)
 	yield(card.tween,"tween_completed")
 	empty_slot.set_card(card)
-	if remaster_bonus:
-		enemy_stats.remaster_bonus += 1
-		PlayBanner(Team.ENEMY,"LIVINGWORLD_CARDS_UI_REMASTER_BONUS","remaster")
+	if remaster_bonus or full_remaster_bonus:
+		if remaster_bonus:
+			enemy_stats.remaster_bonus += 1
+		if full_remaster_bonus:
+			enemy_stats.full_remaster_bonus += 2
+		var banner_text = "LIVINGWORLD_CARDS_UI_REMASTER_BONUS" if remaster_bonus else "LIVINGWORLD_CARDS_UI_FULL_REMASTER_BONUS"
+		PlayBanner(Team.ENEMY,banner_text,"remaster")
 		yield(Banner.tween,"tween_completed")
 	if active_field(Team.ENEMY):
 		enemy_stats = evaluate_state(Team.ENEMY,card,remaster_bonus)
@@ -692,7 +718,7 @@ func enemy_move():
 	EnemySprite.animate_turn_end()
 	set_player_turn(true)
 
-func check_remasters(field, new_card)->bool:
+func is_remaster(field, new_card)->bool:
 	var result:bool = false
 	for card_slot in field.get_children():
 		if !card_slot.occupied():
@@ -706,6 +732,69 @@ func check_remasters(field, new_card)->bool:
 					result = true
 					break
 
+	return result
+
+func is_full_remaster(field, new_card)->bool:
+	var all_forms = MonsterForms.basic_forms.values()
+	var debut_forms = MonsterForms.pre_evolution.values()
+	var remaster_line:Array = []
+	var result:bool = false
+	var first_slot = field.get_child(0)
+	var second_slot = field.get_child(1)
+	var new_card_form = load(new_card.form)
+	var current_form = new_card_form
+	if new_card_form.evolutions.size() > 0:
+		return false
+	if !first_slot.occupied():
+		return false
+	var previous_form = find_previous_form(current_form)
+	if !previous_form:
+		if logs:
+			print("No previous forms found.")
+		return false
+	if logs:
+		print("Form %s found"%Loc.tr(previous_form.name))
+	remaster_line.push_front(previous_form) if previous_form in debut_forms else remaster_line.push_back(previous_form)
+	current_form = previous_form
+	previous_form = find_previous_form(current_form)
+	if previous_form:
+		if logs:
+			print("Form %s found"%Loc.tr(previous_form.name))
+		remaster_line.push_front(previous_form) if previous_form in debut_forms else remaster_line.push_back(previous_form)
+	var remaster_count = remaster_line.size()
+	if remaster_count == 2:
+		if logs:
+			print("3 Form Remaster Line %s"%str(remaster_line))
+		if first_slot.get_card().form != remaster_line[0].resource_path:
+			if logs:
+				print("First slot is not debut form %s"%remaster_line[0].name)
+			return false
+		remaster_line.remove(0)
+		if !second_slot.occupied():
+			return false
+		if second_slot.get_card().form != remaster_line[0].resource_path:
+			if logs:
+				print("Second slot is not next form %s"%remaster_line[0].name)
+			return false
+	elif remaster_count == 1:
+		if second_slot.occupied():
+			if first_slot.get_card().form != remaster_line[0].resource_path and second_slot.get_card().form != remaster_line[0].resource_path:
+				return false
+		else:
+			if first_slot.get_card().form != remaster_line[0].resource_path:
+				return false
+
+	return true
+
+func find_previous_form(current_form):
+	var all_forms = MonsterForms.basic_forms.values()
+	var debut_forms = MonsterForms.pre_evolution.values()
+	var result = null
+	for form in all_forms:
+		for evo in form.evolutions:
+			if current_form == evo.evolved_form:
+					result = form
+					break
 	return result
 
 func active_field(team:int)->bool:
@@ -762,12 +851,37 @@ func evaluate_situation():
 
 	var defensive:bool = random.rand_bool(0.7) if in_danger else random.rand_bool(0.3)
 	var offensive:bool = random.rand_bool(0.8) if !defensive else false
-
+	var remaster_card = is_remaster_possible()
+	if remaster_card:
+		return remaster_card
 	if defensive:
 		return get_card(State.DEFENSE)
 	if offensive:
 		return get_card(State.ATTACK)
 	return get_random()
+
+func is_remaster_possible():
+	for card_slot in EnemyHandGrid.get_children():
+		if is_remaster(EnemyField,card_slot.get_card()):
+			return card_slot.get_card()
+	for card_slot in EnemyHandGrid.get_children():
+		if is_remaster(EnemyHandGrid,card_slot.get_card()):
+			return get_pre_remaster(EnemyHandGrid,card_slot.get_card())
+	return null
+
+func get_pre_remaster(field, new_card):
+	for card_slot in field.get_children():
+		if !card_slot.occupied():
+			continue
+		var card = card_slot.get_card()
+		var form = load(card.form)
+		var new_card_form = load(new_card.form)
+		if form.evolutions.size() > 0:
+			for evo in form.evolutions:
+				if evo.evolved_form == new_card_form:
+					return card
+
+	return null
 
 func get_random():
 	var choice = null

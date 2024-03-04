@@ -19,6 +19,7 @@ onready var cardlogo:TextureRect = find_node("CardLogo")
 onready var audioplayer:AudioStreamPlayer2D = find_node("AudioStreamPlayer2D")
 onready var card_attack_label:Label = find_node("Attack")
 onready var card_defense_label:Label = find_node("Defense")
+onready var highlight_focus = find_node("Highlight")
 export (Dictionary) var card_info:Dictionary = {"name":"name","texture":null,"attack":3,"defense":3,"remastered":false}
 export (String) var form
 export (Color) var bandcolor
@@ -111,12 +112,14 @@ func grow():
 func animate_hover_enter():
 #	if tween.is_active():
 #		yield(tween,"tween_completed")
+	highlight_focus.visible = true
 	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(1.2,1.2),.3,Tween.TRANS_CIRC,Tween.EASE_IN)
 	tween.start()
 
 func animate_hover_exit():
 #	if tween.is_active():
 #		yield(tween,"tween_completed")
+	highlight_focus.visible = false
 	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2.ONE,.3,Tween.TRANS_BOUNCE,Tween.EASE_OUT)
 	tween.start()
 func set_colors():

@@ -73,14 +73,15 @@ static func initialize_savedata():
 												"CardGame":{"collection":collection}}
 
 static func initialize_card_collection()->Dictionary:
+	var settings = preload("res://mods/LivingWorld/settings.tres")
 	var result:Dictionary = {}
 	var random = Random.new(SaveState.random_seed)
 	var item:Dictionary = {"path":"","amount":0,"deck":0,"bestiary_index":0,"holocard":false}
 	var basic_forms = MonsterForms.basic_forms.values()
 	var debut_forms = MonsterForms.pre_evolution.values()
 	var options:Array = []
-	for i in range(30):
-		options = debut_forms if i < 20 else basic_forms
+	for i in range(settings.deck_limit):
+		options = debut_forms if i < settings.deck_limit/2 else basic_forms
 		var form = random.choice(options)
 		var key = Loc.tr(form.name).to_lower()
 		if result.has(key):

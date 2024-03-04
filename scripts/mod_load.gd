@@ -107,7 +107,7 @@ func filter_recruits(recruits)->Array:
 
 func add_debug_commands():
 	Console.register("summon_save", {
-			"description":"Summons player from another save file.",
+			"description":"Summons player from another save file. Save file name only requires the json extension. Command example: summon_save file2.json",
 			"args":[TYPE_STRING],
 			"target":[self, "summon_save"]
 		})
@@ -116,51 +116,51 @@ func add_debug_commands():
 			"args":[TYPE_BOOL],
 			"target":[self, "add_debug_camera"]
 		})
-	Console.register("my_pos", {
-			"description":"Prints player's current global position Vector3",
-			"args":[],
-			"target":[self, "get_my_pos"]
-		})
-	Console.register("clean_data",{
-		"description":"Remove other_data values in SaveState",
-		"args":[TYPE_STRING],
-		"target":[self,"clean_data"]
-		})
-	Console.register("get_otherdata_keys",{
-		"description":"Get key values from Savestate.other_data dictionary",
-		"args":[],
-		"target":[self,"get_otherdata_keys"]
-		})
-	Console.register("pause",{
-		"description":"Pause World",
-		"args":[],
-		"target":[self,"pause"]
-		})
-	Console.register("add_spawner",{
-		"description":"Adds the current location as a recruit spawner [name,ignore visibility,personality(enum values {combative, social, loner, townie}),supress_abilities]",
-		"args":[TYPE_STRING,TYPE_BOOL,TYPE_INT,TYPE_BOOL],
-		"target":[self,"add_location_spawner"]
-		})
-	Console.register("export_player",{
-		"description":"Exports the player character as a JSON into the arena_archives folder",
-		"args":[],
-		"target":[self,"export_player"]
-	})
-	Console.register("spawn_test",{
-		"description":"Spawns a LivingWorld NPC for testing.",
-		"args":[],
-		"target":[self,"spawn_npc"]
-	})
-	Console.register("check_flags",{
-		"description":"Check world flags",
-		"args":[],
-		"target":[self,"check_flags"]
-	})
-	Console.register("give_card",{
-		"description":"Test for card reward screen",
-		"args":[],
-		"target":[self,"spawn_card"]
-	})
+#	Console.register("my_pos", {
+#			"description":"Prints player's current global position Vector3",
+#			"args":[],
+#			"target":[self, "get_my_pos"]
+#		})
+#	Console.register("clean_data",{
+#		"description":"Remove other_data values in SaveState",
+#		"args":[TYPE_STRING],
+#		"target":[self,"clean_data"]
+#		})
+#	Console.register("get_otherdata_keys",{
+#		"description":"Get key values from Savestate.other_data dictionary",
+#		"args":[],
+#		"target":[self,"get_otherdata_keys"]
+#		})
+#	Console.register("pause",{
+#		"description":"Pause World",
+#		"args":[],
+#		"target":[self,"pause"]
+#		})
+#	Console.register("add_spawner",{
+#		"description":"Adds the current location as a recruit spawner [name,ignore visibility,personality(enum values {combative, social, loner, townie}),supress_abilities]",
+#		"args":[TYPE_STRING,TYPE_BOOL,TYPE_INT,TYPE_BOOL],
+#		"target":[self,"add_location_spawner"]
+#		})
+#	Console.register("export_player",{
+#		"description":"Exports the player character as a JSON into the arena_archives folder",
+#		"args":[],
+#		"target":[self,"export_player"]
+#	})
+#	Console.register("spawn_test",{
+#		"description":"Spawns a LivingWorld NPC for testing.",
+#		"args":[],
+#		"target":[self,"spawn_npc"]
+#	})
+#	Console.register("check_flags",{
+#		"description":"Check world flags",
+#		"args":[],
+#		"target":[self,"check_flags"]
+#	})
+#	Console.register("give_card",{
+#		"description":"Test for card reward screen",
+#		"args":[],
+#		"target":[self,"spawn_card"]
+#	})
 func check_flags():
 	var result:String = ""
 	result = """

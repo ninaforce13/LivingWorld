@@ -9,7 +9,7 @@
 [ext_resource path="res://mods/LivingWorld/actions/LeaveSignAction.gd" type="Script" id=7]
 [ext_resource path="res://mods/LivingWorld/actions/CheckDistanceFrom.gd" type="Script" id=8]
 [ext_resource path="res://nodes/actions/SetNPCControlsAction.gd" type="Script" id=9]
-[ext_resource path="res://nodes/actions/PassiveMessageAction.gd" type="Script" id=10]
+[ext_resource path="res://mods/LivingWorld/actions/PassiveMessageRandom.gd" type="Script" id=10]
 [ext_resource path="res://nodes/actions/WalkAction.gd" type="Script" id=11]
 [ext_resource path="res://nodes/actions/FaceDirectionAction.gd" type="Script" id=12]
 [ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=13]
@@ -115,7 +115,45 @@ selection = 3
 
 [node name="PassiveMessageAction" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile2/IsPlayerNearby"]
 script = ExtResource( 10 )
-message = "RECRUIT_PASSIVE_ROGUE"
+messages = [ "RECRUIT_PASSIVE_ROGUE1", "RECRUIT_PASSIVE_ROGUE2", "RECRUIT_PASSIVE_ROGUE3", "RECRUIT_PASSIVE_ROGUE4", "RECRUIT_PASSIVE_ROGUE5" ]
+captain_specific = true
+captain_messages = [ {
+"captain_name": "CAPTAIN_SKIP_NAME",
+"message": "SKIP_PASSIVE_ROGUE1"
+}, {
+"captain_name": "CAPTAIN_LODESTEIN_NAME",
+"message": "LODESTEIN_PASSIVE_ROGUE1"
+}, {
+"captain_name": "CAPTAIN_JUDAS_NAME",
+"message": "JUDAS_PASSIVE_ROGUE1"
+}, {
+"captain_name": "CAPTAIN_HEATHER_NAME",
+"message": "HEATHER_PASSIVE_ROGUE1"
+}, {
+"captain_name": "CAPTAIN_GLADIOLA_NAME",
+"message": "GLADIOLA_PASSIVE_ROGUE1"
+}, {
+"captain_name": "CAPTAIN_DREADFUL_NAME",
+"message": "PENNY_PASSIVE_ROGUE1"
+}, {
+"captain_name": "CAPTAIN_CYBIL_NAME",
+"message": "CYBIL_PASSIVE_ROGUE1"
+}, {
+"captain_name": "CAPTAIN_BUFFY_NAME",
+"message": "BUFFY_PASSIVE_ROGUE1"
+}, {
+"captain_name": "CAPTAIN_CODEY_NAME",
+"message": "CODEY_PASSIVE_ROGUE1"
+}, {
+"captain_name": "CAPTAIN_WALLACE_NAME",
+"message": "WALLACE_PASSIVE_ROGUE1"
+}, {
+"captain_name": "CAPTAIN_CLEEO_NAME",
+"message": "CLEEO_PASSIVE_ROGUE1"
+}, {
+"captain_name": "CAPTAIN_ZEDD_NAME",
+"message": "ZEDD_PASSIVE_ROGUE1"
+} ]
 
 [node name="FaceTowardsAction" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile2"]
 script = ExtResource( 28 )

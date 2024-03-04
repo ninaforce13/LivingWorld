@@ -35,10 +35,10 @@ export (float) var cooldown_attack:float = 0
 export (float) var cooldown_summon:float = 3
 export (float) var cooldown_fission_power:float = 1
 export (float) var cooldown_misc:float = 1
-export (float) var coodown_switch:float = 2
+export (float) var coodown_switch:float = 4
 export (float) var cooldown_fuse:float = 5
-export (float) var cooldown_rewind:float = 5
-export (float) var cooldown_coffee:float = 3
+export (float) var cooldown_rewind:float = 8
+export (float) var cooldown_coffee:float = 6
 
 export (float) var weight_wall:float = 1.0
 export (float) var weight_defensive_coating:float = 1.0
@@ -94,6 +94,9 @@ func request_orders():
 
 	if not fighter.is_transformed():
 		return []
+
+	if fighter.is_fusion():
+		cooldowns["fusion"] = cooldowns.get("fusion", 0.0) + cooldown_fuse + 1.0
 
 	if is_switching_appropriate():
 		var swap_tape = _get_type_advantaged_tape()
@@ -201,7 +204,7 @@ func is_fusion_appropriate()->bool:
 	for f in team:
 		if not f.is_transformed() or f.is_fusion() or f.will_fuse or f.is_player_controlled():
 			return false
-		if f != fighter and f.get_character_kind() == fighter.get_character_kind():
+		if f != fighter and f.get_character_kind() == fighter.get_character_kind() and !f.get_controller().cooldowns.has("fusion"):
 			has_valid_fusion_target = true
 	return has_valid_fusion_target
 
@@ -735,6 +738,8 @@ func is_coffee_appropriate()->bool:
 	return true
 
 func is_switching_appropriate()->bool:
+	if fighter.is_fusion():
+		return false
 	if !_is_type_disadvantaged(fighter):
 		return false
 	if cooldowns.has("switch_tape"):

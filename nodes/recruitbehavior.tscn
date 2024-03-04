@@ -26,7 +26,7 @@
 [ext_resource path="res://mods/LivingWorld/actions/SetInteraction.gd" type="Script" id=24]
 [ext_resource path="res://mods/LivingWorld/actions/IsNearby.gd" type="Script" id=25]
 [ext_resource path="res://mods/LivingWorld/actions/CheckNearbyRogueFusion.gd" type="Script" id=26]
-[ext_resource path="res://nodes/actions/PassiveMessageAction.gd" type="Script" id=27]
+[ext_resource path="res://mods/LivingWorld/actions/PassiveMessageRandom.gd" type="Script" id=27]
 [ext_resource path="res://mods/LivingWorld/behaviors/Idle.tscn" type="PackedScene" id=28]
 [ext_resource path="res://mods/LivingWorld/behaviors/Dash.tscn" type="PackedScene" id=29]
 [ext_resource path="res://mods/LivingWorld/behaviors/Sit.tscn" type="PackedScene" id=30]
@@ -103,7 +103,7 @@ selection = 3
 
 [node name="PassiveMessageAction" type="Node" parent="FindRogues/RepeatWhile2/IsPlayerNearby"]
 script = ExtResource( 27 )
-message = "RECRUIT_PASSIVE_ROGUE"
+messages = [ "RECRUIT_PASSIVE_ROGUE1", "RECRUIT_PASSIVE_ROGUE2", "RECRUIT_PASSIVE_ROGUE3", "RECRUIT_PASSIVE_ROGUE4", "RECRUIT_PASSIVE_ROGUE5" ]
 
 [node name="FaceTowardsAction" type="Node" parent="FindRogues/RepeatWhile2"]
 script = ExtResource( 8 )

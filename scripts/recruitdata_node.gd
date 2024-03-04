@@ -7,7 +7,7 @@ export (bool) var is_captain = false
 export (bool) var is_partner = false
 export (bool) var is_player = false
 export (Array,String) var signature_card_forms = []
-
+export (String) var rouges_dialog = ""
 const trade_generator = preload("res://mods/LivingWorld/scripts/StickerTradeGenerator.gd")
 const card_template = preload("res://mods/LivingWorld/cardgame/CardTemplate.tscn")
 const settings = preload("res://mods/LivingWorld/settings.tres")
@@ -176,7 +176,6 @@ func disband_party():
 	for member in party.values():
 		if is_instance_valid(member.node):
 			member.node.disband_party()
-			member.node.get_parent().get_behavior().set_state("Idle")
 	is_leader = false
 	emit_signal("party_disbanded")
 
