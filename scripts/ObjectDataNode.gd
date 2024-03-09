@@ -4,7 +4,7 @@ export (ObjectType) var object_type
 export (int) var max_slots = 4
 export (NodePath) var fire
 export (Array,String) var targets
-var purge_timer:float = 15.0
+var purge_timer:float = 1
 var timer:float = 0.0
 var slots:Array = []
 var campfire = null

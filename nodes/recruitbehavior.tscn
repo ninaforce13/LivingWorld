@@ -37,6 +37,7 @@
 [ext_resource path="res://mods/LivingWorld/behaviors/Magnetism.tscn" type="PackedScene" id=35]
 [ext_resource path="res://mods/LivingWorld/behaviors/Fainted.tscn" type="PackedScene" id=36]
 [ext_resource path="res://mods/LivingWorld/actions/DisbandPartyAction.gd" type="Script" id=37]
+[ext_resource path="res://mods/LivingWorld/actions/GetCurrentInstance.gd" type="Script" id=38]
 [ext_resource path="res://addons/misc_utils/actions/values/GetBlackboardValue.gd" type="Script" id=47]
 [ext_resource path="res://mods/LivingWorld/actions/ChangeSpriteAction.gd" type="Script" id=49]
 [ext_resource path="res://mods/LivingWorld/actions/RandomSetBBFlag.gd" type="Script" id=51]
@@ -44,7 +45,6 @@
 [ext_resource path="res://mods/LivingWorld/actions/CheckFlagValue.gd" type="Script" id=55]
 [ext_resource path="res://mods/LivingWorld/actions/GetEngagedTarget.gd" type="Script" id=56]
 [ext_resource path="res://mods/LivingWorld/actions/PauseTarget.gd" type="Script" id=57]
-[ext_resource path="res://mods/LivingWorld/actions/GetNodeWithin.gd" type="Script" id=58]
 [ext_resource path="res://mods/LivingWorld/actions/SetStaticAction.gd" type="Script" id=59]
 [ext_resource path="res://mods/LivingWorld/actions/RecordSuccessAction.gd" type="Script" id=60]
 [ext_resource path="res://mods/LivingWorld/actions/EngageEnemyBehavior.gd" type="Script" id=61]
@@ -58,7 +58,7 @@
 [node name="RecruitBehavior" type="Node"]
 script = ExtResource( 54 )
 default_state = "Idle"
-debug_index = 1
+never_pause = true
 
 [node name="Idle" parent="." instance=ExtResource( 28 )]
 
@@ -132,8 +132,9 @@ key = "Rogues"
 
 [node name="IsEncounterActive" type="Node" parent="FindRogues"]
 script = ExtResource( 26 )
+always_succeed = true
 group = "RogueFusions"
-delay = 0.0
+check_instance = true
 
 [node name="PlayEmoteAction2" type="Node" parent="FindRogues/IsEncounterActive"]
 script = ExtResource( 69 )
@@ -186,16 +187,14 @@ script = ExtResource( 10 )
 base_seconds = 30.0
 
 [node name="GetNodeWithinRange" type="Node" parent="FindRogues/RepeatWhile/WaitUntil"]
-script = ExtResource( 58 )
-group = "RogueFusions"
-inverted = true
+script = ExtResource( 38 )
 
 [node name="Victory" type="Node" parent="FindRogues"]
 script = ExtResource( 26 )
 always_succeed = true
 inverted = true
 group = "RogueFusions"
-delay = 0.0
+check_instance = true
 
 [node name="SetNPCControlsAction" type="Node" parent="FindRogues/Victory"]
 script = ExtResource( 14 )
@@ -233,7 +232,7 @@ script = ExtResource( 11 )
 script = ExtResource( 26 )
 always_succeed = true
 group = "RogueFusions"
-delay = 0.0
+check_instance = true
 
 [node name="UnregisterOccupant" type="Node" parent="FindRogues/FailedEncounter"]
 script = ExtResource( 1 )
@@ -361,8 +360,18 @@ static_amount = 1.0
 script = ExtResource( 56 )
 
 [node name="WaitAction2" type="Node" parent="EngageEnemy"]
-script = ExtResource( 7 )
+script = ExtResource( 10 )
 base_seconds = 3.0
+
+[node name="GetEngagedTarget" type="Node" parent="EngageEnemy/WaitAction2"]
+script = ExtResource( 38 )
+bb_name = ""
+use_engaged_target = true
+
+[node name="ResetBeam" type="Node" parent="EngageEnemy"]
+script = ExtResource( 12 )
+hold_duration = 3.0
+reset = true
 
 [node name="SetStatic2" type="Node" parent="EngageEnemy"]
 script = ExtResource( 59 )
@@ -524,9 +533,8 @@ script = ExtResource( 11 )
 [node name="Conversation" parent="." instance=ExtResource( 13 )]
 
 [node name="Dash" parent="." instance=ExtResource( 29 )]
-combative_weight = 0.35
-social_weight = 0.35
-loner_weight = 0.35
+social_weight = 0.0
+loner_weight = 0.0
 
 [node name="FindCamp" parent="." instance=ExtResource( 6 )]
 combative_weight = 0.65
@@ -556,5 +564,3 @@ loner_weight = 0.95
 townie_weight = 0.9
 
 [node name="Transform" parent="." instance=ExtResource( 34 )]
-social_weight = 0.7
-loner_weight = 0.45

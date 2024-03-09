@@ -13,7 +13,7 @@ func is_valid_detection(_detection)->bool:
 	if !_detection.has_node("InteractionBehavior"):
 		return false
 	var behavior = _detection.get_node("InteractionBehavior")
-	if !behavior.get("exchange_name"):
+	if !behavior.get("exchange_name") and !behavior.has_node("RandomExchangeMenuAction"):
 		return false
 	if !random.rand_bool(get_chance()):
 		return false

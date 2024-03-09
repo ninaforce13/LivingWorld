@@ -16,7 +16,7 @@ func _ready():
 	add_child(tween)
 
 func fill_bar(amount:int):
-	var stylebox:StyleBoxFlat
+
 
 	if amount > 0 and filled_count < 1:
 		animate_fillbar(first_bar)
@@ -34,7 +34,7 @@ func fill_bar(amount:int):
 		filled_count +=1
 		amount -= 1
 	call_deferred("emit_signal","fill_complete")
-#	emit_signal("fill_complete")
+
 
 func fill_remainder():
 	fill_bar(3 - filled_count)

@@ -41,12 +41,20 @@ export (Array,String) var emotes = ["singing_loop",
 									"battle",
 									"Trade"]
 export (bool) var use_random = false
+export (bool) var reset = false
 var emote
+var random:Random = Random.new()
 func _run():
+
 	var whos = get_whos()
+	if reset:
+		for who in whos:
+			who.emote_player.stop()
+		return true
+
 	if emotes.size() > selection or (use_random and emotes.size() > 0):
 		if use_random:
-			emote = emotes[randi()%emotes.size()]
+			emote = random.choice(emotes)
 		else:
 			emote = emotes[selection]
 		var co_list = []

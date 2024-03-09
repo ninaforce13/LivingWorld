@@ -177,8 +177,9 @@ static func get_follower_config(other_recruit, occupant = null):
 	new_config.team = 0
 	var tape_nodes:Array = []
 	var is_frankie:bool = false
-	if occupant and occupant.character:
-		is_frankie = occupant.character.partner_id == "frankie"
+	if occupant:
+		if occupant.character:
+			is_frankie = occupant.character.partner_id == "frankie"
 
 	if (is_follower_partner() and get_follower_partner_id() == "frankie" and !occupant) or is_frankie:
 
@@ -201,10 +202,11 @@ static func get_follower_config(other_recruit, occupant = null):
 		var partner_template = get_partner_by_id(get_follower_partner_id()).instance()
 		new_config.base_character = partner_template.character
 		new_config.character_sfx = partner_template.character.sfx
-	if occupant and occupant.character and occupant.character.partner_id != "":
-		var partner_template = get_partner_by_id(occupant.character.partner_id).instance()
-		new_config.base_character = partner_template.character
-		new_config.character_sfx = partner_template.character.sfx
+	if occupant:
+		if occupant.character and occupant.character.partner_id != "":
+			var partner_template = get_partner_by_id(occupant.character.partner_id).instance()
+			new_config.base_character = partner_template.character
+			new_config.character_sfx = partner_template.character.sfx
 	return new_config
 
 static func add_battle_slots(battlebackground):
@@ -234,16 +236,23 @@ static func add_battle_slots(battlebackground):
 			enemytranslation_slot = enemy2slot
 		if index == 2:
 			battlebackground.add_child_below_node(player2slot, followerslot)
+			followerslot.focus_neighbour_right = player3slot.get_path()
+			player3slot.focus_neighbour_left = followerslot.get_path()
 			battlebackground.add_child_below_node(enemy2slot, extra_enemy_slot)
+			extra_enemy_slot.focus_neighbour_left = enemy3slot.get_path()
+			enemy3slot.focus_neighbour_right = extra_enemy_slot.get_path()
 			followerslot.transform.origin = player3slot.transform.origin + Vector3(2,0,0)
 			extra_enemy_slot.transform.origin = enemy3slot.transform.origin - Vector3(2,0,0)
 			player3slot.transform.origin += Vector3(10,0,0)
 			enemy3slot.transform.origin -= Vector3(10,0,0)
 			index+=1
 			continue
-
 		battlebackground.add_child_below_node(player2slot, followerslot)
+		followerslot.focus_neighbour_right = translation_slot.get_path()
+		translation_slot.focus_neighbour_left = followerslot.get_path()
 		battlebackground.add_child_below_node(enemy2slot, extra_enemy_slot)
+		extra_enemy_slot.focus_neighbour_left = enemytranslation_slot.get_path()
+		enemytranslation_slot.focus_neighbour_right = extra_enemy_slot.get_path()
 		followerslot.translation = translation_slot.translation + Vector3(-12 +(offset*index), 0,0)
 		extra_enemy_slot.translation = enemytranslation_slot.translation + Vector3(12-(offset*index), 0,0)
 		index+=1

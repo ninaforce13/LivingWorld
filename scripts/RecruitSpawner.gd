@@ -38,9 +38,9 @@ func _update_population():
 	night_max_spawns = clamp(day_max_spawns - 1,1,3)
 
 
-#func _enter_tree():
-#	_cull_freed_spawns()
-#	call_deferred("_do_initial_spawns")
+func _enter_tree():
+	_cull_freed_spawns()
+	call_deferred("_do_initial_spawns")
 
 
 func try_spawn():

@@ -23,11 +23,13 @@ func get_value():
 
 func get_nearest_node(nodes):
 	var pawn = get_pawn()
+	if !pawn or !is_instance_valid(pawn):
+		return null
 	if not (pawn is Spatial):
 		return null
 	var pawn_pos = pawn.global_transform.origin
 	var pawn_data
-	if pawn.has_meta("get_data"):
+	if pawn.has_method("get_data"):
 		pawn_data = pawn.get_data()
 	var best = null
 	var best_dist = INF

@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=2]
-
-[ext_resource path="res://data/items/tape_basic.tres" type="Resource" id=1]
-[ext_resource path="res://global/save_state/ItemNode.gd" type="Script" id=2]
-
-[node name="ItemNode" type="Node"]
-script = ExtResource( 2 )
-item = ExtResource( 1 )
-amount = 5

@@ -2,7 +2,13 @@ extends Action
 
 func _run():
 	var target = values[0]
+	if !target or !is_instance_valid(target):
+		return true
+	if !target.is_inside_tree():
+		return true
 	var pawn = get_pawn()
+	if !pawn or !is_instance_valid(pawn):
+		return true
 	var personality = pawn.get_behavior().personality
 
 	var npcmanager = load("res://mods/LivingWorld/scripts/NPCManager.gd")

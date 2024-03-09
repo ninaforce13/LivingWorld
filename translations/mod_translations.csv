@@ -17,9 +17,9 @@ RECRUIT_IDLE_DIALOG_15,I heard the mall is haunted![pause] I can't wait to bring
 RECRUIT_IDLE_DIALOG_16,"The other night, I gazed out into the infinite void of the ocean.[pause] It called to me.[pause] It said [wave amp=30 freq=10]""bikini season is only 4 months away""[/wave]![pause] Oh the horror!"
 RECRUIT_IDLE_DIALOG_17,"There's this rumor[pause], if you play your tapes backwards it would summon a demon god!"
 RECRUIT_IDLE_DIALOG_18,I had a brilliant idea![pause] I'm going to use two cassette players to play two different tapes![pause] Do you think I'll fuse with myself?
-RECRUIT_IDLE_DIALOG_19,
-RECRUIT_IDLE_DIALOG_20,
-RECRUIT_IDLE_DIALOG_21,
+RECRUIT_IDLE_DIALOG_19,Cassettes?[pause] I prefer MP3 players myself.
+RECRUIT_IDLE_DIALOG_20,How did I even get here? [pause]Last thing I remember was getting hit by a truck!
+RECRUIT_IDLE_DIALOG_21,"I used to be a great ranger like yourself, but then a Nevermort spit on my knee!"
 RECRUIT_IDLE_DIALOG_22,
 RECRUIT_IDLE_DIALOG_23,
 RECRUIT_IDLE_DIALOG_24,
@@ -175,7 +175,7 @@ EUGENE_TRADE_ACCEPTED1,Momentous! Now nothing can slow me down!
 EUGENE_TRADE_REJECTED1,"Aw man, come on! You know that's what I need! "
 EUGENE_TRADE_CANCEL1,"[wave amp=30 freq=10]Fine[/wave][pause], I get it. I'll just keep battling until I earn one!"
 EUGENE_CARDS_ACCEPT1,Dude![pause] Of course I'm down to play this![pause] I love collectible card games!
-EUGENE_CARDS_LOSE1,"Ugh![pause] I was just about to draw my ce![pause] Ah well[pause], I'll get it next time![pause] Here's your reward!"
+EUGENE_CARDS_LOSE1,"Ugh![pause] I was just about to draw my ace![pause] Ah well[pause], I'll get it next time![pause] Here's your reward!"
 EUGENE_CARDS_WIN1,Badass![pause] That was great![pause] Hit me up if you wanna play another round!
 EUGENE_LEAVE1,See ya!
 EUGENE_PASSIVE_ROGUES_MESSAGE1,It's another wild one![pause] I'm taking it down!

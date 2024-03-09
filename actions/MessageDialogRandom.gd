@@ -12,6 +12,8 @@ func _ready():
 	var pawn = get_pawn()
 	if pawn.has_node("ConversationSprite") and !disable_sprite:
 		dialogsprite = pawn.get_node("ConversationSprite")
+		if dialogsprite:
+			dialogsprite.name = "ConversationSprite"
 	tween = Tween.new()
 	add_child(tween)
 func _enter_action():
@@ -96,8 +98,6 @@ func _run():
 				dlg_messagebox.add_child(dialogsprite)
 				dlg_messagebox.move_child(dialogsprite,0)
 
-#			tween.interpolate_property(dialogsprite,"rect_position",Vector2(-550,0),Vector2(0,0),0.2,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
-#			tween.start()
 		if style == 1:
 			yield (MenuHelper.show_spooky_dialog(text, audio if i == 0 else null, type_sounds), "completed")
 		else :
@@ -110,8 +110,6 @@ func _run():
 				dialogsprite.get_parent().remove_child(dialogsprite)
 				dlg_messagebox.add_child(dialogsprite)
 				dlg_messagebox.move_child(dialogsprite,0)
-#			tween.interpolate_property(dialogsprite,"rect_position",Vector2(0,0),Vector2(1800,0),0.05,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
-#			tween.start()
 			dialogsprite.visible = false
 	return true
 

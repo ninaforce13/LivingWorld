@@ -8,10 +8,14 @@ func _run():
 		return false
 	if !is_instance_valid(target):
 		return false
+	if !target.is_inside_tree():
+		return false
 	var object_data = target.get_node("ObjectData")
 	if !object_data:
 		return false
 	var pawn = get_pawn()
+	if !pawn or !is_instance_valid(pawn):
+		return false
 	var state = get_parent().name
 	var data_node = pawn.get_node("RecruitData")
 	if register:

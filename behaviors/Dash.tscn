@@ -8,9 +8,8 @@
 
 [node name="Dash" type="Node"]
 script = ExtResource( 5 )
-combative_weight = 0.65
-social_weight = 0.65
-loner_weight = 0.65
+social_weight = 0.45
+loner_weight = 0.45
 disable_on_water = true
 
 [node name="SetNPCControlsAction" type="Node" parent="."]

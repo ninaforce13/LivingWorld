@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://addons/misc_utils/actions/WaitAction.gd" type="Script" id=1]
 [ext_resource path="res://addons/misc_utils/actions/values/GetPawn.gd" type="Script" id=2]
@@ -6,8 +6,12 @@
 [ext_resource path="res://nodes/actions/SpawnPointReturnAction.gd" type="Script" id=4]
 [ext_resource path="res://mods/LivingWorld/actions/CustomWalk.gd" type="Script" id=5]
 [ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=6]
-[ext_resource path="res://mods/LivingWorld/actions/GetRandomNonCardinalDirection.gd" type="Script" id=7]
+[ext_resource path="res://world/behaviors/monsters/RandomDirectionValue.gd" type="Script" id=7]
 [ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=8]
+[ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=9]
+[ext_resource path="res://mods/LivingWorld/actions/ChangeSpriteAction.gd" type="Script" id=10]
+[ext_resource path="res://mods/LivingWorld/actions/SetInteraction.gd" type="Script" id=11]
+[ext_resource path="res://mods/LivingWorld/actions/SpawnRecordingBeam.gd" type="Script" id=12]
 
 [node name="Idle" type="Node"]
 script = ExtResource( 8 )
@@ -15,6 +19,27 @@ interruptible = true
 combative_weight = 0.9
 social_weight = 0.9
 loner_weight = 0.9
+
+[node name="ResetRecordingBeam" type="Node" parent="."]
+script = ExtResource( 12 )
+hold_duration = 3.0
+reset = true
+
+[node name="SetInteraction" type="Node" parent="."]
+script = ExtResource( 11 )
+
+[node name="GetPawn" type="Node" parent="SetInteraction"]
+script = ExtResource( 2 )
+
+[node name="PlayEmoteAction" type="Node" parent="."]
+script = ExtResource( 9 )
+selection = 14
+reset = true
+
+[node name="ChangeSprite" type="Node" parent="."]
+script = ExtResource( 10 )
+is_player = false
+reset = true
 
 [node name="SpawnPointReturnAction" type="Node" parent="."]
 script = ExtResource( 4 )
@@ -48,9 +73,8 @@ __meta__ = {
 [node name="GetPawn" type="Node" parent="FaceTowardsAction"]
 script = ExtResource( 2 )
 
-[node name="RandomDirectionValue" type="Node" parent="FaceTowardsAction"]
+[node name="RandomDirectionValue2" type="Node" parent="FaceTowardsAction"]
 script = ExtResource( 7 )
-spawn_point_return_threshold = 45.0
 
 [node name="WaitAction2" type="Node" parent="."]
 script = ExtResource( 1 )

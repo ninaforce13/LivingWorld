@@ -7,4 +7,6 @@ func _run():
 		var recruitdata = get_pawn().get_data()
 		var trade_result = yield(recruitdata.trade_offer.attempt_trade(result.item.item),"completed")
 		set_bb("valid_trade",trade_result)
+	else:
+		set_bb("valid_trade",false)
 	return true

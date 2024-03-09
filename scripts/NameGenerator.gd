@@ -12,7 +12,7 @@ const NAMES = [
 	"Anna", "Jose", "Maria", "Luz", "Nina", "Jojo", "Amadeus", "Patel", "Scott", "Coraline", "Natalia", "Zamara",
 	"Dash", "Potor", "Guy", "Denji", "Ken", "Estrella", "Carlos", "Ashish", "Barley", "Sasha", "Cindy", "Carol",
 	"Grape", "Pine", "Apple", "Brocolli", "Rakuta", "Bee", "Potral", "Cafelado", "Eidite", "Gourmon", "Freya",
-	"Inglis", "Goriath"
+	"Inglis", "Goriath", "Estevan", "Solman", "Campel","Isadora","Carmela"
 ]
 
 static func generate():

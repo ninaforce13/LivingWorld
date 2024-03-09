@@ -6,7 +6,7 @@ func conditions_met()->bool:
 	if root == null:
 		setup()
 	var target = get_engaged_target()
-	if target:
+	if target and is_instance_valid(target):
 		return target.has_node("RecruitData") if !is_standard else !target.has_node("RecruitData")
 	return check_conditions(self)
 

@@ -55,16 +55,6 @@ sprite_part_names = {
 "legs": "generic",
 "wings": "dog"
 }
-human_colors/body_color_1 = -1
-human_colors/body_color_2 = -1
-human_colors/eye_color = -1
-human_colors/face_accessory_color = -1
-human_colors/favorite_color = -1
-human_colors/hair_accessory_color = -1
-human_colors/hair_color = -1
-human_colors/legs_color = -1
-human_colors/shoe_color = -1
-human_colors/skin_color = -1
 
 [node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
 aabb = AABB( -2, -1, -2, 4, 4.7, 4 )

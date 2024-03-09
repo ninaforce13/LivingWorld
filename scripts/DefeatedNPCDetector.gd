@@ -17,8 +17,8 @@ func is_valid_detection(_detection)->bool:
 	var statemachine = _detection.get_node("StateMachine")
 	if statemachine.state != "Defeated":
 		return false
-	if _detection.has_node("RecruitData"):
-		var behavior = _detection.get_behavior()
+	if _detection.has_node("RecruitBehavior"):
+		var behavior = _detection.get_node("RecruitBehavior")
 		if behavior.state != "Fainted":
 			return false
 	if !random.rand_bool(get_chance()):

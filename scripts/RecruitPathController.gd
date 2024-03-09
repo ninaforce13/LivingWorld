@@ -16,11 +16,18 @@ func _pause_controls():
 	pawn.controls.climb = false
 
 func get_target()->Vector3:
+	var node
 	if target_node.is_empty():
 		return target_pos
 	if not has_node(target_node):
+		var level = WorldSystem.get_level_map()
+		if level:
+			if level.has_node(target_node):
+				node = level.get_node(target_node)
+				return node.global_transform.origin
 		return target_pos
-	var node = get_node(target_node)
+	else:
+		node = get_node(target_node)
 	if not is_instance_valid(node) or not (node is Spatial):
 		return target_pos
 	return node.global_transform.origin

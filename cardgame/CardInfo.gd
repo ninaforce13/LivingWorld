@@ -3,6 +3,8 @@ extends Control
 signal card_drawn
 signal card_discarded
 
+enum cardface {FRONT,BACK}
+
 const gradestar:Texture = preload("res://ui/party/grade.png")
 const holoeffect:Material = preload("res://mods/LivingWorld/shaders/holoeffect.tres")
 onready var card_name:Label = find_node("Name")
@@ -30,7 +32,7 @@ export (bool) var enemy
 export (bool) var no_text
 var origin
 var tween:Tween
-
+var face = cardface.BACK
 func _ready():
 	set_card()
 	set_colors()
@@ -149,6 +151,9 @@ func set_card():
 		child.texture = gradestar
 		count +=1
 
+func is_faceup()->bool:
+	return face == cardface.FRONT
+
 func set_card_info(form):
 	var monster_form:MonsterForm = load(form)
 	card_info.name = Loc.tr(monster_form.name)
@@ -191,6 +196,7 @@ func flip_card(duration):
 
 	cardback.visible = !cardback.visible
 	card.visible = !card.visible
+	face = cardface.FRONT if card.visible else cardface.BACK
 	tween.interpolate_property(self,"rect_scale",rect_scale,Vector2(1,1),duration,Tween.TRANS_CIRC,Tween.EASE_OUT)
 	tween.start()
 

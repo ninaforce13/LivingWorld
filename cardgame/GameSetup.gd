@@ -11,6 +11,7 @@ enum DamageType {NEUTRAL, DAMAGE, HEAL}
 const card_template = preload("res://mods/LivingWorld/cardgame/CardTemplate.tscn")
 const manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 const damage_pop = preload("res://mods/LivingWorld/cardgame/damage_pop.tscn")
+const settings = preload("res://mods/LivingWorld/settings.tres")
 const resolve_value:int = 3
 
 onready var EnemyHandGrid = find_node("OpponentHandGrid")
@@ -118,15 +119,13 @@ func _ready():
 	yield(self,"hand_drawn")
 
 	set_focus_buttons()
-	if logs:
-		print("Match Start")
+
+	console_log("Match Start")
 	if coin_toss():
-		if logs:
-			print("Player wins coin toss.")
+		console_log("Player wins coin toss.")
 		set_player_turn(true)
 	else:
-		if logs:
-			print("Enemy wins coin toss.")
+		console_log("Enemy wins coin toss.")
 		enemy_move()
 
 func coin_toss()->bool:
@@ -189,8 +188,7 @@ func set_heartgauge_tween():
 
 func end_game():
 	var winner = get_winner_name()
-	if logs:
-		print("%s wins match."%winner)
+	console_log("%s wins match."%winner)
 	refresh_deck(player_deck,player_discard)
 	refresh_deck(enemy_deck,enemy_discard)
 	var player_wins:bool
@@ -228,7 +226,7 @@ func ready_to_resolve()->bool:
 		if !slot.occupied():
 			result = false
 	if logs and result:
-		print("Ready to resolve field")
+		console_log("Ready to resolve field")
 	return result
 
 func resolve_stats(stats:Dictionary)->Dictionary:
@@ -259,8 +257,6 @@ func update_value_labels(team):
 	var debug_name:String = "Player" if team == Team.PLAYER else "Enemy"
 	var result = resolve_stats(stats)
 	var current_value:int = 0
-	if logs:
-		print("%s: Current Stats %s and Normalized Stats %s"%[debug_name,str(stats),str(result)])
 	if stats.state == State.ATTACK or stats.state == State.NEUTRAL:
 
 		defense_label.text = str(result.defense)
@@ -310,7 +306,10 @@ func update_value_labels(team):
 		defense_label.remove_color_override("font_color")
 
 	if demo:
-		print("%s: Updated Stats %s"%[debug_name,str(stats)])
+		console_log("""
+	%s Breakdown:
+	Full Stats %s
+	Normalized Stats %s"""%[debug_name,str(stats),str(result)])
 
 	call_deferred("emit_signal","labels_updated")
 
@@ -327,8 +326,8 @@ func resolve_field():
 		enemy_stats.hp -= damage
 		enemy_stats.hp = clamp(enemy_stats.hp,0,enemy_stats.max_hp)
 		EnemyHealth.text = str(enemy_stats.hp)
-		if logs:
-			print("Player attacks Enemy. Dealing %s damage"%damage)
+
+		console_log("Player attacks Enemy. Dealing %s damage"%damage)
 		GameSFX.play_track("damage")
 
 	if player_result.defense > enemy_result.attack and player_stats.hp < player_stats.max_hp:
@@ -338,12 +337,12 @@ func resolve_field():
 		player_stats.hp += damage
 		player_stats.hp = clamp(player_stats.hp, 0, player_stats.max_hp)
 		PlayerHealth.text = str(player_stats.hp)
-		if logs:
-			print("Player blocks Enemy attack. Heals for %s remaining defense value."%damage)
+
+		console_log("Player blocks Enemy attack. Heals for %s remaining defense value."%damage)
 		GameSFX.play_track("heal")
 	elif player_result.defense > enemy_result.attack and player_stats.hp >= player_stats.max_hp and enemy_result.attack > 0:
-		if logs:
-			print("Player blocks Enemy attack.")
+
+		console_log("Player blocks Enemy attack.")
 		animate_damage_pop(Team.PLAYER,"Blocked!",DamageType.NEUTRAL)
 		GameSFX.play_track("blocked")
 
@@ -357,8 +356,7 @@ func resolve_field():
 		player_stats.hp -= damage
 		player_stats.hp = clamp(player_stats.hp,0,player_stats.max_hp)
 		PlayerHealth.text = str(player_stats.hp)
-		if logs:
-			print("Enemy attacks Player. Dealing %s damage"%damage)
+		console_log("Enemy attacks Player. Dealing %s damage"%damage)
 		GameSFX.play_track("damage")
 
 	if enemy_result.defense > player_result.attack and enemy_stats.hp < enemy_stats.max_hp:
@@ -368,23 +366,19 @@ func resolve_field():
 		enemy_stats.hp += damage
 		enemy_stats.hp = clamp(enemy_stats.hp,0,enemy_stats.max_hp)
 		EnemyHealth.text = str(enemy_stats.hp)
-		if logs:
-			print("Enemy blocks Player attack. Heals for %s remaining defense value."%damage)
+		console_log("Enemy blocks Player attack. Heals for %s remaining defense value."%damage)
 		GameSFX.play_track("heal")
 	elif enemy_result.defense > player_result.attack and enemy_stats.hp >= enemy_stats.max_hp and player_result.attack > 0:
-		if logs:
-			print("Enemy blocks Player attack.")
+		console_log("Enemy blocks Player attack.")
 		animate_damage_pop(Team.ENEMY,"Blocked!",DamageType.NEUTRAL)
 		GameSFX.play_track("blocked")
 
 	if enemy_result.defense == player_result.attack and player_result.attack != 0:
-		if logs:
-			print("Enemy blocks Player attack.")
+		console_log("Enemy blocks Player attack.")
 		animate_damage_pop(Team.ENEMY,"Blocked!",DamageType.NEUTRAL)
 		GameSFX.play_track("blocked")
 	if player_result.defense == enemy_result.attack and enemy_result.attack != 0:
-		if logs:
-			print("Player blocks Enemy attack.")
+		console_log("Player blocks Enemy attack.")
 		animate_damage_pop(Team.PLAYER,"Blocked!",DamageType.NEUTRAL)
 		GameSFX.play_track("blocked")
 
@@ -455,6 +449,7 @@ func reset_stats():
 	enemy_stats.attack_display = 0
 	enemy_stats.defense_display = 0
 	enemy_stats.defense = 0
+	enemy_stats.remaster_bonus = 0
 	enemy_stats.full_remaster_bonus = 0
 
 	player_stats.state = State.NEUTRAL
@@ -531,8 +526,7 @@ func player_card_picked(card):
 	var empty_slot_data:Dictionary = get_empty_slot(PlayerField)
 	var empty_slot = empty_slot_data.slot
 	var move_pos = empty_slot.get_global_rect().position
-	if logs:
-		print("Player chose %s"%card.card_name.text)
+	console_log("Player chose %s"%card.card_name.text)
 	card.animate_playcard(move_pos,0.2)
 	var remaster_bonus:bool = is_remaster(PlayerField,card) if player_stats.remaster_bonus == 0 else false
 	var full_remaster_bonus:bool = is_full_remaster(PlayerField,card) if player_stats.full_remaster_bonus == 0 else false
@@ -545,8 +539,7 @@ func player_card_picked(card):
 		card.remove_child(button)
 	empty_slot.set_card(card)
 	if remaster_bonus or full_remaster_bonus:
-		if logs:
-			print("Player Remaster triggered")
+		console_log("Player Remaster triggered")
 		if remaster_bonus:
 			player_stats.remaster_bonus += 1
 		if full_remaster_bonus:
@@ -625,8 +618,9 @@ func draw_card(team):
 	card.draw_card(pos,.2)
 	yield(card,"card_drawn")
 	hand_slot.set_card(card)
-	if team == Team.PLAYER:
-		setup_button(card)
+	if team == Team.PLAYER or demo:
+		if team == Team.PLAYER:
+			setup_button(card)
 		card.flip_card(0.1)
 	emit_signal("card_drawn")
 
@@ -679,12 +673,16 @@ func enemy_move():
 		yield(self,"card_drawn")
 
 	var card = evaluate_situation()
-
+	console_log("Enemy chose to play %s"%card.card_name.text)
 	if manager.get_setting("EnemyCardThought"):
 		animate_thinking(card)
 		yield(self,"thinking_complete")
-	card.flip_card(0.1)
+	if !demo:
+		yield(Co.wait(0.1),"completed")
+		card.flip_card(0.1)
 	yield(Co.wait(0.3),"completed")
+	if !card.is_faceup():
+		card.flip_card(0.1)
 	var empty_slot_data = get_empty_slot(EnemyField)
 	var empty_slot = empty_slot_data.slot
 	var move_pos = empty_slot.get_global_rect().position
@@ -697,9 +695,11 @@ func enemy_move():
 	empty_slot.set_card(card)
 	if remaster_bonus or full_remaster_bonus:
 		if remaster_bonus:
+			console_log("Enemy Remaster Bonus: +1/1")
 			enemy_stats.remaster_bonus += 1
 		if full_remaster_bonus:
 			enemy_stats.full_remaster_bonus += 2
+			console_log("Enemy Full Remaster Bonus: +2/2")
 		var banner_text = "LIVINGWORLD_CARDS_UI_REMASTER_BONUS" if remaster_bonus else "LIVINGWORLD_CARDS_UI_FULL_REMASTER_BONUS"
 		PlayBanner(Team.ENEMY,banner_text,"remaster")
 		yield(Banner.tween,"tween_completed")
@@ -749,32 +749,26 @@ func is_full_remaster(field, new_card)->bool:
 		return false
 	var previous_form = find_previous_form(current_form)
 	if !previous_form:
-		if logs:
-			print("No previous forms found.")
+		console_log("No previous forms found.")
 		return false
-	if logs:
-		print("Form %s found"%Loc.tr(previous_form.name))
+	console_log("Form %s found"%Loc.tr(previous_form.name))
 	remaster_line.push_front(previous_form) if previous_form in debut_forms else remaster_line.push_back(previous_form)
 	current_form = previous_form
 	previous_form = find_previous_form(current_form)
 	if previous_form:
-		if logs:
-			print("Form %s found"%Loc.tr(previous_form.name))
+		console_log("Form %s found"%Loc.tr(previous_form.name))
 		remaster_line.push_front(previous_form) if previous_form in debut_forms else remaster_line.push_back(previous_form)
 	var remaster_count = remaster_line.size()
 	if remaster_count == 2:
-		if logs:
-			print("3 Form Remaster Line %s"%str(remaster_line))
+		console_log("3 Form Remaster Line %s"%str(remaster_line))
 		if first_slot.get_card().form != remaster_line[0].resource_path:
-			if logs:
-				print("First slot is not debut form %s"%remaster_line[0].name)
+			console_log("First slot is not debut form %s"%remaster_line[0].name)
 			return false
 		remaster_line.remove(0)
 		if !second_slot.occupied():
 			return false
 		if second_slot.get_card().form != remaster_line[0].resource_path:
-			if logs:
-				print("Second slot is not next form %s"%remaster_line[0].name)
+			console_log("Second slot is not next form %s"%remaster_line[0].name)
 			return false
 	elif remaster_count == 1:
 		if second_slot.occupied():
@@ -847,25 +841,46 @@ func get_card(state):
 	return choice
 
 func evaluate_situation():
+	console_log("Bot Evaluation...")
 	var in_danger:bool = enemy_stats.hp < enemy_stats.max_hp / 3
-
-	var defensive:bool = random.rand_bool(0.7) if in_danger else random.rand_bool(0.3)
+	if in_danger:
+		console_log("Bot is in danger.")
+	else:
+		console_log("Bot is safe.")
+	var defensive:bool = random.rand_bool(0.8) if in_danger else random.rand_bool(0.3)
 	var offensive:bool = random.rand_bool(0.8) if !defensive else false
 	var remaster_card = is_remaster_possible()
-	if remaster_card:
+	if remaster_card and !ai_misplay():
+		console_log("Bot is planning to Remaster.")
 		return remaster_card
 	if defensive:
+		console_log("Bot is playing defensively.")
 		return get_card(State.DEFENSE)
 	if offensive:
+		console_log("Bot is playing offensively.")
 		return get_card(State.ATTACK)
+	console_log("Bot said screw it and decided to play randomly.")
 	return get_random()
 
+func console_log(text:String):
+	if logs:
+		print(text)
+
+func ai_misplay()->bool:
+	var result:bool = random.rand_bool(settings.cards_ai_misplay_rate)
+	if result:
+		console_log("Bot is loafing off.")
+	return result
+
 func is_remaster_possible():
+	console_log("Bot is searching hand for a Remaster to use on the current field...")
 	for card_slot in EnemyHandGrid.get_children():
 		if is_remaster(EnemyField,card_slot.get_card()):
 			return card_slot.get_card()
+	console_log("Bot is searching hand for a Remaster combos to play later...")
 	for card_slot in EnemyHandGrid.get_children():
 		if is_remaster(EnemyHandGrid,card_slot.get_card()):
+			console_log("Bot found %s can be used to Remaster later."%card_slot.get_card().card_info.name)
 			return get_pre_remaster(EnemyHandGrid,card_slot.get_card())
 	return null
 
@@ -879,6 +894,7 @@ func get_pre_remaster(field, new_card):
 		if form.evolutions.size() > 0:
 			for evo in form.evolutions:
 				if evo.evolved_form == new_card_form:
+					console_log("Bot will use %s to setup a future Remaster."%card.card_info.name)
 					return card
 
 	return null
@@ -894,6 +910,7 @@ func get_random():
 
 func set_player_turn(value:bool):
 	player_turn = false
+	log_current_field()
 	if ready_to_resolve():
 		yield(Co.wait(1),"completed")
 		yield(Co.wrap(resolve_field()),"completed")
@@ -916,8 +933,31 @@ func set_player_turn(value:bool):
 		emit_signal("enemyturn")
 		yield(Co.wait(0.5),"completed")
 		PlayerSprite.animate_turn_end()
-
 	player_turn = value
+
+func log_current_field():
+	var enemy_slots:Array = []
+	var player_slots:Array = []
+	var index:int = 1
+	for slot in EnemyField.get_children():
+		if slot.occupied():
+			enemy_slots.push_back("Slot %s: %s"%[str(index), slot.card_info.name])
+		else:
+			enemy_slots.push_back("Slot %s: Vacant"%str(index))
+		index+=1
+	console_log("""
+	Enemy Field
+	%s | %s | %s"""%[enemy_slots[0],enemy_slots[1],enemy_slots[2]])
+	for slot in PlayerField.get_children():
+		if slot.occupied():
+			player_slots.push_back("Slot %s: %s"%[str(index), slot.card_info.name])
+		else:
+			player_slots.push_back("Slot %s: Vacant"%str(index))
+		index+=1
+	console_log("""
+	%s | %s | %s
+	Player Field"""%[player_slots[0],player_slots[1],player_slots[2]])
+
 
 func get_winner_name()->String:
 	var result:String =  ""
@@ -946,7 +986,10 @@ func build_demo_deck(_team:int)->Array:
 		if _team == 1:
 			card.enemy = true
 		card.form = form.resource_path
-
+		if demo and _team == 1 and _i == 0:
+			card.form = "res://data/monster_forms/nevermort.tres"
+		if demo and _team == 1 and _i == 1:
+			card.form = "res://data/monster_forms/apocrowlypse.tres"
 		deck.push_back(card.duplicate())
 
 #	deck.shuffle()

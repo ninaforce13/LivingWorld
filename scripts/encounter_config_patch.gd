@@ -35,9 +35,11 @@ static func get_code(block:String)->String:
 	code_blocks["add_follower"] = """
 	var npc_manager = preload("res://mods/LivingWorld/scripts/NPCManager.gd")
 	npc_manager.remove_old_configs(self)
-	if npc_manager.engaged_recruits_nearby(self):
-		npc_manager.add_extra_fighters(self)
-	npc_manager.add_follower_to_encounter(self)
+	if (add_characters & AddCharacters.PLAYER) != 0:
+		if npc_manager.engaged_recruits_nearby(self):
+			npc_manager.add_extra_fighters(self)
+
+		npc_manager.add_follower_to_encounter(self)
 	"""
 	return code_blocks[block]
 

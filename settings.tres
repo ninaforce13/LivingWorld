@@ -11,10 +11,11 @@ party_form_rate = 1.0
 holocard_rate = 0.15
 record_rate = 0.8
 heal_rate = 0.75
-coffee_rate = 0.3
+coffee_rate = 0.1
 deck_limit = 25
 heal_percantage = 0.6
 fuse_rate = 0.65
+cards_ai_misplay_rate = 0.45
 fly_threshold = {
 "max": inf,
 "min": 7

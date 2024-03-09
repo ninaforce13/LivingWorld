@@ -3,11 +3,8 @@ extends CheckConditionAction
 export (float) var within_distance = 10.0
 export (bool) var inverted = false
 export (String) var group:String
-export (float) var delay = 1.0
-
+export (bool) var check_instance = false
 func run():
-	if delay > 0.0:
-		yield(Co.wait(delay),"completed")
 	if not conditions_met():
 		return always_succeed
 	return .run()
@@ -17,15 +14,21 @@ func conditions_met()->bool:
 		setup()
 	var nodes = get_tree().get_nodes_in_group(group)
 	var target = get_nearest_node(nodes)
+	if !is_instance_valid(target):
+		return true if inverted else false
 	if check_conditions(self):
-		var global_pos = get_pawn().global_transform.origin
-		if target:
-			if inverted:
-				return !global_pos.distance_to(target.global_transform.origin) < within_distance
-			else:
-				return global_pos.distance_to(target.global_transform.origin) < within_distance
-	return check_conditions(self)
 
+		if check_instance:
+			var result = target.get("world_monster")
+			return result != null if !inverted else !result
+		else:
+			var global_pos = get_pawn().global_transform.origin
+			if target:
+				if inverted:
+					return !global_pos.distance_to(target.global_transform.origin) < within_distance
+				else:
+					return global_pos.distance_to(target.global_transform.origin) < within_distance
+	return check_conditions(self)
 
 func get_nearest_node(nodes):
 	if not (get_pawn() is Spatial):

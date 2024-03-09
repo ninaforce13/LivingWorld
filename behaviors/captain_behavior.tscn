@@ -20,9 +20,9 @@
 [ext_resource path="res://mods/LivingWorld/actions/GetGroupNodeCustom.gd" type="Script" id=18]
 [ext_resource path="res://mods/LivingWorld/actions/CheckNearbyRogueFusion.gd" type="Script" id=19]
 [ext_resource path="res://mods/LivingWorld/actions/CustomFollowAction.gd" type="Script" id=20]
+[ext_resource path="res://mods/LivingWorld/actions/GetCurrentInstance.gd" type="Script" id=21]
 [ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=23]
 [ext_resource path="res://addons/misc_utils/actions/values/GetBlackboardValue.gd" type="Script" id=24]
-[ext_resource path="res://mods/LivingWorld/actions/GetNodeWithin.gd" type="Script" id=25]
 [ext_resource path="res://mods/LivingWorld/actions/IsNearby.gd" type="Script" id=26]
 [ext_resource path="res://mods/LivingWorld/actions/SetInteraction.gd" type="Script" id=27]
 [ext_resource path="res://mods/LivingWorld/actions/FaceTowardsSafe.gd" type="Script" id=28]
@@ -60,7 +60,6 @@ script = ExtResource( 14 )
 script = ExtResource( 19 )
 within_distance = 128.0
 group = "RogueFusions"
-delay = 0.0
 
 [node name="IsNearby" type="Node" parent="Patrol/NearbyEncounter"]
 script = ExtResource( 26 )
@@ -167,11 +166,11 @@ script = ExtResource( 20 )
 __meta__ = {
 "action_tree": true
 }
+always_succeed = true
 can_fly = true
 can_jump = true
 can_fall = true
 can_glide = true
-can_warp = true
 can_wait = true
 min_distance = 6.0
 
@@ -181,8 +180,9 @@ key = "Rogues"
 
 [node name="IsEncounterActive" type="Node" parent="Patrol/NearbyEncounter"]
 script = ExtResource( 19 )
+always_succeed = true
 group = "RogueFusions"
-delay = 0.0
+check_instance = true
 
 [node name="PlayEmoteAction2" type="Node" parent="Patrol/NearbyEncounter/IsEncounterActive"]
 script = ExtResource( 13 )
@@ -220,10 +220,7 @@ base_seconds = 0.0
 disable_timer = true
 
 [node name="GetNodeWithinRange" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile/WaitUntil"]
-script = ExtResource( 25 )
-group = "RogueFusions"
-distance = 25.0
-inverted = true
+script = ExtResource( 21 )
 
 [node name="RepeatWhile3" type="Node" parent="Patrol/NearbyEncounter"]
 script = ExtResource( 4 )
@@ -239,11 +236,11 @@ script = ExtResource( 20 )
 __meta__ = {
 "action_tree": true
 }
+always_succeed = true
 can_fly = true
 can_jump = true
 can_fall = true
 can_glide = true
-can_warp = true
 can_wait = true
 
 [node name="GetSpawnPoint" type="Node" parent="Patrol/NearbyEncounter/RepeatWhile3/FollowAction"]

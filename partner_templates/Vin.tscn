@@ -65,7 +65,7 @@
 [ext_resource path="res://mods/LivingWorld/actions/CustomFollowAction.gd" type="Script" id=63]
 [ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=64]
 [ext_resource path="res://addons/misc_utils/actions/values/GetBlackboardValue.gd" type="Script" id=65]
-[ext_resource path="res://mods/LivingWorld/actions/GetNodeWithin.gd" type="Script" id=66]
+[ext_resource path="res://mods/LivingWorld/actions/GetCurrentInstance.gd" type="Script" id=66]
 [ext_resource path="res://mods/LivingWorld/spawn_profiles/all_mobs2.tres" type="Resource" id=67]
 [ext_resource path="res://mods/LivingWorld/actions/EngageEnemyBehavior.gd" type="Script" id=68]
 [ext_resource path="res://mods/LivingWorld/actions/CheckFlagValue.gd" type="Script" id=69]
@@ -717,16 +717,6 @@ sprite_part_names = {
 "wings": "generic"
 }
 character = ExtResource( 97 )
-human_colors/body_color_1 = 12
-human_colors/body_color_2 = 12
-human_colors/eye_color = 4
-human_colors/face_accessory_color = 4
-human_colors/favorite_color = 0
-human_colors/hair_accessory_color = 11
-human_colors/hair_color = 14
-human_colors/legs_color = 12
-human_colors/shoe_color = 14
-human_colors/skin_color = 19
 
 [node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
 aabb = AABB( -2, -1, -2, 4, 4.7, 4 )
@@ -855,7 +845,7 @@ enable_ai_fusion = true
 script = ExtResource( 39 )
 character_name = "VIN_NAME"
 pronouns = 0
-level_scale_override_key = "npc_boss"
+level_scale_override_key = "npc"
 base_character = ExtResource( 97 )
 character_sfx = ExtResource( 96 )
 character_kind = 1
@@ -1034,8 +1024,9 @@ key = "Rogues"
 
 [node name="IsEncounterActive" type="Node" parent="RecruitBehavior/FindRogues"]
 script = ExtResource( 62 )
+always_succeed = true
 group = "RogueFusions"
-delay = 0.0
+check_instance = true
 
 [node name="PlayEmoteAction2" type="Node" parent="RecruitBehavior/FindRogues/IsEncounterActive"]
 script = ExtResource( 23 )
@@ -1074,13 +1065,9 @@ selection = 18
 script = ExtResource( 7 )
 base_seconds = 0.0
 disable_timer = true
-debug_message = true
 
 [node name="GetNodeWithinRange" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile/WaitUntil"]
 script = ExtResource( 66 )
-group = "RogueFusions"
-distance = 25.0
-inverted = true
 
 [node name="EnableInteractions" type="Node" parent="RecruitBehavior/FindRogues"]
 script = ExtResource( 81 )
@@ -1175,9 +1162,19 @@ static_amount = 1.0
 [node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/SetStatic"]
 script = ExtResource( 71 )
 
-[node name="WaitAction2" type="Node" parent="RecruitBehavior/EngageEnemy"]
-script = ExtResource( 50 )
+[node name="WaitAction4" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 7 )
 base_seconds = 3.0
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/WaitAction4"]
+script = ExtResource( 66 )
+bb_name = ""
+use_engaged_target = true
+
+[node name="ResetBeam" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 13 )
+hold_duration = 3.0
+reset = true
 
 [node name="SetStatic2" type="Node" parent="RecruitBehavior/EngageEnemy"]
 script = ExtResource( 20 )
@@ -1292,6 +1289,7 @@ shape = SubResource( 31 )
 collision_layer = 0
 collision_mask = 16384
 script = ExtResource( 79 )
+disabled = true
 
 [node name="CollisionShape" type="CollisionShape" parent="BootlegDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )

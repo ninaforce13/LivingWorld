@@ -11,8 +11,8 @@ export (bool) var disable_on_water = false
 var in_state:bool = false setget set_in_state
 var _timer:float = 0.0
 var npcmanager = load("res://mods/LivingWorld/scripts/NPCManager.gd")
-#func _ready():
-#	WorldSystem.connect("flags_changed", self, "_world_flags_changed")
+func _ready():
+	WorldSystem.connect("flags_changed", self, "_world_flags_changed")
 
 func _enter_state():
 	if not conditions_met():
@@ -40,7 +40,7 @@ func set_in_state(value:bool):
 	var was_in_state = in_state
 	in_state = value
 	blackboard.pawn = get_parent().pawn
-#	set_paused( not in_state or not WorldSystem.is_ai_enabled())
+	set_paused( not in_state or not WorldSystem.is_ai_enabled())
 
 
 func _exit_tree():

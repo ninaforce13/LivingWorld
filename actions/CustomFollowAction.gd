@@ -40,7 +40,11 @@ func _run():
 		path_controller.target_pos = target
 	else :
 		if !is_instance_valid(target):
-			path_controller.target_node = pawn.get_path()
+			_pathing_failed()
+			return false or always_succeed
+		elif !target.is_inside_tree():
+			_pathing_failed()
+			return false or always_succeed
 		else:
 			path_controller.target_node = target.get_path()
 	path_controller.enabled = true
@@ -58,3 +62,9 @@ func _run():
 		_pathing_failed()
 
 	return result or always_succeed
+
+func _pathing_failed():
+	var pawn = get_pawn()
+	path_controller.enabled = false
+	pawn.controls.speed_multiplier = 1.0
+	pawn.controls.strafe = false

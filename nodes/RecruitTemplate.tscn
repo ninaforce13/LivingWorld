@@ -661,16 +661,6 @@ sprite_part_names = {
 "legs": "generic",
 "wings": "generic"
 }
-human_colors/body_color_1 = -1
-human_colors/body_color_2 = -1
-human_colors/eye_color = -1
-human_colors/face_accessory_color = -1
-human_colors/favorite_color = -1
-human_colors/hair_accessory_color = -1
-human_colors/hair_color = -1
-human_colors/legs_color = -1
-human_colors/shoe_color = -1
-human_colors/skin_color = -1
 
 [node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
 aabb = AABB( -2, -1, -2, 4, 4.7, 4 )
@@ -941,7 +931,7 @@ transition = 3
 
 [node name="CharacterConfig" type="Node" parent="EncounterConfig"]
 script = ExtResource( 6 )
-level_scale_override_key = "monster_boss"
+level_scale_override_key = "npc"
 base_character = ExtResource( 52 )
 character_sfx = ExtResource( 12 )
 character_kind = 1
@@ -1003,7 +993,7 @@ spawn_profile = ExtResource( 24 )
 collision_layer = 0
 collision_mask = 288
 script = ExtResource( 23 )
-detection_cooldown = 60.0
+detection_cooldown = 15.0
 combative_chance = 0.5
 social_chance = 0.9
 loner_chance = 0.5
@@ -1035,7 +1025,7 @@ shape = SubResource( 5 )
 collision_layer = 0
 collision_mask = 16384
 script = ExtResource( 78 )
-detection_cooldown = 5.0
+detection_cooldown = 0.0
 
 [node name="CollisionShape" type="CollisionShape" parent="RogueFusionDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
@@ -1045,6 +1035,7 @@ shape = SubResource( 5 )
 collision_layer = 0
 collision_mask = 16384
 script = ExtResource( 70 )
+disabled = true
 
 [node name="CollisionShape" type="CollisionShape" parent="BootlegDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
@@ -1083,6 +1074,7 @@ shape = SubResource( 5 )
 collision_layer = 0
 collision_mask = 128
 script = ExtResource( 36 )
+detection_cooldown = 5.0
 combative_chance = 1.0
 social_chance = 1.0
 loner_chance = 1.0
@@ -1113,7 +1105,7 @@ title = "{pawn}"
 wait_for_confirm = false
 close_after = false
 use_random = true
-message_array = [ [ "RECRUIT_IDLE_DIALOG_1" ], [ "RECRUIT_IDLE_DIALOG_2", "RECRUIT_IDLE_DIALOG_3" ], [ "RECRUIT_IDLE_DIALOG_4" ], [ "RECRUIT_IDLE_DIALOG_5" ], [ "RECRUIT_IDLE_DIALOG_6" ], [ "RECRUIT_IDLE_DIALOG_7" ], [ "RECRUIT_IDLE_DIALOG_8" ], [ "RECRUIT_IDLE_DIALOG_9" ], [ "RECRUIT_IDLE_DIALOG_10" ], [ "RECRUIT_IDLE_DIALOG_11" ], [ "RECRUIT_IDLE_DIALOG_12" ], [ "RECRUIT_IDLE_DIALOG_13" ], [ "RECRUIT_IDLE_DIALOG_14" ], [ "RECRUIT_IDLE_DIALOG_15" ], [ "RECRUIT_IDLE_DIALOG_16" ], [ "RECRUIT_IDLE_DIALOG_17" ], [ "RECRUIT_IDLE_DIALOG_18" ] ]
+message_array = [ [ "RECRUIT_IDLE_DIALOG_1" ], [ "RECRUIT_IDLE_DIALOG_2", "RECRUIT_IDLE_DIALOG_3" ], [ "RECRUIT_IDLE_DIALOG_4" ], [ "RECRUIT_IDLE_DIALOG_5" ], [ "RECRUIT_IDLE_DIALOG_6" ], [ "RECRUIT_IDLE_DIALOG_7" ], [ "RECRUIT_IDLE_DIALOG_8" ], [ "RECRUIT_IDLE_DIALOG_9" ], [ "RECRUIT_IDLE_DIALOG_10" ], [ "RECRUIT_IDLE_DIALOG_11" ], [ "RECRUIT_IDLE_DIALOG_12" ], [ "RECRUIT_IDLE_DIALOG_13" ], [ "RECRUIT_IDLE_DIALOG_14" ], [ "RECRUIT_IDLE_DIALOG_15" ], [ "RECRUIT_IDLE_DIALOG_16" ], [ "RECRUIT_IDLE_DIALOG_17" ], [ "RECRUIT_IDLE_DIALOG_18" ], [ "RECRUIT_IDLE_DIALOG_19" ], [ "RECRUIT_IDLE_DIALOG_20" ], [ "RECRUIT_IDLE_DIALOG_21" ] ]
 
 [node name="MenuDialogAction" type="Node" parent="InteractionBehavior"]
 script = ExtResource( 35 )

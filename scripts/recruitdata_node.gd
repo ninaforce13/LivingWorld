@@ -147,6 +147,8 @@ func form_party():
 	var prev_member = null
 	check_partners()
 	for partner in conversation_partners:
+		if !is_instance_valid(partner):
+			continue
 		data_node = partner.get_data()
 		if data_node and !data_node.has_party():
 			add_party_member(data_node, data_node.recruit)
@@ -156,7 +158,7 @@ func form_party():
 				prev_member.add_party_member(data_node,data_node.recruit)
 				data_node.add_party_member(prev_member,prev_member.recruit)
 			prev_member = data_node
-
+	check_partners()
 	is_leader = true
 
 func add_party_member(data_node, data:Dictionary, leader:bool = false):

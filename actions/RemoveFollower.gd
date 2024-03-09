@@ -6,6 +6,8 @@ func _run():
 
 func remove_recruit():
 	var npc = get_pawn()
+	if !npc or !is_instance_valid(npc):
+		return
 	var recruit
 	var npcmanager = load("res://mods/LivingWorld/scripts/NPCManager.gd")
 

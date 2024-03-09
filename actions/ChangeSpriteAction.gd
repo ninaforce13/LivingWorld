@@ -8,6 +8,7 @@ export (String) var random_activation_bb = ""
 export (bool) var use_bb = false
 export (String) var blackboard_value = "mode"
 export (bool) var is_player = true
+export (bool) var reset = false
 var index:int = -2
 func _run():
 	if random_activation_bb != "":
@@ -17,6 +18,9 @@ func _run():
 	if is_player:
 		index = get_parent().get_index() - 1
 	var pawn = get_pawn()
+	if reset:
+		if !pawn.get("use_monster_form"):
+			return true
 	var sprite = pawn.sprite
 	var tween = sprite.controller.tween
 	if sprite:

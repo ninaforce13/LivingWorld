@@ -10,10 +10,13 @@ func _run():
 		signpost.global_transform.origin = pawn.spawn_point
 		if signpost.has_node("InteractionBehavior"):
 			var behavior = signpost.get_node("InteractionBehavior")
-			behavior.set_bb("sign_owner",pawn)
+			var owner_data:Dictionary = {"pawn":pawn,"name":pawn.npc_name}
+			behavior.set_bb("sign_owner",owner_data)
+		set_bb("signpost",signpost)
+
 	if remove:
-		if level.has_node("LunchPost"):
-			var signpost = level.get_node("LunchPost")
-			level.remove_child(signpost)
+		var signpost = get_bb("signpost")
+		if signpost:
+			signpost.get_parent().remove_child(signpost)
 			signpost.queue_free()
 	return true

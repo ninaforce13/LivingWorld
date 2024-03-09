@@ -71,7 +71,7 @@
 [ext_resource path="res://sfx/voices/dog/dog_bark_1.wav" type="AudioStream" id=69]
 [ext_resource path="res://mods/LivingWorld/actions/RecruitBehaviorState.gd" type="Script" id=70]
 [ext_resource path="res://addons/misc_utils/actions/values/GetBlackboardValue.gd" type="Script" id=71]
-[ext_resource path="res://mods/LivingWorld/actions/GetNodeWithin.gd" type="Script" id=72]
+[ext_resource path="res://mods/LivingWorld/actions/GetCurrentInstance.gd" type="Script" id=72]
 [ext_resource path="res://mods/LivingWorld/spawn_profiles/all_mobs2.tres" type="Resource" id=73]
 [ext_resource path="res://mods/LivingWorld/actions/EngageEnemyBehavior.gd" type="Script" id=74]
 [ext_resource path="res://mods/LivingWorld/actions/CheckFlagValue.gd" type="Script" id=75]
@@ -712,16 +712,6 @@ sprite_part_names = {
 }
 sprite_body = ExtResource( 111 )
 character = ExtResource( 45 )
-human_colors/body_color_1 = 16
-human_colors/body_color_2 = 16
-human_colors/eye_color = 16
-human_colors/face_accessory_color = 16
-human_colors/favorite_color = 7
-human_colors/hair_accessory_color = 16
-human_colors/hair_color = 16
-human_colors/legs_color = 16
-human_colors/shoe_color = 16
-human_colors/skin_color = 16
 
 [node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
 aabb = AABB( -2, -1, -2, 4, 4.7, 4 )
@@ -736,7 +726,15 @@ script = ExtResource( 42 )
 idle = "idle"
 direction = "down"
 billboard_depth_hack = true
+emission = null
+wave_amplitude = null
 wave_t_frequency = 5.0
+wave_v_frequency = null
+static_amount = null
+static_offset = null
+static_speed = null
+sparkle = null
+sprite_rotation = null
 
 [node name="EmotePlayer" parent="." instance=ExtResource( 50 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
@@ -828,7 +826,7 @@ enable_ai_fusion = true
 script = ExtResource( 43 )
 character_name = "DOG_NAME"
 pronouns = 0
-level_scale_override_key = "npc_boss"
+level_scale_override_key = "npc"
 base_character = ExtResource( 45 )
 character_sfx = ExtResource( 101 )
 character_kind = 1
@@ -994,8 +992,9 @@ key = "Rogues"
 
 [node name="IsEncounterActive" type="Node" parent="RecruitBehavior/FindRogues"]
 script = ExtResource( 66 )
+always_succeed = true
 group = "RogueFusions"
-delay = 0.0
+check_instance = true
 
 [node name="PlayEmoteAction2" type="Node" parent="RecruitBehavior/FindRogues/IsEncounterActive"]
 script = ExtResource( 26 )
@@ -1034,13 +1033,9 @@ selection = 18
 script = ExtResource( 9 )
 base_seconds = 0.0
 disable_timer = true
-debug_message = true
 
 [node name="GetNodeWithinRange" type="Node" parent="RecruitBehavior/FindRogues/RepeatWhile/WaitUntil"]
 script = ExtResource( 72 )
-group = "RogueFusions"
-distance = 25.0
-inverted = true
 
 [node name="EnableInteractions" type="Node" parent="RecruitBehavior/FindRogues"]
 script = ExtResource( 86 )
@@ -1135,9 +1130,19 @@ static_amount = 1.0
 [node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/SetStatic"]
 script = ExtResource( 77 )
 
-[node name="WaitAction2" type="Node" parent="RecruitBehavior/EngageEnemy"]
-script = ExtResource( 54 )
+[node name="WaitAction4" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 9 )
 base_seconds = 3.0
+
+[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/WaitAction4"]
+script = ExtResource( 72 )
+bb_name = ""
+use_engaged_target = true
+
+[node name="ResetBeam" type="Node" parent="RecruitBehavior/EngageEnemy"]
+script = ExtResource( 15 )
+hold_duration = 3.0
+reset = true
 
 [node name="SetStatic2" type="Node" parent="RecruitBehavior/EngageEnemy"]
 script = ExtResource( 22 )
@@ -1256,6 +1261,7 @@ shape = SubResource( 7 )
 collision_layer = 0
 collision_mask = 16384
 script = ExtResource( 84 )
+disabled = true
 
 [node name="CollisionShape" type="CollisionShape" parent="BootlegDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )

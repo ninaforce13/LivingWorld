@@ -237,7 +237,7 @@ func _on_RemoveCard_pressed():
 	if !exists_in_deck(card):
 		return
 
-	var card_data = get_card_data(card)
+
 	var is_deck_button:bool = false
 	if focus_button.get_parent().get_parent().name == "DeckGrid":
 		var form = card.monster_form

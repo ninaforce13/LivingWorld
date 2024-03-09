@@ -10,6 +10,8 @@ func _ready():
 	var pawn = get_pawn()
 	if pawn.has_node("ConversationSprite"):
 		dialogsprite = pawn.get_node("ConversationSprite")
+		if dialogsprite:
+			dialogsprite.name = "ConversationSprite"
 	tween = Tween.new()
 	add_child(tween)
 
@@ -70,24 +72,36 @@ func _run():
 
 		text = Loc.substitute_mfn(text, SaveState.party.player.pronouns)
 		if dialogsprite and use_battlesprite:
+			var dlg_messagebox = dlg.get_node("Slider/OverscanMarginContainer/MessageBox")
 			dialogsprite.visible = true
-			tween.interpolate_property(dialogsprite,"rect_position",Vector2(-550,0),Vector2(0,0),0.2,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
-			tween.start()
+			if dlg_messagebox and !dlg_messagebox.has_node("ConversationSprite"):
+				dialogsprite.get_parent().remove_child(dialogsprite)
+				dlg_messagebox.add_child(dialogsprite)
+				dlg_messagebox.move_child(dialogsprite,0)
 		if style == 1:
 			yield (MenuHelper.show_spooky_dialog(text, audio if i == 0 else null, type_sounds), "completed")
 		else :
 			yield (GlobalMessageDialog.show_message(text, false, wait_for_confirm or i < messages.size() - 1), "completed")
 
 		dlg.audio = null
-
+	if close_after:
+		if dialogsprite and use_battlesprite:
+			var dlg_messagebox = dlg.get_node("Slider/OverscanMarginContainer/MessageBox")
+			if dlg_messagebox and !dlg_messagebox.has_node("ConversationSprite"):
+				dialogsprite.get_parent().remove_child(dialogsprite)
+				dlg_messagebox.add_child(dialogsprite)
+				dlg_messagebox.move_child(dialogsprite,0)
+			dialogsprite.visible = false
 	return true
 
 func _exit_action(_result):
 	if close_after:
-		if dialogsprite and use_battlesprite:
-			tween.interpolate_property(dialogsprite,"rect_position",Vector2(0,0),Vector2(1800,0),0.1,Tween.TRANS_LINEAR,Tween.EASE_IN_OUT)
-			tween.start()
-			dialogsprite.visible = false
+		var dlg = GlobalMessageDialog.message_dialog
+		var dlg_messagebox = dlg.get_node("Slider/OverscanMarginContainer/MessageBox")
+		if dlg_messagebox.has_node("ConversationSprite"):
+			var spritenode = dlg_messagebox.get_node("ConversationSprite")
+			dlg_messagebox.remove_child(spritenode)
+			get_pawn().add_child(spritenode)
 		return GlobalMessageDialog.hide()
 func _enter_action():
 	var pawn = get_pawn()
