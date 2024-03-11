@@ -14,7 +14,8 @@ func _run():
 	menu.enemy_data = recruit_data.recruit
 	if recruit_data.card_deck.empty():
 		recruit_data.build_deck()
-	menu.enemy_deck = recruit_data.card_deck
+	for card in recruit_data.card_deck:
+		menu.enemy_deck.push_back(card.duplicate())
 	MenuHelper.add_child(menu)
 	var result = yield (menu.run_menu(), "completed")
 	set_bb("win_game",result)

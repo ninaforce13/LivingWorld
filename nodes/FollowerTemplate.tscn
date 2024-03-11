@@ -36,7 +36,7 @@ height = 0.9
 radius = 0.991032
 height = 2.40243
 
-[node name="CustomTrainee" type="KinematicBody" groups=["trainees"]]
+[node name="CustomTrainee" type="KinematicBody"]
 collision_layer = 128
 collision_mask = 32785
 script = ExtResource( 62 )

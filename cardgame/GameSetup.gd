@@ -91,6 +91,7 @@ var player_stats:Dictionary = {
 								"remaster_bonus":0,
 								"full_remaster_bonus":0}
 var enemy_stats:Dictionary = player_stats.duplicate()
+var reserved_cards:Array = []
 var winner_name:String
 var enemy_tween:Tween
 var player_tween:Tween
@@ -100,7 +101,7 @@ var tween:Tween
 var player_state:int = State.NEUTRAL
 var enemy_state:int = State.NEUTRAL
 var state_changed:bool = false
-
+var current_focus_button = null
 func _ready():
 	random = Random.new()
 	tween = Tween.new()
@@ -120,12 +121,12 @@ func _ready():
 
 	set_focus_buttons()
 
-	console_log("Match Start")
+	console_log("Match Start: %s vs %s"%[player_data.name,enemy_data.name])
 	if coin_toss():
 		console_log("Player wins coin toss.")
 		set_player_turn(true)
 	else:
-		console_log("Enemy wins coin toss.")
+		console_log("Bot wins coin toss.")
 		enemy_move()
 
 func coin_toss()->bool:
@@ -164,10 +165,10 @@ func initialize_decks():
 			player_deck = build_demo_deck(0)
 		else:
 			player_deck = get_player_deck()
-		random.shuffle(player_deck)
 	if enemy_deck.empty():
 		enemy_deck = build_demo_deck(1)
-		random.shuffle(enemy_deck)
+	random.shuffle(player_deck)
+	random.shuffle(enemy_deck)
 
 func draw_initial_hand():
 	for _i in range (0,5):
@@ -356,7 +357,7 @@ func resolve_field():
 		player_stats.hp -= damage
 		player_stats.hp = clamp(player_stats.hp,0,player_stats.max_hp)
 		PlayerHealth.text = str(player_stats.hp)
-		console_log("Enemy attacks Player. Dealing %s damage"%damage)
+		console_log("Bot attacks Player. Dealing %s damage"%damage)
 		GameSFX.play_track("damage")
 
 	if enemy_result.defense > player_result.attack and enemy_stats.hp < enemy_stats.max_hp:
@@ -366,19 +367,19 @@ func resolve_field():
 		enemy_stats.hp += damage
 		enemy_stats.hp = clamp(enemy_stats.hp,0,enemy_stats.max_hp)
 		EnemyHealth.text = str(enemy_stats.hp)
-		console_log("Enemy blocks Player attack. Heals for %s remaining defense value."%damage)
+		console_log("Bot blocks Player attack. Heals for %s remaining defense value."%damage)
 		GameSFX.play_track("heal")
 	elif enemy_result.defense > player_result.attack and enemy_stats.hp >= enemy_stats.max_hp and player_result.attack > 0:
-		console_log("Enemy blocks Player attack.")
+		console_log("Bot blocks Player attack.")
 		animate_damage_pop(Team.ENEMY,"Blocked!",DamageType.NEUTRAL)
 		GameSFX.play_track("blocked")
 
 	if enemy_result.defense == player_result.attack and player_result.attack != 0:
-		console_log("Enemy blocks Player attack.")
+		console_log("Bot blocks Player attack.")
 		animate_damage_pop(Team.ENEMY,"Blocked!",DamageType.NEUTRAL)
 		GameSFX.play_track("blocked")
 	if player_result.defense == enemy_result.attack and enemy_result.attack != 0:
-		console_log("Player blocks Enemy attack.")
+		console_log("Player blocks Bot attack.")
 		animate_damage_pop(Team.PLAYER,"Blocked!",DamageType.NEUTRAL)
 		GameSFX.play_track("blocked")
 
@@ -451,6 +452,7 @@ func reset_stats():
 	enemy_stats.defense = 0
 	enemy_stats.remaster_bonus = 0
 	enemy_stats.full_remaster_bonus = 0
+	reserved_cards.clear()
 
 	player_stats.state = State.NEUTRAL
 	enemy_stats.state = State.NEUTRAL
@@ -462,6 +464,7 @@ func setup_button(card):
 	card_button.connect("pressed",self,"player_card_picked",[card])
 	card_button.connect("mouse_entered",card_button,"grab_focus")
 	card_button.connect("mouse_entered",card,"animate_hover_enter")
+	card_button.connect("focus_entered",self,"set_current_focus_button",[card_button])
 	card_button.connect("focus_entered",card,"animate_hover_enter")
 	card_button.connect("focus_exited",card,"animate_hover_exit")
 	card_button.connect("mouse_exited",card,"animate_hover_exit")
@@ -472,9 +475,14 @@ func setup_button(card):
 	card.add_child(card_button)
 	card_button.rect_size = card.rect_size
 
+func set_current_focus_button(button):
+	current_focus_button = button
+	current_focus_button.grab_focus()
+
 func set_focus_buttons():
 	var focus_index:int = 5
 	var focus_button = null
+
 	for slot in PlayerHandGrid.get_children():
 		if slot.occupied():
 			var next_index = get_next_occupied_slot(slot)
@@ -492,7 +500,10 @@ func set_focus_buttons():
 				focus_button = cardbutton
 
 	if focus_button:
-		focus_button.grab_focus()
+		if !current_focus_button:
+			set_current_focus_button(focus_button)
+		if !current_focus_button.has_focus():
+			current_focus_button.grab_focus()
 
 func get_previous_occupied_slot(current_slot):
 	var prev_index = -1
@@ -558,6 +569,7 @@ func player_card_picked(card):
 			player_state = player_stats.state
 		update_value_labels(Team.PLAYER)
 		yield(self,"labels_updated")
+	current_focus_button = null
 	set_focus_buttons()
 	set_player_turn(false)
 
@@ -611,7 +623,7 @@ func draw_card(team):
 	if hand_slot == null:
 		return
 
-	set_card_colors(card, team)
+#	set_card_colors(card, team)
 	draw_point.set_card(card)
 	card.rect_position = Vector2.ZERO
 	var pos = hand_position.position
@@ -673,7 +685,7 @@ func enemy_move():
 		yield(self,"card_drawn")
 
 	var card = evaluate_situation()
-	console_log("Enemy chose to play %s"%card.card_name.text)
+	console_log("Bot chose to play %s"%card.card_name.text)
 	if manager.get_setting("EnemyCardThought"):
 		animate_thinking(card)
 		yield(self,"thinking_complete")
@@ -695,11 +707,11 @@ func enemy_move():
 	empty_slot.set_card(card)
 	if remaster_bonus or full_remaster_bonus:
 		if remaster_bonus:
-			console_log("Enemy Remaster Bonus: +1/1")
+			console_log("Bot Remaster Bonus: +1/1")
 			enemy_stats.remaster_bonus += 1
 		if full_remaster_bonus:
 			enemy_stats.full_remaster_bonus += 2
-			console_log("Enemy Full Remaster Bonus: +2/2")
+			console_log("Bot Full Remaster Bonus: +2/2")
 		var banner_text = "LIVINGWORLD_CARDS_UI_REMASTER_BONUS" if remaster_bonus else "LIVINGWORLD_CARDS_UI_FULL_REMASTER_BONUS"
 		PlayBanner(Team.ENEMY,banner_text,"remaster")
 		yield(Banner.tween,"tween_completed")
@@ -820,28 +832,71 @@ func evaluate_state(team:int, card, bonus:bool):
 
 func get_card(state):
 	var choice
+	console_log("Bot is checking Hand.")
 	if state == State.ATTACK:
 		for slot in EnemyHandGrid.get_children():
 			if !slot.occupied():
 				continue
+			if reserved_cards.has(slot.get_card()):
+				continue
 			if choice == null:
 				choice = slot.get_card()
+				console_log("Bot is comparing against %s"%choice.card_info.name)
 				continue
-			if choice.card_info.attack < slot.card_info.attack:
-				choice = slot.get_card()
+			if choice.card_info.attack > slot.card_info.attack:
+				continue
+			if get_card_state_value(slot) > get_card_state_value(choice):
+				continue
+			if !state_matches_goal(get_card_state_value(slot),State.ATTACK,get_current_state_value(Team.ENEMY)):
+				continue
+			choice = slot.get_card()
+			console_log("Bot decided %s is better suited to its goal."%choice.card_info.name)
 	if state == State.DEFENSE:
 		for slot in EnemyHandGrid.get_children():
 			if !slot.occupied():
 				continue
+			if reserved_cards.has(slot.get_card()):
+				continue
 			if choice == null:
 				choice = slot.get_card()
+				console_log("Bot is comparing against %s"%choice.card_info.name)
 				continue
-			if choice.card_info.defense < slot.card_info.defense:
-				choice = slot.get_card()
+			if choice.card_info.defense > slot.card_info.defense:
+				continue
+			if get_card_state_value(slot) < get_card_state_value(choice):
+				continue
+			if !state_matches_goal(get_card_state_value(slot),State.DEFENSE,get_current_state_value(Team.ENEMY)):
+				continue
+			choice = slot.get_card()
+			console_log("Bot decided %s is better suited to its goal."%choice.card_info.name)
 	return choice
 
+func get_card_state_value(card)->int:
+	var value = card.card_info.defense - card.card_info.attack
+	return value
+
+func get_current_state_value(team:int)->int:
+	var result:int = 0
+	var stats = player_stats if team == Team.PLAYER else enemy_stats
+	result = stats.defense - stats.attack
+	return result
+
+func state_matches_goal(value_change:int,goal_state:int,current_state_value:int)->bool:
+	var result:int = current_state_value + value_change
+	if goal_state == State.ATTACK:
+		return result <= current_state_value
+	if goal_state == State.DEFENSE:
+		return result >= current_state_value
+	if goal_state == State.NEUTRAL:
+		if current_state_value > 0:
+			return result <= current_state_value
+		if current_state_value < 0:
+			return result >= current_state_value
+		return result == 0
+	return false
+
 func evaluate_situation():
-	console_log("Bot Evaluation...")
+	console_log("Bot is evaluating...")
 	var in_danger:bool = enemy_stats.hp < enemy_stats.max_hp / 3
 	if in_danger:
 		console_log("Bot is in danger.")
@@ -849,16 +904,20 @@ func evaluate_situation():
 		console_log("Bot is safe.")
 	var defensive:bool = random.rand_bool(0.8) if in_danger else random.rand_bool(0.3)
 	var offensive:bool = random.rand_bool(0.8) if !defensive else false
+	log_current_hand(EnemyHandGrid)
 	var remaster_card = is_remaster_possible()
-	if remaster_card and !ai_misplay():
-		console_log("Bot is planning to Remaster.")
-		return remaster_card
+	if remaster_card:
+		if !ai_misplay():
+			console_log("Bot is planning to Remaster.")
+			return remaster_card
 	if defensive:
-		console_log("Bot is playing defensively.")
-		return get_card(State.DEFENSE)
+		if !ai_misplay():
+			console_log("Bot is playing defensively.")
+			return get_card(State.DEFENSE)
 	if offensive:
-		console_log("Bot is playing offensively.")
-		return get_card(State.ATTACK)
+		if !ai_misplay():
+			console_log("Bot is playing aggressively.")
+			return get_card(State.ATTACK)
 	console_log("Bot said screw it and decided to play randomly.")
 	return get_random()
 
@@ -876,14 +935,28 @@ func is_remaster_possible():
 	console_log("Bot is searching hand for a Remaster to use on the current field...")
 	for card_slot in EnemyHandGrid.get_children():
 		if is_remaster(EnemyField,card_slot.get_card()):
-			return card_slot.get_card()
+			if !reserved_cards.has(card_slot.get_card()):
+				return card_slot.get_card()
 	console_log("Bot is searching hand for a Remaster combos to play later...")
 	for card_slot in EnemyHandGrid.get_children():
 		if is_remaster(EnemyHandGrid,card_slot.get_card()):
 			console_log("Bot found %s can be used to Remaster later."%card_slot.get_card().card_info.name)
-			return get_pre_remaster(EnemyHandGrid,card_slot.get_card())
+			if has_empty_slots(EnemyField,2):
+				if !reserved_cards.has(card_slot.get_card()):
+					return get_pre_remaster(EnemyHandGrid,card_slot.get_card())
+			if !has_empty_slots(EnemyField,2):
+				console_log("Bot is reserving these cards for next round.")
+				reserved_cards.push_back(card_slot.get_card())
+				reserved_cards.push_back(get_pre_remaster(EnemyHandGrid,card_slot.get_card()))
+
 	return null
 
+func has_empty_slots(field,required_slots)->bool:
+	var count:int = 3
+	for slot in field.get_children():
+		if slot.occupied():
+			count -= 1
+	return count >= required_slots
 func get_pre_remaster(field, new_card):
 	for card_slot in field.get_children():
 		if !card_slot.occupied():
@@ -904,7 +977,12 @@ func get_random():
 	var options = []
 	for slot in EnemyHandGrid.get_children():
 		if slot.occupied():
-			options.push_back(slot.get_card())
+			if !reserved_cards.has(slot.get_card()):
+				options.push_back(slot.get_card())
+	if options.size() == 0:
+		for slot in EnemyHandGrid.get_children():
+			if slot.occupied():
+				options.push_back(slot.get_card())
 	choice = random.choice(options)
 	return choice
 
@@ -958,7 +1036,18 @@ func log_current_field():
 	%s | %s | %s
 	Player Field"""%[player_slots[0],player_slots[1],player_slots[2]])
 
-
+func log_current_hand(hand):
+	var hand_slots:Array = []
+	for slot in hand.get_children():
+		var text:String = ""
+		if slot.occupied():
+			text = "%s (%s/%s)"%[slot.get_card().card_info.name,slot.get_card().card_info.attack,slot.get_card().card_info.defense]
+			hand_slots.push_back(text)
+	if hand_slots.size() < 5:
+		return
+	console_log("""
+	Bot's Hand
+	%s | %s | %s | %s | %s"""%[hand_slots[0],hand_slots[1],hand_slots[2],hand_slots[3],hand_slots[4]])
 func get_winner_name()->String:
 	var result:String =  ""
 	if player_stats.hp > 0:

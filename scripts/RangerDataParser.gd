@@ -232,7 +232,8 @@ static func set_char_config(char_config:CharacterConfig, ranger_data, tapes:Arra
 				if form:
 					char_config.base_character.partner_signature_species = form
 			else:
-				tapes[index].tape_snapshot = get_custom_monster(ranger_data[key])
+				if index < tapes.size():
+					tapes[index].tape_snapshot = get_custom_monster(ranger_data[key])
 			index += 1
 
 static func set_npc_appearance(npc:NPC, ranger_data):

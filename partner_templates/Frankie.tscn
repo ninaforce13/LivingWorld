@@ -1,4 +1,4 @@
-[gd_scene load_steps=149 format=2]
+[gd_scene load_steps=146 format=2]
 
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=1]
 [ext_resource path="res://mods/LivingWorld/behaviors/Revive.tscn" type="PackedScene" id=2]
@@ -23,7 +23,6 @@
 [ext_resource path="res://mods/LivingWorld/actions/PlayAudioVolumeCtrl.gd" type="Script" id=21]
 [ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=22]
 [ext_resource path="res://mods/LivingWorld/actions/RecordSuccessAction.gd" type="Script" id=23]
-[ext_resource path="res://mods/LivingWorld/actions/SetTouchDetector.gd" type="Script" id=24]
 [ext_resource path="res://sfx/voices/female_npc_7/female_npc_7_hurt_3.wav" type="AudioStream" id=25]
 [ext_resource path="res://sfx/voices/female_npc_7/female_npc_7_laugh_2.wav" type="AudioStream" id=26]
 [ext_resource path="res://world/npc/SwimmingState.gd" type="Script" id=27]
@@ -78,7 +77,6 @@
 [ext_resource path="res://data/monster_forms/lobstacle.tres" type="Resource" id=76]
 [ext_resource path="res://mods/LivingWorld/behaviors/Flee.tscn" type="PackedScene" id=77]
 [ext_resource path="res://mods/LivingWorld/behaviors/Conversation.tscn" type="PackedScene" id=78]
-[ext_resource path="res://mods/LivingWorld/scripts/BootlegDetector.gd" type="Script" id=79]
 [ext_resource path="res://mods/LivingWorld/scripts/TalkingNPCDetector.gd" type="Script" id=80]
 [ext_resource path="res://mods/LivingWorld/actions/SetInteraction.gd" type="Script" id=81]
 [ext_resource path="res://sfx/voices/female_npc_7/female_npc_7_surprise_1.wav" type="AudioStream" id=82]
@@ -96,7 +94,6 @@
 [ext_resource path="res://mods/LivingWorld/actions/SetBehaviorState.gd" type="Script" id=94]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitAI.tscn" type="PackedScene" id=95]
 [ext_resource path="res://data/character_sfx/frankie_sfx.tres" type="Resource" id=96]
-[ext_resource path="res://mods/LivingWorld/nodes/MouseClick.tscn" type="PackedScene" id=98]
 [ext_resource path="res://mods/LivingWorld/scripts/setbattlesprite.gd" type="Script" id=99]
 [ext_resource path="res://mods/LivingWorld/actions/MenuDialog.gd" type="Script" id=100]
 [ext_resource path="res://sfx/voices/female_npc_7/female_npc_7_motivated_2.wav" type="AudioStream" id=101]
@@ -716,6 +713,16 @@ sprite_part_names = {
 "wings": "generic"
 }
 character = ExtResource( 118 )
+human_colors/body_color_1 = 16
+human_colors/body_color_2 = 12
+human_colors/eye_color = 10
+human_colors/face_accessory_color = 14
+human_colors/favorite_color = 9
+human_colors/hair_accessory_color = 12
+human_colors/hair_color = 9
+human_colors/legs_color = 16
+human_colors/shoe_color = 12
+human_colors/skin_color = -1
 
 [node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
 aabb = AABB( -2, -1, -2, 4, 4.7, 4 )
@@ -1090,13 +1097,6 @@ pause = true
 [node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/PauseEngagedTarget"]
 script = ExtResource( 70 )
 
-[node name="DisableTouchDetector" type="Node" parent="RecruitBehavior/EngageEnemy"]
-script = ExtResource( 24 )
-disabled = true
-
-[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/DisableTouchDetector"]
-script = ExtResource( 70 )
-
 [node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/EngageEnemy"]
 script = ExtResource( 92 )
 
@@ -1193,12 +1193,6 @@ selection = 4
 [node name="WaitAction3" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording"]
 script = ExtResource( 49 )
 
-[node name="EnableTouchDetection" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording"]
-script = ExtResource( 24 )
-
-[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording/EnableTouchDetection"]
-script = ExtResource( 70 )
-
 [node name="FailedRecording" type="Node" parent="RecruitBehavior/EngageEnemy"]
 script = ExtResource( 68 )
 always_succeed = true
@@ -1212,12 +1206,6 @@ selection = 11
 [node name="WaitAction3" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording"]
 script = ExtResource( 49 )
 base_seconds = 0.5
-
-[node name="EnableTouchDetection" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording"]
-script = ExtResource( 24 )
-
-[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording/EnableTouchDetection"]
-script = ExtResource( 70 )
 
 [node name="RepeatWhile" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording"]
 script = ExtResource( 8 )
@@ -1273,8 +1261,6 @@ script = ExtResource( 10 )
 
 [node name="Fainted" parent="RecruitBehavior" instance=ExtResource( 88 )]
 
-[node name="MouseClick" parent="." instance=ExtResource( 98 )]
-
 [node name="RogueFusionDetector" type="Area" parent="."]
 collision_layer = 0
 collision_mask = 16384
@@ -1282,16 +1268,6 @@ script = ExtResource( 90 )
 detection_cooldown = 5.0
 
 [node name="CollisionShape" type="CollisionShape" parent="RogueFusionDetector"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-shape = SubResource( 31 )
-
-[node name="BootlegDetector" type="Area" parent="."]
-collision_layer = 0
-collision_mask = 16384
-script = ExtResource( 79 )
-disabled = true
-
-[node name="CollisionShape" type="CollisionShape" parent="BootlegDetector"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
 shape = SubResource( 31 )
 
@@ -1761,7 +1737,6 @@ mesh = SubResource( 29 )
 [connection signal="screen_exited" from="VisibilityNotifier" to="." method="set_paused" binds= [ true ]]
 [connection signal="engaging" from="RecruitData" to="RecruitBehavior" method="_on_RecruitData_engaging"]
 [connection signal="detected" from="RogueFusionDetector" to="RecruitBehavior" method="_on_RogueFusionDetector_detected"]
-[connection signal="detected" from="BootlegDetector" to="RecruitBehavior" method="_on_BootlegDetector_detected"]
 [connection signal="detected" from="TalkingNPCDetector" to="RecruitBehavior" method="_on_TalkingNPCDetector_detected"]
 [connection signal="detected" from="MerchantDetector" to="RecruitBehavior" method="_on_MerchantDetector_detected"]
 [connection signal="detected" from="DefeatedDetector" to="RecruitBehavior" method="_on_DefeatedDetector_detected"]

@@ -13,9 +13,10 @@ record_rate = 0.8
 heal_rate = 0.75
 coffee_rate = 0.1
 deck_limit = 25
-heal_percantage = 0.6
+heal_percentage = 0.3
 fuse_rate = 0.65
-cards_ai_misplay_rate = 0.45
+cards_ai_misplay_rate = 0.35
+ap_percentage = 0.5
 fly_threshold = {
 "max": inf,
 "min": 7

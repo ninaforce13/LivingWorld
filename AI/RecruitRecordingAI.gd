@@ -67,7 +67,8 @@ const coffee1 = preload("res://data/items/coffee1.tres")
 const coffee2 = preload("res://data/items/coffee2.tres")
 const coffee3 = preload("res://data/items/coffee3.tres")
 const coffee4 = preload("res://data/items/coffee4.tres")
-
+const player_weight = 0.7
+const npc_weight = 0.3
 var cooldowns:Dictionary
 var has_fair_fight:bool = false
 var parry_stancers:Dictionary
@@ -77,6 +78,7 @@ var has_used_coffee:bool = false
 var random:Random = Random.new()
 var coffee_menu:Array = [coffee1,coffee2,coffee3,coffee4]
 var tape_arsenal:Array = [basic_tape,chrome_tape]
+var will_record:bool = false
 func _ready():
 	cooldowns = {}
 
@@ -88,6 +90,7 @@ func _post_ready():
 	battle.controller.connect("moves_refreshed", self, "_on_moves_refreshed")
 
 func request_orders():
+	will_record = false
 	has_fair_fight = battle.has_status_tag("fair_fight")
 
 	if not fighter.is_transformed():
@@ -115,10 +118,12 @@ func request_orders():
 		rewind_node.item = rewind
 		rewind_node.amount = 1
 		add_child(rewind_node)
-		var arg:Dictionary = {"fighter":_get_heal_target(fighter),"already_used":false}
-		var order = BattleOrder.new(fighter, BattleOrder.OrderType.ITEM,rewind_node,arg)
-		update_cooldowns(order)
-		return [order]
+		var target = _get_heal_target(fighter)
+		if target != null:
+			var arg:Dictionary = {"fighter":target.fighter,"already_used":false}
+			var order = BattleOrder.new(fighter, BattleOrder.OrderType.ITEM,rewind_node,arg)
+			update_cooldowns(order)
+			return [order]
 
 	if is_coffee_appropriate():
 		var coffee_node = generic_itemnode.instance()
@@ -127,7 +132,7 @@ func request_orders():
 		add_child(coffee_node)
 
 		var arg:Dictionary = {"target_slots":[]}
-		var target = _get_random_teammate(fighter)
+		var target = _get_ap_target(fighter)
 		if target:
 			arg.target_slots.push_back(target.get_characters()[0])
 			var order = BattleOrder.new(fighter, BattleOrder.OrderType.ITEM,coffee_node,arg)
@@ -144,6 +149,7 @@ func request_orders():
 		if target:
 			arg.target_slots.push_back(target.get_characters()[0])
 			attempted_recording = true
+			will_record = true
 			return [BattleOrder.new(fighter, BattleOrder.OrderType.ITEM,tape_node,arg)]
 
 	battle.rand.push("AI")
@@ -625,7 +631,18 @@ func _has_any_recording_targets(fighter)->bool:
 		if team_id == fighter.team:
 			continue
 		for f in teams[team_id]:
-			if f.is_recordable():
+			if f.is_recordable() and !f.is_bootleg():
+				return true
+	return false
+
+func _others_are_recording(fighter)->bool:
+	var teams = fighter.battle.get_teams(false, true)
+	for team_id in teams:
+		if team_id != fighter.team:
+			continue
+		for f in teams[team_id]:
+			var ally_controller = f.get_controller()
+			if ally_controller.get("will_record"):
 				return true
 	return false
 
@@ -635,7 +652,7 @@ func _has_heal_target(figher)->bool:
 		if team_id != fighter.team:
 			continue
 		for f in teams[team_id]:
-			if f.status.hp <= f.status.max_hp * settings.heal_percantage:
+			if f.status.hp <= f.status.max_hp * settings.heal_percentage:
 				return true
 	return false
 
@@ -646,10 +663,11 @@ func _get_heal_target(fighter):
 		if team_id != fighter.team:
 			continue
 		for f in teams[team_id]:
-			if f.status.hp <= f.status.max_hp * settings.heal_percantage:
-				potential_targets.push_back(f)
+			if f.status.hp <= f.status.max_hp * settings.heal_percentage:
+				var weight = player_weight if f.is_player_controlled() else npc_weight
+				potential_targets.push_back({"fighter":f,"weight":weight})
 
-	return random.choice(potential_targets) if !potential_targets.empty() else null
+	return random.weighted_choice(potential_targets) if !potential_targets.empty() else null
 
 func _get_random_teammate(fighter):
 	var teams = fighter.battle.get_teams(false, true)
@@ -669,7 +687,7 @@ func _get_random_recording_target(fighter):
 		if team_id == fighter.team:
 			continue
 		for f in teams[team_id]:
-			if f.is_recordable():
+			if f.is_recordable() and !f.is_bootleg():
 				potential_targets.push_back(f)
 	return random.choice(potential_targets) if !potential_targets.empty() else null
 
@@ -707,7 +725,26 @@ func _get_type_advantaged_tape():
 	return random.choice(choices)
 
 func has_ap_target()->bool:
-	return true
+	var teams = fighter.battle.get_teams(false, true)
+	for team_id in teams:
+		if team_id != fighter.team:
+			continue
+		for f in teams[team_id]:
+			if f.status.ap <= f.status.max_ap * settings.ap_percentage:
+				return true
+	return false
+
+func _get_ap_target(fighter):
+	var teams = fighter.battle.get_teams(false, true)
+	var potential_targets:Array = []
+	for team_id in teams:
+		if team_id != fighter.team:
+			continue
+		for f in teams[team_id]:
+			if f.status.ap <= f.status.max_ap * settings.ap_percentage:
+				potential_targets.push_back(f)
+
+	return random.choice(potential_targets) if !potential_targets.empty() else null
 
 func is_rewind_appropriate()->bool:
 	if !manager.get_setting("UseItems"):
@@ -750,6 +787,8 @@ func is_recording_appropriate()->bool:
 	if attempted_recording:
 		return false
 	if !_has_any_recording_targets(fighter):
+		return false
+	if _others_are_recording(fighter):
 		return false
 	if fighter.is_fusion():
 		return false

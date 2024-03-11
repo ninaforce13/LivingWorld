@@ -92,7 +92,6 @@ func purge_slots(force_purge:bool = false):
 						clear_slot(slot)
 					if occupant_data.state != "EngageEnemy" and object_type == ObjectType.WILD_ENCOUNTER:
 						clear_slot(slot)
-						get_parent().get_node("Interaction").disabled = false
 		if slot.occupant == null and slot.occupied:
 			clear_slot(slot)
 		if force_purge:

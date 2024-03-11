@@ -537,6 +537,7 @@ static func add_follower_to_encounter(encounter):
 		var newconfig = get_follower_config(get_current_follower())
 		encounter.add_child(newconfig)
 		newconfig.add_to_group("trainee_allies")
+		SaveState.other_data.LivingWorldData.ExtraEncounterConfig.extra_slots += 1
 
 static func remove_old_configs(encounter):
 	SaveState.other_data.LivingWorldData.ExtraEncounterConfig.extra_slots = 0

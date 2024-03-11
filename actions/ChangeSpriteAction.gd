@@ -20,6 +20,8 @@ func _run():
 	var pawn = get_pawn()
 	if reset:
 		if !pawn.get("use_monster_form"):
+			pawn.sprite.static_amount = 0
+			pawn.sprite.wave_amplitude = 0
 			return true
 	var sprite = pawn.sprite
 	var tween = sprite.controller.tween

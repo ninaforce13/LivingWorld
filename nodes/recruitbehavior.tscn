@@ -136,10 +136,6 @@ always_succeed = true
 group = "RogueFusions"
 check_instance = true
 
-[node name="PlayEmoteAction2" type="Node" parent="FindRogues/IsEncounterActive"]
-script = ExtResource( 69 )
-selection = 5
-
 [node name="RegisterOccupant" type="Node" parent="FindRogues/IsEncounterActive"]
 script = ExtResource( 1 )
 register = true
@@ -147,6 +143,10 @@ register = true
 [node name="GetBlackboardValue" type="Node" parent="FindRogues/IsEncounterActive/RegisterOccupant"]
 script = ExtResource( 47 )
 key = "Rogues"
+
+[node name="PlayEmoteAction2" type="Node" parent="FindRogues/IsEncounterActive"]
+script = ExtResource( 69 )
+selection = 5
 
 [node name="SetNPCControlsAction" type="Node" parent="FindRogues"]
 script = ExtResource( 14 )
@@ -329,7 +329,6 @@ can_fly = true
 can_jump = true
 can_fall = true
 can_glide = true
-can_warp = true
 can_wait = true
 min_distance = 6.0
 

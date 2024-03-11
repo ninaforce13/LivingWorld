@@ -1,4 +1,4 @@
-[gd_scene load_steps=143 format=2]
+[gd_scene load_steps=141 format=2]
 
 [ext_resource path="res://data/monster_forms/spitzfyre.tres" type="Resource" id=1]
 [ext_resource path="res://data/monster_forms/fortiwinx.tres" type="Resource" id=2]
@@ -27,7 +27,6 @@
 [ext_resource path="res://mods/LivingWorld/scripts/DefeatedNPCDetector.gd" type="Script" id=25]
 [ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=26]
 [ext_resource path="res://mods/LivingWorld/actions/RecordSuccessAction.gd" type="Script" id=27]
-[ext_resource path="res://mods/LivingWorld/actions/SetTouchDetector.gd" type="Script" id=28]
 [ext_resource path="res://sfx/voices/dog/dog_bark_2.wav" type="AudioStream" id=29]
 [ext_resource path="res://mods/LivingWorld/actions/ShowCardReward.gd" type="Script" id=30]
 [ext_resource path="res://sprites/portraits/dog_angry.png" type="Texture" id=31]
@@ -81,7 +80,6 @@
 [ext_resource path="res://mods/LivingWorld/actions/MessageDialogRandom.gd" type="Script" id=79]
 [ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=80]
 [ext_resource path="res://mods/LivingWorld/scripts/MonsterDetector.gd" type="Script" id=81]
-[ext_resource path="res://mods/LivingWorld/nodes/MouseClick.tscn" type="PackedScene" id=82]
 [ext_resource path="res://mods/LivingWorld/behaviors/Shop.tscn" type="PackedScene" id=83]
 [ext_resource path="res://mods/LivingWorld/scripts/BootlegDetector.gd" type="Script" id=84]
 [ext_resource path="res://mods/LivingWorld/scripts/TalkingNPCDetector.gd" type="Script" id=85]
@@ -712,6 +710,16 @@ sprite_part_names = {
 }
 sprite_body = ExtResource( 111 )
 character = ExtResource( 45 )
+human_colors/body_color_1 = 16
+human_colors/body_color_2 = 16
+human_colors/eye_color = 16
+human_colors/face_accessory_color = 16
+human_colors/favorite_color = 7
+human_colors/hair_accessory_color = 16
+human_colors/hair_color = 16
+human_colors/legs_color = 16
+human_colors/shoe_color = 16
+human_colors/skin_color = 16
 
 [node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
 aabb = AABB( -2, -1, -2, 4, 4.7, 4 )
@@ -726,15 +734,7 @@ script = ExtResource( 42 )
 idle = "idle"
 direction = "down"
 billboard_depth_hack = true
-emission = null
-wave_amplitude = null
 wave_t_frequency = 5.0
-wave_v_frequency = null
-static_amount = null
-static_offset = null
-static_speed = null
-sparkle = null
-sprite_rotation = null
 
 [node name="EmotePlayer" parent="." instance=ExtResource( 50 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
@@ -1078,13 +1078,6 @@ pause = true
 [node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/PauseEngagedTarget"]
 script = ExtResource( 77 )
 
-[node name="DisableTouchDetector" type="Node" parent="RecruitBehavior/EngageEnemy"]
-script = ExtResource( 28 )
-disabled = true
-
-[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/DisableTouchDetector"]
-script = ExtResource( 77 )
-
 [node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/EngageEnemy"]
 script = ExtResource( 97 )
 
@@ -1181,12 +1174,6 @@ selection = 4
 [node name="WaitAction3" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording"]
 script = ExtResource( 54 )
 
-[node name="EnableTouchDetection" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording"]
-script = ExtResource( 28 )
-
-[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording/EnableTouchDetection"]
-script = ExtResource( 77 )
-
 [node name="FailedRecording" type="Node" parent="RecruitBehavior/EngageEnemy"]
 script = ExtResource( 75 )
 always_succeed = true
@@ -1200,12 +1187,6 @@ selection = 11
 [node name="WaitAction3" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording"]
 script = ExtResource( 54 )
 base_seconds = 0.5
-
-[node name="EnableTouchDetection" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording"]
-script = ExtResource( 28 )
-
-[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording/EnableTouchDetection"]
-script = ExtResource( 77 )
 
 [node name="RepeatWhile" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording"]
 script = ExtResource( 11 )
@@ -1244,8 +1225,6 @@ script = ExtResource( 13 )
 [node name="Party" parent="RecruitBehavior" instance=ExtResource( 59 )]
 
 [node name="Fainted" parent="RecruitBehavior" instance=ExtResource( 113 )]
-
-[node name="MouseClick" parent="." instance=ExtResource( 82 )]
 
 [node name="RogueFusionDetector" type="Area" parent="."]
 collision_layer = 0

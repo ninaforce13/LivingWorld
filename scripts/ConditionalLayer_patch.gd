@@ -35,7 +35,7 @@ static func get_code(block:String)->String:
 	var code_blocks:Dictionary = {}
 	code_blocks["add_sunny_check"] = """
 	var sunny_quest = preload("res://data/quests/sidequests/SunnyQuest.tscn")
-	if require_quest == sunny_quest:
+	if require_quest == sunny_quest and SaveState.quests.is_completed(sunny_quest) and name != "ConditionalLayer_EugeneSunnyDate":
 		if !require_flags.has("livingworld_blocked"):
 			require_flags.push_back("livingworld_blocked")
 	else:

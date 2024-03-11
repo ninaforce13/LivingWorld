@@ -15,6 +15,8 @@ func is_valid_detection(_detection)->bool:
 		return false
 	if _detection.has_node("RecruitData"):
 		return false
+	if !_detection.get_collision_layer_bit(Collisions.BIT_PLAYER_AFFECTING_MAGNETISM):
+		return false
 	if !random.rand_bool(get_chance()):
 		return false
 	return true

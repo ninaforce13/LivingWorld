@@ -1,4 +1,4 @@
-[gd_scene load_steps=150 format=2]
+[gd_scene load_steps=148 format=2]
 
 [ext_resource path="res://data/monster_forms/robindam.tres" type="Resource" id=1]
 [ext_resource path="res://mods/LivingWorld/nodes/RecruitData.tscn" type="PackedScene" id=2]
@@ -25,7 +25,6 @@
 [ext_resource path="res://mods/LivingWorld/scripts/DefeatedNPCDetector.gd" type="Script" id=23]
 [ext_resource path="res://mods/LivingWorld/actions/PlayRandomEmote.gd" type="Script" id=24]
 [ext_resource path="res://mods/LivingWorld/actions/RecordSuccessAction.gd" type="Script" id=25]
-[ext_resource path="res://mods/LivingWorld/actions/SetTouchDetector.gd" type="Script" id=26]
 [ext_resource path="res://nodes/actions/PassiveMessageAction.gd" type="Script" id=27]
 [ext_resource path="res://world/npc/SwimmingState.gd" type="Script" id=28]
 [ext_resource path="res://world/npc/PauseState.gd" type="Script" id=29]
@@ -79,7 +78,6 @@
 [ext_resource path="res://mods/LivingWorld/scripts/HumanMonsterNPC.gd" type="Script" id=77]
 [ext_resource path="res://mods/LivingWorld/scripts/MonsterDetector.gd" type="Script" id=78]
 [ext_resource path="res://data/monster_forms/tokusect.tres" type="Resource" id=79]
-[ext_resource path="res://mods/LivingWorld/nodes/MouseClick.tscn" type="PackedScene" id=80]
 [ext_resource path="res://mods/LivingWorld/behaviors/Shop.tscn" type="PackedScene" id=81]
 [ext_resource path="res://mods/LivingWorld/scripts/BootlegDetector.gd" type="Script" id=82]
 [ext_resource path="res://mods/LivingWorld/scripts/TalkingNPCDetector.gd" type="Script" id=83]
@@ -718,6 +716,16 @@ sprite_part_names = {
 "wings": ""
 }
 character = ExtResource( 105 )
+human_colors/body_color_1 = 9
+human_colors/body_color_2 = 14
+human_colors/eye_color = 16
+human_colors/face_accessory_color = 14
+human_colors/favorite_color = 9
+human_colors/hair_accessory_color = 12
+human_colors/hair_color = 15
+human_colors/legs_color = 6
+human_colors/shoe_color = 3
+human_colors/skin_color = 20
 
 [node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
 aabb = AABB( -2, -1, -2, 4, 4.7, 4 )
@@ -1079,13 +1087,6 @@ pause = true
 [node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/PauseEngagedTarget"]
 script = ExtResource( 74 )
 
-[node name="DisableTouchDetector" type="Node" parent="RecruitBehavior/EngageEnemy"]
-script = ExtResource( 26 )
-disabled = true
-
-[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/DisableTouchDetector"]
-script = ExtResource( 74 )
-
 [node name="FaceTowardsAction" type="Node" parent="RecruitBehavior/EngageEnemy"]
 script = ExtResource( 95 )
 
@@ -1182,12 +1183,6 @@ selection = 4
 [node name="WaitAction3" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording"]
 script = ExtResource( 51 )
 
-[node name="EnableTouchDetection" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording"]
-script = ExtResource( 26 )
-
-[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/SuccessRecording/EnableTouchDetection"]
-script = ExtResource( 74 )
-
 [node name="FailedRecording" type="Node" parent="RecruitBehavior/EngageEnemy"]
 script = ExtResource( 72 )
 always_succeed = true
@@ -1201,12 +1196,6 @@ selection = 11
 [node name="WaitAction3" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording"]
 script = ExtResource( 51 )
 base_seconds = 0.5
-
-[node name="EnableTouchDetection" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording"]
-script = ExtResource( 26 )
-
-[node name="GetEngagedTarget" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording/EnableTouchDetection"]
-script = ExtResource( 74 )
 
 [node name="RepeatWhile" type="Node" parent="RecruitBehavior/EngageEnemy/FailedRecording"]
 script = ExtResource( 10 )
@@ -1265,8 +1254,6 @@ script = ExtResource( 12 )
 [node name="Shop" parent="RecruitBehavior" instance=ExtResource( 81 )]
 
 [node name="Fainted" parent="RecruitBehavior" instance=ExtResource( 117 )]
-
-[node name="MouseClick" parent="." instance=ExtResource( 80 )]
 
 [node name="RogueFusionDetector" type="Area" parent="."]
 collision_layer = 0
