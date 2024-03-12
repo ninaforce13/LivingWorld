@@ -1585,7 +1585,6 @@ use_random = true
 message_array = [ [ "KAYLEIGH_MENU_GOODBYE1" ] ]
 
 [node name="ConversationSprite" type="Control" parent="."]
-unique_name_in_owner = true
 visible = false
 margin_right = 40.0
 margin_bottom = 40.0

@@ -22,7 +22,7 @@ var unlockedpartnerspawner = preload("res://mods/LivingWorld/scripts/UnlockedPar
 var randomdailyconditionallayer = preload("res://mods/LivingWorld/scripts/RandomDailyConditionalLayer_patch.gd")
 
 var partners:Dictionary = {}
-const npc_template = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn")
+var npc_template = preload("res://mods/LivingWorld/nodes/RecruitTemplate.tscn")
 const warptarget_template = preload("res://mods/LivingWorld/nodes/warptarget.tscn")
 const settings = preload("res://mods/LivingWorld/settings.tres")
 const spawner = preload("res://mods/LivingWorld/nodes/RecruitSpawner.tscn")
@@ -61,12 +61,12 @@ func _init():
 func preload_partners():
 	partners["vin"] = preload("res://mods/LivingWorld/partner_templates/Vin.tscn")
 	partners["frankie"] = preload("res://mods/LivingWorld/partner_templates/Frankie.tscn")
-	partners["kayleigh"] = preload("res://mods/LivingWorld/partner_templates/Kayleigh.tscn")
-	partners["dog"] = preload("res://mods/LivingWorld/partner_templates/Barkley.tscn")
-	partners["felix"] = preload("res://mods/LivingWorld/partner_templates/Felix.tscn")
-	partners["eugene"] = preload("res://mods/LivingWorld/partner_templates/Eugene.tscn")
-	partners["meredith"] = preload("res://mods/LivingWorld/partner_templates/Meredith.tscn")
-	partners["viola"] = preload("res://mods/LivingWorld/partner_templates/Viola.tscn")
+	partners["kayleigh"] = load("res://mods/LivingWorld/partner_templates/Kayleigh.tscn")
+	partners["dog"] = load("res://mods/LivingWorld/partner_templates/Barkley.tscn")
+	partners["felix"] = load("res://mods/LivingWorld/partner_templates/Felix.tscn")
+	partners["eugene"] = load("res://mods/LivingWorld/partner_templates/Eugene.tscn")
+	partners["meredith"] = load("res://mods/LivingWorld/partner_templates/Meredith.tscn")
+	partners["viola"] = load("res://mods/LivingWorld/partner_templates/Viola.tscn")
 	partners["sunny"] = preload("res://mods/LivingWorld/partner_templates/Sunny.tscn")
 
 func add_keyboard_shortcuts():
@@ -240,7 +240,7 @@ func spawn_npc(playersnap = null):
 	WorldSystem.get_level_map().add_child(npc)
 	npc.global_transform.origin = WorldSystem.get_player().global_transform.origin
 
-
+#
 func summon_save(file_path):
 
 	var storage = preload("res://global/save_system/SaveSystemStorage.gd").new()
